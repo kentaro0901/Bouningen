@@ -13,22 +13,25 @@ public class Main : MonoBehaviour {
         Result
     }
     State state;
-    AudioSource ad;
+    AudioSource ad; //タイトル音声（仮）
 
     void Start() {
         state = State.Init;
+        ad = this.GetComponent<AudioSource>();
+        DontDestroyOnLoad(this.gameObject);
+        StartMultiDisplays();
+        Init();
+    }
 
-        //マルチディスプレイ始動
+    //マルチディスプレイ
+    void StartMultiDisplays() {
         if (Display.displays.Length > 1) {
             Display.displays[1].Activate();
         }
         Screen.SetResolution(Screen.currentResolution.width, Screen.currentResolution.height, true);
-
-        ad = this.GetComponent<AudioSource>();
-        DontDestroyOnLoad(this.gameObject);
-
-        Init();
     }
+
+    //タイトルへ
     void Init() {
         SceneManager.LoadScene("Title");
         state = State.Title;
@@ -64,6 +67,11 @@ public class Main : MonoBehaviour {
                 }
                 break;
             default: break;
+        }
+
+        //F5でタイトルに戻る
+        if (Input.GetKeyDown(KeyCode.F5)) {
+            Init();
         }
 
         //escで強制終了

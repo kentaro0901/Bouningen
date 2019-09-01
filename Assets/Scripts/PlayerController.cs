@@ -46,10 +46,6 @@ public class PlayerController : MonoBehaviour {
 
     float xAxisD;
     float yAxisD;
-    //float xAxisL;
-    //float yAxisL;
-    //float xAxisR;
-    //float yAxisR;
     Vector3 prePos;
     Vector3 vector;
     public Vector3 damageVector = Vector3.zero;
@@ -81,10 +77,6 @@ public class PlayerController : MonoBehaviour {
 
         xAxisD = Input.GetAxis("DPad_XAxis_" + (int)playerNum);
         yAxisD = Input.GetAxis("DPad_YAxis_" + (int)playerNum);
-        //xAxisL = Input.GetAxis("L_XAxis_" + (int)playerNum);
-        //yAxisL = Input.GetAxis("L_YAxis_" + (int)playerNum);
-        //xAxisR = Input.GetAxis("R_XAxis_" + (int)playerNum);
-        //yAxisR = Input.GetAxis("R_YAxis_" + (int)playerNum);
 
         stateInfo = animator.GetCurrentAnimatorStateInfo(0);
 

@@ -12,15 +12,21 @@ public abstract class Character : MonoBehaviour {
     public Material white;
     public Material black;
 
+    public Material red;
+    public Material blue;
+
     protected void Start() {
         playerTf = playerController.playerTf;
         switch (playerController.playerNum) {
             case PlayerController.PlayerNum.player1:
-                playerTf.gameObject.GetComponent<SpriteRenderer>().material = white; break;
+                playerTf.gameObject.GetComponent<SpriteRenderer>().material = white;
+                playerTf.GetChild(2).gameObject.GetComponent<SpriteRenderer>().material = red; break;
             case PlayerController.PlayerNum.player2:
-                playerTf.gameObject.GetComponent<SpriteRenderer>().material = black; break;
+                playerTf.gameObject.GetComponent<SpriteRenderer>().material = black;
+                playerTf.GetChild(2).gameObject.GetComponent<SpriteRenderer>().material = blue; break;
             default:
-                playerTf.gameObject.GetComponent<SpriteRenderer>().material = white; break;
+                playerTf.gameObject.GetComponent<SpriteRenderer>().material = white;
+                playerTf.GetChild(2).gameObject.GetComponent<SpriteRenderer>().material = red; break;
         }
         
         hitBox = this.gameObject.GetComponentInChildren<HitBox>();
