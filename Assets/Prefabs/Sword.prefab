@@ -290,7 +290,7 @@ Transform:
   m_GameObject: {fileID: 4887895824674728543}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 4, y: 4, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 6487946451456971823}
   m_RootOrder: 2
@@ -464,5 +464,5 @@ MonoBehaviour:
   hurtBox: {fileID: 0}
   white: {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
   black: {fileID: 2100000, guid: 1e70a4578923dcb47a4b824296090bab, type: 2}
-  blue: {fileID: 2100000, guid: e86de86d8ede1f749841428e6fd9e09f, type: 2}
   red: {fileID: 2100000, guid: a93fa52414656d047acd8b22f90a2ed6, type: 2}
+  blue: {fileID: 2100000, guid: e86de86d8ede1f749841428e6fd9e09f, type: 2}

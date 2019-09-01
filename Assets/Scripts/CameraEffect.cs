@@ -12,7 +12,7 @@ public class CameraEffect : MonoBehaviour {
         redBlack,
         reverseTone
     }
-    ToneName toneName = ToneName.redBlack;
+    public static ToneName toneName = ToneName.redBlack;
     float postEffectSeconds = 0.0f;
     float maxVibrateSeconds = 0.0f;
     float vibrateSeconds = 0.0f;
@@ -32,19 +32,36 @@ public class CameraEffect : MonoBehaviour {
         Graphics.Blit(src, dest, material);
     }
     private void Update() {
-        if(vibrateSeconds > 0) {
-            tf.localPosition = iniPos + vibrateRange * Vector3.up * Mathf.Sin(vibrateSeconds * 50) * Mathf.Pow(vibrateSeconds/maxVibrateSeconds, 4);
+        VibrateCountDown();
+        ZoomCountDown();
+        ToneCountDown();
+    }
+
+    public void Vibrate(float seconds, float range) {
+        maxVibrateSeconds = seconds;
+        vibrateSeconds = seconds;
+        vibrateRange = range;
+    }
+    private void VibrateCountDown() {
+        if (vibrateSeconds > 0) {
+            tf.localPosition = iniPos + vibrateRange * Vector3.up * Mathf.Sin(vibrateSeconds * 50) * Mathf.Pow(vibrateSeconds / maxVibrateSeconds, 4);
             vibrateSeconds -= Time.unscaledDeltaTime;
         }
         else {
             tf.localPosition = iniPos;
         }
+    }
 
-        if(zoomInSeconds > 0) {
+    public void ZoomInOut(float seconds) {
+        zoomInSeconds = seconds;
+        zoomOutSeconds = seconds;
+    }
+    private void ZoomCountDown() {
+        if (zoomInSeconds > 0) {
             tf.localPosition = iniPos + new Vector3(0, -2.0f, 8.0f);
             zoomInSeconds -= Time.unscaledDeltaTime;
         }
-        else if(zoomOutSeconds > 0){
+        else if (zoomOutSeconds > 0) {
             zoomInSeconds = 0.0f;
             tf.localPosition = iniPos + new Vector3(0, -2.0f, -10.0f);
             zoomOutSeconds -= Time.unscaledDeltaTime;
@@ -52,10 +69,16 @@ public class CameraEffect : MonoBehaviour {
         else {
             zoomOutSeconds = 0.0f;
         }
+    }
 
-        if(postEffectSeconds > 0) {
+    public void ChangeTone(float seconds, ToneName name) {
+        postEffectSeconds = seconds;
+        toneName = name;
+    }
+    private void ToneCountDown() {
+        if (postEffectSeconds > 0) {
             switch (toneName) {
-                case ToneName.redBlack: material = redBlack; break;
+                case ToneName.redBlack: material = redBlack;  break;
                 case ToneName.reverseTone: material = reverseTone; break;
             }
             postEffectSeconds -= Time.unscaledDeltaTime;
@@ -65,21 +88,4 @@ public class CameraEffect : MonoBehaviour {
             postEffectSeconds = 0.0f;
         }
     }
-
-    public void Vibrate(float seconds, float range) {
-        maxVibrateSeconds = seconds;
-        vibrateSeconds = seconds;
-        vibrateRange = range;
-    }
-
-    public void ZoomInOut(float seconds) {
-        zoomInSeconds = seconds;
-        zoomOutSeconds = seconds;
-    }
-
-    public void ChangeTone(float seconds, ToneName tname) {
-        postEffectSeconds = seconds;
-        toneName = tname;
-    }
-
 }
