@@ -149,11 +149,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6949dc8f663e38f4f984db73d1dfb57f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  battleMgr: {fileID: 725891897}
   playerNum: 1
   myChara: 0
   swordPref: {fileID: 6487946451456971819, guid: 72729bf2e36f83c4284b0850981aeadf,
     type: 3}
-  timeScaler: {fileID: 1717274573}
   hp: 100
   isDamaged: 0
   isCriticaled: 0
@@ -1299,11 +1299,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6949dc8f663e38f4f984db73d1dfb57f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  battleMgr: {fileID: 725891897}
   playerNum: 2
   myChara: 0
   swordPref: {fileID: 6487946451456971819, guid: 72729bf2e36f83c4284b0850981aeadf,
     type: 3}
-  timeScaler: {fileID: 1717274573}
   hp: 100
   isDamaged: 0
   isCriticaled: 0
@@ -1732,6 +1732,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62815ad33c2c78548bd0b1c3ad2cc937, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  timeScaleSeconds: 0
 --- !u!1 &1814907682
 GameObject:
   m_ObjectHideFlags: 0

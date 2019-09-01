@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour {
 
+    public BattleMgr battleMgr;
+
     public enum PlayerNum {
         zero,
         player1,
@@ -18,9 +20,7 @@ public class PlayerController : MonoBehaviour {
     public MyChara myChara = MyChara.Sword;
     public GameObject swordPref;
     GameObject characterIns;
-    Character character;
-
-    public TimeScaler timeScaler;
+    Character character; //characterInsに付いてるSwordとか
 
     float maxhp;
     public float hp = 100.0f;
@@ -110,7 +110,7 @@ public class PlayerController : MonoBehaviour {
         if (stateInfo.IsName("Critical")) {
             if (isCriticaled) {//1フレームだけ呼ばれる
                 playerTf.localScale = damageVector.x > 0 ? new Vector3(-1, 1, 1) : Vector3.one;
-                timeScaler.TimeScale(0.0f, 1.0f);
+                battleMgr.ChangeTimeScale(0.0f, 1.0f);
                 cameraEffect.ChangeTone(1.0f, CameraEffect.ToneName.redBlack);
                 cameraEffect.ZoomInOut(0.05f);
                 isCriticaled = false;
