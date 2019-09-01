@@ -84,9 +84,9 @@ public class PlayerController : MonoBehaviour {
 
         if (stateInfo.IsName("Start")) {
             if (!preStateInfo.IsName("Start")) {
-                //cameraEffect.ChangeTone(0.1f, CameraEffect.ToneName.reverseTone);
                 battleMgr.ChangeToneDouble(0.1f, CameraEffect.ToneName.reverseTone);
-                battleMgr.ZoomInOutDouble(0.05f);//
+                battleMgr.ZoomInOutDouble(0.05f);
+                //battleMgr.ChangeTimeScale(0.5f, 1.0f);
                 cameraEffect.Vibrate(0.8f, 2.0f);
             }
         }
@@ -115,8 +115,6 @@ public class PlayerController : MonoBehaviour {
             if (isCriticaled) {//1フレームだけ呼ばれる
                 playerTf.localScale = damageVector.x > 0 ? new Vector3(-1, 1, 1) : Vector3.one;
                 battleMgr.ChangeTimeScale(0.0f, 1.0f);
-                //cameraEffect.ChangeTone(1.0f, CameraEffect.ToneName.redBlack);
-                //cameraEffect.ZoomInOut(0.05f);
                 battleMgr.ChangeToneDouble(1.0f, CameraEffect.ToneName.redBlack);
                 battleMgr.ZoomInOutDouble(0.05f);
                 isCriticaled = false;
