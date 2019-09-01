@@ -154,6 +154,7 @@ MonoBehaviour:
   myChara: 0
   swordPref: {fileID: 6487946451456971819, guid: 72729bf2e36f83c4284b0850981aeadf,
     type: 3}
+  isVisibleBox: 1
   hp: 100
   isDamaged: 0
   isCriticaled: 0
@@ -1306,6 +1307,7 @@ MonoBehaviour:
   myChara: 0
   swordPref: {fileID: 6487946451456971819, guid: 72729bf2e36f83c4284b0850981aeadf,
     type: 3}
+  isVisibleBox: 1
   hp: 100
   isDamaged: 0
   isCriticaled: 0

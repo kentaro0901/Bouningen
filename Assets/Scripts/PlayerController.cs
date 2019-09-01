@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour {
 
-    public BattleMgr battleMgr;
+    [SerializeField] BattleMgr battleMgr;
 
     public enum PlayerNum {
         zero,
@@ -21,6 +21,8 @@ public class PlayerController : MonoBehaviour {
     public GameObject swordPref;
     GameObject characterIns;
     Character character; //characterInsに付いてるSwordとか
+
+    public bool isVisibleBox = false; //isVisibleBoxを変更するならAwake
 
     float maxhp;
     public float hp = 100.0f;
@@ -50,7 +52,7 @@ public class PlayerController : MonoBehaviour {
     Vector3 vector;
     public Vector3 damageVector = Vector3.zero;
 
-    void Awake() {
+    void Awake() { 
         switch (myChara) {
             case MyChara.Sword:
                 characterIns = Instantiate(swordPref, playerNum == PlayerNum.player1? new Vector3(-10,0,0): new Vector3(10,0,0), new Quaternion(0, 0, 0, 0));

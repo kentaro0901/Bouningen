@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+//キャラの共通処理
 public abstract class Character : MonoBehaviour {
 
     public PlayerController playerController;
@@ -9,11 +10,11 @@ public abstract class Character : MonoBehaviour {
     public HitBox hitBox;
     public HurtBox hurtBox;
 
-    public Material white;
-    public Material black;
-
-    public Material red;
-    public Material blue;
+    [SerializeField] Material white;
+    [SerializeField] Material black;
+    [SerializeField] Material red;
+    [SerializeField] Material blue;
+    [SerializeField] Material clear;
 
     protected void Start() {
         playerTf = playerController.playerTf;
@@ -33,6 +34,8 @@ public abstract class Character : MonoBehaviour {
         hitBox.character = this;
         hurtBox = this.gameObject.GetComponentInChildren<HurtBox>();
         hurtBox.character = this;
+        hitBox.gameObject.GetComponent<SpriteRenderer>().material = playerController.isVisibleBox ? red : clear;
+        hurtBox.gameObject.GetComponent<SpriteRenderer>().material = playerController.isVisibleBox ? blue : clear;
     }
 
     public void Damaged(float damage, Vector3 vector) {
