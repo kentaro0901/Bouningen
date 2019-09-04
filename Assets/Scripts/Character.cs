@@ -7,7 +7,7 @@ public abstract class Character : MonoBehaviour {
 
     public PlayerController playerController;
     Transform playerTf;
-    public HitBox hitBox;
+    public HitBox[] hitBox = new HitBox[5];
     public HurtBox hurtBox;
 
     [SerializeField] Material white;
@@ -18,6 +18,7 @@ public abstract class Character : MonoBehaviour {
 
     protected void Start() {
         playerTf = playerController.playerTf;
+        //プレイヤーカラーの設定
         switch (playerController.playerNum) {
             case PlayerController.PlayerNum.player1:
                 playerTf.gameObject.GetComponent<SpriteRenderer>().material = white;
@@ -29,33 +30,42 @@ public abstract class Character : MonoBehaviour {
                 playerTf.gameObject.GetComponent<SpriteRenderer>().material = white;
                 playerTf.GetChild(2).gameObject.GetComponent<SpriteRenderer>().material = red; break;
         }
-        
-        hitBox = this.gameObject.GetComponentInChildren<HitBox>();
-        hitBox.character = this;
+
+        //Boxの参照
+        hitBox = this.gameObject.GetComponentsInChildren<HitBox>();
+        foreach (HitBox _hitbox in hitBox) {
+            _hitbox.character = this;
+            _hitbox.gameObject.GetComponent<SpriteRenderer>().material = playerController.isVisibleBox ? red : clear;
+            _hitbox.gameObject.SetActive(false);
+        }   
         hurtBox = this.gameObject.GetComponentInChildren<HurtBox>();
         hurtBox.character = this;
-        hitBox.gameObject.GetComponent<SpriteRenderer>().material = playerController.isVisibleBox ? red : clear;
         hurtBox.gameObject.GetComponent<SpriteRenderer>().material = playerController.isVisibleBox ? blue : clear;
     }
 
-    public void Damaged(float damage, Vector3 vector) {
+    //被ダメージ
+    public void Damaged(float damage, Vector3 vector, bool isCritical) {
         playerController.hp -= damage;
         playerController.damageVector = vector;
         if (playerController.isDamaged == false) {
             playerController.isDamaged = true;
         }
-        if (damage >= 5.0f && playerController.isCriticaled == false) {
+        if (isCritical && playerController.isCriticaled == false) {
             playerController.isCriticaled = true;
         }
     }
 
     public void LightningAttack() {
-        hitBox.attack = 5.0f;
-        hitBox.vector = playerTf.localScale.x > 0 ? Vector3.right: Vector3.left;
+        foreach (HitBox _hitbox in hitBox) {
+            _hitbox.attack = 3.0f;
+            _hitbox.vector = playerTf.localScale.x > 0 ? Vector3.right : Vector3.left;
+        }
     }
     public void SideA() {
-        hitBox.attack = 5.0f;
-        hitBox.vector = playerTf.localScale.x > 0 ? Vector3.right : Vector3.left;
+        foreach (HitBox _hitbox in hitBox) {
+            _hitbox.attack = 5.0f;
+            _hitbox.vector = playerTf.localScale.x > 0 ? Vector3.right : Vector3.left;
+        }
     }
     public virtual void UpB() {
     }
