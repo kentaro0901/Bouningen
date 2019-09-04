@@ -14,5 +14,9 @@ public class HitBox : MonoBehaviour {
             Debug.Log("Hit"); //
             collision.gameObject.GetComponent<HurtBox>().character.Damaged(attack, vector, isCritical);
         }
+        if (collision.gameObject.tag == "HitBox") { //鍔迫り合い
+            Debug.Log("Resistance");
+            character.Resistance();
+        }
     }
 }

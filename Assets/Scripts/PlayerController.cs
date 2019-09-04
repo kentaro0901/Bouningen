@@ -28,6 +28,7 @@ public class PlayerController : MonoBehaviour {
     public float hp = 100.0f;
     public bool isDamaged = false;
     public bool isCriticaled = false; //開始時1フレームのみ
+    public bool isResistance = false; //同上
 
     public ChaseCamera chaseCamera;
     public CameraEffect cameraEffect;
@@ -53,6 +54,7 @@ public class PlayerController : MonoBehaviour {
     public Vector3 damageVector = Vector3.zero;
 
     void Awake() { 
+        //キャラの生成
         switch (myChara) {
             case MyChara.Sword:
                 characterIns = Instantiate(swordPref, playerNum == PlayerNum.player1? new Vector3(-10,0,0): new Vector3(10,0,0), new Quaternion(0, 0, 0, 0));
@@ -65,6 +67,7 @@ public class PlayerController : MonoBehaviour {
     }
 
     void Start() {
+        //参照の取得
         hp = maxhp;
         chaseCamera.chaseTf = characterIns.transform;
         character.playerController = this;
@@ -126,6 +129,10 @@ public class PlayerController : MonoBehaviour {
         if (stateInfo.IsName("CriticalEnd")) {
             playerTf.position += damageVector;
             damageVector = 0.9f * damageVector;
+        }
+        if (isResistance) {
+            animator.Play("Resistance", 0);
+            isResistance = false;
         }
 
         //地面判定（仮）

@@ -19,16 +19,16 @@ public abstract class Character : MonoBehaviour {
     protected void Start() {
         playerTf = playerController.playerTf;
         //プレイヤーカラーの設定
-        switch (playerController.playerNum) {
+        switch (playerController.playerNum) { //インデックスでアクセスしないほうがよさそう
             case PlayerController.PlayerNum.player1:
                 playerTf.gameObject.GetComponent<SpriteRenderer>().material = white;
-                playerTf.GetChild(2).gameObject.GetComponent<SpriteRenderer>().material = red; break;
+                playerTf.GetChild(6).gameObject.GetComponent<SpriteRenderer>().material = red; break;
             case PlayerController.PlayerNum.player2:
                 playerTf.gameObject.GetComponent<SpriteRenderer>().material = black;
-                playerTf.GetChild(2).gameObject.GetComponent<SpriteRenderer>().material = blue; break;
+                playerTf.GetChild(6).gameObject.GetComponent<SpriteRenderer>().material = blue; break;
             default:
                 playerTf.gameObject.GetComponent<SpriteRenderer>().material = white;
-                playerTf.GetChild(2).gameObject.GetComponent<SpriteRenderer>().material = red; break;
+                playerTf.GetChild(6).gameObject.GetComponent<SpriteRenderer>().material = red; break;
         }
 
         //Boxの参照
@@ -36,7 +36,7 @@ public abstract class Character : MonoBehaviour {
         foreach (HitBox _hitbox in hitBox) {
             _hitbox.character = this;
             _hitbox.gameObject.GetComponent<SpriteRenderer>().material = playerController.isVisibleBox ? red : clear;
-            _hitbox.gameObject.SetActive(false);
+            //_hitbox.gameObject.SetActive(false);
         }   
         hurtBox = this.gameObject.GetComponentInChildren<HurtBox>();
         hurtBox.character = this;
@@ -66,6 +66,9 @@ public abstract class Character : MonoBehaviour {
             _hitbox.attack = 5.0f;
             _hitbox.vector = playerTf.localScale.x > 0 ? Vector3.right : Vector3.left;
         }
+    }
+    public void Resistance() {
+        playerController.isResistance = true;
     }
     public virtual void UpB() {
     }
