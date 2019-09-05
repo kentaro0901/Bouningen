@@ -36,7 +36,7 @@ public abstract class Character : MonoBehaviour {
         foreach (HitBox _hitbox in hitBox) {
             _hitbox.character = this;
             _hitbox.gameObject.GetComponent<SpriteRenderer>().material = playerController.isVisibleBox ? red : clear;
-            //_hitbox.gameObject.SetActive(false);
+            _hitbox.gameObject.SetActive(false);
         }   
         hurtBox = this.gameObject.GetComponentInChildren<HurtBox>();
         hurtBox.character = this;

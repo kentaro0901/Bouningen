@@ -158,6 +158,7 @@ MonoBehaviour:
   hp: 100
   isDamaged: 0
   isCriticaled: 0
+  isResistance: 0
   chaseCamera: {fileID: 1396387651}
   cameraEffect: {fileID: 1687828439}
   hpBar: {fileID: 767620463}
@@ -1311,6 +1312,7 @@ MonoBehaviour:
   hp: 100
   isDamaged: 0
   isCriticaled: 0
+  isResistance: 0
   chaseCamera: {fileID: 972152150}
   cameraEffect: {fileID: 886981722}
   hpBar: {fileID: 1479420745}
