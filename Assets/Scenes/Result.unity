@@ -419,7 +419,7 @@ GameObject:
   - component: {fileID: 1111649360}
   m_Layer: 0
   m_Name: Sub Camera
-  m_TagString: Untagged
+  m_TagString: Camera2
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -491,22 +491,13 @@ GameObject:
   m_Component:
   - component: {fileID: 1592607743}
   - component: {fileID: 1592607742}
-  - component: {fileID: 1592607741}
   m_Layer: 0
   m_Name: Main Camera
-  m_TagString: MainCamera
+  m_TagString: Camera1
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!81 &1592607741
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1592607740}
-  m_Enabled: 1
 --- !u!20 &1592607742
 Camera:
   m_ObjectHideFlags: 0

@@ -10,12 +10,16 @@ public class BattleMgr : MonoBehaviour {
 
     float timeScaleSeconds = 0.0f;
 
+    void Start() {
+        Main.state = Main.State.Battle;
+        Main.CameraSetting();    
+    }
+
     void Update() {
 
         TimeScaleCountDown();
 
         if (Input.GetKeyDown(KeyCode.Space)) {//仮
-            //SceneManager.LoadScene("Result");
             FadeManager.Instance.LoadScene("Result", 1.0f);
             Main.state = Main.State.Result;
         }

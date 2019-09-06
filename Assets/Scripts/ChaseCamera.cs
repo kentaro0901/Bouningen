@@ -16,15 +16,17 @@ public class ChaseCamera : MonoBehaviour{
     }
 
     void Update(){
-        if (chaseTf.position.y < 4) {
-            chaseCameraTf.position = chaseCameraInitPos + new Vector3(chaseTfPrePos[2].x, 0, 0);
-        }
-        else {
-            chaseCameraTf.position = chaseCameraInitPos + new Vector3(chaseTfPrePos[2].x, chaseTf.position.y - 4, 0);
-        }
+        if(chaseTf != null) {
+            if(chaseTf.position.y < 4) {
+                chaseCameraTf.position = chaseCameraInitPos + new Vector3(chaseTfPrePos[2].x, 0, 0);
+            }
+            else {
+                chaseCameraTf.position = chaseCameraInitPos + new Vector3(chaseTfPrePos[2].x, chaseTf.position.y - 4, 0);
+            }
 
-        chaseTfPrePos[2] = chaseTfPrePos[1];
-        chaseTfPrePos[1] = chaseTfPrePos[0];
-        chaseTfPrePos[0] = chaseTf.position;   
+            chaseTfPrePos[2] = chaseTfPrePos[1];
+            chaseTfPrePos[1] = chaseTfPrePos[0];
+            chaseTfPrePos[0] = chaseTf.position;
+        }
     }
 }

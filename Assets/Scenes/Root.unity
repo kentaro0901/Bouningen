@@ -330,6 +330,7 @@ GameObject:
   - component: {fileID: 506392973}
   - component: {fileID: 506392972}
   - component: {fileID: 506392971}
+  - component: {fileID: 506392974}
   m_Layer: 0
   m_Name: Main
   m_TagString: Untagged
@@ -349,7 +350,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.24
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -446,6 +447,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inferno: {fileID: 8300000, guid: 1a0f6f8162ff6e848ae50902e730f513, type: 3}
+  isMultiDisplays: 1
 --- !u!4 &506392973
 Transform:
   m_ObjectHideFlags: 0
@@ -460,6 +462,14 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!81 &506392974
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 506392970}
+  m_Enabled: 1
 --- !u!1 &510328103
 GameObject:
   m_ObjectHideFlags: 0
@@ -645,7 +655,7 @@ GameObject:
   - component: {fileID: 527852102}
   - component: {fileID: 527852101}
   m_Layer: 0
-  m_Name: InitMgr
+  m_Name: RootMgr
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -808,7 +818,7 @@ GameObject:
   - component: {fileID: 621106398}
   m_Layer: 0
   m_Name: Sub Camera
-  m_TagString: Untagged
+  m_TagString: Camera2
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -880,22 +890,13 @@ GameObject:
   m_Component:
   - component: {fileID: 1095876435}
   - component: {fileID: 1095876434}
-  - component: {fileID: 1095876433}
   m_Layer: 0
   m_Name: Main Camera
-  m_TagString: MainCamera
+  m_TagString: Camera1
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!81 &1095876433
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1095876432}
-  m_Enabled: 1
 --- !u!20 &1095876434
 Camera:
   m_ObjectHideFlags: 0

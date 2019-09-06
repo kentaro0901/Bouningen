@@ -7,7 +7,10 @@ public class RootMgr : MonoBehaviour {
 
     void Start() {
         Main.state = Main.State.Root;
-        StartMultiDisplays();
+        Main.CameraSetting();
+        if (Main.Instance.isMultiDisplays) {
+            StartMultiDisplays();
+        }
         Main.Init();
     }
 

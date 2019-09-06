@@ -5,6 +5,19 @@ using UnityEngine.SceneManagement;
 
 public class Main : MonoBehaviour {
 
+    //シングルトン
+    private static Main instance;
+    public static Main Instance {
+        get {
+            if (instance == null) {
+                instance = (Main)FindObjectOfType(typeof(Main));
+                if (instance == null)
+                    Debug.LogError(typeof(Main) + "is nothing");
+            }
+            return instance;
+        }
+    }
+
     public enum State{
         Root,
         Title,
@@ -17,7 +30,15 @@ public class Main : MonoBehaviour {
     static AudioSource bgm; //BGM
     public AudioClip inferno; //とりあえず
 
+    public bool isMultiDisplays = true;
+    Camera camera1;
+    Camera camera2;
+
     void Awake() {
+        if (this != Instance) { //２つ目以降のインスタンスは破棄
+            Destroy(this.gameObject);
+            return;
+        }
         DontDestroyOnLoad(this.gameObject);
         bgm = this.GetComponent<AudioSource>();
         bgm.clip = inferno;
@@ -29,6 +50,24 @@ public class Main : MonoBehaviour {
         bgm.Play();
         state = State.Title;
         SceneManager.LoadScene("Title");
+    }
+
+    //カメラ
+    public static void CameraSetting() {
+        Main.Instance.camera1 = GameObject.FindGameObjectWithTag("Camera1").GetComponent<Camera>();
+        Main.Instance.camera2 = GameObject.FindGameObjectWithTag("Camera2").GetComponent<Camera>();
+        if (Main.Instance.isMultiDisplays) { //マルチディスプレイ
+            Main.Instance.camera1.rect = new Rect(0, 0, 1, 1);
+            Main.Instance.camera1.targetDisplay = 0;
+            Main.Instance.camera2.rect = new Rect(0, 0, 1, 1);
+            Main.Instance.camera2.targetDisplay = 1;
+        }
+        else {
+            Main.Instance.camera1.rect = new Rect(0, 0, 0.5f, 1);
+            Main.Instance.camera1.targetDisplay = 0;
+            Main.Instance.camera2.rect = new Rect(0.5f, 0, 0.5f, 1);
+            Main.Instance.camera2.targetDisplay = 0;
+        }
     }
 
     void Update() {

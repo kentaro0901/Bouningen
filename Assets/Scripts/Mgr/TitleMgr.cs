@@ -4,10 +4,16 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class TitleMgr : MonoBehaviour {
- 
+
+    void Start() {
+        Main.state = Main.State.Title;
+        Main.CameraSetting();
+    }
+
     void Update() {
         if (Input.GetKeyDown(KeyCode.Space)) {//仮
-            SceneManager.LoadScene("Select");
+            //SceneManager.LoadScene("Select");
+            FadeManager.Instance.LoadScene("Select", 1.0f);
             Main.state = Main.State.Select;
         }
     }
