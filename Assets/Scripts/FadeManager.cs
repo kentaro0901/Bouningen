@@ -75,6 +75,10 @@ public class FadeManager : MonoBehaviour {
             time += Time.deltaTime;
 			yield return 0;
 		}
-		this.isFading = false;
+        transLeftD1.offsetMax = Vector2.right * -Screen.width;
+        transRightD1.offsetMin = Vector2.right * Screen.width;
+        transLeftD2.offsetMax = Vector2.right * -Screen.width;
+        transRightD2.offsetMin = Vector2.right * Screen.width;
+        this.isFading = false;
 	}
 }
