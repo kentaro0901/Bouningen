@@ -17,7 +17,6 @@ public class Main : MonoBehaviour {
     static AudioSource bgm; //BGM
     public AudioClip inferno; //とりあえず
 
-
     void Awake() {
         DontDestroyOnLoad(this.gameObject);
         bgm = this.GetComponent<AudioSource>();

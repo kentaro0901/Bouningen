@@ -15,7 +15,8 @@ public class BattleMgr : MonoBehaviour {
         TimeScaleCountDown();
 
         if (Input.GetKeyDown(KeyCode.Space)) {//仮
-            SceneManager.LoadScene("Result");
+            //SceneManager.LoadScene("Result");
+            FadeManager.Instance.LoadScene("Result", 1.0f);
             Main.state = Main.State.Result;
         }
     }
