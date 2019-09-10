@@ -33,6 +33,7 @@ public class Main : MonoBehaviour {
     public bool isMultiDisplays = true;
     Camera camera1;
     Camera camera2;
+    public bool isDynamicCamera = false;
 
     void Awake() {
         if (this != Instance) { //２つ目以降のインスタンスは破棄
