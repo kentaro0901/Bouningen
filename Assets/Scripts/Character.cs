@@ -67,6 +67,12 @@ public abstract class Character : MonoBehaviour {
             _hitbox.vector = playerTf.localScale.x > 0 ? Vector3.right : Vector3.left;
         }
     }
+    public void DownA() {
+        foreach (HitBox _hitbox in hitBox) {
+            _hitbox.attack = 5.0f;
+            _hitbox.vector = playerTf.localScale.x > 0 ? Vector3.right : Vector3.left;
+        }
+    }
     public void Resistance() {
         playerController.isResistance = true;
     }

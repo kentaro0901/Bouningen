@@ -10,11 +10,11 @@ public class HitBox : MonoBehaviour {
     public bool isCritical = false;
 
     void OnTriggerEnter2D(Collider2D collision) {
-        if(collision.gameObject.tag == "HurtBox") {
+        if(collision.gameObject.transform.parent != this.transform.parent && collision.gameObject.tag == "HurtBox") { //ヒット
             Debug.Log("Hit"); //
             collision.gameObject.GetComponent<HurtBox>().character.Damaged(attack, vector, isCritical);
         }
-        if (collision.gameObject.tag == "HitBox") { //鍔迫り合い
+        if (collision.gameObject.transform.parent != this.transform.parent && collision.gameObject.tag == "HitBox") { //鍔迫り合い
             Debug.Log("Resistance");
             character.Resistance();
         }

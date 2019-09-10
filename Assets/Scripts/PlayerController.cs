@@ -30,6 +30,8 @@ public class PlayerController : MonoBehaviour {
     public bool isCriticaled = false; //開始時1フレームのみ
     public bool isResistance = false; //同上
 
+    int counter = 0;
+
     public ChaseCamera chaseCamera;
     public CameraEffect cameraEffect;
     public Slider hpBar;
@@ -115,9 +117,29 @@ public class PlayerController : MonoBehaviour {
             playerTf.localScale = enemyTf.position.x > playerTf.position.x ? Vector3.one : new Vector3(-1, 1, 1);
         }
         if (stateInfo.IsName("LightningAttack")) {
-            character.LightningAttack();
+            if (!preStateInfo.IsName("LightningAttack")) {
+                character.LightningAttack();
+            }
         }
-        if (stateInfo.IsName("SideA")) character.SideA();
+        if (stateInfo.IsName("SideA")) {
+            if (!preStateInfo.IsName("SideA")) {
+                character.SideA();
+            }
+        }
+        if (stateInfo.IsName("DownA")) {
+            if (!preStateInfo.IsName("DownA")) {
+                counter = 0;
+                character.DownA();
+            }
+            playerTf.position = new Vector3(playerTf.position.x, playerTf.position.y * 0.7f, 0);
+            if(playerTf.position.y < 0.1f && playerTf.position.y != 0) {
+                playerTf.position = new Vector3(playerTf.position.x, 0, 0);
+            }
+            if(counter == 14) {
+                battleMgr.VibrateDouble(0.8f, 2.0f);
+            }
+            counter++;
+        }
 
         if (stateInfo.IsName("Critical")) {
             if (isCriticaled) {//1フレームだけ呼ばれる
