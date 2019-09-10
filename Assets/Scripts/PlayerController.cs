@@ -124,7 +124,7 @@ public class PlayerController : MonoBehaviour {
                 playerTf.localScale = damageVector.x > 0 ? new Vector3(-1, 1, 1) : Vector3.one;
                 battleMgr.ChangeTimeScale(0.0f, 1.0f);
                 battleMgr.ChangeToneDouble(1.0f, CameraEffect.ToneName.redBlack);
-                battleMgr.ZoomInOutDouble(0.05f);
+                battleMgr.ZoomInOutDouble(0.1f);
                 isCriticaled = false;
             }
             if(Time.timeScale == 1.0f) {

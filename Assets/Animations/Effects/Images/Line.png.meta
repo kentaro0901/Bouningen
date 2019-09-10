@@ -1,31 +1,25 @@
 fileFormatVersion: 2
-guid: e50fa5c4bfa1fb745b141dde2ae2bc42
+guid: eb8c7794467ff9647a2f53c7417b9ddf
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 2162073879907501594
-    second: Critical_0
+      213: 1547804281730946603
+    second: Line_0
   - first:
-      213: 7683411574995768572
-    second: Critical_1
+      213: -3953923034041246989
+    second: Line_1
   - first:
-      213: -6887791148624518838
-    second: Critical_2
+      213: 7125965934803250217
+    second: Line_2
   - first:
-      213: -2658482145923564056
-    second: Critical_3
+      213: 28523761897398784
+    second: Line_3
   - first:
-      213: 2404866437516375515
-    second: Critical_4
+      213: -8970951058964038786
+    second: Line_4
   - first:
-      213: -1656409287044944091
-    second: Critical_5
-  - first:
-      213: 5426650654275503116
-    second: Critical_6
-  - first:
-      213: -8325169089157184713
-    second: Critical_7
+      213: -87026920168542980
+    second: Line_5
   externalObjects: {}
   serializedVersion: 10
   mipmaps:
@@ -119,12 +113,12 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Critical_0
+      name: Line_0
       rect:
         serializedVersion: 2
         x: 0
         y: 256
-        width: 256
+        width: 512
         height: 256
       alignment: 7
       pivot: {x: 0.5, y: 0}
@@ -133,40 +127,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 17d20433ecbb554479950022d93ade17
-      internalID: 2162073879907501594
+      spriteID: 05da2612bd67d364897cce5366c3515a
+      internalID: 1547804281730946603
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Critical_1
-      rect:
-        serializedVersion: 2
-        x: 256
-        y: 256
-        width: 256
-        height: 256
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: db03c44c7898768459e1f36bf8165571
-      internalID: 7683411574995768572
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Critical_2
+      name: Line_1
       rect:
         serializedVersion: 2
         x: 512
         y: 256
-        width: 256
+        width: 512
         height: 256
       alignment: 7
       pivot: {x: 0.5, y: 0}
@@ -175,40 +148,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: bb78c4d463e0ceb40a8ea275babbadc5
-      internalID: -6887791148624518838
+      spriteID: 3de7769e01df4c0448d37252eda6c0a8
+      internalID: -3953923034041246989
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Critical_3
-      rect:
-        serializedVersion: 2
-        x: 768
-        y: 256
-        width: 256
-        height: 256
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: e560c45a2b03ff14bbe22c63b7a61bad
-      internalID: -2658482145923564056
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Critical_4
+      name: Line_2
       rect:
         serializedVersion: 2
         x: 1024
         y: 256
-        width: 256
+        width: 512
         height: 256
       alignment: 7
       pivot: {x: 0.5, y: 0}
@@ -217,19 +169,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: fec022bff243b914999d64f314349084
-      internalID: 2404866437516375515
+      spriteID: c17b6768a6fe01b4dba6b1ea5c2f1c3d
+      internalID: 7125965934803250217
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Critical_5
+      name: Line_3
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 256
+        width: 512
         height: 256
       alignment: 7
       pivot: {x: 0.5, y: 0}
@@ -238,40 +190,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5c857af08792b574eb9b92034a1677e6
-      internalID: -1656409287044944091
+      spriteID: bb7782ee263fee845a90eff468d2497d
+      internalID: 28523761897398784
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Critical_6
-      rect:
-        serializedVersion: 2
-        x: 256
-        y: 0
-        width: 256
-        height: 256
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: fd9622aa5e03f194089b09f79e29c973
-      internalID: 5426650654275503116
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Critical_7
+      name: Line_4
       rect:
         serializedVersion: 2
         x: 512
         y: 0
-        width: 256
+        width: 512
         height: 256
       alignment: 7
       pivot: {x: 0.5, y: 0}
@@ -280,8 +211,29 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: bbb03e9f6a6197748b55b2051d8af686
-      internalID: -8325169089157184713
+      spriteID: e00ee87b5a0cd4e498513d21d92d0033
+      internalID: -8970951058964038786
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Line_5
+      rect:
+        serializedVersion: 2
+        x: 1024
+        y: 0
+        width: 512
+        height: 256
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fd7ad893b8c0d144aaec82484b495cfb
+      internalID: -87026920168542980
       vertices: []
       indices: 
       edges: []
@@ -289,7 +241,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 33fce39afccbe8f46965204cbec47cbf
+    spriteID: cf4562ec2a8f3744eafe57fe5181a5f3
     internalID: 0
     vertices: []
     indices: 
