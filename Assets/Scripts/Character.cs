@@ -45,14 +45,16 @@ public abstract class Character : MonoBehaviour {
 
     //被ダメージ
     public void Damaged(float damage, Vector3 vector, bool isCritical) {
-        playerController.hp -= damage;
-        playerController.damageVector = vector;
-        if (playerController.isDamaged == false) {
-            playerController.isDamaged = true;
-        }
-        if (isCritical && playerController.isCriticaled == false) {
-            playerController.isCriticaled = true;
-        }
+        if (!playerController.isResistance) {
+            playerController.hp -= damage;
+            playerController.damageVector = vector;
+            if (playerController.isDamaged == false) {
+                playerController.isDamaged = true;
+            }
+            if (isCritical && playerController.isCriticaled == false) {
+                playerController.isCriticaled = true;
+            }
+        }   
     }
 
     public void LightningAttack() {

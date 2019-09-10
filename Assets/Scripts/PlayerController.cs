@@ -43,7 +43,7 @@ public class PlayerController : MonoBehaviour {
 
     AnimatorStateInfo preStateInfo;
     AnimatorStateInfo stateInfo;
-    Animator animator;
+    public Animator animator;
 
     public float dashspeed;
     public float airspeed;
@@ -140,6 +140,12 @@ public class PlayerController : MonoBehaviour {
             }
             counter++;
         }
+        if (!stateInfo.IsName("DownA")) {
+            if (preStateInfo.IsName("DownA")) {
+                counter = 0;
+            }
+        }
+
 
         if (stateInfo.IsName("Critical")) {
             if (isCriticaled) {//1フレームだけ呼ばれる
@@ -157,9 +163,14 @@ public class PlayerController : MonoBehaviour {
             playerTf.position += damageVector;
             damageVector = 0.9f * damageVector;
         }
+
+        animator.SetBool("isResistance", isResistance);//
         if (isResistance) {
-            animator.Play("Resistance", 0);
-            isResistance = false;
+            counter++;
+            animator.speed = 1.0f;
+            if(30 < counter) {
+                isResistance = false;
+            }
         }
 
         //地面判定（仮）
@@ -207,7 +218,6 @@ public class PlayerController : MonoBehaviour {
 
         animator.SetBool("isLand", playerTf.position.y <= 0);
         animator.SetBool("isRight", 0 < playerTf.localScale.x);
-        animator.SetBool("isResistance", false);
         animator.SetBool("isWince", false);
         animator.SetBool("isCritical", isCriticaled);
 

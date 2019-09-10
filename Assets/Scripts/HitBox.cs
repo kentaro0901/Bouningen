@@ -12,10 +12,13 @@ public class HitBox : MonoBehaviour {
     void OnTriggerEnter2D(Collider2D collision) {
         if(collision.gameObject.transform.parent != this.transform.parent && collision.gameObject.tag == "HurtBox") { //ヒット
             Debug.Log("Hit"); //
-            collision.gameObject.GetComponent<HurtBox>().character.Damaged(attack, vector, isCritical);
+            if (!character.playerController.isResistance) {//
+                collision.gameObject.GetComponent<HurtBox>().character.Damaged(attack, vector, isCritical);
+            }
         }
         if (collision.gameObject.transform.parent != this.transform.parent && collision.gameObject.tag == "HitBox") { //鍔迫り合い
             Debug.Log("Resistance");
+            character.playerController.animator.speed = 0;//
             character.Resistance();
         }
     }
