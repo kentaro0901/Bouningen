@@ -5,19 +5,36 @@ using UnityEngine.SceneManagement;
 
 public class BattleMgr : MonoBehaviour {
 
+    [SerializeField] ChaseCamera chaseCamera1;
+    [SerializeField] ChaseCamera chaseCamera2;
     [SerializeField] CameraEffect cameraEffect1;
     [SerializeField] CameraEffect cameraEffect2;
+    [SerializeField] PlayerController playerController1;
+    [SerializeField] PlayerController playerController2;
+    Transform player1Tf;
+    Transform player2Tf;
 
     float timeScaleSeconds = 0.0f;
 
     void Start() {
         Main.state = Main.State.Battle;
-        Main.CameraSetting();    
+        Main.CameraSetting();
+        player1Tf = playerController1.playerTf;
+        player2Tf = playerController2.playerTf;
     }
 
     void Update() {
 
         TimeScaleCountDown();
+
+        if(!ChaseCamera.isNear && Mathf.Abs(chaseCamera1.transform.position.x - chaseCamera2.transform.position.x) < ChaseCamera.chaseRange * 8) { //近距離になったとき
+            chaseCamera1.NearCamera();
+            chaseCamera2.NearCamera();
+        }
+        if(ChaseCamera.isNear && Mathf.Abs(player1Tf.position.x - player2Tf.position.x) >= ChaseCamera.chaseRange * 8) { //遠距離になった時
+            chaseCamera1.FarCamera(player1Tf.position.x < player2Tf.position.x);
+            chaseCamera2.FarCamera(player1Tf.position.x >= player2Tf.position.x);
+        }
 
         if (Input.GetKeyDown(KeyCode.Space)) {//仮
             FadeManager.Instance.LoadScene("Result", 1.0f);

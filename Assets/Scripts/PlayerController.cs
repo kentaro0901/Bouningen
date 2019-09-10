@@ -59,6 +59,7 @@ public class PlayerController : MonoBehaviour {
             case MyChara.Sword:
                 characterIns = Instantiate(swordPref, playerNum == PlayerNum.player1? new Vector3(-10,0,0): new Vector3(10,0,0), new Quaternion(0, 0, 0, 0));
                 character = characterIns.GetComponent<Sword>();
+                playerTf = characterIns.transform;
                 maxhp = Sword.maxhp;
                 break;
             default:
@@ -69,10 +70,9 @@ public class PlayerController : MonoBehaviour {
     void Start() {
         //参照の取得
         hp = maxhp;
-        chaseCamera.chaseTf = characterIns.transform;
+        chaseCamera.playerTf = characterIns.transform;
         character.playerController = this;
         animator = characterIns.GetComponent<Animator>();
-        playerTf = characterIns.transform;
         enemyTf = enemyController.characterIns.transform;
     }
 
