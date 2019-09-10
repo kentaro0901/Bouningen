@@ -481,7 +481,7 @@ MonoBehaviour:
   character: {fileID: 0}
   attack: 3
   vector: {x: 0, y: 0, z: 0}
-  isCritical: 0
+  isCritical: 1
 --- !u!212 &1016870660581157692
 SpriteRenderer:
   m_ObjectHideFlags: 0
