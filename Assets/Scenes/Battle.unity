@@ -334,7 +334,7 @@ Transform:
   m_LocalScale: {x: 100, y: 0.024438884, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &391279204
 GameObject:
@@ -574,7 +574,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inferno: {fileID: 8300000, guid: 1a0f6f8162ff6e848ae50902e730f513, type: 3}
   isMultiDisplays: 1
-  isDynamicCamera: 0
+  isDynamicCamera: 1
 --- !u!4 &495413259
 Transform:
   m_ObjectHideFlags: 0
@@ -1033,6 +1033,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerTf: {fileID: 0}
+  enemyCameraTf: {fileID: 1396387654}
 --- !u!4 &972152153
 Transform:
   m_ObjectHideFlags: 0
@@ -1142,7 +1143,7 @@ RectTransform:
   - {fileID: 1327012441}
   - {fileID: 1479420744}
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -1491,6 +1492,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerTf: {fileID: 0}
+  enemyCameraTf: {fileID: 972152153}
 --- !u!4 &1396387654
 Transform:
   m_ObjectHideFlags: 0
