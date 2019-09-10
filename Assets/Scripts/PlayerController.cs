@@ -96,15 +96,20 @@ public class PlayerController : MonoBehaviour {
         if (stateInfo.IsName("Dash")) {
             playerTf.position += Vector3.right * dashspeed * xAxisD;
         }
+        if (stateInfo.IsName("Landing")) {
+            if (!preStateInfo.IsName("Landing")) {
+                battleMgr.VibrateDouble(0.5f, 0.5f);
+            }
+        }
         if (stateInfo.IsName("LightningStart")) {
             if (!preStateInfo.IsName("LightningStart")) {
-                cameraEffect.ChangeTone(0.1f, CameraEffect.ToneName.reverseTone);
+                battleMgr.ChangeToneDouble(0.1f, CameraEffect.ToneName.reverseTone);
                 playerTf.localScale = enemyTf.position.x > playerTf.position.x ? Vector3.one : new Vector3(-1, 1, 1);
             }
         }
         if (stateInfo.IsName("Lightning")) {
             if (!preStateInfo.IsName("Lightning")) {
-                cameraEffect.Vibrate(0.8f, 1.0f);
+                battleMgr.VibrateDouble(0.8f, 1.0f);
             }
             playerTf.position += (enemyTf.position + (enemyTf.position.x > playerTf.position.x ? Vector3.left : Vector3.right) - playerTf.position) / 2;
             playerTf.localScale = enemyTf.position.x > playerTf.position.x ? Vector3.one : new Vector3(-1, 1, 1);
