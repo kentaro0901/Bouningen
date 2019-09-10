@@ -165,6 +165,7 @@ MonoBehaviour:
   playerTf: {fileID: 0}
   enemyController: {fileID: 1288113352}
   enemyTf: {fileID: 0}
+  animator: {fileID: 0}
   dashspeed: 0.5
   airspeed: 0.1
   vectorspeed: 3
@@ -1385,6 +1386,7 @@ MonoBehaviour:
   playerTf: {fileID: 0}
   enemyController: {fileID: 2320028}
   enemyTf: {fileID: 0}
+  animator: {fileID: 0}
   dashspeed: 0.5
   airspeed: 0.1
   vectorspeed: 3
