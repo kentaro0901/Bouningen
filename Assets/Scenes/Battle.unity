@@ -567,7 +567,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 495413256}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 92c39ffd71790224d99967002fc15056, type: 3}
   m_Name: 
@@ -945,6 +945,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NormalTone: {fileID: 2100000, guid: ae27178cd58782b40aae3695550d67c7, type: 2}
   redBlack: {fileID: 2100000, guid: 2017df84ea5423746a36693e7c7c5979, type: 2}
+  blueBlack: {fileID: 2100000, guid: dcdb9a84de516b846b6f9fd8cd24b3ac, type: 2}
   reverseTone: {fileID: 2100000, guid: 280c7f48aa9abc7479767f06b678d647, type: 2}
 --- !u!20 &886981724
 Camera:
@@ -1667,6 +1668,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NormalTone: {fileID: 2100000, guid: ae27178cd58782b40aae3695550d67c7, type: 2}
   redBlack: {fileID: 2100000, guid: 2017df84ea5423746a36693e7c7c5979, type: 2}
+  blueBlack: {fileID: 2100000, guid: dcdb9a84de516b846b6f9fd8cd24b3ac, type: 2}
   reverseTone: {fileID: 2100000, guid: 280c7f48aa9abc7479767f06b678d647, type: 2}
 --- !u!20 &1687828441
 Camera:

@@ -111,7 +111,7 @@ public class PlayerController : MonoBehaviour {
             if (!preStateInfo.IsName("Lightning")) {
                 battleMgr.VibrateDouble(0.8f, 1.0f);
             }
-            playerTf.position += (enemyTf.position + (enemyTf.position.x > playerTf.position.x ? Vector3.left : Vector3.right) - playerTf.position) / 2;
+            playerTf.position += (enemyTf.position + 3 * (enemyTf.position.x > playerTf.position.x ? Vector3.left : Vector3.right) - playerTf.position) / 2; //相手の3m前に移動
             playerTf.localScale = enemyTf.position.x > playerTf.position.x ? Vector3.one : new Vector3(-1, 1, 1);
         }
         if (stateInfo.IsName("LightningAttack")) {
@@ -123,7 +123,7 @@ public class PlayerController : MonoBehaviour {
             if (isCriticaled) {//1フレームだけ呼ばれる
                 playerTf.localScale = damageVector.x > 0 ? new Vector3(-1, 1, 1) : Vector3.one;
                 battleMgr.ChangeTimeScale(0.0f, 1.0f);
-                battleMgr.ChangeToneDouble(1.0f, CameraEffect.ToneName.redBlack);
+                battleMgr.ChangeToneDouble(1.0f, ((int)playerNum == 2? CameraEffect.ToneName.redBlack: CameraEffect.ToneName.blueBlack));
                 battleMgr.ZoomInOutDouble(0.1f);
                 isCriticaled = false;
             }

@@ -7,9 +7,11 @@ public class CameraEffect : MonoBehaviour {
     Material material;
     public Material NormalTone;
     public Material redBlack;
+    public Material blueBlack;
     public Material reverseTone;
     public enum ToneName {
         redBlack,
+        blueBlack,
         reverseTone
     }
     public static ToneName toneName = ToneName.redBlack;
@@ -79,6 +81,7 @@ public class CameraEffect : MonoBehaviour {
         if (postEffectSeconds > 0) {
             switch (toneName) {
                 case ToneName.redBlack: material = redBlack;  break;
+                case ToneName.blueBlack: material = blueBlack; break;
                 case ToneName.reverseTone: material = reverseTone; break;
             }
             postEffectSeconds -= Time.unscaledDeltaTime;
