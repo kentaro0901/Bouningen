@@ -60,19 +60,19 @@ public abstract class Character : MonoBehaviour {
     public void LightningAttack() {
         foreach (HitBox _hitbox in hitBox) {
             _hitbox.attack = 3.0f;
-            _hitbox.vector = playerTf.localScale.x > 0 ? Vector3.right : Vector3.left;
+            _hitbox.vector = (playerTf.localScale.x > 0 ? Vector3.right : Vector3.left) * 3;
         }
     }
     public void SideA() {
         foreach (HitBox _hitbox in hitBox) {
             _hitbox.attack = 5.0f;
-            _hitbox.vector = playerTf.localScale.x > 0 ? Vector3.right : Vector3.left;
+            _hitbox.vector = (playerTf.localScale.x > 0 ? Vector3.right : Vector3.left) * 3;
         }
     }
     public void DownA() {
         foreach (HitBox _hitbox in hitBox) {
             _hitbox.attack = 5.0f;
-            _hitbox.vector = playerTf.localScale.x > 0 ? Vector3.right : Vector3.left;
+            _hitbox.vector = (playerTf.localScale.x > 0 ? Vector3.right : Vector3.left) *2;
         }
     }
     public void Resistance() {
