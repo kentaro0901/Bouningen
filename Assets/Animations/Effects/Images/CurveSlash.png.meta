@@ -1,22 +1,25 @@
 fileFormatVersion: 2
-guid: 52de47a94a64d124e875fd6a697680eb
+guid: d96d3b843f6a193468fcd62f0696910c
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 7419131564701046623
-    second: DamageSand_0
+      213: 83030557552671303
+    second: CurveSlash_0
   - first:
-      213: 2845595827973306124
-    second: DamageSand_1
+      213: -712951002409081582
+    second: CurveSlash_1
   - first:
-      213: -8581673125234481883
-    second: DamageSand_2
+      213: -9034725152491391891
+    second: CurveSlash_2
   - first:
-      213: -1511239675622670138
-    second: DamageSand_3
+      213: -5802951625091087338
+    second: CurveSlash_3
   - first:
-      213: -6677155458472496753
-    second: DamageSand_4
+      213: -3858891659960161724
+    second: CurveSlash_4
+  - first:
+      213: 8423314891266496119
+    second: CurveSlash_5
   externalObjects: {}
   serializedVersion: 10
   mipmaps:
@@ -132,106 +135,127 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: DamageSand_0
+      name: CurveSlash_0
       rect:
         serializedVersion: 2
-        x: 268
+        x: 0
         y: 0
-        width: 86
-        height: 22
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+        width: 240
+        height: 240
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4f38c2fba06631f4793a22cf55efde48
-      internalID: 7419131564701046623
+      spriteID: d74191b3f8147d34bbd890acde78cfe6
+      internalID: 83030557552671303
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DamageSand_1
+      name: CurveSlash_1
       rect:
         serializedVersion: 2
-        x: 317
-        y: 21
-        width: 8
-        height: 4
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+        x: 240
+        y: 0
+        width: 240
+        height: 240
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f58e4fc703718f34b9b318604a449bff
-      internalID: 2845595827973306124
+      spriteID: 089baf3637975ee4ab9132845d5e26a2
+      internalID: -712951002409081582
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DamageSand_2
+      name: CurveSlash_2
       rect:
         serializedVersion: 2
-        x: 508
+        x: 480
         y: 0
-        width: 90
-        height: 23
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+        width: 240
+        height: 240
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f79d326b79f0e8f408b10213e82ad44c
-      internalID: -8581673125234481883
+      spriteID: abfc8e21ebb4caa42a96777db117bc0d
+      internalID: -9034725152491391891
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DamageSand_3
+      name: CurveSlash_3
       rect:
         serializedVersion: 2
-        x: 27
+        x: 720
         y: 0
-        width: 22
-        height: 8
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+        width: 240
+        height: 240
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 63d8ae417c57cec4c87e8f4d81c56fc0
-      internalID: -1511239675622670138
+      spriteID: 0f85825f8cad08a4a9ff9b00d0d42183
+      internalID: -5802951625091087338
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DamageSand_4
+      name: CurveSlash_4
       rect:
         serializedVersion: 2
-        x: 748
+        x: 960
         y: 0
-        width: 22
-        height: 8
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+        width: 240
+        height: 240
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a81d1c673dc5b31458d3801c9f24b646
-      internalID: -6677155458472496753
+      spriteID: 76a6f03fe8b1c744ba8f0be878bbcbda
+      internalID: -3858891659960161724
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CurveSlash_5
+      rect:
+        serializedVersion: 2
+        x: 1200
+        y: 0
+        width: 240
+        height: 240
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5489e695c67cbc44dbd548f2f9d00610
+      internalID: 8423314891266496119
       vertices: []
       indices: 
       edges: []
@@ -239,7 +263,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: fc9333ae8bdcba24783fd6cadf3f0c02
+    spriteID: c6e27b6a9e072704a94e6d3d7ef04ce0
     internalID: 0
     vertices: []
     indices: 

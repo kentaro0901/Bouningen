@@ -1,22 +1,25 @@
 fileFormatVersion: 2
-guid: 52de47a94a64d124e875fd6a697680eb
+guid: 6bc39055227120040a3dad81870a9102
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 7419131564701046623
-    second: DamageSand_0
+      213: 2715435097457428830
+    second: Shock_0
   - first:
-      213: 2845595827973306124
-    second: DamageSand_1
+      213: -1276627396313310273
+    second: Shock_1
   - first:
-      213: -8581673125234481883
-    second: DamageSand_2
+      213: -8292510586065756243
+    second: Shock_2
   - first:
-      213: -1511239675622670138
-    second: DamageSand_3
+      213: 5557731585321639452
+    second: Shock_3
   - first:
-      213: -6677155458472496753
-    second: DamageSand_4
+      213: 4278902530326155998
+    second: Shock_4
+  - first:
+      213: -6644062952214655017
+    second: Shock_5
   externalObjects: {}
   serializedVersion: 10
   mipmaps:
@@ -132,13 +135,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: DamageSand_0
+      name: Shock_0
       rect:
         serializedVersion: 2
-        x: 268
+        x: 0
         y: 0
-        width: 86
-        height: 22
+        width: 512
+        height: 512
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -146,20 +149,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4f38c2fba06631f4793a22cf55efde48
-      internalID: 7419131564701046623
+      spriteID: 53835e43cc9d88844b5d8463cc99069d
+      internalID: 2715435097457428830
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DamageSand_1
+      name: Shock_1
       rect:
         serializedVersion: 2
-        x: 317
-        y: 21
-        width: 8
-        height: 4
+        x: 512
+        y: 0
+        width: 512
+        height: 512
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -167,20 +170,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f58e4fc703718f34b9b318604a449bff
-      internalID: 2845595827973306124
+      spriteID: 7664c71d5480da0438e68c74cbf8535f
+      internalID: -1276627396313310273
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DamageSand_2
+      name: Shock_2
       rect:
         serializedVersion: 2
-        x: 508
+        x: 1024
         y: 0
-        width: 90
-        height: 23
+        width: 512
+        height: 512
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -188,20 +191,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f79d326b79f0e8f408b10213e82ad44c
-      internalID: -8581673125234481883
+      spriteID: d9d0590c0ae961543821375e0e0335b2
+      internalID: -8292510586065756243
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DamageSand_3
+      name: Shock_3
       rect:
         serializedVersion: 2
-        x: 27
+        x: 1536
         y: 0
-        width: 22
-        height: 8
+        width: 512
+        height: 512
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -209,20 +212,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 63d8ae417c57cec4c87e8f4d81c56fc0
-      internalID: -1511239675622670138
+      spriteID: 0a9dd283c33f302489851b17d0680ec6
+      internalID: 5557731585321639452
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DamageSand_4
+      name: Shock_4
       rect:
         serializedVersion: 2
-        x: 748
+        x: 2048
         y: 0
-        width: 22
-        height: 8
+        width: 512
+        height: 512
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -230,8 +233,29 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a81d1c673dc5b31458d3801c9f24b646
-      internalID: -6677155458472496753
+      spriteID: 69b688001b4c7474ba21a198168a30fc
+      internalID: 4278902530326155998
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Shock_5
+      rect:
+        serializedVersion: 2
+        x: 2560
+        y: 0
+        width: 512
+        height: 512
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 83e9cce16f579e54e8920a2c9e7908da
+      internalID: -6644062952214655017
       vertices: []
       indices: 
       edges: []
@@ -239,7 +263,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: fc9333ae8bdcba24783fd6cadf3f0c02
+    spriteID: 1d39ef659c7538446a3c3f424b06cace
     internalID: 0
     vertices: []
     indices: 
