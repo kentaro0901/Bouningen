@@ -13,6 +13,7 @@ public class ChaseCamera : MonoBehaviour {
     public static float chaseRange = 1.0f;
     float alpha = -0.12f; //補正シングル
     float beta = -0.205f;
+    public float verticalRange = 1.0f;
 
     void Start(){
         cameraTf = this.gameObject.transform;
@@ -52,42 +53,54 @@ public class ChaseCamera : MonoBehaviour {
         if (Main.Instance.isDynamicCamera) {
             if (!isNear) { //遠
                 if (playerTf.position.x < cameraTf.position.x - chaseRange) { //左
-                    cameraTf.position = new Vector3(playerTf.position.x + chaseRange, cameraInitPos.y, cameraInitPos.z);
+                    cameraTf.position = new Vector3(playerTf.position.x + chaseRange, cameraInitPos.y + ((verticalRange < playerTf.position.y)? playerTf.position.y - verticalRange : 0), cameraInitPos.z);
                 }
-                if (cameraTf.position.x + chaseRange < playerTf.position.x) { //右
-                    cameraTf.position = new Vector3(playerTf.position.x - chaseRange, cameraInitPos.y, cameraInitPos.z);
+                else if (cameraTf.position.x + chaseRange < playerTf.position.x) { //右
+                    cameraTf.position = new Vector3(playerTf.position.x - chaseRange, cameraInitPos.y + ((verticalRange < playerTf.position.y) ? playerTf.position.y - verticalRange : 0), cameraInitPos.z);
+                }
+                else { //真ん中
+                    cameraTf.position = new Vector3(cameraTf.position.x, cameraInitPos.y + ((verticalRange < playerTf.position.y) ? playerTf.position.y - verticalRange : 0), cameraInitPos.z);
                 }
             }
             else { //近
                 if (cameraTf.position.x < enemyCameraTf.position.x) { //カメラ左
                     if (playerTf.position.x < cameraTf.position.x - chaseRange) { //左
                         cameraTf.position = new Vector3(playerTf.position.x + chaseRange, cameraInitPos.y, cameraInitPos.z);
-                        enemyCameraTf.position = new Vector3(cameraTf.position.x + chaseRange * 8, cameraInitPos.y, cameraInitPos.z);
+                        enemyCameraTf.position = new Vector3(cameraTf.position.x + chaseRange * 8, enemyCameraTf.position.y, cameraInitPos.z);
                     }
-                    if (enemyCameraTf.position.x + chaseRange < playerTf.position.x) { //右
+                    else if (enemyCameraTf.position.x + chaseRange < playerTf.position.x) { //右
                         enemyCameraTf.position = new Vector3(playerTf.position.x - chaseRange, cameraInitPos.y, cameraInitPos.z);
-                        cameraTf.position = new Vector3(enemyCameraTf.position.x - chaseRange * 8, cameraInitPos.y, cameraInitPos.z);
+                        cameraTf.position = new Vector3(enemyCameraTf.position.x - chaseRange * 8, enemyCameraTf.position.y, cameraInitPos.z);
+                    }
+                    else { //真ん中
+                        cameraTf.position = new Vector3(cameraTf.position.x, cameraInitPos.y, cameraInitPos.z);
                     }
                 }
                 if (cameraTf.position.x >= enemyCameraTf.position.x) { //カメラ右
                     if (enemyCameraTf.position.x - chaseRange > playerTf.position.x) { //左
                         enemyCameraTf.position = new Vector3(playerTf.position.x + chaseRange, cameraInitPos.y, cameraInitPos.z);
-                        cameraTf.position = new Vector3(enemyCameraTf.position.x + chaseRange * 8, cameraInitPos.y, cameraInitPos.z);
+                        cameraTf.position = new Vector3(enemyCameraTf.position.x + chaseRange * 8, enemyCameraTf.position.y, cameraInitPos.z);
                     }
-                    if (cameraTf.position.x + chaseRange < playerTf.position.x) { //右
+                    else if (cameraTf.position.x + chaseRange < playerTf.position.x) { //右
                         cameraTf.position = new Vector3(playerTf.position.x - chaseRange, cameraInitPos.y, cameraInitPos.z);
-                        enemyCameraTf.position = new Vector3(cameraTf.position.x - chaseRange * 8, cameraInitPos.y, cameraInitPos.z);
+                        enemyCameraTf.position = new Vector3(cameraTf.position.x - chaseRange * 8, enemyCameraTf.position.y, cameraInitPos.z);
+                    }
+                    else { //真ん中
+                        cameraTf.position = new Vector3(cameraTf.position.x, cameraInitPos.y, cameraInitPos.z);
                     }
                 }
             }
         }
         else {
             if (playerTf.position.x < cameraTf.position.x - chaseRange) { //左
-                cameraTf.position = new Vector3(playerTf.position.x + chaseRange, cameraInitPos.y, cameraInitPos.z);
+                cameraTf.position = new Vector3(playerTf.position.x + chaseRange, cameraInitPos.y + ((verticalRange < playerTf.position.y) ? playerTf.position.y - verticalRange : 0), cameraInitPos.z);
             }
-            if (cameraTf.position.x + chaseRange < playerTf.position.x) { //右
-                cameraTf.position = new Vector3(playerTf.position.x - chaseRange, cameraInitPos.y, cameraInitPos.z);
+            else if (cameraTf.position.x + chaseRange < playerTf.position.x) { //右
+                cameraTf.position = new Vector3(playerTf.position.x - chaseRange, cameraInitPos.y + ((verticalRange < playerTf.position.y) ? playerTf.position.y - verticalRange : 0), cameraInitPos.z);
             }
+            else { //真ん中
+                    cameraTf.position = new Vector3(cameraTf.position.x, cameraInitPos.y + ((verticalRange < playerTf.position.y) ? playerTf.position.y - verticalRange : 0), cameraInitPos.z);
+                }
         }
     }
 }
