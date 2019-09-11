@@ -135,10 +135,10 @@ TextureImporter:
       name: DamageSand_0
       rect:
         serializedVersion: 2
-        x: 268
+        x: 0
         y: 0
-        width: 86
-        height: 22
+        width: 240
+        height: 241
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -146,7 +146,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4f38c2fba06631f4793a22cf55efde48
+      spriteID: 335b5335a10fa304f9bb714ef3b0a005
       internalID: 7419131564701046623
       vertices: []
       indices: 
@@ -156,10 +156,10 @@ TextureImporter:
       name: DamageSand_1
       rect:
         serializedVersion: 2
-        x: 317
-        y: 21
-        width: 8
-        height: 4
+        x: 240
+        y: 0
+        width: 240.5
+        height: 241
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -167,7 +167,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f58e4fc703718f34b9b318604a449bff
+      spriteID: 547561248a2232045a92726ebbe4d4be
       internalID: 2845595827973306124
       vertices: []
       indices: 
@@ -177,10 +177,10 @@ TextureImporter:
       name: DamageSand_2
       rect:
         serializedVersion: 2
-        x: 508
+        x: 480
         y: 0
-        width: 90
-        height: 23
+        width: 240.5
+        height: 241
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -188,7 +188,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f79d326b79f0e8f408b10213e82ad44c
+      spriteID: 09ce6af85694de74b828f667d6f221db
       internalID: -8581673125234481883
       vertices: []
       indices: 
@@ -198,10 +198,10 @@ TextureImporter:
       name: DamageSand_3
       rect:
         serializedVersion: 2
-        x: 27
+        x: 716
         y: 0
-        width: 22
-        height: 8
+        width: 240
+        height: 241
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -209,29 +209,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 63d8ae417c57cec4c87e8f4d81c56fc0
+      spriteID: bfdfe22337d637b4d839c193fc5c3e96
       internalID: -1511239675622670138
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: DamageSand_4
-      rect:
-        serializedVersion: 2
-        x: 748
-        y: 0
-        width: 22
-        height: 8
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: a81d1c673dc5b31458d3801c9f24b646
-      internalID: -6677155458472496753
       vertices: []
       indices: 
       edges: []

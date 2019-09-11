@@ -13,7 +13,7 @@ public class SelectMgr : MonoBehaviour {
     void Update() {
         if(Input.GetKeyDown(KeyCode.Space)) {//仮
             //SceneManager.LoadScene("Battle");
-            FadeManager.Instance.LoadScene("Battle", 1.0f);
+            FadeManager.Instance.LoadScene("Battle", 0.5f);
             Main.state = Main.State.Battle;
         }
     }

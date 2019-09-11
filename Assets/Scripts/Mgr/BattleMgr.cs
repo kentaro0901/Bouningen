@@ -42,7 +42,7 @@ public class BattleMgr : MonoBehaviour {
         }
     
         if (Input.GetKeyDown(KeyCode.Space)) {//仮
-            FadeManager.Instance.LoadScene("Result", 1.0f);
+            FadeManager.Instance.LoadScene("Result", 0.5f);
             Main.state = Main.State.Result;
         }
     }

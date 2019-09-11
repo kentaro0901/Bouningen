@@ -60,14 +60,18 @@ public class Main : MonoBehaviour {
         if (Main.Instance.isMultiDisplays) { //マルチディスプレイ
             Main.Instance.camera1.rect = new Rect(0, 0, 1, 1);
             Main.Instance.camera1.targetDisplay = 0;
+            Main.Instance.camera1.orthographicSize = 5;
             Main.Instance.camera2.rect = new Rect(0, 0, 1, 1);
             Main.Instance.camera2.targetDisplay = 1;
+            Main.Instance.camera2.orthographicSize = 5;
         }
-        else {
+        else { //シングルディスプレイ
             Main.Instance.camera1.rect = new Rect(0, 0, 0.5f, 1);
             Main.Instance.camera1.targetDisplay = 0;
+            Main.Instance.camera1.orthographicSize = 7;
             Main.Instance.camera2.rect = new Rect(0.5f, 0, 0.5f, 1);
             Main.Instance.camera2.targetDisplay = 0;
+            Main.Instance.camera2.orthographicSize = 7;
         }
     }
 

@@ -55,7 +55,7 @@ public class FadeManager : MonoBehaviour {
 		float time = 0;
 		while (time <= interval) {
 			this.fadeValue = Mathf.Lerp (0f, 1f, time / interval);
-            fadeValue = Mathf.Pow(fadeValue, 0.33f);
+            fadeValue = Mathf.Pow(fadeValue, 0.5f);
             transLeftD1.offsetMax = Vector2.right * (-Screen.width + Screen.width / 2 * fadeValue);
             transRightD1.offsetMin = Vector2.right *(Screen.width - Screen.width / 2 * fadeValue);
             transLeftD2.offsetMax = Vector2.right * (-Screen.width + Screen.width / 2 * fadeValue);

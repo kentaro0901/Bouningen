@@ -447,7 +447,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inferno: {fileID: 8300000, guid: 1a0f6f8162ff6e848ae50902e730f513, type: 3}
-  isMultiDisplays: 0
+  isMultiDisplays: 1
   isDynamicCamera: 1
 --- !u!4 &506392973
 Transform:

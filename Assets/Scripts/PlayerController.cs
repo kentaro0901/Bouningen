@@ -98,6 +98,16 @@ public class PlayerController : MonoBehaviour {
         if (stateInfo.IsName("Dash")) {
             playerTf.position += Vector3.right * dashspeed * xAxisD;
         }
+        if (stateInfo.IsName("Fall")) {
+            if (!preStateInfo.IsName("Fall")) {
+                counter = 0;
+            }
+            counter++;
+            playerTf.position = new Vector3(playerTf.position.x, playerTf.position.y - (counter * 0.1f), 0);
+            if (playerTf.position.y < 0.1f && playerTf.position.y != 0) {
+                playerTf.position = new Vector3(playerTf.position.x, 0, 0);
+            }
+        }
         if (stateInfo.IsName("Landing")) {
             if (!preStateInfo.IsName("Landing")) {
                 battleMgr.VibrateDouble(0.5f, 0.5f);
@@ -131,7 +141,7 @@ public class PlayerController : MonoBehaviour {
                 counter = 0;
                 character.DownA();
             }
-            playerTf.position = new Vector3(playerTf.position.x, playerTf.position.y * 0.7f, 0);
+            playerTf.position = new Vector3(playerTf.position.x, playerTf.position.y * 0.5f, 0);
             if(playerTf.position.y < 0.1f && playerTf.position.y != 0) {
                 playerTf.position = new Vector3(playerTf.position.x, 0, 0);
             }

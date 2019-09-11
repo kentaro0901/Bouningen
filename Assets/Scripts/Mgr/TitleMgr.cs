@@ -13,7 +13,7 @@ public class TitleMgr : MonoBehaviour {
     void Update() {
         if (Input.GetKeyDown(KeyCode.Space)) {//仮
             //SceneManager.LoadScene("Select");
-            FadeManager.Instance.LoadScene("Select", 1.0f);
+            FadeManager.Instance.LoadScene("Select", 0.5f);
             Main.state = Main.State.Select;
         }
     }
