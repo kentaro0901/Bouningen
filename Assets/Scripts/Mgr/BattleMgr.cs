@@ -15,6 +15,8 @@ public class BattleMgr : MonoBehaviour {
     [SerializeField] PlayerController playerController2;
     Transform player1Tf;
     Transform player2Tf;
+    [SerializeField] RectTransform canvas1RTf;
+    [SerializeField] RectTransform canvas2Rtf;
 
     float timeScaleSeconds = 0.0f;
 
