@@ -350,7 +350,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
-  m_Volume: 0.24
+  m_Volume: 1
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -446,7 +446,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92c39ffd71790224d99967002fc15056, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inferno: {fileID: 8300000, guid: 1a0f6f8162ff6e848ae50902e730f513, type: 3}
+  mainMusic: {fileID: 8300000, guid: d1612ef1bb8d61b4fa12bc0f9ce526a3, type: 3}
   isMultiDisplays: 1
   isDynamicCamera: 1
 --- !u!4 &506392973

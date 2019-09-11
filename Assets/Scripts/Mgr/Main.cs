@@ -27,8 +27,8 @@ public class Main : MonoBehaviour {
     }
     public static State state = State.Root;
 
-    static AudioSource bgm; //BGM
-    public AudioClip inferno; //とりあえず
+    static AudioSource bgm;
+    public AudioClip mainMusic;
 
     public bool isMultiDisplays = true;
     Camera camera1;
@@ -42,7 +42,7 @@ public class Main : MonoBehaviour {
         }
         DontDestroyOnLoad(this.gameObject);
         bgm = this.GetComponent<AudioSource>();
-        bgm.clip = inferno;
+        bgm.clip = mainMusic;
     }
 
     //タイトルへ
