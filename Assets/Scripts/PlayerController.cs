@@ -24,7 +24,7 @@ public class PlayerController : MonoBehaviour {
 
     public bool isVisibleBox = false; //isVisibleBoxを変更するならAwake
 
-    float maxhp;
+    public float maxhp = 100.0f;
     public float hp = 100.0f;
     public bool isDamaged = false;
     public bool isCriticaled = false; //開始時1フレームのみ
@@ -59,7 +59,7 @@ public class PlayerController : MonoBehaviour {
         //キャラの生成
         switch (myChara) {
             case MyChara.Sword:
-                characterIns = Instantiate(swordPref, playerNum == PlayerNum.player1? new Vector3(-10,0,0): new Vector3(10,0,0), new Quaternion(0, 0, 0, 0));
+                characterIns = Instantiate(swordPref, playerNum == PlayerNum.player1? new Vector3(-15,0,0): new Vector3(15,0,0), new Quaternion(0, 0, 0, 0));
                 character = characterIns.GetComponent<Sword>();
                 playerTf = characterIns.transform;
                 maxhp = Sword.maxhp;
@@ -91,7 +91,6 @@ public class PlayerController : MonoBehaviour {
             if (!preStateInfo.IsName("Start")) {
                 battleMgr.ChangeToneDouble(0.1f, CameraEffect.ToneName.reverseTone);
                 battleMgr.ZoomInOutDouble(0.05f);
-                //battleMgr.ChangeTimeScale(0.5f, 1.0f);
                 cameraEffect.Vibrate(0.8f, 2.0f);
             }
         }

@@ -11,7 +11,7 @@ public class RootMgr : MonoBehaviour {
         if (Main.Instance.isMultiDisplays) {
             StartMultiDisplays();
         }
-        Main.Init();
+        Main.Init(false);
     }
 
     //マルチディスプレイ

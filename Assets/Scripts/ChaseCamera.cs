@@ -65,7 +65,7 @@ public class ChaseCamera : MonoBehaviour {
             else { //近
                 if (cameraTf.position.x < enemyCameraTf.position.x) { //カメラ左
                     if (playerTf.position.x < cameraTf.position.x - chaseRange) { //左
-                        cameraTf.position = new Vector3(playerTf.position.x + chaseRange, cameraInitPos.y, cameraInitPos.z);
+                        cameraTf.position = new Vector3(playerTf.position.x + chaseRange, cameraInitPos.y + ((verticalRange < playerTf.position.y) ? playerTf.position.y - verticalRange : 0), cameraInitPos.z);
                         enemyCameraTf.position = new Vector3(cameraTf.position.x + chaseRange * 8, enemyCameraTf.position.y, cameraInitPos.z);
                     }
                     else if (enemyCameraTf.position.x + chaseRange < playerTf.position.x) { //右
@@ -82,7 +82,7 @@ public class ChaseCamera : MonoBehaviour {
                         cameraTf.position = new Vector3(enemyCameraTf.position.x + chaseRange * 8, enemyCameraTf.position.y, cameraInitPos.z);
                     }
                     else if (cameraTf.position.x + chaseRange < playerTf.position.x) { //右
-                        cameraTf.position = new Vector3(playerTf.position.x - chaseRange, cameraInitPos.y, cameraInitPos.z);
+                        cameraTf.position = new Vector3(playerTf.position.x - chaseRange, cameraInitPos.y + ((verticalRange < playerTf.position.y) ? playerTf.position.y - verticalRange : 0), cameraInitPos.z);
                         enemyCameraTf.position = new Vector3(cameraTf.position.x - chaseRange * 8, enemyCameraTf.position.y, cameraInitPos.z);
                     }
                     else { //真ん中

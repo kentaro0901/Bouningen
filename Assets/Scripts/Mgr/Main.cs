@@ -46,11 +46,16 @@ public class Main : MonoBehaviour {
     }
 
     //タイトルへ
-    public static void Init() {
+    public static void Init(bool isFade) {
         bgm.Stop();
         bgm.Play();
         state = State.Title;
-        SceneManager.LoadScene("Title");
+        if (isFade) {
+            FadeManager.Instance.LoadScene("Title", 0.5f);
+        }
+        else {
+            SceneManager.LoadScene("Title");
+        }
     }
 
     //カメラ
@@ -79,7 +84,7 @@ public class Main : MonoBehaviour {
 
         //F5でタイトルに戻る
         if (Input.GetKeyDown(KeyCode.F5)) {
-            Init();
+            Init(false);
         }
 
         //escで強制終了
