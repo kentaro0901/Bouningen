@@ -50,14 +50,8 @@ public class BattleMgr : MonoBehaviour {
         c1hpBar2.value = c2hpBar2.value = playerController2.hp / playerController2.maxhp;
     }
     private void ChangeCameraChaseMode() {
-        /*
-        transLeftD1.offsetMax = Vector2.right * (-Screen.width + Screen.width / 2 * fadeValue);
-        transRightD1.offsetMin = Vector2.right * (Screen.width - Screen.width / 2 * fadeValue);
-        transLeftD2.offsetMax = Vector2.right * (-Screen.width + Screen.width / 2 * fadeValue);
-        transRightD2.offsetMin = Vector2.right * (Screen.width - Screen.width / 2 * fadeValue);
-        */
         if (Main.Instance.isDynamicCamera) {
-            if (Mathf.Abs(camera1Tf.position.x - camera2Tf.position.x) < ChaseCamera.chaseRange * 8) { //近距離になったとき
+            if (Mathf.Abs(camera1Tf.position.x - camera2Tf.position.x) < ChaseCamera.chaseRange * 4) { //近距離になったとき
                 if (!ChaseCamera.isNear) {
                     chaseCamera1.NearCamera();
                     chaseCamera2.NearCamera();
@@ -67,7 +61,7 @@ public class BattleMgr : MonoBehaviour {
                 c2LFRTf.offsetMax = Vector2.zero;
                 c2RFRTf.offsetMin = Vector2.zero;
             }
-            if (Mathf.Abs(player1Tf.position.x - player2Tf.position.x) >= ChaseCamera.chaseRange * 10) { //遠距離
+            if (Mathf.Abs(player1Tf.position.x - player2Tf.position.x) >= ChaseCamera.chaseRange * 6) { //遠距離
                 if (ChaseCamera.isNear) {
                     chaseCamera1.FarCamera(player1Tf.position.x < player2Tf.position.x);
                     chaseCamera2.FarCamera(player1Tf.position.x >= player2Tf.position.x);
@@ -75,18 +69,18 @@ public class BattleMgr : MonoBehaviour {
                 if(player1Tf.position.x < player2Tf.position.x) {//1P左
                     c1LFRTf.offsetMax = Vector2.zero;
                     c1RFRTf.offsetMin = Vector2.right * -Screen.width / (Main.Instance.isMultiDisplays ? 20 : 40) 
-                        * Mathf.Min(1.0f, (Mathf.Abs(player1Tf.position.x - player2Tf.position.x) - ChaseCamera.chaseRange * 10) / (ChaseCamera.chaseRange * 20));
+                        * Mathf.Min(1.0f, (Mathf.Abs(player1Tf.position.x - player2Tf.position.x) - ChaseCamera.chaseRange * 6) / (ChaseCamera.chaseRange * 20));
                     c2LFRTf.offsetMax = Vector2.right * Screen.width / (Main.Instance.isMultiDisplays ? 20 : 40)
-                        * Mathf.Min(1.0f, (Mathf.Abs(player1Tf.position.x - player2Tf.position.x) - ChaseCamera.chaseRange * 10) / (ChaseCamera.chaseRange * 20));
+                        * Mathf.Min(1.0f, (Mathf.Abs(player1Tf.position.x - player2Tf.position.x) - ChaseCamera.chaseRange * 6) / (ChaseCamera.chaseRange * 20));
                     c2RFRTf.offsetMin = Vector2.zero;
                 }
                 else { //1P右
                     c1LFRTf.offsetMax = Vector2.right * Screen.width / (Main.Instance.isMultiDisplays ? 20 : 40)
-                        * Mathf.Min(1.0f, (Mathf.Abs(player1Tf.position.x - player2Tf.position.x) - ChaseCamera.chaseRange * 10) / (ChaseCamera.chaseRange * 20));
+                        * Mathf.Min(1.0f, (Mathf.Abs(player1Tf.position.x - player2Tf.position.x) - ChaseCamera.chaseRange * 6) / (ChaseCamera.chaseRange * 20));
                     c1RFRTf.offsetMin = Vector2.zero;
                     c2LFRTf.offsetMax = Vector2.zero;
                     c2RFRTf.offsetMin = Vector2.right * -Screen.width / (Main.Instance.isMultiDisplays ? 20 : 40)
-                        * Mathf.Min(1.0f, (Mathf.Abs(player1Tf.position.x - player2Tf.position.x) - ChaseCamera.chaseRange * 10) / (ChaseCamera.chaseRange * 20));
+                        * Mathf.Min(1.0f, (Mathf.Abs(player1Tf.position.x - player2Tf.position.x) - ChaseCamera.chaseRange * 6) / (ChaseCamera.chaseRange * 20));
                 }
               
             }

@@ -62,6 +62,7 @@ public class PlayerController : MonoBehaviour {
                 characterIns = Instantiate(swordPref, playerNum == PlayerNum.player1? new Vector3(-15,0,0): new Vector3(15,0,0), new Quaternion(0, 0, 0, 0));
                 character = characterIns.GetComponent<Sword>();
                 playerTf = characterIns.transform;
+                chaseCamera.playerTf = characterIns.transform;
                 maxhp = Sword.maxhp;
                 break;
             default:
@@ -72,7 +73,6 @@ public class PlayerController : MonoBehaviour {
     void Start() {
         //参照の取得
         hp = maxhp;
-        chaseCamera.playerTf = characterIns.transform;
         character.playerController = this;
         animator = characterIns.GetComponent<Animator>();
         enemyTf = enemyController.characterIns.transform;
@@ -105,6 +105,11 @@ public class PlayerController : MonoBehaviour {
             playerTf.position = new Vector3(playerTf.position.x, playerTf.position.y - (counter * 0.1f), 0);
             if (playerTf.position.y < 0.1f && playerTf.position.y != 0) {
                 playerTf.position = new Vector3(playerTf.position.x, 0, 0);
+            }
+        }
+        if (!stateInfo.IsName("Fall")) {
+            if (preStateInfo.IsName("Fall")) {
+                counter = 0;
             }
         }
         if (stateInfo.IsName("Landing")) {
@@ -140,14 +145,14 @@ public class PlayerController : MonoBehaviour {
                 counter = 0;
                 character.DownA();
             }
-            playerTf.position = new Vector3(playerTf.position.x, playerTf.position.y * 0.5f, 0);
-            if(playerTf.position.y < 0.1f && playerTf.position.y != 0) {
+            counter++;
+            playerTf.position = new Vector3(playerTf.position.x, playerTf.position.y - (counter * 0.2f), 0);
+            if (playerTf.position.y < 0.1f && playerTf.position.y != 0) {
                 playerTf.position = new Vector3(playerTf.position.x, 0, 0);
             }
             if(counter == 14) {
                 battleMgr.VibrateDouble(0.8f, 2.0f);
             }
-            counter++;
         }
         if (!stateInfo.IsName("DownA")) {
             if (preStateInfo.IsName("DownA")) {
@@ -159,18 +164,38 @@ public class PlayerController : MonoBehaviour {
         if (stateInfo.IsName("Critical")) {
             if (isCriticaled) {//1フレームだけ呼ばれる
                 playerTf.localScale = damageVector.x > 0 ? new Vector3(-1, 1, 1) : Vector3.one;
-                battleMgr.ChangeTimeScale(0.0f, 1.0f);
-                battleMgr.ChangeToneDouble(1.0f, ((int)playerNum == 2? CameraEffect.ToneName.redBlack: CameraEffect.ToneName.blueBlack));
+                battleMgr.ChangeTimeScale(0.0f, 0.5f);
+                battleMgr.ChangeToneDouble(0.5f, ((int)playerNum == 2? CameraEffect.ToneName.redBlack: CameraEffect.ToneName.blueBlack));
                 battleMgr.ZoomInOutDouble(0.1f);
                 isCriticaled = false;
+                counter = 0;
             }
             if(Time.timeScale == 1.0f) {
-                    playerTf.position += damageVector;
+                playerTf.position += damageVector;
+                counter++;
+                playerTf.position = new Vector3(playerTf.position.x, playerTf.position.y - (counter * 0.01f), 0);
+                if (playerTf.position.y < 0.1f && playerTf.position.y != 0) {
+                    playerTf.position = new Vector3(playerTf.position.x, 0, 0);
+                }
+            }
+        }
+        if (!stateInfo.IsName("Critical")) {
+            if (preStateInfo.IsName("Critical")) {
+                counter = 0;
             }
         }
         if (stateInfo.IsName("CriticalEnd")) {
+            if (!preStateInfo.IsName("CriticalEnd")) {
+                counter = 0;
+            }
+            counter++;
             playerTf.position += damageVector;
             damageVector = 0.9f * damageVector;
+        }
+        if (!stateInfo.IsName("CriticalEnd")) {
+            if (preStateInfo.IsName("CriticalEnd")) {
+                counter = 0;
+            }
         }
 
         animator.SetBool("isResistance", isResistance);//

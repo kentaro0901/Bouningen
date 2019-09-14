@@ -847,7 +847,7 @@ GameObject:
   - component: {fileID: 349861225}
   - component: {fileID: 349861224}
   m_Layer: 5
-  m_Name: Canvas4
+  m_Name: Frame2P
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1470,7 +1470,7 @@ GameObject:
   - component: {fileID: 789880912}
   - component: {fileID: 789880911}
   m_Layer: 5
-  m_Name: Canvas3
+  m_Name: Frame1P
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1697,7 +1697,7 @@ GameObject:
   - component: {fileID: 972152153}
   - component: {fileID: 972152150}
   m_Layer: 0
-  m_Name: Camera2
+  m_Name: Camera2P
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1717,6 +1717,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerTf: {fileID: 0}
   enemyCameraTf: {fileID: 1396387654}
+  c: 0
   verticalRange: 3
 --- !u!4 &972152153
 Transform:
@@ -2157,7 +2158,7 @@ GameObject:
   - component: {fileID: 1396387654}
   - component: {fileID: 1396387651}
   m_Layer: 0
-  m_Name: Camera1
+  m_Name: Camera1P
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2177,6 +2178,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerTf: {fileID: 0}
   enemyCameraTf: {fileID: 972152153}
+  c: 0
   verticalRange: 3
 --- !u!4 &1396387654
 Transform:
