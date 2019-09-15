@@ -198,12 +198,15 @@ public class PlayerController : MonoBehaviour {
             }
         }
 
-        animator.SetBool("isResistance", isResistance);//
-        if (isResistance) {
-            counter++;
-            animator.speed = 1.0f;
-            if(30 < counter) {
-                isResistance = false;
+        if (stateInfo.IsName("LimitBreak")) {
+            if (!preStateInfo.IsName("LimitBreak")) {
+                battleMgr.ChangeToneDouble(0.1f, CameraEffect.ToneName.reverseTone);
+            }
+        }
+        if (!stateInfo.IsName("LimitBreak")) {
+            if (preStateInfo.IsName("LimitBreak")) {
+                playerTf.position = new Vector3(playerTf.position.x, 0, playerTf.position.z);
+                //battleMgr.VibrateDouble(0.5f, 0.5f);
             }
         }
 
@@ -254,6 +257,7 @@ public class PlayerController : MonoBehaviour {
         animator.SetBool("isRight", 0 < playerTf.localScale.x);
         animator.SetBool("isWince", false);
         animator.SetBool("isCritical", isCriticaled);
+        animator.SetBool("isResistance", isResistance);
 
         prePos = playerTf.position;
         preStateInfo = stateInfo;

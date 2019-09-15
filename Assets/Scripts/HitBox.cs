@@ -18,8 +18,8 @@ public class HitBox : MonoBehaviour {
         }
         if (collision.gameObject.transform.parent != this.transform.parent && collision.gameObject.tag == "HitBox") { //鍔迫り合い
             Debug.Log("Resistance");
-            character.playerController.animator.speed = 0;//
-            character.Resistance();
+            //character.playerController.animator.speed = 0;//
+            //character.Resistance();
         }
     }
 }

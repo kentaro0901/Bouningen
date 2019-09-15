@@ -76,7 +76,7 @@ public abstract class Character : MonoBehaviour {
         }
     }
     public void Resistance() {
-        playerController.isResistance = true;
+        //playerController.isResistance = true;
     }
     public virtual void UpB() {
     }
