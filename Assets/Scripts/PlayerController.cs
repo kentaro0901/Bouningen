@@ -19,7 +19,7 @@ public class PlayerController : MonoBehaviour {
     }
     public MyChara myChara = MyChara.Sword;
     public GameObject swordPref;
-    GameObject characterIns;
+    public GameObject characterIns;
     Character character; //characterInsに付いてるSwordとか
 
     public bool isVisibleBox = false; //isVisibleBoxを変更するならAwake
@@ -52,7 +52,7 @@ public class PlayerController : MonoBehaviour {
     float xAxisD;
     float yAxisD;
     Vector3 prePos;
-    Vector3 vector;
+    Vector2 vector;
     public Vector3 damageVector = Vector3.zero;
 
     void Awake() { 
@@ -86,6 +86,7 @@ public class PlayerController : MonoBehaviour {
         yAxisD = Input.GetAxis("DPad_YAxis_" + (int)playerNum);
 
         stateInfo = animator.GetCurrentAnimatorStateInfo(0);
+
 
         if (stateInfo.IsName("Start")) {
             if (!preStateInfo.IsName("Start")) {
@@ -159,7 +160,6 @@ public class PlayerController : MonoBehaviour {
                 counter = 0;
             }
         }
-
 
         if (stateInfo.IsName("Critical")) {
             if (isCriticaled) {//1フレームだけ呼ばれる

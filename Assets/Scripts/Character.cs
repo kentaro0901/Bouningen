@@ -7,6 +7,7 @@ public abstract class Character : MonoBehaviour {
 
     public PlayerController playerController;
     Transform playerTf;
+    Transform enemyTf;
     public HitBox[] hitBox = new HitBox[5];
     public HurtBox hurtBox;
 
@@ -18,6 +19,7 @@ public abstract class Character : MonoBehaviour {
 
     protected void Start() {
         playerTf = playerController.playerTf;
+        enemyTf = playerController.enemyController.characterIns.transform;
         //プレイヤーカラーの設定
         switch (playerController.playerNum) { //インデックスでアクセスしないほうがよさそう
             case PlayerController.PlayerNum.player1:
@@ -44,10 +46,10 @@ public abstract class Character : MonoBehaviour {
     }
 
     //被ダメージ
-    public void Damaged(float damage, Vector3 vector, bool isCritical) {
+    public void Damaged(float damage, Vector2 vector, bool isCritical) {
         if (!playerController.isResistance) {
             playerController.hp -= damage;
-            playerController.damageVector = vector;
+            playerController.damageVector = new Vector2((enemyTf.position.x<playerTf.position.x)? vector.x: -vector.x, vector.y);
             if (playerController.isDamaged == false) {
                 playerController.isDamaged = true;
             }
@@ -58,22 +60,28 @@ public abstract class Character : MonoBehaviour {
     }
 
     public void LightningAttack() {
+        /*
         foreach (HitBox _hitbox in hitBox) {
             _hitbox.attack = 3.0f;
             _hitbox.vector = (playerTf.localScale.x > 0 ? Vector3.right : Vector3.left) * 3;
         }
+        */
     }
     public void SideA() {
+        /*
         foreach (HitBox _hitbox in hitBox) {
             _hitbox.attack = 5.0f;
             _hitbox.vector = (playerTf.localScale.x > 0 ? Vector3.right : Vector3.left) * 3;
         }
+        */
     }
     public void DownA() {
+        /*
         foreach (HitBox _hitbox in hitBox) {
             _hitbox.attack = 5.0f;
             _hitbox.vector = (playerTf.localScale.x > 0 ? Vector3.right : Vector3.left) *2;
         }
+        */
     }
     public void Resistance() {
         //playerController.isResistance = true;

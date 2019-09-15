@@ -6,7 +6,7 @@ public class HitBox : MonoBehaviour {
 
     public Character character;
     public float attack = 0.0f;
-    public Vector3 vector = Vector3.zero;
+    public Vector2 vector = Vector2.zero;
     public bool isCritical = false;
 
     void OnTriggerEnter2D(Collider2D collision) {
