@@ -188,7 +188,36 @@ public class PlayerController : MonoBehaviour {
             }
         }
         if (stateInfo.IsName("SideA_R")) {
-            animator.SetBool("isResistance", false);
+            if(playerNum == PlayerNum.player1) { //1P
+                if (!preStateInfo.IsName("SideA_R")) {
+                    battleMgr.resistCounter1P = 0;
+                }
+                if (Input.GetButton("ButtonA_" + (int)playerNum)) {
+                    battleMgr.resistCounter1P++;
+                }
+            }
+            else { //2P
+                if (!preStateInfo.IsName("SideA_R")) {
+                    battleMgr.resistCounter2P = 0;
+                }
+                if (Input.GetButton("ButtonA_" + (int)playerNum)) {
+                    battleMgr.resistCounter2P++;
+                }
+            }
+            
+        }
+        if (!stateInfo.IsName("SideA_R")) {
+            if (preStateInfo.IsName("SideA_R")) {
+                if(playerNum == PlayerNum.player1 && battleMgr.resistResult == BattleMgr.ResistResult.Critical1P) {
+                    animator.Play("Critical");
+                }
+                else if (playerNum == PlayerNum.player2 && battleMgr.resistResult == BattleMgr.ResistResult.Critical2P) {
+                    animator.Play("Critical");
+                }
+                else {
+
+                }
+            }
         }
 
         //地面判定（仮）
@@ -236,22 +265,8 @@ public class PlayerController : MonoBehaviour {
 
         animator.SetBool("isLand", playerTf.position.y <= 0);
         animator.SetBool("isRight", 0 < playerTf.localScale.x);
-        //animator.SetBool("isWince", false);
-        //animator.SetBool("isCritical", isCriticaled);
-        //animator.SetBool("isResistance", isResistance);
 
         prePos = playerTf.position;
         preStateInfo = stateInfo;
     }
-
-    /*
-    private void LateUpdate() {
-        if (isResistance) {
-            if (stateInfo.IsName("SideA")) {
-                animator.Play("SideA_R");
-            }
-            isResistance = false;
-        }      
-    }
-    */
 }

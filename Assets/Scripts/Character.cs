@@ -53,6 +53,9 @@ public abstract class Character : MonoBehaviour {
             playerController.animator.Play("Critical");
         }
     }
+    public void Resistance(Vector2 vector) {
+        playerController.damageVector = new Vector2((enemyTf.position.x < playerTf.position.x) ? vector.x : -vector.x, vector.y);
+    }
 
     public void LightningAttack() {
     }

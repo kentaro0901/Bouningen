@@ -25,6 +25,15 @@ public class BattleMgr : MonoBehaviour {
     [SerializeField] Slider c2hpBar1;
     [SerializeField] Slider c2hpBar2;
 
+    public int resistCounter1P = 0;
+    public int resistCounter2P = 0;
+    public enum ResistResult {
+        Critical1P,
+        Critical2P,
+        Wince
+    }
+    public ResistResult resistResult = ResistResult.Wince;
+
     float timeScaleSeconds = 0.0f;
 
     void Start() {
@@ -38,6 +47,7 @@ public class BattleMgr : MonoBehaviour {
 
     void Update() {
         UpdateUI();
+        ResistMgr();
         TimeScaleCountDown();
         ChangeCameraChaseMode();  
         if (Input.GetKeyDown(KeyCode.Space)) {//仮
@@ -48,6 +58,17 @@ public class BattleMgr : MonoBehaviour {
     private void UpdateUI() {
         c1hpBar1.value = c2hpBar1.value = playerController1.hp / playerController1.maxhp;
         c1hpBar2.value = c2hpBar2.value = playerController2.hp / playerController2.maxhp;
+    }
+    private void ResistMgr() {
+        if(resistCounter1P - resistCounter2P > 3) {
+            resistResult = ResistResult.Critical2P;
+        }
+        else if(resistCounter2P - resistCounter1P > 3) {
+            resistResult = ResistResult.Critical1P;
+        }
+        else {
+            resistResult = ResistResult.Wince;
+        }
     }
     private void ChangeCameraChaseMode() {
         if (Main.Instance.isDynamicCamera) {

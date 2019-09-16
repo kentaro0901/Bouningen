@@ -11,18 +11,20 @@ public class HitBox : MonoBehaviour {
     public bool isResist = false;
 
     void OnTriggerEnter2D(Collider2D collision) {
-        if(collision.gameObject.transform.parent != this.transform.parent && collision.gameObject.tag == "HurtBox") { //ヒット
+
+        //ヒット
+        if(collision.gameObject.transform.parent != this.transform.parent && collision.gameObject.tag == "HurtBox") {
             //Debug.Log("Hit");
             collision.gameObject.GetComponent<HurtBox>().character.Damaged(attack, vector, isCritical);
         }
-        if (collision.gameObject.transform.parent != this.transform.parent && collision.gameObject.tag == "HitBox" && isResist && collision.gameObject.GetComponent<HitBox>().isResist) { //鍔迫り合い
+
+        //鍔迫り合い
+        if (collision.gameObject.transform.parent != this.transform.parent && collision.gameObject.tag == "HitBox" && isResist && collision.gameObject.GetComponent<HitBox>().isResist) {
             //Debug.Log("Resistance");
+            collision.gameObject.GetComponent<HitBox>().character.Resistance(vector);
             if (character.playerController.stateInfo.IsName("SideA")) {
                 character.playerController.animator.Play("SideA_R");
             }
-            //character.playerController.isResistance = true;
-            //character.playerController.animator.Play("SideA_R");
-            //character.playerController.animator.SetBool("isResistance", true);
         }
     }
 }
