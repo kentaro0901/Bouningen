@@ -188,27 +188,22 @@ public class PlayerController : MonoBehaviour {
             }
         }
         if (stateInfo.IsName("SideA_R")) {
-            if(playerNum == PlayerNum.player1) { //1P
-                if (!preStateInfo.IsName("SideA_R")) {
-                    battleMgr.resistCounter1P = 0;
-                }
-                if (Input.GetButton("ButtonA_" + (int)playerNum)) {
-                    battleMgr.resistCounter1P++;
-                }
+            if (!preStateInfo.IsName("SideA_R")) { //
+                battleMgr.resistCounter1P = 0;
+                battleMgr.resistCounter2P = 0;
+                battleMgr.ChangeToneDouble(0.1f, CameraEffect.ToneName.reverseTone);
+                battleMgr.ZoomInOutDouble(0.1f);
             }
-            else { //2P
-                if (!preStateInfo.IsName("SideA_R")) {
-                    battleMgr.resistCounter2P = 0;
-                }
-                if (Input.GetButton("ButtonA_" + (int)playerNum)) {
-                    battleMgr.resistCounter2P++;
-                }
+            if (playerNum == PlayerNum.player1 && Input.GetButtonDown("ButtonA_" + (int)playerNum)) {
+                battleMgr.resistCounter1P++;
             }
-            
+            else if (Input.GetButtonDown("ButtonA_" + (int)playerNum)) {
+                battleMgr.resistCounter2P++;
+            }    
         }
         if (!stateInfo.IsName("SideA_R")) {
             if (preStateInfo.IsName("SideA_R")) {
-                if(playerNum == PlayerNum.player1 && battleMgr.resistResult == BattleMgr.ResistResult.Critical1P) {
+                if (playerNum == PlayerNum.player1 && battleMgr.resistResult == BattleMgr.ResistResult.Critical1P) {
                     animator.Play("Critical");
                 }
                 else if (playerNum == PlayerNum.player2 && battleMgr.resistResult == BattleMgr.ResistResult.Critical2P) {
