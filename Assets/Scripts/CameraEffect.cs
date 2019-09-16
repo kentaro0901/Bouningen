@@ -33,7 +33,7 @@ public class CameraEffect : MonoBehaviour {
     void OnRenderImage(RenderTexture src, RenderTexture dest) {
         Graphics.Blit(src, dest, material);
     }
-    private void Update() {
+    private void LateUpdate() {
         VibrateCountDown();
         ZoomCountDown();
         ToneCountDown();

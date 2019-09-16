@@ -15,10 +15,11 @@ public class PlayerController : MonoBehaviour {
     public PlayerNum playerNum;
     public enum MyChara {
         Sword,
-        Gun
+        Fighter
     }
     public MyChara myChara = MyChara.Sword;
     public GameObject swordPref;
+    public GameObject fighterPref;
     public GameObject characterIns;
     Character character; //characterInsに付いてるSwordとか
 
@@ -26,15 +27,14 @@ public class PlayerController : MonoBehaviour {
 
     public float maxhp = 100.0f;
     public float hp = 100.0f;
-    public bool isDamaged = false;
-    public bool isCriticaled = false; //開始時1フレームのみ
+    //public bool isDamaged = false;
+    //public bool isCriticaled = false; //開始時1フレームのみ
     public bool isResistance = false; //同上
 
     int counter = 0;
 
     public ChaseCamera chaseCamera;
     public CameraEffect cameraEffect;
-    public Slider hpBar;
 
     public Transform playerTf;
 
@@ -42,7 +42,7 @@ public class PlayerController : MonoBehaviour {
     public Transform enemyTf;
 
     AnimatorStateInfo preStateInfo;
-    AnimatorStateInfo stateInfo;
+    public AnimatorStateInfo stateInfo;
     public Animator animator;
 
     public float dashspeed;
@@ -59,15 +59,21 @@ public class PlayerController : MonoBehaviour {
         //キャラの生成
         switch (myChara) {
             case MyChara.Sword:
-                characterIns = Instantiate(swordPref, playerNum == PlayerNum.player1? new Vector3(-15,0,0): new Vector3(15,0,0), new Quaternion(0, 0, 0, 0));
+                characterIns = Instantiate(swordPref, playerNum == PlayerNum.player1 ? new Vector3(-15,0,0): new Vector3(15,0,0), new Quaternion(0, 0, 0, 0));
                 character = characterIns.GetComponent<Sword>();
-                playerTf = characterIns.transform;
-                chaseCamera.playerTf = characterIns.transform;
                 maxhp = Sword.maxhp;
+                break;
+            case MyChara.Fighter:
+                characterIns = Instantiate(fighterPref, playerNum == PlayerNum.player1 ? new Vector3(-15, 0, 0) : new Vector3(15, 0, 0), new Quaternion(0, 0, 0, 0));
+                character = characterIns.GetComponent<Fighter>();
+                maxhp = Fighter.maxhp;
                 break;
             default:
                 break;
         }
+
+        playerTf = characterIns.transform;
+        chaseCamera.playerTf = characterIns.transform;
     }
 
     void Start() {
@@ -80,14 +86,21 @@ public class PlayerController : MonoBehaviour {
 
     void Update() {
         vector = playerTf.position - prePos;
-        hpBar.value = hp / maxhp;
 
         xAxisD = Input.GetAxis("DPad_XAxis_" + (int)playerNum);
         yAxisD = Input.GetAxis("DPad_YAxis_" + (int)playerNum);
 
         stateInfo = animator.GetCurrentAnimatorStateInfo(0);
 
+        //カウンターリセット
+        if (stateInfo.fullPathHash != preStateInfo.fullPathHash) {
+            counter = 0;
+        }
 
+        //状態分岐
+        if (stateInfo.fullPathHash == Animator.StringToHash("Base Layer.Idle")){
+            //Debug.Log("Idle");
+        }
         if (stateInfo.IsName("Start")) {
             if (!preStateInfo.IsName("Start")) {
                 battleMgr.ChangeToneDouble(0.1f, CameraEffect.ToneName.reverseTone);
@@ -99,18 +112,10 @@ public class PlayerController : MonoBehaviour {
             playerTf.position += Vector3.right * dashspeed * xAxisD;
         }
         if (stateInfo.IsName("Fall")) {
-            if (!preStateInfo.IsName("Fall")) {
-                counter = 0;
-            }
             counter++;
             playerTf.position = new Vector3(playerTf.position.x, playerTf.position.y - (counter * 0.1f), 0);
             if (playerTf.position.y < 0.1f && playerTf.position.y != 0) {
                 playerTf.position = new Vector3(playerTf.position.x, 0, 0);
-            }
-        }
-        if (!stateInfo.IsName("Fall")) {
-            if (preStateInfo.IsName("Fall")) {
-                counter = 0;
             }
         }
         if (stateInfo.IsName("Landing")) {
@@ -142,10 +147,6 @@ public class PlayerController : MonoBehaviour {
             }
         }
         if (stateInfo.IsName("DownA")) {
-            if (!preStateInfo.IsName("DownA")) {
-                counter = 0;
-                character.DownA();
-            }
             counter++;
             playerTf.position = new Vector3(playerTf.position.x, playerTf.position.y - (counter * 0.2f), 0);
             if (playerTf.position.y < 0.1f && playerTf.position.y != 0) {
@@ -155,20 +156,12 @@ public class PlayerController : MonoBehaviour {
                 battleMgr.VibrateDouble(0.8f, 2.0f);
             }
         }
-        if (!stateInfo.IsName("DownA")) {
-            if (preStateInfo.IsName("DownA")) {
-                counter = 0;
-            }
-        }
-
         if (stateInfo.IsName("Critical")) {
-            if (isCriticaled) {//1フレームだけ呼ばれる
+            if (!preStateInfo.IsName("Critical")) {
                 playerTf.localScale = damageVector.x > 0 ? new Vector3(-1, 1, 1) : Vector3.one;
                 battleMgr.ChangeTimeScale(0.0f, 0.5f);
-                battleMgr.ChangeToneDouble(0.5f, ((int)playerNum == 2? CameraEffect.ToneName.redBlack: CameraEffect.ToneName.blueBlack));
+                battleMgr.ChangeToneDouble(0.5f, ((int)playerNum == 2 ? CameraEffect.ToneName.redBlack : CameraEffect.ToneName.blueBlack));
                 battleMgr.ZoomInOutDouble(0.1f);
-                isCriticaled = false;
-                counter = 0;
             }
             if(Time.timeScale == 1.0f) {
                 playerTf.position += damageVector;
@@ -179,25 +172,11 @@ public class PlayerController : MonoBehaviour {
                 }
             }
         }
-        if (!stateInfo.IsName("Critical")) {
-            if (preStateInfo.IsName("Critical")) {
-                counter = 0;
-            }
-        }
         if (stateInfo.IsName("CriticalEnd")) {
-            if (!preStateInfo.IsName("CriticalEnd")) {
-                counter = 0;
-            }
             counter++;
             playerTf.position += damageVector;
             damageVector = 0.9f * damageVector;
         }
-        if (!stateInfo.IsName("CriticalEnd")) {
-            if (preStateInfo.IsName("CriticalEnd")) {
-                counter = 0;
-            }
-        }
-
         if (stateInfo.IsName("LimitBreak")) {
             if (!preStateInfo.IsName("LimitBreak")) {
                 battleMgr.ChangeToneDouble(0.1f, CameraEffect.ToneName.reverseTone);
@@ -206,8 +185,10 @@ public class PlayerController : MonoBehaviour {
         if (!stateInfo.IsName("LimitBreak")) {
             if (preStateInfo.IsName("LimitBreak")) {
                 playerTf.position = new Vector3(playerTf.position.x, 0, playerTf.position.z);
-                //battleMgr.VibrateDouble(0.5f, 0.5f);
             }
+        }
+        if (stateInfo.IsName("SideA_R")) {
+            animator.SetBool("isResistance", false);
         }
 
         //地面判定（仮）
@@ -255,11 +236,22 @@ public class PlayerController : MonoBehaviour {
 
         animator.SetBool("isLand", playerTf.position.y <= 0);
         animator.SetBool("isRight", 0 < playerTf.localScale.x);
-        animator.SetBool("isWince", false);
-        animator.SetBool("isCritical", isCriticaled);
-        animator.SetBool("isResistance", isResistance);
+        //animator.SetBool("isWince", false);
+        //animator.SetBool("isCritical", isCriticaled);
+        //animator.SetBool("isResistance", isResistance);
 
         prePos = playerTf.position;
         preStateInfo = stateInfo;
     }
+
+    /*
+    private void LateUpdate() {
+        if (isResistance) {
+            if (stateInfo.IsName("SideA")) {
+                animator.Play("SideA_R");
+            }
+            isResistance = false;
+        }      
+    }
+    */
 }

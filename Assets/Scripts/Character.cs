@@ -47,44 +47,20 @@ public abstract class Character : MonoBehaviour {
 
     //被ダメージ
     public void Damaged(float damage, Vector2 vector, bool isCritical) {
-        if (!playerController.isResistance) {
-            playerController.hp -= damage;
-            playerController.damageVector = new Vector2((enemyTf.position.x<playerTf.position.x)? vector.x: -vector.x, vector.y);
-            if (playerController.isDamaged == false) {
-                playerController.isDamaged = true;
-            }
-            if (isCritical && playerController.isCriticaled == false) {
-                playerController.isCriticaled = true;
-            }
-        }   
+        playerController.hp -= damage;
+        playerController.damageVector = new Vector2((enemyTf.position.x < playerTf.position.x) ? vector.x : -vector.x, vector.y);
+        if (isCritical) {
+            playerController.animator.Play("Critical");
+        }
     }
 
     public void LightningAttack() {
-        /*
-        foreach (HitBox _hitbox in hitBox) {
-            _hitbox.attack = 3.0f;
-            _hitbox.vector = (playerTf.localScale.x > 0 ? Vector3.right : Vector3.left) * 3;
-        }
-        */
     }
     public void SideA() {
-        /*
-        foreach (HitBox _hitbox in hitBox) {
-            _hitbox.attack = 5.0f;
-            _hitbox.vector = (playerTf.localScale.x > 0 ? Vector3.right : Vector3.left) * 3;
-        }
-        */
     }
     public void DownA() {
-        /*
-        foreach (HitBox _hitbox in hitBox) {
-            _hitbox.attack = 5.0f;
-            _hitbox.vector = (playerTf.localScale.x > 0 ? Vector3.right : Vector3.left) *2;
-        }
-        */
     }
     public void Resistance() {
-        //playerController.isResistance = true;
     }
     public virtual void UpB() {
     }

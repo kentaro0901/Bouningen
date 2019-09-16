@@ -154,15 +154,15 @@ MonoBehaviour:
   myChara: 0
   swordPref: {fileID: 6487946451456971819, guid: 72729bf2e36f83c4284b0850981aeadf,
     type: 3}
+  fighterPref: {fileID: 6868318756716019806, guid: ce77b01e4fdd0d940b83d2116b916326,
+    type: 3}
+  characterIns: {fileID: 0}
   isVisibleBox: 1
   maxhp: 0
   hp: 100
   isDamaged: 0
-  isCriticaled: 0
-  isResistance: 0
   chaseCamera: {fileID: 1396387651}
   cameraEffect: {fileID: 1687828439}
-  hpBar: {fileID: 767620463}
   playerTf: {fileID: 0}
   enemyController: {fileID: 1288113352}
   enemyTf: {fileID: 0}
@@ -1320,6 +1320,7 @@ GameObject:
   m_Component:
   - component: {fileID: 725891896}
   - component: {fileID: 725891897}
+  - component: {fileID: 725891898}
   m_Layer: 0
   m_Name: BattleMgr
   m_TagString: Untagged
@@ -1367,6 +1368,18 @@ MonoBehaviour:
   c1hpBar2: {fileID: 279284787}
   c2hpBar1: {fileID: 1885723015}
   c2hpBar2: {fileID: 1479420745}
+--- !u!114 &725891898
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 725891895}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c9d9919163f46944faf465a13aa8d7d4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &767620461
 GameObject:
   m_ObjectHideFlags: 0
@@ -2130,15 +2143,15 @@ MonoBehaviour:
   myChara: 0
   swordPref: {fileID: 6487946451456971819, guid: 72729bf2e36f83c4284b0850981aeadf,
     type: 3}
+  fighterPref: {fileID: 6868318756716019806, guid: ce77b01e4fdd0d940b83d2116b916326,
+    type: 3}
+  characterIns: {fileID: 0}
   isVisibleBox: 1
   maxhp: 0
   hp: 100
   isDamaged: 0
-  isCriticaled: 0
-  isResistance: 0
   chaseCamera: {fileID: 972152150}
   cameraEffect: {fileID: 886981722}
-  hpBar: {fileID: 1479420745}
   playerTf: {fileID: 0}
   enemyController: {fileID: 2320028}
   enemyTf: {fileID: 0}

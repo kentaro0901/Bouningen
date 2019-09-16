@@ -30,10 +30,11 @@ public class Main : MonoBehaviour {
     static AudioSource bgm;
     public AudioClip mainMusic;
 
-    public bool isMultiDisplays = true;
     Camera camera1;
     Camera camera2;
+    public bool isMultiDisplays = true;
     public bool isDynamicCamera = false;
+    public float cameraSize = 5.0f;
 
     void Awake() {
         if (this != Instance) { //２つ目以降のインスタンスは破棄
@@ -65,18 +66,18 @@ public class Main : MonoBehaviour {
         if (Main.Instance.isMultiDisplays) { //マルチディスプレイ
             Main.Instance.camera1.rect = new Rect(0, 0, 1, 1);
             Main.Instance.camera1.targetDisplay = 0;
-            Main.Instance.camera1.orthographicSize = 5;
+            Main.Instance.camera1.orthographicSize = Main.instance.cameraSize;
             Main.Instance.camera2.rect = new Rect(0, 0, 1, 1);
             Main.Instance.camera2.targetDisplay = 1;
-            Main.Instance.camera2.orthographicSize = 5;
+            Main.Instance.camera2.orthographicSize = Main.instance.cameraSize;
         }
         else { //シングルディスプレイ
             Main.Instance.camera1.rect = new Rect(0, 0, 0.5f, 1);
             Main.Instance.camera1.targetDisplay = 0;
-            Main.Instance.camera1.orthographicSize = 7;
+            Main.Instance.camera1.orthographicSize = Main.instance.cameraSize;
             Main.Instance.camera2.rect = new Rect(0.5f, 0, 0.5f, 1);
             Main.Instance.camera2.targetDisplay = 0;
-            Main.Instance.camera2.orthographicSize = 7;
+            Main.Instance.camera2.orthographicSize = Main.instance.cameraSize;
         }
     }
 
