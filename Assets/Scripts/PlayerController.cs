@@ -192,7 +192,7 @@ public class PlayerController : MonoBehaviour {
                 battleMgr.VibrateDouble(1.5f, 2.0f);
                 battleMgr.ChangeToneDouble(0.16f, CameraEffect.ToneName.whiteWhite);
             }
-            if (counter == 70) {
+            if (counter == 75) {
                 battleMgr.ChangeToneDouble(0.7f, CameraEffect.ToneName.reverseTone);
             }
         }
