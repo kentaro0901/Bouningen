@@ -9,10 +9,14 @@ public class CameraEffect : MonoBehaviour {
     public Material redBlack;
     public Material blueBlack;
     public Material reverseTone;
+    public Material whiteWhite;
+    public Material blackBlack;
     public enum ToneName {
         redBlack,
         blueBlack,
-        reverseTone
+        reverseTone,
+        whiteWhite,
+        blackBlack
     }
     public static ToneName toneName = ToneName.redBlack;
     float postEffectSeconds = 0.0f;
@@ -83,6 +87,8 @@ public class CameraEffect : MonoBehaviour {
                 case ToneName.redBlack: material = redBlack;  break;
                 case ToneName.blueBlack: material = blueBlack; break;
                 case ToneName.reverseTone: material = reverseTone; break;
+                case ToneName.whiteWhite: material = whiteWhite; break;
+                case ToneName.blackBlack: material = blackBlack; break;
             }
             postEffectSeconds -= Time.unscaledDeltaTime;
         }

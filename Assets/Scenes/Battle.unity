@@ -293,7 +293,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0.25}
   m_AnchorMax: {x: 1, y: 0.75}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: -10, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &146283275
 GameObject:
@@ -330,7 +330,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 10, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &146283277
 MonoBehaviour:
@@ -971,7 +971,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 10, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &433439537
 MonoBehaviour:
@@ -1138,7 +1138,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mainMusic: {fileID: 0}
-  isMultiDisplays: 0
+  isMultiDisplays: 1
   isDynamicCamera: 1
   cameraSize: 5
 --- !u!4 &495413259
@@ -1198,7 +1198,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 10, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &536312956
 MonoBehaviour:
@@ -1321,7 +1321,6 @@ GameObject:
   m_Component:
   - component: {fileID: 725891896}
   - component: {fileID: 725891897}
-  - component: {fileID: 725891898}
   m_Layer: 0
   m_Name: BattleMgr
   m_TagString: Untagged
@@ -1372,18 +1371,6 @@ MonoBehaviour:
   resistCounter1P: 0
   resistCounter2P: 0
   resistResult: 2
---- !u!114 &725891898
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 725891895}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c9d9919163f46944faf465a13aa8d7d4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &767620461
 GameObject:
   m_ObjectHideFlags: 0
@@ -1610,6 +1597,8 @@ MonoBehaviour:
   redBlack: {fileID: 2100000, guid: 2017df84ea5423746a36693e7c7c5979, type: 2}
   blueBlack: {fileID: 2100000, guid: dcdb9a84de516b846b6f9fd8cd24b3ac, type: 2}
   reverseTone: {fileID: 2100000, guid: 280c7f48aa9abc7479767f06b678d647, type: 2}
+  whiteWhite: {fileID: 2100000, guid: acb6e21ccbbe8144e83d8926c2892b9a, type: 2}
+  blackBlack: {fileID: 2100000, guid: 41d49a1d423468d468e281cec2be65d0, type: 2}
 --- !u!20 &886981724
 Camera:
   m_ObjectHideFlags: 0
@@ -1701,7 +1690,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0.25}
   m_AnchorMax: {x: 1, y: 0.75}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: -10, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &972152149
 GameObject:
@@ -2336,7 +2325,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0.25}
   m_AnchorMax: {x: 1, y: 0.75}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: -10, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1687828438
 GameObject:
@@ -2372,6 +2361,8 @@ MonoBehaviour:
   redBlack: {fileID: 2100000, guid: 2017df84ea5423746a36693e7c7c5979, type: 2}
   blueBlack: {fileID: 2100000, guid: dcdb9a84de516b846b6f9fd8cd24b3ac, type: 2}
   reverseTone: {fileID: 2100000, guid: 280c7f48aa9abc7479767f06b678d647, type: 2}
+  whiteWhite: {fileID: 2100000, guid: acb6e21ccbbe8144e83d8926c2892b9a, type: 2}
+  blackBlack: {fileID: 2100000, guid: 41d49a1d423468d468e281cec2be65d0, type: 2}
 --- !u!20 &1687828441
 Camera:
   m_ObjectHideFlags: 0
@@ -2464,7 +2455,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 10, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1703436060
 MonoBehaviour:
@@ -2537,7 +2528,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0.25}
   m_AnchorMax: {x: 1, y: 0.75}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: -10, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1717283160
 GameObject:

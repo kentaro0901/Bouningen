@@ -98,8 +98,8 @@ public class PlayerController : MonoBehaviour {
         }
 
         //状態分岐
-        if (stateInfo.fullPathHash == Animator.StringToHash("Base Layer.Idle")){
-            //Debug.Log("Idle");
+        if (stateInfo.fullPathHash == Animator.StringToHash("Base Layer.Side.SideA")){
+            Debug.Log("SideA");
         }
         if (stateInfo.IsName("Start")) {
             if (!preStateInfo.IsName("Start")) {
@@ -180,6 +180,20 @@ public class PlayerController : MonoBehaviour {
         if (stateInfo.IsName("LimitBreak")) {
             if (!preStateInfo.IsName("LimitBreak")) {
                 battleMgr.ChangeToneDouble(0.1f, CameraEffect.ToneName.reverseTone);
+            }
+            counter++;
+            if(counter == 20) {
+                battleMgr.VibrateDouble(0.8f, 1.0f);              
+            }
+            if (counter == 40) {
+                battleMgr.ChangeToneDouble(0.1f, CameraEffect.ToneName.reverseTone);
+            }
+            if (counter == 60) {
+                battleMgr.VibrateDouble(1.5f, 2.0f);
+                battleMgr.ChangeToneDouble(0.16f, CameraEffect.ToneName.whiteWhite);
+            }
+            if (counter == 70) {
+                battleMgr.ChangeToneDouble(0.7f, CameraEffect.ToneName.reverseTone);
             }
         }
         if (!stateInfo.IsName("LimitBreak")) {
