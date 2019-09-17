@@ -157,10 +157,8 @@ MonoBehaviour:
   fighterPref: {fileID: 6868318756716019806, guid: ce77b01e4fdd0d940b83d2116b916326,
     type: 3}
   characterIns: {fileID: 0}
-  isVisibleBox: 1
   maxhp: 0
   hp: 100
-  isResistance: 0
   chaseCamera: {fileID: 1396387651}
   cameraEffect: {fileID: 1687828439}
   playerTf: {fileID: 0}
@@ -1141,6 +1139,7 @@ MonoBehaviour:
   isMultiDisplays: 1
   isDynamicCamera: 1
   cameraSize: 5
+  isVisibleBox: 1
 --- !u!4 &495413259
 Transform:
   m_ObjectHideFlags: 0
@@ -1213,7 +1212,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0.20392156, b: 0.34459668, a: 1}
+  m_Color: {r: 0.9490197, g: 0.25882354, b: 0.19215688, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -2139,10 +2138,8 @@ MonoBehaviour:
   fighterPref: {fileID: 6868318756716019806, guid: ce77b01e4fdd0d940b83d2116b916326,
     type: 3}
   characterIns: {fileID: 0}
-  isVisibleBox: 1
   maxhp: 0
   hp: 100
-  isResistance: 0
   chaseCamera: {fileID: 972152150}
   cameraEffect: {fileID: 886981722}
   playerTf: {fileID: 0}
@@ -2470,7 +2467,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.3254717, g: 0.5050947, b: 1, a: 1}
+  m_Color: {r: 0.20392159, g: 0.45098042, b: 0.9607844, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:

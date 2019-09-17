@@ -23,13 +23,8 @@ public class PlayerController : MonoBehaviour {
     public GameObject characterIns;
     Character character; //characterInsに付いてるSwordとか
 
-    public bool isVisibleBox = false; //isVisibleBoxを変更するならAwake
-
     public float maxhp = 100.0f;
     public float hp = 100.0f;
-    //public bool isDamaged = false;
-    //public bool isCriticaled = false; //開始時1フレームのみ
-    public bool isResistance = false; //同上
 
     int counter = 0;
 
@@ -54,6 +49,8 @@ public class PlayerController : MonoBehaviour {
     Vector3 prePos;
     Vector2 vector;
     public Vector3 damageVector = Vector3.zero;
+
+    //bool isLimitBreak = false;
 
     void Awake() { 
         //キャラの生成
@@ -99,12 +96,14 @@ public class PlayerController : MonoBehaviour {
 
         //状態分岐
         if (stateInfo.fullPathHash == Animator.StringToHash("Base Layer.Side.SideA")){
-            Debug.Log("SideA");
+            if(counter == 0) {
+                Debug.Log("SideA");
+            }
         }
         if (stateInfo.IsName("Start")) {
-            if (!preStateInfo.IsName("Start")) {
+            if (counter == 0) {
                 battleMgr.ChangeToneDouble(0.1f, CameraEffect.ToneName.reverseTone);
-                battleMgr.ZoomInOutDouble(0.05f);
+                battleMgr.ZoomInOutDouble(0.1f);
                 cameraEffect.Vibrate(0.8f, 2.0f);
             }
         }
@@ -112,42 +111,37 @@ public class PlayerController : MonoBehaviour {
             playerTf.position += Vector3.right * dashspeed * xAxisD;
         }
         if (stateInfo.IsName("Fall")) {
-            counter++;
             playerTf.position = new Vector3(playerTf.position.x, playerTf.position.y - (counter * 0.1f), 0);
             if (playerTf.position.y < 0.1f && playerTf.position.y != 0) {
                 playerTf.position = new Vector3(playerTf.position.x, 0, 0);
             }
         }
         if (stateInfo.IsName("Landing")) {
-            if (!preStateInfo.IsName("Landing")) {
+            if (counter == 0) {
                 battleMgr.VibrateDouble(0.5f, 0.5f);
             }
         }
         if (stateInfo.IsName("LightningStart")) {
-            if (!preStateInfo.IsName("LightningStart")) {
+            if (counter == 0) {
                 battleMgr.ChangeToneDouble(0.1f, CameraEffect.ToneName.reverseTone);
                 playerTf.localScale = enemyTf.position.x > playerTf.position.x ? Vector3.one : new Vector3(-1, 1, 1);
             }
         }
         if (stateInfo.IsName("Lightning")) {
-            if (!preStateInfo.IsName("Lightning")) {
+            if (counter == 0) {
                 battleMgr.VibrateDouble(0.8f, 1.0f);
             }
             playerTf.position += (enemyTf.position + 3 * (enemyTf.position.x > playerTf.position.x ? Vector3.left : Vector3.right) - playerTf.position) / 2; //相手の3m前に移動
             playerTf.localScale = enemyTf.position.x > playerTf.position.x ? Vector3.one : new Vector3(-1, 1, 1);
         }
         if (stateInfo.IsName("LightningAttack")) {
-            if (!preStateInfo.IsName("LightningAttack")) {
+            if (counter == 0) {
                 character.LightningAttack();
             }
         }
         if (stateInfo.IsName("SideA")) {
-            if (!preStateInfo.IsName("SideA")) {
-                character.SideA();
-            }
         }
         if (stateInfo.IsName("DownA")) {
-            counter++;
             playerTf.position = new Vector3(playerTf.position.x, playerTf.position.y - (counter * 0.2f), 0);
             if (playerTf.position.y < 0.1f && playerTf.position.y != 0) {
                 playerTf.position = new Vector3(playerTf.position.x, 0, 0);
@@ -157,7 +151,7 @@ public class PlayerController : MonoBehaviour {
             }
         }
         if (stateInfo.IsName("Critical")) {
-            if (!preStateInfo.IsName("Critical")) {
+            if (counter == 0) {
                 playerTf.localScale = damageVector.x > 0 ? new Vector3(-1, 1, 1) : Vector3.one;
                 battleMgr.ChangeTimeScale(0.0f, 0.5f);
                 battleMgr.ChangeToneDouble(0.5f, ((int)playerNum == 2 ? CameraEffect.ToneName.redBlack : CameraEffect.ToneName.blueBlack));
@@ -165,7 +159,6 @@ public class PlayerController : MonoBehaviour {
             }
             if(Time.timeScale == 1.0f) {
                 playerTf.position += damageVector;
-                counter++;
                 playerTf.position = new Vector3(playerTf.position.x, playerTf.position.y - (counter * 0.01f), 0);
                 if (playerTf.position.y < 0.1f && playerTf.position.y != 0) {
                     playerTf.position = new Vector3(playerTf.position.x, 0, 0);
@@ -173,15 +166,13 @@ public class PlayerController : MonoBehaviour {
             }
         }
         if (stateInfo.IsName("CriticalEnd")) {
-            counter++;
             playerTf.position += damageVector;
             damageVector = 0.9f * damageVector;
         }
         if (stateInfo.IsName("LimitBreak")) {
-            if (!preStateInfo.IsName("LimitBreak")) {
+            if (counter == 0) {
                 battleMgr.ChangeToneDouble(0.1f, CameraEffect.ToneName.reverseTone);
             }
-            counter++;
             if(counter == 20) {
                 battleMgr.VibrateDouble(0.8f, 1.0f);              
             }
@@ -199,10 +190,11 @@ public class PlayerController : MonoBehaviour {
         if (!stateInfo.IsName("LimitBreak")) {
             if (preStateInfo.IsName("LimitBreak")) {
                 playerTf.position = new Vector3(playerTf.position.x, 0, playerTf.position.z);
+                animator.speed = 1.2f;
             }
         }
         if (stateInfo.IsName("SideA_R")) {
-            if (!preStateInfo.IsName("SideA_R")) { //
+            if (counter == 0) { //
                 battleMgr.resistCounter1P = 0;
                 battleMgr.resistCounter2P = 0;
                 battleMgr.ChangeToneDouble(0.1f, CameraEffect.ToneName.reverseTone);
@@ -275,6 +267,7 @@ public class PlayerController : MonoBehaviour {
         animator.SetBool("isLand", playerTf.position.y <= 0);
         animator.SetBool("isRight", 0 < playerTf.localScale.x);
 
+        counter++;
         prePos = playerTf.position;
         preStateInfo = stateInfo;
     }

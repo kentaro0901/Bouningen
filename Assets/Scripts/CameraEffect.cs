@@ -27,20 +27,22 @@ public class CameraEffect : MonoBehaviour {
     float zoomOutSeconds = 0.0f;
     Transform tf;
     Vector3 iniPos;
+    Camera _camera;
 
     private void Start() {
         tf = this.transform;
         iniPos = tf.localPosition;
         material = NormalTone;
+        _camera = this.GetComponent<Camera>();
     }
 
     void OnRenderImage(RenderTexture src, RenderTexture dest) {
         Graphics.Blit(src, dest, material);
     }
     private void LateUpdate() {
-        VibrateCountDown();
-        ZoomCountDown();
-        ToneCountDown();
+        if(0 != vibrateSeconds) VibrateCountDown();
+        if(0 != zoomOutSeconds) ZoomCountDown();
+        if(0 != postEffectSeconds) ToneCountDown();
     }
 
     public void Vibrate(float seconds, float range) {
@@ -64,16 +66,19 @@ public class CameraEffect : MonoBehaviour {
     }
     private void ZoomCountDown() {
         if (zoomInSeconds > 0) {
-            tf.localPosition = iniPos + new Vector3(0, -2.0f, 8.0f);
+            tf.localPosition = iniPos + new Vector3(0, -2.0f, 0f);
+            _camera.orthographicSize = Main.Instance.cameraSize - 4;
             zoomInSeconds -= Time.unscaledDeltaTime;
         }
         else if (zoomOutSeconds > 0) {
             zoomInSeconds = 0.0f;
-            tf.localPosition = iniPos + new Vector3(0, -2.0f, -10.0f);
+            tf.localPosition = iniPos;
+            _camera.orthographicSize = Main.Instance.cameraSize + 4;
             zoomOutSeconds -= Time.unscaledDeltaTime;
         }
         else {
             zoomOutSeconds = 0.0f;
+            _camera.orthographicSize = Main.Instance.cameraSize;
         }
     }
 

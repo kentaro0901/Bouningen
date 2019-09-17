@@ -35,6 +35,7 @@ public class Main : MonoBehaviour {
     public bool isMultiDisplays = true;
     public bool isDynamicCamera = false;
     public float cameraSize = 5.0f;
+    public bool isVisibleBox = false;
 
     void Awake() {
         if (this != Instance) { //２つ目以降のインスタンスは破棄

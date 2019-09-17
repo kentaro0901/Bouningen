@@ -24,25 +24,28 @@ public abstract class Character : MonoBehaviour {
         switch (playerController.playerNum) { //インデックスでアクセスしないほうがよさそう
             case PlayerController.PlayerNum.player1:
                 playerTf.gameObject.GetComponent<SpriteRenderer>().material = white;
-                playerTf.GetChild(6).gameObject.GetComponent<SpriteRenderer>().material = red; break;
+                playerTf.GetChild(6).gameObject.GetComponent<SpriteRenderer>().material = red;
+                playerTf.GetChild(7).gameObject.GetComponent<SpriteRenderer>().material = red; break;
             case PlayerController.PlayerNum.player2:
                 playerTf.gameObject.GetComponent<SpriteRenderer>().material = black;
-                playerTf.GetChild(6).gameObject.GetComponent<SpriteRenderer>().material = blue; break;
+                playerTf.GetChild(6).gameObject.GetComponent<SpriteRenderer>().material = blue;
+                playerTf.GetChild(7).gameObject.GetComponent<SpriteRenderer>().material = blue; break;
             default:
                 playerTf.gameObject.GetComponent<SpriteRenderer>().material = white;
-                playerTf.GetChild(6).gameObject.GetComponent<SpriteRenderer>().material = red; break;
+                playerTf.GetChild(6).gameObject.GetComponent<SpriteRenderer>().material = red;
+                playerTf.GetChild(7).gameObject.GetComponent<SpriteRenderer>().material = red; break;
         }
 
         //Boxの参照
         hitBox = this.gameObject.GetComponentsInChildren<HitBox>();
         foreach (HitBox _hitbox in hitBox) {
             _hitbox.character = this;
-            _hitbox.gameObject.GetComponent<SpriteRenderer>().material = playerController.isVisibleBox ? red : clear;
+            _hitbox.gameObject.GetComponent<SpriteRenderer>().material = Main.Instance.isVisibleBox ? red : clear;
             _hitbox.gameObject.SetActive(false);
         }   
         hurtBox = this.gameObject.GetComponentInChildren<HurtBox>();
         hurtBox.character = this;
-        hurtBox.gameObject.GetComponent<SpriteRenderer>().material = playerController.isVisibleBox ? blue : clear;
+        hurtBox.gameObject.GetComponent<SpriteRenderer>().material = Main.Instance.isVisibleBox ? blue : clear;
     }
 
     //被ダメージ
