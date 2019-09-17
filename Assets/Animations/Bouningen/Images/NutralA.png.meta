@@ -1,7 +1,79 @@
 fileFormatVersion: 2
-guid: f7eb68f2975f0124192951a3ce123f6d
+guid: 5594138a9bd4a054397f3d08affd4da6
 TextureImporter:
-  internalIDToNameTable: []
+  internalIDToNameTable:
+  - first:
+      213: 1757850149046009174
+    second: NormalA_0
+  - first:
+      213: -926804381608218224
+    second: NormalA_1
+  - first:
+      213: 1819859824331003897
+    second: NormalA_2
+  - first:
+      213: 96896951222569959
+    second: NormalA_3
+  - first:
+      213: 6194896806215953216
+    second: NormalA_4
+  - first:
+      213: -2166233772778419791
+    second: NormalA_5
+  - first:
+      213: -970571497885710837
+    second: NormalA_6
+  - first:
+      213: 2573844611968792334
+    second: NormalA_7
+  - first:
+      213: 863835876941931132
+    second: NormalA_8
+  - first:
+      213: -3315870158152480343
+    second: NormalA_9
+  - first:
+      213: 650692431937442096
+    second: NormalA_10
+  - first:
+      213: 6594050225786009914
+    second: NormalA_11
+  - first:
+      213: -4534583775091596244
+    second: NutralA_0
+  - first:
+      213: -2985624805192247277
+    second: NutralA_1
+  - first:
+      213: -542993117273943775
+    second: NutralA_2
+  - first:
+      213: -8767416005377086487
+    second: NutralA_3
+  - first:
+      213: 2276664902706533257
+    second: NutralA_4
+  - first:
+      213: -3628607808469277722
+    second: NutralA_5
+  - first:
+      213: 521446230128908409
+    second: NutralA_6
+  - first:
+      213: 1551535140130164659
+    second: NutralA_7
+  - first:
+      213: 775995365556905534
+    second: NutralA_8
+  - first:
+      213: 8165075288249967119
+    second: NutralA_9
+  - first:
+      213: -6733311236492215380
+    second: NutralA_10
+  - first:
+      213: 3729219358192899609
+    second: NutralA_11
   externalObjects: {}
   serializedVersion: 10
   mipmaps:
@@ -40,10 +112,10 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
-  alignment: 7
+  alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spritePixelsToUnits: 100
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
@@ -93,11 +165,263 @@ TextureImporter:
     androidETC2FallbackOverride: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: NutralA_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 512
+        width: 512
+        height: 512
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 40432d4f889629240bdfcf1c91243e94
+      internalID: -4534583775091596244
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NutralA_1
+      rect:
+        serializedVersion: 2
+        x: 512
+        y: 512
+        width: 512
+        height: 512
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 385ea3828c3f1ec40a1fa56cdec55acf
+      internalID: -2985624805192247277
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NutralA_2
+      rect:
+        serializedVersion: 2
+        x: 1024
+        y: 512
+        width: 512
+        height: 512
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7bf2df0eac2276145acb082694582b70
+      internalID: -542993117273943775
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NutralA_3
+      rect:
+        serializedVersion: 2
+        x: 1536
+        y: 512
+        width: 512
+        height: 512
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8be62adf2ca05bc41b7fee5131e8a809
+      internalID: -8767416005377086487
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NutralA_4
+      rect:
+        serializedVersion: 2
+        x: 2048
+        y: 512
+        width: 512
+        height: 512
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: edb2e4105f265e941948706b45476606
+      internalID: 2276664902706533257
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NutralA_5
+      rect:
+        serializedVersion: 2
+        x: 2560
+        y: 512
+        width: 512
+        height: 512
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8801dc84cda26204c9bd83157973c56f
+      internalID: -3628607808469277722
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NutralA_6
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 512
+        height: 512
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 778cfe00a24b7e24c9682b2fb3e1a39d
+      internalID: 521446230128908409
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NutralA_7
+      rect:
+        serializedVersion: 2
+        x: 512
+        y: 0
+        width: 512
+        height: 512
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b9e651c0053190a41a280cc1bc6417d3
+      internalID: 1551535140130164659
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NutralA_8
+      rect:
+        serializedVersion: 2
+        x: 1024
+        y: 0
+        width: 512
+        height: 512
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7e3e8d42c9f4c444d8263730967516e6
+      internalID: 775995365556905534
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NutralA_9
+      rect:
+        serializedVersion: 2
+        x: 1536
+        y: 0
+        width: 512
+        height: 512
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8edf7b7fa540486488a4525fca656930
+      internalID: 8165075288249967119
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NutralA_10
+      rect:
+        serializedVersion: 2
+        x: 2048
+        y: 0
+        width: 512
+        height: 512
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1bc6edd2379fc9f4a8d46e1f5f5b1a81
+      internalID: -6733311236492215380
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NutralA_11
+      rect:
+        serializedVersion: 2
+        x: 2560
+        y: 0
+        width: 512
+        height: 512
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 52a200785ffd56f4c8dd9638cc69f904
+      internalID: 3729219358192899609
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 9ffce594d89a303488d80685606f7a29
+    spriteID: 0684866022926264fb915bd788c43110
     internalID: 0
     vertices: []
     indices: 

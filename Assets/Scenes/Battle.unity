@@ -160,7 +160,7 @@ MonoBehaviour:
   isVisibleBox: 1
   maxhp: 0
   hp: 100
-  isDamaged: 0
+  isResistance: 0
   chaseCamera: {fileID: 1396387651}
   cameraEffect: {fileID: 1687828439}
   playerTf: {fileID: 0}
@@ -1140,6 +1140,7 @@ MonoBehaviour:
   mainMusic: {fileID: 0}
   isMultiDisplays: 0
   isDynamicCamera: 1
+  cameraSize: 5
 --- !u!4 &495413259
 Transform:
   m_ObjectHideFlags: 0
@@ -1368,6 +1369,9 @@ MonoBehaviour:
   c1hpBar2: {fileID: 279284787}
   c2hpBar1: {fileID: 1885723015}
   c2hpBar2: {fileID: 1479420745}
+  resistCounter1P: 0
+  resistCounter2P: 0
+  resistResult: 2
 --- !u!114 &725891898
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2149,7 +2153,7 @@ MonoBehaviour:
   isVisibleBox: 1
   maxhp: 0
   hp: 100
-  isDamaged: 0
+  isResistance: 0
   chaseCamera: {fileID: 972152150}
   cameraEffect: {fileID: 886981722}
   playerTf: {fileID: 0}

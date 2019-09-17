@@ -14,6 +14,15 @@ TextureImporter:
   - first:
       213: 585236453032795155
     second: SideA_R_3
+  - first:
+      213: -8075524369045006349
+    second: SideA_R_4
+  - first:
+      213: -7224038114068988400
+    second: SideA_R_5
+  - first:
+      213: -6614493792067313737
+    second: SideA_R_6
   externalObjects: {}
   serializedVersion: 10
   mipmaps:
@@ -111,6 +120,111 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
+        y: 256
+        width: 256
+        height: 256
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 69966eeb432243a44921bb160461ff00
+      internalID: -4714083806531192364
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SideA_R_1
+      rect:
+        serializedVersion: 2
+        x: 256
+        y: 256
+        width: 256
+        height: 256
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 37284110b26756b4683bb5d9dba41977
+      internalID: 5061503283821939646
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SideA_R_2
+      rect:
+        serializedVersion: 2
+        x: 512
+        y: 256
+        width: 256
+        height: 256
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 55ead0f510af0ac46a5b481d3e69411a
+      internalID: 664918724230750719
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SideA_R_3
+      rect:
+        serializedVersion: 2
+        x: 768
+        y: 256
+        width: 256
+        height: 256
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 705a0cbe1722bd64b86845965f35ebc3
+      internalID: 585236453032795155
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SideA_R_4
+      rect:
+        serializedVersion: 2
+        x: 1024
+        y: 256
+        width: 256
+        height: 256
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 55312eb4b5503e540b20671bd591de80
+      internalID: -8075524369045006349
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SideA_R_5
+      rect:
+        serializedVersion: 2
+        x: 0
         y: 0
         width: 256
         height: 256
@@ -121,14 +235,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5d4c579ebf264054a94411d69296ce0e
-      internalID: -4714083806531192364
+      spriteID: 77ad64a6d9127eb45a3f73a1a57e3483
+      internalID: -7224038114068988400
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SideA_R_1
+      name: SideA_R_6
       rect:
         serializedVersion: 2
         x: 256
@@ -142,50 +256,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 33a1f372e3a9d6b41bbc1bfe13c1634c
-      internalID: 5061503283821939646
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: SideA_R_2
-      rect:
-        serializedVersion: 2
-        x: 512
-        y: 0
-        width: 256
-        height: 256
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 02d27a7d9893b8e40a1c2d8b3b344eee
-      internalID: 664918724230750719
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: SideA_R_3
-      rect:
-        serializedVersion: 2
-        x: 768
-        y: 0
-        width: 256
-        height: 256
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: c9a60979e272e2c46be9feeda53578eb
-      internalID: 585236453032795155
+      spriteID: 456ff9607ff881046bdaaa8474a1d722
+      internalID: -6614493792067313737
       vertices: []
       indices: 
       edges: []
@@ -193,7 +265,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: e9f3fdad8da70b84cb3dce26a08d9a2f
+    spriteID: 73d4bc973c0ce7c4eab1c3a6b4b0a998
     internalID: 0
     vertices: []
     indices: 
