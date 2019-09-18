@@ -81,7 +81,7 @@ public class PlayerController : MonoBehaviour {
         enemyTf = enemyController.characterIns.transform;
     }
 
-    void Update() {
+    void FixedUpdate() {
         vector = playerTf.position - prePos;
 
         xAxisD = Input.GetAxis("DPad_XAxis_" + (int)playerNum);
@@ -180,14 +180,16 @@ public class PlayerController : MonoBehaviour {
                     battleMgr.ChangeToneDouble(0.1f, CameraEffect.ToneName.reverseTone); break;
                 case 60:
                     battleMgr.VibrateDouble(1.5f, 2.0f);
-                    battleMgr.ChangeToneDouble(0.3f, CameraEffect.ToneName.whiteWhite); break;
+                    battleMgr.ChangeToneDouble(0.2f, CameraEffect.ToneName.whiteWhite); break;
                 case 70:
-                    battleMgr.ChangeToneDouble(0.7f, CameraEffect.ToneName.reverseTone); break;
+                    battleMgr.ChangeToneDouble(3.0f, CameraEffect.ToneName.reverseTone); break;               
                 default: break;
             }
         }
         if (!stateInfo.IsName("LimitBreak")) {
             if (preStateInfo.IsName("LimitBreak")) {
+                battleMgr.ChangeToneDouble(0.0f, CameraEffect.ToneName.NormalTone);
+                character.LimitBreak();
                 playerTf.position = new Vector3(playerTf.position.x, 0, playerTf.position.z);
                 animator.speed = 1.2f;
             }

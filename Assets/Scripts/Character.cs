@@ -16,6 +16,9 @@ public abstract class Character : MonoBehaviour {
     [SerializeField] Material red;
     [SerializeField] Material blue;
     [SerializeField] Material clear;
+    [SerializeField] Material invert;
+    [SerializeField] Material redWhite;
+    [SerializeField] Material blueBlack;
 
     protected void Start() {
         playerTf = playerController.playerTf;
@@ -58,6 +61,15 @@ public abstract class Character : MonoBehaviour {
     }
     public void Resistance(Vector2 vector) {
         playerController.damageVector = new Vector2((enemyTf.position.x < playerTf.position.x) ? vector.x : -vector.x, vector.y);
+    }
+    public void LimitBreak() {
+        if(playerController.playerNum == PlayerController.PlayerNum.player1) {
+            playerTf.gameObject.GetComponent<SpriteRenderer>().material = redWhite;
+        }
+        if (playerController.playerNum == PlayerController.PlayerNum.player2) {
+            playerTf.gameObject.GetComponent<SpriteRenderer>().material = blueBlack;
+        }
+
     }
 
     public void LightningAttack() {

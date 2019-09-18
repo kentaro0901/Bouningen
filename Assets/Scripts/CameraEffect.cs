@@ -12,6 +12,7 @@ public class CameraEffect : MonoBehaviour {
     public Material whiteWhite;
     public Material blackBlack;
     public enum ToneName {
+        NormalTone,
         redBlack,
         blueBlack,
         reverseTone,
@@ -86,6 +87,7 @@ public class CameraEffect : MonoBehaviour {
         postEffectSeconds = seconds;
         toneName = name;
         switch (toneName) {
+            case ToneName.NormalTone: material = NormalTone; break;
             case ToneName.redBlack: material = redBlack; break;
             case ToneName.blueBlack: material = blueBlack; break;
             case ToneName.reverseTone: material = reverseTone; break;
