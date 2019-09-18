@@ -11,9 +11,6 @@ public class ChaseCamera : MonoBehaviour {
     Vector3 cameraInitPos;
     Camera _camera;
     public static float chaseRange = 1.0f;
-    public float c;
-    float alpha = -0.12f; //補正シングル
-    float beta = -0.205f;
     public float verticalRange = 1.0f;
 
     void Start(){

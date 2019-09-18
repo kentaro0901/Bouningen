@@ -156,6 +156,8 @@ MonoBehaviour:
     type: 3}
   fighterPref: {fileID: 6868318756716019806, guid: ce77b01e4fdd0d940b83d2116b916326,
     type: 3}
+  trailPref: {fileID: 2826292536972505095, guid: a567ff4b693a1ff46b47b8ad9c21ea9a,
+    type: 3}
   characterIns: {fileID: 0}
   maxhp: 0
   hp: 100
@@ -1722,7 +1724,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerTf: {fileID: 0}
   enemyCameraTf: {fileID: 1396387654}
-  c: 0
   verticalRange: 3
 --- !u!4 &972152153
 Transform:
@@ -2137,6 +2138,8 @@ MonoBehaviour:
     type: 3}
   fighterPref: {fileID: 6868318756716019806, guid: ce77b01e4fdd0d940b83d2116b916326,
     type: 3}
+  trailPref: {fileID: 2826292536972505095, guid: a567ff4b693a1ff46b47b8ad9c21ea9a,
+    type: 3}
   characterIns: {fileID: 0}
   maxhp: 0
   hp: 100
@@ -2181,7 +2184,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerTf: {fileID: 0}
   enemyCameraTf: {fileID: 972152153}
-  c: 0
   verticalRange: 3
 --- !u!4 &1396387654
 Transform:

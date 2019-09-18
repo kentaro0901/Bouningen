@@ -20,6 +20,7 @@ public class PlayerController : MonoBehaviour {
     public MyChara myChara = MyChara.Sword;
     public GameObject swordPref;
     public GameObject fighterPref;
+    public GameObject trailPref;
     public GameObject characterIns;
     Character character; //characterInsに付いてるSwordとか
 
@@ -74,7 +75,6 @@ public class PlayerController : MonoBehaviour {
     }
 
     void Start() {
-        //参照の取得
         hp = maxhp;
         character.playerController = this;
         animator = characterIns.GetComponent<Animator>();
@@ -124,20 +124,21 @@ public class PlayerController : MonoBehaviour {
         if (stateInfo.IsName("LightningStart")) {
             if (counter == 0) {
                 battleMgr.ChangeToneDouble(0.1f, CameraEffect.ToneName.reverseTone);
-                playerTf.localScale = enemyTf.position.x > playerTf.position.x ? Vector3.one : new Vector3(-1, 1, 1);
+                playerTf.localScale = enemyTf.position.x > playerTf.position.x ? Vector3.one : new Vector3(-1, 1, 1);             
             }
         }
         if (stateInfo.IsName("Lightning")) {
             if (counter == 0) {
                 battleMgr.VibrateDouble(0.8f, 1.0f);
+                GameObject g = Instantiate(trailPref, new Vector3(playerTf.position.x, playerTf.position.y + 1.5f, 0), Quaternion.identity);
+                g.transform.parent = playerTf;
             }
-            playerTf.position += (enemyTf.position + 3 * (enemyTf.position.x > playerTf.position.x ? Vector3.left : Vector3.right) - playerTf.position) / 2; //相手の3m前に移動
-            playerTf.localScale = enemyTf.position.x > playerTf.position.x ? Vector3.one : new Vector3(-1, 1, 1);
+            if(counter <= 10) {
+                playerTf.position += (enemyTf.position + 3 * (enemyTf.position.x > playerTf.position.x ? Vector3.left : Vector3.right) - playerTf.position) / 2; //相手の3m前に移動
+                playerTf.localScale = enemyTf.position.x > playerTf.position.x ? Vector3.one : new Vector3(-1, 1, 1);
+            }
         }
         if (stateInfo.IsName("LightningAttack")) {
-            if (counter == 0) {
-                character.LightningAttack();
-            }
         }
         if (stateInfo.IsName("SideA")) {
         }
@@ -170,21 +171,19 @@ public class PlayerController : MonoBehaviour {
             damageVector = 0.9f * damageVector;
         }
         if (stateInfo.IsName("LimitBreak")) {
-            if (counter == 0) {
-                battleMgr.ChangeToneDouble(0.1f, CameraEffect.ToneName.reverseTone);
-            }
-            if(counter == 20) {
-                battleMgr.VibrateDouble(0.8f, 1.0f);              
-            }
-            if (counter == 40) {
-                battleMgr.ChangeToneDouble(0.1f, CameraEffect.ToneName.reverseTone);
-            }
-            if (counter == 60) {
-                battleMgr.VibrateDouble(1.5f, 2.0f);
-                battleMgr.ChangeToneDouble(0.16f, CameraEffect.ToneName.whiteWhite);
-            }
-            if (counter == 75) {
-                battleMgr.ChangeToneDouble(0.7f, CameraEffect.ToneName.reverseTone);
+            switch (counter) {
+                case 0:
+                    battleMgr.ChangeToneDouble(0.1f, CameraEffect.ToneName.reverseTone); break;
+                case 20:
+                    battleMgr.VibrateDouble(0.8f, 1.0f); break;
+                case 40:
+                    battleMgr.ChangeToneDouble(0.1f, CameraEffect.ToneName.reverseTone); break;
+                case 60:
+                    battleMgr.VibrateDouble(1.5f, 2.0f);
+                    battleMgr.ChangeToneDouble(0.3f, CameraEffect.ToneName.whiteWhite); break;
+                case 70:
+                    battleMgr.ChangeToneDouble(0.7f, CameraEffect.ToneName.reverseTone); break;
+                default: break;
             }
         }
         if (!stateInfo.IsName("LimitBreak")) {

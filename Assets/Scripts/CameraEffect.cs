@@ -85,16 +85,16 @@ public class CameraEffect : MonoBehaviour {
     public void ChangeTone(float seconds, ToneName name) {
         postEffectSeconds = seconds;
         toneName = name;
+        switch (toneName) {
+            case ToneName.redBlack: material = redBlack; break;
+            case ToneName.blueBlack: material = blueBlack; break;
+            case ToneName.reverseTone: material = reverseTone; break;
+            case ToneName.whiteWhite: material = whiteWhite; break;
+            case ToneName.blackBlack: material = blackBlack; break;
+        }
     }
     private void ToneCountDown() {
-        if (postEffectSeconds > 0) {
-            switch (toneName) {
-                case ToneName.redBlack: material = redBlack;  break;
-                case ToneName.blueBlack: material = blueBlack; break;
-                case ToneName.reverseTone: material = reverseTone; break;
-                case ToneName.whiteWhite: material = whiteWhite; break;
-                case ToneName.blackBlack: material = blackBlack; break;
-            }
+        if (postEffectSeconds > 0) {        
             postEffectSeconds -= Time.unscaledDeltaTime;
         }
         else {
