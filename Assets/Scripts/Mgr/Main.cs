@@ -27,6 +27,13 @@ public class Main : MonoBehaviour {
     }
     public static State state = State.Root;
 
+    public enum BattleResult {
+        Default,
+        Win1P,
+        Win2P
+    }
+    public static BattleResult battleResult = BattleResult.Default;
+
     static AudioSource bgm;
     public AudioClip mainMusic;
 
@@ -52,6 +59,7 @@ public class Main : MonoBehaviour {
         bgm.Stop();
         bgm.Play();
         state = State.Title;
+        battleResult = BattleResult.Default;
         if (isFade) {
             FadeManager.Instance.LoadScene("Title", 0.5f);
         }

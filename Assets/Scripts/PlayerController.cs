@@ -81,7 +81,7 @@ public class PlayerController : MonoBehaviour {
         enemyTf = enemyController.characterIns.transform;
     }
 
-    void FixedUpdate() {
+    void Update() {
         vector = playerTf.position - prePos;
 
         xAxisD = Input.GetAxis("DPad_XAxis_" + (int)playerNum);
@@ -167,8 +167,8 @@ public class PlayerController : MonoBehaviour {
             }
         }
         if (stateInfo.IsName("CriticalEnd")) {
-            playerTf.position += damageVector;
-            damageVector = 0.9f * damageVector;
+            //playerTf.position += damageVector;
+            //damageVector = 0.9f * damageVector;
         }
         if (stateInfo.IsName("LimitBreak")) {
             switch (counter) {
@@ -217,7 +217,7 @@ public class PlayerController : MonoBehaviour {
                     animator.Play("Critical");
                 }
                 else {
-
+                    animator.Play("CriticalEnd");
                 }
             }
         }
