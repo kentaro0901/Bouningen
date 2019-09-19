@@ -27,7 +27,7 @@ public class PlayerController : MonoBehaviour {
     public float maxhp = 100.0f;
     public float hp = 100.0f;
 
-    int counter = 0;
+    public int counter = 0;
 
     public ChaseCamera chaseCamera;
     public CameraEffect cameraEffect;
@@ -51,7 +51,7 @@ public class PlayerController : MonoBehaviour {
     Vector2 vector;
     public Vector3 damageVector = Vector3.zero;
 
-    //bool isLimitBreak = false;
+    bool isLimitBreak = false;
 
     void Awake() { 
         //キャラの生成
@@ -107,6 +107,11 @@ public class PlayerController : MonoBehaviour {
                 cameraEffect.Vibrate(0.8f, 2.0f);
             }
         }
+        if (stateInfo.IsName("Idle")) {
+            if(animator.GetBool("ButtonL") && !isLimitBreak) {
+                animator.Play("LimitBreak");
+            }
+        }
         if (stateInfo.IsName("Dash")) {
             playerTf.position += Vector3.right * dashspeed * xAxisD;
         }
@@ -160,19 +165,37 @@ public class PlayerController : MonoBehaviour {
             }
             if(Time.timeScale == 1.0f) {
                 playerTf.position += damageVector;
-                playerTf.position = new Vector3(playerTf.position.x, playerTf.position.y - (counter * 0.01f), 0);
-                if (playerTf.position.y < 0.1f && playerTf.position.y != 0) {
+                playerTf.position = new Vector3(playerTf.position.x, playerTf.position.y - (counter * 0.005f), 0);
+                if (playerTf.position.y < 0.1f && 60 < counter) {
                     playerTf.position = new Vector3(playerTf.position.x, 0, 0);
+                    animator.Play("CriticalEnd");
+                }
+            }
+        }
+        if (stateInfo.IsName("CriticalFall")) {
+            if (counter == 0) {
+                playerTf.localScale = damageVector.x > 0 ? new Vector3(-1, 1, 1) : Vector3.one;
+                battleMgr.ChangeTimeScale(0.0f, 0.5f);
+                battleMgr.ChangeToneDouble(0.5f, ((int)playerNum == 2 ? CameraEffect.ToneName.redBlack : CameraEffect.ToneName.blueBlack));
+                battleMgr.ZoomInOutDouble(0.1f);
+            }
+            if (Time.timeScale == 1.0f) {
+                playerTf.position += damageVector;
+                playerTf.position = new Vector3(playerTf.position.x, playerTf.position.y - (counter * 0.05f), 0);
+                if (playerTf.position.y < 0.1f) {
+                    playerTf.position = new Vector3(playerTf.position.x, 0, 0);
+                    animator.Play("CriticalEnd");
                 }
             }
         }
         if (stateInfo.IsName("CriticalEnd")) {
-            //playerTf.position += damageVector;
-            //damageVector = 0.9f * damageVector;
+            playerTf.position += new Vector3(damageVector.x, 0,0);
+            damageVector = 0.9f * damageVector;
         }
         if (stateInfo.IsName("LimitBreak")) {
             switch (counter) {
                 case 0:
+                    isLimitBreak = true;
                     battleMgr.ChangeToneDouble(0.1f, CameraEffect.ToneName.reverseTone); break;
                 case 20:
                     battleMgr.VibrateDouble(0.8f, 1.0f); break;
