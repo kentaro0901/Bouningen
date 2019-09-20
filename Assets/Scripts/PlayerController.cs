@@ -5,8 +5,6 @@ using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour {
 
-    [SerializeField] BattleMgr battleMgr;
-
     public enum PlayerNum {
         zero,
         player1,
@@ -22,7 +20,7 @@ public class PlayerController : MonoBehaviour {
     public GameObject fighterPref;
     public GameObject trailPref;
     public GameObject characterIns;
-    Character character; //characterInsに付いてるSwordとか
+    Character character;
 
     public float maxhp = 100.0f;
     public float hp = 100.0f;
@@ -102,9 +100,9 @@ public class PlayerController : MonoBehaviour {
         }
         if (stateInfo.IsName("Start")) {
             if (counter == 0) {
-                battleMgr.ChangeToneDouble(0.1f, CameraEffect.ToneName.reverseTone);
-                battleMgr.ZoomInOutDouble(0.1f);
-                cameraEffect.Vibrate(0.8f, 2.0f);
+                BattleMgr.Instance.ChangeToneDouble(0.1f, CameraEffect.ToneName.reverseTone);
+                BattleMgr.Instance.ZoomInOutDouble(0.1f);
+                BattleMgr.Instance.VibrateDouble(0.8f, 2.0f);
             }
         }
         if (stateInfo.IsName("Idle")) {
@@ -123,18 +121,18 @@ public class PlayerController : MonoBehaviour {
         }
         if (stateInfo.IsName("Landing")) {
             if (counter == 0) {
-                battleMgr.VibrateDouble(0.5f, 0.5f);
+                BattleMgr.Instance.VibrateDouble(0.5f, 0.5f);
             }
         }
         if (stateInfo.IsName("LightningStart")) {
             if (counter == 0) {
-                battleMgr.ChangeToneDouble(0.1f, CameraEffect.ToneName.reverseTone);
+                BattleMgr.Instance.ChangeToneDouble(0.1f, CameraEffect.ToneName.reverseTone);
                 playerTf.localScale = enemyTf.position.x > playerTf.position.x ? Vector3.one : new Vector3(-1, 1, 1);             
             }
         }
         if (stateInfo.IsName("Lightning")) {
             if (counter == 0) {
-                battleMgr.VibrateDouble(0.8f, 1.0f);
+                BattleMgr.Instance.VibrateDouble(0.8f, 1.0f);
                 GameObject g = Instantiate(trailPref, new Vector3(playerTf.position.x, playerTf.position.y + 1.5f, 0), Quaternion.identity);
                 g.transform.parent = playerTf;
             }
@@ -153,15 +151,12 @@ public class PlayerController : MonoBehaviour {
                 playerTf.position = new Vector3(playerTf.position.x, 0, 0);
             }
             if(counter == 14) {
-                battleMgr.VibrateDouble(0.8f, 2.0f);
+                BattleMgr.Instance.VibrateDouble(0.8f, 2.0f);
             }
         }
         if (stateInfo.IsName("Critical")) {
             if (counter == 0) {
                 playerTf.localScale = damageVector.x > 0 ? new Vector3(-1, 1, 1) : Vector3.one;
-                //battleMgr.ChangeTimeScale(0.0f, 0.5f);
-                battleMgr.ChangeToneDouble(0.5f, ((int)playerNum == 2 ? CameraEffect.ToneName.redBlack : CameraEffect.ToneName.blueBlack));
-                battleMgr.ZoomInOutDouble(0.1f);
             }
             if(Time.timeScale == 1.0f) {
                 playerTf.position += damageVector;
@@ -175,9 +170,9 @@ public class PlayerController : MonoBehaviour {
         if (stateInfo.IsName("CriticalFall")) {
             if (counter == 0) {
                 playerTf.localScale = damageVector.x > 0 ? new Vector3(-1, 1, 1) : Vector3.one;
-                battleMgr.ChangeTimeScale(0.0f, 0.5f);
-                battleMgr.ChangeToneDouble(0.5f, ((int)playerNum == 2 ? CameraEffect.ToneName.redBlack : CameraEffect.ToneName.blueBlack));
-                battleMgr.ZoomInOutDouble(0.1f);
+                BattleMgr.Instance.ChangeTimeScale(0.0f, 0.5f);
+                BattleMgr.Instance.ChangeToneDouble(0.5f, ((int)playerNum == 2 ? CameraEffect.ToneName.redBlack : CameraEffect.ToneName.blueBlack));
+                BattleMgr.Instance.ZoomInOutDouble(0.1f);
             }
             if (Time.timeScale == 1.0f) {
                 playerTf.position += damageVector;
@@ -196,50 +191,64 @@ public class PlayerController : MonoBehaviour {
             switch (counter) {
                 case 0:
                     isLimitBreak = true;
-                    battleMgr.ChangeToneDouble(0.1f, CameraEffect.ToneName.reverseTone); break;
+                    BattleMgr.Instance.ChangeToneDouble(0.1f, CameraEffect.ToneName.reverseTone); break;
                 case 20:
-                    battleMgr.VibrateDouble(0.8f, 1.0f); break;
+                    BattleMgr.Instance.VibrateDouble(0.8f, 1.0f); break;
                 case 40:
-                    battleMgr.ChangeToneDouble(0.1f, CameraEffect.ToneName.reverseTone); break;
+                    BattleMgr.Instance.ChangeToneDouble(0.1f, CameraEffect.ToneName.reverseTone); break;
                 case 60:
-                    battleMgr.VibrateDouble(1.5f, 2.0f);
-                    battleMgr.ChangeToneDouble(0.2f, CameraEffect.ToneName.whiteWhite); break;
+                    BattleMgr.Instance.VibrateDouble(1.5f, 2.0f);
+                    BattleMgr.Instance.ChangeToneDouble(0.2f, CameraEffect.ToneName.whiteWhite); break;
                 case 70:
-                    battleMgr.ChangeToneDouble(3.0f, CameraEffect.ToneName.reverseTone); break;               
+                    BattleMgr.Instance.ChangeToneDouble(3.0f, CameraEffect.ToneName.reverseTone); break;               
                 default: break;
             }
         }
         if (!stateInfo.IsName("LimitBreak")) {
             if (preStateInfo.IsName("LimitBreak")) {
-                battleMgr.ChangeToneDouble(0.0f, CameraEffect.ToneName.NormalTone);
+                BattleMgr.Instance.ChangeToneDouble(0.0f, CameraEffect.ToneName.NormalTone);
                 character.LimitBreak();
                 playerTf.position = new Vector3(playerTf.position.x, 0, playerTf.position.z);
                 animator.speed = 1.2f;
             }
         }
-        if (stateInfo.IsName("SideA_R")) {
-            if (counter == 0) { //
-                battleMgr.resistCounter1P = 0;
-                battleMgr.resistCounter2P = 0;
-                battleMgr.ChangeToneDouble(0.1f, CameraEffect.ToneName.reverseTone);
-                battleMgr.ZoomInOutDouble(0.1f);
+        if (stateInfo.IsName("SideA_R") || stateInfo.IsName("NutralA_R")) {
+            if (counter == 0) {
+                BattleMgr.Instance.resistCounter1P = 0;
+                BattleMgr.Instance.resistCounter2P = 0;
+                BattleMgr.Instance.ChangeTimeScale(0.0f, 0.3f);
+                BattleMgr.Instance.ChangeToneDouble(2.0f, CameraEffect.ToneName.reverseTone);
+                BattleMgr.Instance.ZoomInOutDouble(0.1f);
             }
             if (playerNum == PlayerNum.player1 && Input.GetButtonDown("ButtonA_" + (int)playerNum)) {
-                battleMgr.resistCounter1P++;
+                BattleMgr.Instance.resistCounter1P++;
             }
             else if (Input.GetButtonDown("ButtonA_" + (int)playerNum)) {
-                battleMgr.resistCounter2P++;
+                BattleMgr.Instance.resistCounter2P++;
             }    
-        }
-        if (!stateInfo.IsName("SideA_R")) {
-            if (preStateInfo.IsName("SideA_R")) {
-                if (playerNum == PlayerNum.player1 && battleMgr.resistResult == BattleMgr.ResistResult.Critical1P) {
-                    animator.Play("Critical");
+            if(counter == 60) {
+                if (BattleMgr.Instance.resistResult == BattleMgr.ResistResult.Critical1P) {
+                    if(playerNum == PlayerNum.player1) {
+                        BattleMgr.Instance.ChangeTimeScale(0.0f, 0.5f);
+                        BattleMgr.Instance.ChangeToneDouble(0.5f, CameraEffect.ToneName.redBlack);
+                        animator.Play("Critical");
+                    }
+                    else {
+                        animator.Play("Idle");//
+                    }
                 }
-                else if (playerNum == PlayerNum.player2 && battleMgr.resistResult == BattleMgr.ResistResult.Critical2P) {
-                    animator.Play("Critical");
+                else if (BattleMgr.Instance.resistResult == BattleMgr.ResistResult.Critical2P) {
+                    if(playerNum == PlayerNum.player2) {
+                        BattleMgr.Instance.ChangeTimeScale(0.0f, 0.5f);
+                        BattleMgr.Instance.ChangeToneDouble(0.5f, CameraEffect.ToneName.blueBlack);
+                        animator.Play("Critical");
+                    }
+                    else {
+                        animator.Play("Idle");//
+                    }
                 }
                 else {
+                    BattleMgr.Instance.ChangeToneDouble(0.0f, CameraEffect.ToneName.NormalTone);
                     animator.Play("CriticalEnd");
                 }
             }

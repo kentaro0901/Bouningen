@@ -6,6 +6,25 @@ using UnityEngine.SceneManagement;
 
 public class ResultMgr : MonoBehaviour {
 
+    //シングルトン
+    private static ResultMgr instance;
+    public static ResultMgr Instance {
+        get {
+            if (instance == null) {
+                instance = (ResultMgr)FindObjectOfType(typeof(ResultMgr));
+                if (instance == null)
+                    Debug.LogError(typeof(ResultMgr) + "is nothing");
+            }
+            return instance;
+        }
+    }
+    void Awake() {
+        if (this != Instance) {
+            Destroy(this.gameObject);
+            return;
+        }
+    }
+
     [SerializeField] Text winText;
 
     void Start() {

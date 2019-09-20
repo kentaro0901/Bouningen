@@ -5,6 +5,25 @@ using UnityEngine.SceneManagement;
 
 public class SelectMgr : MonoBehaviour {
 
+    //シングルトン
+    private static SelectMgr instance;
+    public static SelectMgr Instance {
+        get {
+            if (instance == null) {
+                instance = (SelectMgr)FindObjectOfType(typeof(SelectMgr));
+                if (instance == null)
+                    Debug.LogError(typeof(SelectMgr) + "is nothing");
+            }
+            return instance;
+        }
+    }
+    void Awake() {
+        if (this != Instance) { //２つ目以降のインスタンスは破棄
+            Destroy(this.gameObject);
+            return;
+        }
+    }
+
     void Start() {
         Main.state = Main.State.Select;
         Main.CameraSetting();
