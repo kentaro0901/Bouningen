@@ -6,6 +6,25 @@ using UnityEngine.SceneManagement;
 
 public class BattleMgr : MonoBehaviour {
 
+    //シングルトン
+    private static BattleMgr instance;
+    public static BattleMgr Instance {
+        get {
+            if (instance == null) {
+                instance = (BattleMgr)FindObjectOfType(typeof(BattleMgr));
+                if (instance == null)
+                    Debug.LogError(typeof(BattleMgr) + "is nothing");
+            }
+            return instance;
+        }
+    }
+    void Awake() {
+        if (this != Instance) { //２つ目以降のインスタンスは破棄
+            Destroy(this.gameObject);
+            return;
+        }
+    }
+
     [SerializeField] ChaseCamera chaseCamera1;
     [SerializeField] ChaseCamera chaseCamera2;
     Transform camera1Tf;

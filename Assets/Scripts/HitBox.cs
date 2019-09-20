@@ -14,8 +14,7 @@ public class HitBox : MonoBehaviour {
 
         //ヒット
         if(collision.gameObject.transform.parent != this.transform.parent && collision.gameObject.tag == "HurtBox") {
-            //Debug.Log("Hit");
-            collision.gameObject.GetComponent<HurtBox>().character.Damaged(attack, vector, isCritical);
+            
         }
 
         //鍔迫り合い

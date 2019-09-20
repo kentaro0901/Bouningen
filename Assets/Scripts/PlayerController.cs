@@ -159,7 +159,7 @@ public class PlayerController : MonoBehaviour {
         if (stateInfo.IsName("Critical")) {
             if (counter == 0) {
                 playerTf.localScale = damageVector.x > 0 ? new Vector3(-1, 1, 1) : Vector3.one;
-                battleMgr.ChangeTimeScale(0.0f, 0.5f);
+                //battleMgr.ChangeTimeScale(0.0f, 0.5f);
                 battleMgr.ChangeToneDouble(0.5f, ((int)playerNum == 2 ? CameraEffect.ToneName.redBlack : CameraEffect.ToneName.blueBlack));
                 battleMgr.ZoomInOutDouble(0.1f);
             }
@@ -189,8 +189,8 @@ public class PlayerController : MonoBehaviour {
             }
         }
         if (stateInfo.IsName("CriticalEnd")) {
-            playerTf.position += new Vector3(damageVector.x, 0,0);
-            damageVector = 0.9f * damageVector;
+            //playerTf.position += new Vector3(damageVector.x, 0,0);
+            //damageVector = 0.9f * damageVector;
         }
         if (stateInfo.IsName("LimitBreak")) {
             switch (counter) {
