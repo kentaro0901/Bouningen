@@ -15,6 +15,7 @@ public class HitBox : MonoBehaviour {
         //鍔迫り合い
         if (collision.gameObject.transform.parent != this.transform.parent && collision.gameObject.tag == "HitBox" && isResist && collision.gameObject.GetComponent<HitBox>().isResist) {
             //Debug.Log("Resistance");
+            character.playerController.isResistance = true;
             collision.gameObject.GetComponent<HitBox>().character.Resistance(vector);
             if (character.playerController.stateInfo.IsName("SideA")) {
                 character.playerController.animator.Play("SideA_R");

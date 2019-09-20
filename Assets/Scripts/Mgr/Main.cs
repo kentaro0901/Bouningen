@@ -27,6 +27,13 @@ public class Main : MonoBehaviour {
     }
     public static State state = State.Root;
 
+    public enum Chara {
+        Sword,
+        fIghter
+    }
+    public Chara chara1P = Chara.Sword;
+    public Chara chara2P = Chara.Sword;
+
     public enum BattleResult {
         Default,
         Win1P,
@@ -92,12 +99,13 @@ public class Main : MonoBehaviour {
 
     void Update() {
 
-        //F5でタイトルに戻る
-        if (Input.GetKeyDown(KeyCode.F5)) {
+        //タイトルに戻る
+        if (Input.GetKeyDown(KeyCode.F5) || 
+            (Input.GetKeyDown(KeyCode.E) && Input.GetKeyDown(KeyCode.N) && Input.GetKeyDown(KeyCode.D))) {
             Init(false);
         }
 
-        //escで強制終了
+        //強制終了
         if (Input.GetKeyDown(KeyCode.Escape)) {
             Application.Quit();
         }

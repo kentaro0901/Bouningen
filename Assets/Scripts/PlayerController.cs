@@ -49,7 +49,10 @@ public class PlayerController : MonoBehaviour {
     Vector2 vector;
     public Vector3 damageVector = Vector3.zero;
 
+    public bool isResistance = false;
     bool isLimitBreak = false;
+
+    [SerializeField] SoundMgr soundMgr;
 
     void Awake() { 
         //キャラの生成
@@ -195,6 +198,7 @@ public class PlayerController : MonoBehaviour {
                 case 20:
                     BattleMgr.Instance.VibrateDouble(0.8f, 1.0f); break;
                 case 40:
+                    soundMgr.PlaySFX(SoundMgr.Clip.LimitBreak);
                     BattleMgr.Instance.ChangeToneDouble(0.1f, CameraEffect.ToneName.reverseTone); break;
                 case 60:
                     BattleMgr.Instance.VibrateDouble(1.5f, 2.0f);
@@ -227,6 +231,7 @@ public class PlayerController : MonoBehaviour {
                 BattleMgr.Instance.resistCounter2P++;
             }    
             if(counter == 60) {
+                isResistance = false;
                 if (BattleMgr.Instance.resistResult == BattleMgr.ResistResult.Critical1P) {
                     if(playerNum == PlayerNum.player1) {
                         BattleMgr.Instance.ChangeTimeScale(0.0f, 0.5f);
