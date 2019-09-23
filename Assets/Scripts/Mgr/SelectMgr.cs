@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class SelectMgr : MonoBehaviour {
@@ -34,6 +35,8 @@ public class SelectMgr : MonoBehaviour {
     bool isMovable1 = true;
     bool isMovable2 = true;
 
+    [SerializeField] GameObject settingPanel;
+
     void Start() {
         Main.state = Main.State.Select;
         Main.CameraSetting();
@@ -43,17 +46,17 @@ public class SelectMgr : MonoBehaviour {
         Frame2PRTf.GetChild(0).GetComponent<RectTransform>().sizeDelta = new Vector2(Screen.width / 2, Frame2PRTf.sizeDelta.y);
         Frame1PRTf.localPosition = new Vector3(Frame1PRTf.localPosition.x + Screen.width / 4, Frame1PRTf.localPosition.y);
         Frame2PRTf.localPosition = new Vector3(Frame2PRTf.localPosition.x + Screen.width / 4, Frame2PRTf.localPosition.y);
-
+        settingPanel.transform.GetChild(0).GetChild(0).gameObject.GetComponent<Toggle>().Select();//初期
     }
 
     void Update() {
         //1P
-        if (Input.GetAxis("DPad_XAxis_1") > 0 && isReleseAxis1 && count1 < 2 && isMovable1) {
+        if (Input.GetAxis("DPad_XAxis_1") > 0 && isReleseAxis1 && count1 < 3 && isMovable1) {
             isReleseAxis1 = false;
             count1++;
             iTween.MoveBy(Frame1PRTf.gameObject, iTween.Hash("x",Screen.width / 4, "time", 0.3f, "oncomplete", "MoveEnd1", "oncompletetarget", gameObject));          
         }
-        else if (Input.GetAxis("DPad_XAxis_1") < 0 && isReleseAxis1 && 0 < count1 && isMovable1) {
+        else if (Input.GetAxis("DPad_XAxis_1") < 0 && isReleseAxis1 && -1 < count1 && isMovable1) {
             isReleseAxis1 = false;
             count1--;
             iTween.MoveBy(Frame1PRTf.gameObject, iTween.Hash("x", -Screen.width / 4, "time", 0.3f, "oncomplete", "MoveEnd1", "oncompletetarget", gameObject));
@@ -65,7 +68,7 @@ public class SelectMgr : MonoBehaviour {
             count2++;
             iTween.MoveBy(Frame2PRTf.gameObject, iTween.Hash("x", Screen.width / 4, "time", 0.3f, "oncomplete", "MoveEnd2", "oncompletetarget", gameObject));
         }
-        else if (Input.GetAxis("DPad_XAxis_2") < 0 && isReleseAxis2 && 0 < count2 && isMovable2) {
+        else if (Input.GetAxis("DPad_XAxis_2") < 0 && isReleseAxis2 && -1 < count2 && isMovable2) {
             isReleseAxis2 = false;
             count2--;
             iTween.MoveBy(Frame2PRTf.gameObject, iTween.Hash("x", -Screen.width / 4, "time", 0.3f, "oncomplete", "MoveEnd2", "oncompletetarget", gameObject));
