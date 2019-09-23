@@ -446,10 +446,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92c39ffd71790224d99967002fc15056, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  chara1P: 0
+  chara2P: 0
   mainMusic: {fileID: 8300000, guid: d1612ef1bb8d61b4fa12bc0f9ce526a3, type: 3}
   isMultiDisplays: 1
   isDynamicCamera: 1
   cameraSize: 5
+  isVisibleBox: 0
 --- !u!4 &506392973
 Transform:
   m_ObjectHideFlags: 0
@@ -1187,7 +1190,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1587880154
 RectTransform:
   m_ObjectHideFlags: 0
