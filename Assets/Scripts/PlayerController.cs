@@ -166,7 +166,12 @@ public class PlayerController : MonoBehaviour {
                 playerTf.position = new Vector3(playerTf.position.x, playerTf.position.y - (counter * 0.005f), 0);
                 if (playerTf.position.y < 0.1f && 60 < counter) {
                     playerTf.position = new Vector3(playerTf.position.x, 0, 0);
-                    animator.Play("CriticalEnd");
+                    if(hp <= 0) {
+                        animator.Play("Death");
+                    }
+                    else {
+                        animator.Play("CriticalEnd");
+                    }
                 }
             }
         }
@@ -187,8 +192,6 @@ public class PlayerController : MonoBehaviour {
             }
         }
         if (stateInfo.IsName("CriticalEnd")) {
-            //playerTf.position += new Vector3(damageVector.x, 0,0);
-            //damageVector = 0.9f * damageVector;
         }
         if (stateInfo.IsName("LimitBreak")) {
             switch (counter) {
@@ -256,6 +259,11 @@ public class PlayerController : MonoBehaviour {
                     BattleMgr.Instance.ChangeToneDouble(0.0f, CameraEffect.ToneName.NormalTone);
                     animator.Play("CriticalEnd");
                 }
+            }
+        }
+        if (stateInfo.IsName("GameEnd")) {
+            if(counter == 0) {
+                BattleMgr.Instance.BattleEnd();
             }
         }
 

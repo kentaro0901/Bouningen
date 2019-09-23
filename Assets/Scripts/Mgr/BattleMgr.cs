@@ -69,9 +69,6 @@ public class BattleMgr : MonoBehaviour {
         ResistMgr();
         TimeScaleCountDown();
         ChangeCameraChaseMode();
-        if ((playerController1.hp<=0 || playerController2.hp<=0) && Main.state == Main.State.Battle) {//仮
-            BattleEnd();
-        }
         if (Input.GetKeyDown(KeyCode.Space)) {//仮
             FadeManager.Instance.LoadScene("Result", 0.5f);
             Main.state = Main.State.Result;
@@ -157,7 +154,7 @@ public class BattleMgr : MonoBehaviour {
         cameraEffect2.ChangeTone(seconds, name);
     }
 
-    void BattleEnd() {
+    public void BattleEnd() {
         if(playerController1.hp <= 0 && playerController2.hp > 0) {
             Main.battleResult = Main.BattleResult.Win2P;
         }
