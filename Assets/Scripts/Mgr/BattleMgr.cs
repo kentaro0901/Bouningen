@@ -39,6 +39,8 @@ public class BattleMgr : MonoBehaviour {
     [SerializeField] RectTransform c1RFRTf;
     [SerializeField] RectTransform c2LFRTf;
     [SerializeField] RectTransform c2RFRTf;
+    [SerializeField] Text c1Txt;
+    [SerializeField] Text c2Txt;
     [SerializeField] Slider c1hpBar1;
     [SerializeField] Slider c1hpBar2;
     [SerializeField] Slider c2hpBar1;
@@ -69,9 +71,9 @@ public class BattleMgr : MonoBehaviour {
         ResistMgr();
         TimeScaleCountDown();
         ChangeCameraChaseMode();
-        if (Input.GetKeyDown(KeyCode.Space)) {//仮
-            FadeManager.Instance.LoadScene("Result", 0.5f);
-            Main.state = Main.State.Result;
+        if (Main.state == Main.State.Result &&  Input.GetKeyDown(KeyCode.Space)) {//仮
+            ChangeTimeScale(1.0f, 0);
+            Main.Init(true);
         }
     }
     private void UpdateUI() {
@@ -157,14 +159,23 @@ public class BattleMgr : MonoBehaviour {
     public void BattleEnd() {
         if(playerController1.hp <= 0 && playerController2.hp > 0) {
             Main.battleResult = Main.BattleResult.Win2P;
+            c1Txt.text = "1PLOSE";
+            c2Txt.text = "2PWIN";
         }
         else if(playerController2.hp <= 0 && playerController1.hp > 0) {
             Main.battleResult = Main.BattleResult.Win1P;
+            c1Txt.text = "1PWIN";
+            c2Txt.text = "2PLOSE";
         }
         else {
             Main.battleResult = Main.BattleResult.Default;
+            c1Txt.text = "DRAW";
+            c2Txt.text = "DRAW";
         }
-        FadeManager.Instance.LoadScene("Result", 0.5f);
+        ChangeTimeScale(0, 1000);
+        VibrateDouble(0.5f, 1.0f);
+        cameraEffect1.ChangeTone(0, CameraEffect.ToneName.redBlack);
+        cameraEffect2.ChangeTone(0, CameraEffect.ToneName.blueBlack);
         Main.state = Main.State.Result;
     }
 }

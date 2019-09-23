@@ -83,6 +83,9 @@ public class PlayerController : MonoBehaviour {
     }
 
     void Update() {
+        if(Main.state == Main.State.Result) {
+            Destroy(this.gameObject);
+        }
         vector = playerTf.position - prePos;
 
         xAxisD = Input.GetAxis("DPad_XAxis_" + (int)playerNum);
