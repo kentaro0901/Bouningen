@@ -36,4 +36,17 @@ public class SelectMgr : MonoBehaviour {
             Main.state = Main.State.Battle;
         }
     }
+
+    public void ButtonSword1P() {
+        Main.Instance.chara1P = Main.Chara.Sword;
+    }
+    public void ButtonFighter1P() {
+        Main.Instance.chara1P = Main.Chara.fIghter;
+    }
+    public void ButtonSword2P() {
+        Main.Instance.chara1P = Main.Chara.Sword;
+    }
+    public void ButtonFighter2P() {
+        Main.Instance.chara1P = Main.Chara.fIghter;
+    }
 }

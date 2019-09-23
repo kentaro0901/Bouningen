@@ -148,6 +148,11 @@ public class PlayerController : MonoBehaviour {
         }
         if (stateInfo.IsName("SideA")) {
         }
+        if (stateInfo.IsName("SideB")) {
+            if(counter == 13) {
+                BattleMgr.Instance.VibrateDouble(0.5f, 0.5f);
+            }
+        }
         if (stateInfo.IsName("DownA")) {
             playerTf.position = new Vector3(playerTf.position.x, playerTf.position.y - (counter * 0.2f), 0);
             if (playerTf.position.y < 0.1f && playerTf.position.y != 0) {
@@ -219,7 +224,7 @@ public class PlayerController : MonoBehaviour {
                 animator.speed = 1.2f;
             }
         }
-        if (stateInfo.IsName("SideA_R") || stateInfo.IsName("NutralA_R")) {
+        if (stateInfo.IsName("SideA_R") || stateInfo.IsName("NutralA_R") || stateInfo.IsName("SideB_R")) {
             if (counter == 0) {
                 BattleMgr.Instance.resistCounter1P = 0;
                 BattleMgr.Instance.resistCounter2P = 0;

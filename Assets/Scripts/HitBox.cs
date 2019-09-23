@@ -20,6 +20,9 @@ public class HitBox : MonoBehaviour {
             if (character.playerController.stateInfo.IsName("SideA")) {
                 character.playerController.animator.Play("SideA_R");
             }
+            if (character.playerController.stateInfo.IsName("SideB")) {
+                character.playerController.animator.Play("SideB_R");
+            }
             if (character.playerController.stateInfo.IsName("NutralA")) {
                 character.playerController.animator.Play("NutralA_R");
             }
