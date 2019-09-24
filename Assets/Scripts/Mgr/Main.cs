@@ -41,15 +41,15 @@ public class Main : MonoBehaviour {
     }
     public static BattleResult battleResult = BattleResult.Default;
 
-    static AudioSource bgm;
+    public AudioSource bgm;
     public AudioClip mainMusic;
 
     Camera camera1;
     Camera camera2;
     public bool isMultiDisplays = true;
     public bool isDynamicCamera = false;
-    public float cameraSize = 5.0f;
     public bool isVisibleBox = false;
+    public float cameraSize = 5.0f;
 
     void Awake() {
         if (this != Instance) { //２つ目以降のインスタンスは破棄
@@ -63,8 +63,8 @@ public class Main : MonoBehaviour {
 
     //タイトルへ
     public static void Init(bool isFade) {
-        bgm.Stop();
-        bgm.Play();
+        Instance.bgm.Stop();
+        Instance.bgm.Play();
         state = State.Title;
         battleResult = BattleResult.Default;
         if (isFade) {

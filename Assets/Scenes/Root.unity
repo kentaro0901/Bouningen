@@ -448,11 +448,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   chara1P: 0
   chara2P: 0
+  bgm: {fileID: 0}
   mainMusic: {fileID: 8300000, guid: d1612ef1bb8d61b4fa12bc0f9ce526a3, type: 3}
   isMultiDisplays: 1
-  isDynamicCamera: 1
-  cameraSize: 5
+  isDynamicCamera: 0
   isVisibleBox: 0
+  cameraSize: 5
 --- !u!4 &506392973
 Transform:
   m_ObjectHideFlags: 0
