@@ -54,6 +54,9 @@ TagManager:
   - name: Chara
     uniqueID: 4014010127
     locked: 0
+  - name: Effect
+    uniqueID: 3963212325
+    locked: 0
   - name: Frame
     uniqueID: 2000599921
     locked: 0

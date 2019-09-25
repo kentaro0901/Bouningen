@@ -20,7 +20,7 @@ public class FadeManager : MonoBehaviour {
 	}
 
 	//private float fadeAlpha = 0; //不透明度（0で透明、１で不透明）
-	private bool isFading = false;
+	public bool isFading = false;
 	//public Color fadeColor = Color.black;
 
     private float fadeValue = 0;
