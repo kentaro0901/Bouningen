@@ -62,6 +62,8 @@ public class SelectMgr : MonoBehaviour {
 
     [SerializeField] GameObject readyPanel1;
     [SerializeField] GameObject readyPanel2;
+    [SerializeField] Image sumiCircle1;
+    [SerializeField] Image sumiCircle2;
     int readyCount = 0;
 
     void Start() {
@@ -250,17 +252,13 @@ public class SelectMgr : MonoBehaviour {
         else {
             readyCount = 0;
         }
+
+        sumiCircle1.fillAmount = (float)readyCount / 60;
+        sumiCircle2.fillAmount = (float)readyCount / 60;
+
         if(60 <= readyCount && Main.state == Main.State.Select) { //シーン遷移
             selectState1 = SelectState.Loading;
             selectState2 = SelectState.Loading;
-            Main.Instance.isMultiDisplays = isMultiDisplays;
-            Main.Instance.isDynamicCamera = isDynamicCamera;
-            Main.Instance.isVisibleBox = isVisibleBox;
-            FadeManager.Instance.LoadScene("Battle", 0.5f);
-            Main.state = Main.State.Battle;
-        }
-
-        if (Input.GetKeyDown(KeyCode.Space)) {//シーン遷移（仮）
             Main.Instance.isMultiDisplays = isMultiDisplays;
             Main.Instance.isDynamicCamera = isDynamicCamera;
             Main.Instance.isVisibleBox = isVisibleBox;
