@@ -451,7 +451,7 @@ MonoBehaviour:
   bgm: {fileID: 0}
   mainMusic: {fileID: 8300000, guid: d1612ef1bb8d61b4fa12bc0f9ce526a3, type: 3}
   isMultiDisplays: 1
-  isDynamicCamera: 0
+  isDynamicCamera: 1
   isVisibleBox: 0
   cameraSize: 5
 --- !u!4 &506392973
@@ -722,6 +722,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e73e61c5e0ab7c47926d70adb3f92bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isFading: 0
 --- !u!4 &566413355
 Transform:
   m_ObjectHideFlags: 0

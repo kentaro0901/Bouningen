@@ -68,13 +68,13 @@ public class CameraEffect : MonoBehaviour {
     private void ZoomCountDown() {
         if (zoomInSeconds > 0) {
             tf.localPosition = iniPos + new Vector3(0, -2.0f, 0f);
-            _camera.orthographicSize = Main.Instance.cameraSize - 4;
+            _camera.orthographicSize = 1;
             zoomInSeconds -= Time.unscaledDeltaTime;
         }
         else if (zoomOutSeconds > 0) {
             zoomInSeconds = 0.0f;
             tf.localPosition = iniPos;
-            _camera.orthographicSize = Main.Instance.cameraSize + 4;
+            _camera.orthographicSize = 10;
             zoomOutSeconds -= Time.unscaledDeltaTime;
         }
         else {

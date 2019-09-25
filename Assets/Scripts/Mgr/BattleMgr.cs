@@ -71,7 +71,7 @@ public class BattleMgr : MonoBehaviour {
         ResistMgr();
         TimeScaleCountDown();
         ChangeCameraChaseMode();
-        if (Main.state == Main.State.Result &&  Input.GetKeyDown(KeyCode.Space)) {//仮
+        if (Main.state == Main.State.Result &&  Input.GetButtonDown("ButtonA_0")) {
             ChangeTimeScale(1.0f, 0);
             Main.Init(true);
         }
