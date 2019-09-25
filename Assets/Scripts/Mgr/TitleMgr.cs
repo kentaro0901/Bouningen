@@ -30,8 +30,7 @@ public class TitleMgr : MonoBehaviour {
     }
 
     void Update() {
-        if (Input.GetKeyDown(KeyCode.Space)) {//仮
-            //SceneManager.LoadScene("Select");
+        if (Input.GetButtonDown("ButtonA_0")) {
             FadeManager.Instance.LoadScene("Select", 0.5f);
             Main.state = Main.State.Select;
         }

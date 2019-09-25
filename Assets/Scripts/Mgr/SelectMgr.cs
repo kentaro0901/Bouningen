@@ -249,7 +249,7 @@ public class SelectMgr : MonoBehaviour {
         if(selectState1 == SelectState.Ready && selectState2 == SelectState.Ready) {
             readyCount++;
         }
-        else {
+        else if(selectState1 == SelectState.Select || selectState2 == SelectState.Select){
             readyCount = 0;
         }
 
