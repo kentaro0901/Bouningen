@@ -24,12 +24,23 @@ public class TitleMgr : MonoBehaviour {
         }
     }
 
+    [SerializeField] Animator animator;
+
     void Start() {
         Main.state = Main.State.Title;
         Main.CameraSetting();
     }
 
     void Update() {
+        if (Input.GetKeyDown(KeyCode.Space)) {
+            if(0 < animator.speed) {
+                animator.speed = 0;
+            }
+            else {
+                animator.speed = 0.8f;
+            }
+            
+        }
         if (Input.GetButtonDown("ButtonA_0")) {
             FadeManager.Instance.LoadScene("Select", 0.5f);
             Main.state = Main.State.Select;
