@@ -18,12 +18,12 @@ public class PlayerController : MonoBehaviour {
     public MyChara myChara = MyChara.Sword;
     public GameObject swordPref;
     public GameObject fighterPref;
-    public GameObject trailPref;
     public GameObject characterIns;
     Character character;
 
     public float maxhp = 100.0f;
     public float hp = 100.0f;
+    public float mp = 0.0f;
 
     public int counter = 0;
 
@@ -52,7 +52,7 @@ public class PlayerController : MonoBehaviour {
     public bool isResistance = false;
     bool isLimitBreak = false;
 
-    [SerializeField] SoundMgr soundMgr;
+    //[SerializeField] SoundMgr soundMgr;
 
     void Awake() { 
         //キャラの生成
@@ -101,7 +101,7 @@ public class PlayerController : MonoBehaviour {
         //状態分岐
         if (stateInfo.fullPathHash == Animator.StringToHash("Base Layer.Side.SideA")){
             if(counter == 0) {
-                Debug.Log("SideA");
+                //Debug.Log("SideA");
             }
         }
         if (stateInfo.IsName("Start")) {
@@ -139,8 +139,6 @@ public class PlayerController : MonoBehaviour {
         if (stateInfo.IsName("Lightning")) {
             if (counter == 0) {
                 BattleMgr.Instance.VibrateDouble(0.8f, 1.0f);
-                GameObject g = Instantiate(trailPref, new Vector3(playerTf.position.x, playerTf.position.y + 1.5f, 0), Quaternion.identity);
-                g.transform.parent = playerTf;
             }
             if(counter <= 10) {
                 playerTf.position += (enemyTf.position + 3 * (enemyTf.position.x > playerTf.position.x ? Vector3.left : Vector3.right) - playerTf.position) / 2; //相手の3m前に移動
@@ -183,23 +181,18 @@ public class PlayerController : MonoBehaviour {
                 }
             }
         }
-        if (stateInfo.IsName("CriticalFall")) {
+        if (stateInfo.IsName("CriticalEnd")) {
+        }
+        if (stateInfo.IsName("CriticalUp")) {
             if (counter == 0) {
-                playerTf.localScale = damageVector.x > 0 ? new Vector3(-1, 1, 1) : Vector3.one;
-                BattleMgr.Instance.ChangeTimeScale(0.0f, 0.5f);
-                BattleMgr.Instance.ChangeToneDouble(0.5f, ((int)playerNum == 2 ? CameraEffect.ToneName.redBlack : CameraEffect.ToneName.blueBlack));
-                BattleMgr.Instance.ZoomInOutDouble(0.1f);
-            }
-            if (Time.timeScale == 1.0f) {
-                playerTf.position += damageVector;
-                playerTf.position = new Vector3(playerTf.position.x, playerTf.position.y - (counter * 0.05f), 0);
-                if (playerTf.position.y < 0.1f) {
-                    playerTf.position = new Vector3(playerTf.position.x, 0, 0);
-                    animator.Play("CriticalEnd");
-                }
+                //BattleMgr.Instance.ChangeToneDouble(0.5f, ((int)playerNum == 2 ? CameraEffect.ToneName.redBlack : CameraEffect.ToneName.blueBlack));
             }
         }
-        if (stateInfo.IsName("CriticalEnd")) {
+        if (stateInfo.IsName("CriticalFall")) {
+            playerTf.position = new Vector3(playerTf.position.x, playerTf.position.y - (counter * 0.1f), 0);
+            if (playerTf.position.y < 0.1f && playerTf.position.y != 0) {
+                playerTf.position = new Vector3(playerTf.position.x, 0, 0);
+            }
         }
         if (stateInfo.IsName("LimitBreak")) {
             switch (counter) {
@@ -209,7 +202,7 @@ public class PlayerController : MonoBehaviour {
                 case 20:
                     BattleMgr.Instance.VibrateDouble(0.8f, 1.0f); break;
                 case 40:
-                    soundMgr.PlaySFX(SoundMgr.Clip.LimitBreak);
+                    //soundMgr.PlaySFX(SoundMgr.Clip.LimitBreak);
                     BattleMgr.Instance.ChangeToneDouble(0.1f, CameraEffect.ToneName.reverseTone); break;
                 case 60:
                     BattleMgr.Instance.VibrateDouble(1.5f, 2.0f);
