@@ -155,8 +155,6 @@ MonoBehaviour:
     type: 3}
   fighterPref: {fileID: 6868318756716019806, guid: ce77b01e4fdd0d940b83d2116b916326,
     type: 3}
-  trailPref: {fileID: 2826292536972505095, guid: a567ff4b693a1ff46b47b8ad9c21ea9a,
-    type: 3}
   characterIns: {fileID: 0}
   maxhp: 0
   hp: 100
@@ -172,7 +170,6 @@ MonoBehaviour:
   vectorspeed: 3
   damageVector: {x: 0, y: 0, z: 0}
   isResistance: 0
-  soundMgr: {fileID: 1248644683}
 --- !u!4 &2320029
 Transform:
   m_ObjectHideFlags: 0
@@ -2649,8 +2646,6 @@ MonoBehaviour:
     type: 3}
   fighterPref: {fileID: 6868318756716019806, guid: ce77b01e4fdd0d940b83d2116b916326,
     type: 3}
-  trailPref: {fileID: 2826292536972505095, guid: a567ff4b693a1ff46b47b8ad9c21ea9a,
-    type: 3}
   characterIns: {fileID: 0}
   maxhp: 0
   hp: 100
@@ -2666,7 +2661,6 @@ MonoBehaviour:
   vectorspeed: 3
   damageVector: {x: 0, y: 0, z: 0}
   isResistance: 0
-  soundMgr: {fileID: 9778839}
 --- !u!1 &1396387650
 GameObject:
   m_ObjectHideFlags: 0

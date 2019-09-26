@@ -52,8 +52,14 @@ public abstract class Character : MonoBehaviour {
     }
 
     //被ダメージ
-    public void Damaged(float damage, Vector2 vector) {
-        playerController.hp -= damage;
+    public void Damaged(float damage, Vector2 vector, bool isCritical) {
+        if(0 < playerController.hp && playerController.hp - damage <= 0 && !isCritical) {
+            playerController.hp = 1.0f;
+        }
+        else {
+            playerController.hp -= damage;
+        }
+        playerController.mp += damage * (isCritical ? 1.5f :1.2f);
         playerController.damageVector = new Vector2((enemyTf.position.x < playerTf.position.x) ? vector.x : -vector.x, vector.y);
     }
     public void Resistance(Vector2 vector) {
