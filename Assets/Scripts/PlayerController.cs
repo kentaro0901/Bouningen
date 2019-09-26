@@ -192,7 +192,7 @@ public class PlayerController : MonoBehaviour {
                 if (BattleMgr.Instance.resistResult == BattleMgr.ResistResult.Critical1P) {
                     if (playerNum == PlayerNum.player1) {
                         BattleMgr.Instance.ChangeTimeScale(0.0f, 0.5f);
-                        BattleMgr.Instance.ChangeToneDouble(0.5f, CameraEffect.ToneName.redBlack);
+                        BattleMgr.Instance.ChangeToneDouble(0.5f, CameraEffect.ToneName.blueBlack);
                         animator.Play("Critical");
                     }
                     else  animator.Play("Idle");
@@ -200,7 +200,7 @@ public class PlayerController : MonoBehaviour {
                 else if (BattleMgr.Instance.resistResult == BattleMgr.ResistResult.Critical2P) {
                     if (playerNum == PlayerNum.player2) {
                         BattleMgr.Instance.ChangeTimeScale(0.0f, 0.5f);
-                        BattleMgr.Instance.ChangeToneDouble(0.5f, CameraEffect.ToneName.blueBlack);
+                        BattleMgr.Instance.ChangeToneDouble(0.5f, CameraEffect.ToneName.redBlack);
                         animator.Play("Critical");
                     }
                     else animator.Play("Idle");
