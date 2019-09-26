@@ -19,7 +19,7 @@ public class HurtBox : MonoBehaviour {
                     character.playerController.animator.Play("Critical");
                 }
                 else {
-                    character.playerController.animator.Play("CriticalUp");//
+                    character.playerController.animator.Play("CriticalUp");
                 }
             }
         }

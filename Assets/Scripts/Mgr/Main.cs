@@ -29,7 +29,7 @@ public class Main : MonoBehaviour {
 
     public enum Chara {
         Sword,
-        fIghter
+        Fighter
     }
     public Chara chara1P = Chara.Sword;
     public Chara chara2P = Chara.Sword;

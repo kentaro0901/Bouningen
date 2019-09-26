@@ -158,6 +158,7 @@ MonoBehaviour:
   characterIns: {fileID: 0}
   maxhp: 0
   hp: 100
+  mp: 0
   counter: 0
   chaseCamera: {fileID: 1396387651}
   cameraEffect: {fileID: 1687828439}
@@ -1624,6 +1625,7 @@ GameObject:
   m_Component:
   - component: {fileID: 725891896}
   - component: {fileID: 725891897}
+  - component: {fileID: 725891898}
   m_Layer: 0
   m_Name: BattleMgr
   m_TagString: Untagged
@@ -1678,6 +1680,56 @@ MonoBehaviour:
   resistCounter1P: 0
   resistCounter2P: 0
   resistResult: 2
+--- !u!114 &725891898
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 725891895}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c9d9919163f46944faf465a13aa8d7d4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Prepare: 0
+  Start: 0
+  Idle: 0
+  LightningStart: 0
+  Lightning: 0
+  LightningAttack: 0
+  NutralA: 0
+  NutralB: 0
+  NutralA_R: 0
+  LimitBreak: 0
+  Critical: 0
+  CriticalEnd: 0
+  CriticalUp: 0
+  CriticalFall: 0
+  CriticalFallEnd: 0
+  Death: 0
+  GameEnd: 0
+  Step: 0
+  StepEnd: 0
+  Dash: 0
+  DashEnd: 0
+  SideA: 0
+  SideA_R: 0
+  SideB: 0
+  SideB_R: 0
+  JumpStart: 0
+  Jump: 0
+  JumpEnd: 0
+  UpA: 0
+  UpB: 0
+  Fall: 0
+  Landing: 0
+  DownA: 0
+  DownB: 0
+  NutralA_Air: 0
+  NutralB_Air: 0
+  SideA_Air: 0
+  SideB_Air: 0
 --- !u!1 &767620461
 GameObject:
   m_ObjectHideFlags: 0
@@ -2649,6 +2701,7 @@ MonoBehaviour:
   characterIns: {fileID: 0}
   maxhp: 0
   hp: 100
+  mp: 0
   counter: 0
   chaseCamera: {fileID: 972152150}
   cameraEffect: {fileID: 886981722}
