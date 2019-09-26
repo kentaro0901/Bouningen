@@ -1367,7 +1367,7 @@ MonoBehaviour:
   isMultiDisplays: 1
   isDynamicCamera: 1
   isVisibleBox: 1
-  cameraSize: 10
+  cameraSize: 5
 --- !u!4 &495413259
 Transform:
   m_ObjectHideFlags: 0

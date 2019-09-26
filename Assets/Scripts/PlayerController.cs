@@ -280,13 +280,12 @@ public class PlayerController : MonoBehaviour {
             playerTf.position = new Vector3(playerTf.position.x, 0, 0);
         }
 
-        //空中制御&自動反転
+        //空中制御
         if(stateInfo.IsName("JumpStart") ||
             stateInfo.IsName("Jump") ||
             stateInfo.IsName("JumpEnd") ||
             stateInfo.IsName("Fall")) {
             playerTf.position += Vector3.right * (vectorspeed * vector.x + airspeed * xAxisD);
-            playerTf.localScale = enemyTf.position.x > playerTf.position.x ? Vector3.one : new Vector3(-1, 1, 1);//
         }
 
         //自動反転
@@ -295,16 +294,19 @@ public class PlayerController : MonoBehaviour {
             playerTf.localScale = enemyTf.position.x > playerTf.position.x ? Vector3.one : new Vector3(-1, 1, 1);//
         }
 
-        //左右反転
+        //手動反転
         if (stateInfo.IsName("Step") ||
             stateInfo.IsName("StepEnd") ||
-            stateInfo.IsName("DashEnd")) {
+            stateInfo.IsName("DashEnd") ||
+            stateInfo.IsName("JumpStart") ||
+            stateInfo.IsName("Jump") ||
+            stateInfo.IsName("JumpEnd") ||
+            stateInfo.IsName("Fall")) {
             if (Input.GetAxis("DPad_XAxis_" + (int)playerNum) > 0)
                 playerTf.localScale = new Vector3(1, 1, 1);
             if (Input.GetAxis("DPad_XAxis_" + (int)playerNum) < 0)
                 playerTf.localScale = new Vector3(-1, 1, 1);
         }
-
 
         animator.SetBool("UpArrow", yAxisD > 0);
         animator.SetBool("RightArrow", xAxisD > 0);
