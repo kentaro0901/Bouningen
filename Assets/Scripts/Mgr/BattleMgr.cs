@@ -81,10 +81,10 @@ public class BattleMgr : MonoBehaviour {
         c1hpBar2.value = c2hpBar2.value = playerController2.hp / playerController2.maxhp;
     }
     private void ResistMgr() {
-        if(resistCounter1P - resistCounter2P > 3) {
+        if(resistCounter1P - resistCounter2P >= 2) {
             resistResult = ResistResult.Critical2P;
         }
-        else if(resistCounter2P - resistCounter1P > 3) {
+        else if(resistCounter2P - resistCounter1P >= 2) {
             resistResult = ResistResult.Critical1P;
         }
         else {

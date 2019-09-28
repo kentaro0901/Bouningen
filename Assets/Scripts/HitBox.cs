@@ -12,7 +12,8 @@ public class HitBox : MonoBehaviour {
 
     void OnTriggerEnter2D(Collider2D collision) {
 
-        if (collision.gameObject.transform.parent != this.transform.parent && collision.gameObject.tag == "HurtBox") { //ヒット
+        //ヒット
+        if (collision.gameObject.transform.parent != this.transform.parent && collision.gameObject.tag == "HurtBox") {
             character.playerController.mp += attack * (isCritical ? 1.2f : 0.8f);
         }
 
@@ -20,15 +21,6 @@ public class HitBox : MonoBehaviour {
         if (collision.gameObject.transform.parent != this.transform.parent && collision.gameObject.tag == "HitBox" && isResist && collision.gameObject.GetComponent<HitBox>().isResist) {
             character.playerController.isResistance = true;
             collision.gameObject.GetComponent<HitBox>().character.Resistance(vector);
-            if (character.playerController.stateInfo.IsName("SideA")) {
-                character.playerController.animator.Play("SideA_R");
-            }
-            if (character.playerController.stateInfo.IsName("SideB")) {
-                character.playerController.animator.Play("SideB_R");
-            }
-            if (character.playerController.stateInfo.IsName("NutralA")) {
-                character.playerController.animator.Play("NutralA_R");
-            }
         }
     }
 }
