@@ -168,7 +168,7 @@ public class BattleMgr : MonoBehaviour {
             c2Txt.text = "LOSE";
         }
         else {
-            Main.battleResult = Main.BattleResult.Default;
+            Main.battleResult = Main.BattleResult.Draw;
             c1Txt.text = "DRAW";
             c2Txt.text = "DRAW";
         }

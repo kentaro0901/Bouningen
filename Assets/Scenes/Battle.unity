@@ -155,7 +155,6 @@ MonoBehaviour:
     type: 3}
   fighterPref: {fileID: 6868318756716019806, guid: ce77b01e4fdd0d940b83d2116b916326,
     type: 3}
-  characterIns: {fileID: 0}
   maxhp: 0
   hp: 100
   mp: 0
@@ -1361,7 +1360,7 @@ MonoBehaviour:
   chara1P: 0
   chara2P: 0
   bgm: {fileID: 0}
-  mainMusic: {fileID: 0}
+  mainMusic: {fileID: 8300000, guid: d1612ef1bb8d61b4fa12bc0f9ce526a3, type: 3}
   isMultiDisplays: 1
   isDynamicCamera: 1
   isVisibleBox: 1
@@ -1709,6 +1708,7 @@ MonoBehaviour:
   CriticalFallEnd: 0
   Death: 0
   GameEnd: 0
+  Wince: 0
   Step: 0
   StepEnd: 0
   Dash: 0
@@ -1722,6 +1722,7 @@ MonoBehaviour:
   JumpEnd: 0
   UpA: 0
   UpB: 0
+  UpB_Fall: 0
   Fall: 0
   Landing: 0
   DownA: 0
@@ -2698,7 +2699,6 @@ MonoBehaviour:
     type: 3}
   fighterPref: {fileID: 6868318756716019806, guid: ce77b01e4fdd0d940b83d2116b916326,
     type: 3}
-  characterIns: {fileID: 0}
   maxhp: 0
   hp: 100
   mp: 0

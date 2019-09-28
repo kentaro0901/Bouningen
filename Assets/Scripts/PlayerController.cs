@@ -77,9 +77,6 @@ public class PlayerController : MonoBehaviour {
     }
 
     void Update() {
-        if(Main.state == Main.State.Result) {
-            Destroy(this.gameObject);
-        }
         vector = playerTf.position - prePos;
 
         xAxisD = Input.GetAxis("DPad_XAxis_" + (int)playerNum);
@@ -132,11 +129,19 @@ public class PlayerController : MonoBehaviour {
             if (playerTf.position.y < 0.1f && playerTf.position.y != 0) playerTf.position = new Vector3(playerTf.position.x, 0, 0);
             if (counter == 14) BattleMgr.Instance.VibrateDouble(0.8f, 2.0f);
         }
+        else if (stateInfo.fullPathHash == AnimState.Instance.UpB_Fall) {
+            playerTf.position = new Vector3(playerTf.position.x, playerTf.position.y - (counter * 0.2f), 0);
+            if (playerTf.position.y < 0.1f && playerTf.position.y != 0) playerTf.position = new Vector3(playerTf.position.x, 0, 0);
+            if (counter == 10) BattleMgr.Instance.VibrateDouble(0.8f, 2.0f);
+        }
         else if (stateInfo.fullPathHash == AnimState.Instance.Critical) {
-            if (counter == 0) playerTf.localScale = damageVector.x > 0 ? new Vector3(-1, 1, 1) : Vector3.one;
+            if (counter == 0) {
+                playerTf.localScale = damageVector.x > 0 ? new Vector3(-1, 1, 1) : Vector3.one;
+                if (hp <= 0) Main.battleResult = Main.BattleResult.Finish;
+            }
             if (Time.timeScale == 1.0f) {
                 playerTf.position += damageVector;
-                playerTf.position = new Vector3(playerTf.position.x, playerTf.position.y - (counter * 0.005f), 0);
+                playerTf.position = new Vector3(playerTf.position.x, playerTf.position.y - (counter * 0.002f), 0);
                 if (playerTf.position.y < 0.1f && 60 < counter) {
                     playerTf.position = new Vector3(playerTf.position.x, 0, 0);
                     if(hp <= 0) {
@@ -207,7 +212,7 @@ public class PlayerController : MonoBehaviour {
                 }
                 else {
                     BattleMgr.Instance.ChangeToneDouble(0.0f, CameraEffect.ToneName.NormalTone);
-                    animator.Play("CriticalEnd");
+                    animator.Play("Wince");
                 }
             }
         }
@@ -246,18 +251,33 @@ public class PlayerController : MonoBehaviour {
             if (xAxisD < 0) playerTf.localScale = new Vector3(-1, 1, 1);
         }
 
-        animator.SetBool("UpArrow", yAxisD > 0);
-        animator.SetBool("RightArrow", xAxisD > 0);
-        animator.SetBool("LeftArrow", xAxisD < 0);
-        animator.SetBool("DownArrow", yAxisD < 0);
+        if (Main.battleResult == Main.BattleResult.Default) {
+            animator.SetBool("UpArrow", yAxisD > 0);
+            animator.SetBool("RightArrow", xAxisD > 0);
+            animator.SetBool("LeftArrow", xAxisD < 0);
+            animator.SetBool("DownArrow", yAxisD < 0);
 
-        animator.SetBool("ButtonA", Input.GetButton("ButtonA_" + (int)playerNum));
-        animator.SetBool("ButtonB", Input.GetButton("ButtonB_" + (int)playerNum));
-        animator.SetBool("ButtonY", Input.GetButton("ButtonY_" + (int)playerNum));
-        animator.SetBool("ButtonX", Input.GetButton("ButtonX_" + (int)playerNum));
-        animator.SetBool("ButtonR", Input.GetButton("ButtonR_" + (int)playerNum));
-        animator.SetBool("ButtonL", Input.GetButton("ButtonL_" + (int)playerNum));
+            animator.SetBool("ButtonA", Input.GetButton("ButtonA_" + (int)playerNum));
+            animator.SetBool("ButtonB", Input.GetButton("ButtonB_" + (int)playerNum));
+            animator.SetBool("ButtonY", Input.GetButton("ButtonY_" + (int)playerNum));
+            animator.SetBool("ButtonX", Input.GetButton("ButtonX_" + (int)playerNum));
+            animator.SetBool("ButtonR", Input.GetButton("ButtonR_" + (int)playerNum));
+            animator.SetBool("ButtonL", Input.GetButton("ButtonL_" + (int)playerNum));
+        }
+        else { //バトル中でないならすべてのパッド入力を無効にする
+            animator.SetBool("UpArrow", false);
+            animator.SetBool("RightArrow", false);
+            animator.SetBool("LeftArrow", false);
+            animator.SetBool("DownArrow", false);
 
+            animator.SetBool("ButtonA", false);
+            animator.SetBool("ButtonB", false);
+            animator.SetBool("ButtonY", false);
+            animator.SetBool("ButtonX", false);
+            animator.SetBool("ButtonR", false);
+            animator.SetBool("ButtonL", false);
+        }
+        
         animator.SetBool("isLand", playerTf.position.y <= 0);
         animator.SetBool("isRight", 0 < playerTf.localScale.x);
 

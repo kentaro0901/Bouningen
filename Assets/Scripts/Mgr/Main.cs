@@ -36,6 +36,8 @@ public class Main : MonoBehaviour {
 
     public enum BattleResult {
         Default,
+        Finish,
+        Draw,
         Win1P,
         Win2P
     }
