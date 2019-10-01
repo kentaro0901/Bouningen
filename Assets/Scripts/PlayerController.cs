@@ -110,16 +110,24 @@ public class PlayerController : MonoBehaviour {
         }
         else if (stateInfo.fullPathHash == AnimState.Instance.LightningStart) {
             if (counter == 0) {
-                BattleMgr.Instance.ChangeToneDouble(0.1f, CameraEffect.ToneName.reverseTone);
+                //BattleMgr.Instance.ChangeToneDouble(0.1f, CameraEffect.ToneName.reverseTone);
                 playerTf.localScale = enemyTf.position.x > playerTf.position.x ? Vector3.one : new Vector3(-1, 1, 1);             
             }
         }
         else if (stateInfo.fullPathHash == AnimState.Instance.Lightning) {
             if (counter == 0) BattleMgr.Instance.VibrateDouble(0.8f, 1.0f);
             if (counter <= 10) {
-                playerTf.position += (enemyTf.position + 3 * (enemyTf.position.x > playerTf.position.x ? Vector3.left : Vector3.right) - playerTf.position) / 2; //相手の3m前に移動
+                Vector3 ofs = 4 * (enemyTf.position.x > playerTf.position.x ? Vector3.left : Vector3.right);
+                if (xAxisD > 0) ofs += 2* Vector3.right;
+                else if (xAxisD < 0) ofs += 2* Vector3.left;
+                if (yAxisD > 0) ofs += 2* Vector3.up;
+                else if (yAxisD < 0) ofs += 2* Vector3.down;
+                playerTf.position += (enemyTf.position + ofs - playerTf.position) / 2; //相手の3m前に移動
                 playerTf.localScale = enemyTf.position.x > playerTf.position.x ? Vector3.one : new Vector3(-1, 1, 1);
             }
+        }
+        else if (stateInfo.fullPathHash == AnimState.Instance.LightningAttack) {
+            Debug.Log("LA");
         }
         else if (stateInfo.fullPathHash == AnimState.Instance.SideB) {
             if(counter == 13) BattleMgr.Instance.VibrateDouble(0.5f, 0.5f);
@@ -128,6 +136,10 @@ public class PlayerController : MonoBehaviour {
             playerTf.position = new Vector3(playerTf.position.x, playerTf.position.y - (counter * 0.2f), 0);
             if (playerTf.position.y < 0.1f && playerTf.position.y != 0) playerTf.position = new Vector3(playerTf.position.x, 0, 0);
             if (counter == 14) BattleMgr.Instance.VibrateDouble(0.8f, 2.0f);
+        }
+        else if (stateInfo.fullPathHash == AnimState.Instance.DownB_Air) {
+            playerTf.position = new Vector3(playerTf.position.x, playerTf.position.y - (counter * 0.2f), 0);
+            if (playerTf.position.y < 0.1f && playerTf.position.y != 0) playerTf.position = new Vector3(playerTf.position.x, 0, 0);
         }
         else if (stateInfo.fullPathHash == AnimState.Instance.UpB_Fall) {
             playerTf.position = new Vector3(playerTf.position.x, playerTf.position.y - (counter * 0.2f), 0);
@@ -142,20 +154,30 @@ public class PlayerController : MonoBehaviour {
             if (Time.timeScale == 1.0f) {
                 playerTf.position += damageVector;
                 playerTf.position = new Vector3(playerTf.position.x, playerTf.position.y - (counter * 0.002f), 0);
-                if (playerTf.position.y < 0.1f && 60 < counter) {
+                if (playerTf.position.y < 0.1f && 45 < counter) {
                     playerTf.position = new Vector3(playerTf.position.x, 0, 0);
-                    if(hp <= 0) {
-                        animator.Play("Death");
-                    }
-                    else {
-                        animator.Play("CriticalEnd");
-                    }
+                    if (hp <= 0) animator.Play("Death");
+                    else animator.Play("CriticalEnd");                  
                 }
             }
         }
+        else if (stateInfo.fullPathHash == AnimState.Instance.CriticalEnd) {
+            damageVector *= 0.9f;
+            playerTf.position += damageVector;
+        }
+        else if (stateInfo.fullPathHash == AnimState.Instance.CriticalNA) {
+            damageVector *= 0.9f;
+            playerTf.position += damageVector;
+        }
         else if (stateInfo.fullPathHash == AnimState.Instance.CriticalFall) {
             playerTf.position = new Vector3(playerTf.position.x, playerTf.position.y - (counter * 0.1f), 0);
-            if (playerTf.position.y < 0.1f && playerTf.position.y != 0) playerTf.position = new Vector3(playerTf.position.x, 0, 0);
+            if (playerTf.position.y < 0.1f && playerTf.position.y != 0) {
+                playerTf.position = new Vector3(playerTf.position.x, 0, 0);
+                animator.Play("CriticalFallEnd");
+            }
+        }
+        else if (stateInfo.fullPathHash == AnimState.Instance.CriticalFallEnd) {
+            if (counter == 0) BattleMgr.Instance.VibrateDouble(0.5f, 0.3f);
         }
         else if (stateInfo.fullPathHash == AnimState.Instance.LimitBreak) {//
             switch (counter) {
@@ -229,13 +251,17 @@ public class PlayerController : MonoBehaviour {
         if (stateInfo.fullPathHash == AnimState.Instance.JumpStart ||
             stateInfo.fullPathHash == AnimState.Instance.Jump ||
             stateInfo.fullPathHash == AnimState.Instance.JumpEnd ||
-            stateInfo.fullPathHash == AnimState.Instance.Fall ) {
-            playerTf.position += Vector3.right * (vectorspeed * vector.x + airspeed * xAxisD);
+            stateInfo.fullPathHash == AnimState.Instance.Fall ||
+            stateInfo.fullPathHash == AnimState.Instance.CriticalFall ||
+            stateInfo.fullPathHash == AnimState.Instance.UpB_Fall) {
+            if (0 < playerTf.position.y) playerTf.position += Vector3.right * (vectorspeed * vector.x + airspeed * xAxisD);
         }
 
         //自動反転
         if (stateInfo.fullPathHash == AnimState.Instance.Start ||
-            stateInfo.fullPathHash == AnimState.Instance.Idle) {
+            stateInfo.fullPathHash == AnimState.Instance.Idle ||
+            stateInfo.fullPathHash == AnimState.Instance.CriticalUp ||
+            stateInfo.fullPathHash == AnimState.Instance.CriticalFall) {
             playerTf.localScale = enemyTf.position.x > playerTf.position.x ? Vector3.one : new Vector3(-1, 1, 1);//
         }
 

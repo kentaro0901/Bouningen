@@ -29,12 +29,16 @@ public class AnimState : MonoBehaviour {
     public int LimitBreak;
     public int Critical;
     public int CriticalEnd;
+    public int CriticalNA;
     public int CriticalUp;
     public int CriticalFall;
     public int CriticalFallEnd;
+    public int CriticalDown;
+    public int CriticalDownEnd;
     public int Death;
     public int GameEnd;
     public int Wince;
+    public int DownB;
 
     public int Step;
     public int StepEnd;
@@ -55,7 +59,7 @@ public class AnimState : MonoBehaviour {
     public int Fall;
     public int Landing;
     public int DownA;
-    public int DownB;
+    public int DownB_Air;
     public int NutralA_Air;
     public int NutralB_Air;
     public int SideA_Air;
@@ -78,12 +82,16 @@ public class AnimState : MonoBehaviour {
         LimitBreak = Animator.StringToHash("Base Layer.LimitBreak");
         Critical = Animator.StringToHash("Base Layer.Critical");
         CriticalEnd = Animator.StringToHash("Base Layer.CriticalEnd");
+        CriticalNA = Animator.StringToHash("Base Layer.CriticalNA");
         CriticalUp = Animator.StringToHash("Base Layer.CriticalUp");
         CriticalFall = Animator.StringToHash("Base Layer.CriticalFall");
         CriticalFallEnd = Animator.StringToHash("Base Layer.CriticalFallEnd");
+        CriticalDown = Animator.StringToHash("Base Layer.CriticalDown");
+        CriticalDownEnd = Animator.StringToHash("Base Layer.CriticalDownEnd");
         Death = Animator.StringToHash("Base Layer.Death");
         GameEnd = Animator.StringToHash("Base Layer.GameEnd");
         Wince = Animator.StringToHash("Base Layer.Wince");
+        DownB = Animator.StringToHash("Base Layer.DownB");
 
         Step = Animator.StringToHash("Base Layer.Side.Step");
         StepEnd = Animator.StringToHash("Base Layer.Side.StepEnd");
@@ -104,7 +112,7 @@ public class AnimState : MonoBehaviour {
         Fall = Animator.StringToHash("Base Layer.Down.Fall");
         Landing = Animator.StringToHash("Base Layer.Down.Landing");
         DownA = Animator.StringToHash("Base Layer.Down.DownA");
-        DownB = Animator.StringToHash("Base Layer.Down.DownB");
+        DownB_Air = Animator.StringToHash("Base Layer.Down.DownB_Air");
         NutralA_Air = Animator.StringToHash("Base Layer.Down.NutralA_Air");
         NutralB_Air = Animator.StringToHash("Base Layer.Down.NutralB_Air");
         SideA_Air = Animator.StringToHash("Base Layer.Down.SideA_Air");

@@ -1703,12 +1703,16 @@ MonoBehaviour:
   LimitBreak: 0
   Critical: 0
   CriticalEnd: 0
+  CriticalNA: 0
   CriticalUp: 0
   CriticalFall: 0
   CriticalFallEnd: 0
+  CriticalDown: 0
+  CriticalDownEnd: 0
   Death: 0
   GameEnd: 0
   Wince: 0
+  DownB: 0
   Step: 0
   StepEnd: 0
   Dash: 0
@@ -1726,7 +1730,7 @@ MonoBehaviour:
   Fall: 0
   Landing: 0
   DownA: 0
-  DownB: 0
+  DownB_Air: 0
   NutralA_Air: 0
   NutralB_Air: 0
   SideA_Air: 0

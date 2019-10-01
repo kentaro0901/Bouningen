@@ -76,14 +76,20 @@ public abstract class Character : MonoBehaviour {
     }
     public void Resistance(Vector2 vector) {
         playerController.damageVector = new Vector2((playerController.enemyTf.position.x < playerTf.position.x) ? vector.x : -vector.x, vector.y);
-        if (playerController.stateInfo.fullPathHash == AnimState.Instance.SideA) {
+        if (playerController.stateInfo.fullPathHash == AnimState.Instance.SideA ||
+            playerController.stateInfo.fullPathHash == AnimState.Instance.LightningAttack) {
             playerController.animator.Play("SideA_R");
         }
-        if (playerController.stateInfo.fullPathHash == AnimState.Instance.SideB) {
+        else if (playerController.stateInfo.fullPathHash == AnimState.Instance.SideB) {
             playerController.animator.Play("SideB_R");
         }
-        if (playerController.stateInfo.fullPathHash == AnimState.Instance.NutralA) {
+        else if (playerController.stateInfo.fullPathHash == AnimState.Instance.NutralA ||
+            playerController.stateInfo.fullPathHash == AnimState.Instance.CriticalNA) {
             playerController.animator.Play("NutralA_R");
+        }
+        else { //なぜかたまにここに入る
+            playerController.animator.Play("SideA_R");
+            Debug.LogError("NoneResist");
         }
     }
     public void LimitBreak() {
