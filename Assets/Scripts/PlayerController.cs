@@ -163,21 +163,40 @@ public class PlayerController : MonoBehaviour {
         }
         else if (stateInfo.fullPathHash == AnimState.Instance.CriticalEnd) {
             damageVector *= 0.9f;
-            playerTf.position += damageVector;
+            playerTf.position += new Vector3(damageVector.x, 0, 0);
         }
         else if (stateInfo.fullPathHash == AnimState.Instance.CriticalNA) {
             damageVector *= 0.9f;
             playerTf.position += damageVector;
         }
+        else if (stateInfo.fullPathHash == AnimState.Instance.CriticalUp) {
+            playerTf.position += new Vector3(damageVector.x, 0, 0);
+        }
         else if (stateInfo.fullPathHash == AnimState.Instance.CriticalFall) {
-            playerTf.position = new Vector3(playerTf.position.x, playerTf.position.y - (counter * 0.1f), 0);
+            playerTf.position += new Vector3(damageVector.x,  - counter * 0.1f, 0);
             if (playerTf.position.y < 0.1f && playerTf.position.y != 0) {
                 playerTf.position = new Vector3(playerTf.position.x, 0, 0);
-                animator.Play("CriticalFallEnd");
+                if (damageVector.x == 0) {
+                    BattleMgr.Instance.VibrateDouble(0.5f, 0.3f);
+                    animator.Play("CriticalFallEnd");
+                }
+                else {
+                    BattleMgr.Instance.VibrateDouble(0.5f, 0.7f);
+                    animator.Play("CriticalEnd");
+                }
             }
         }
         else if (stateInfo.fullPathHash == AnimState.Instance.CriticalFallEnd) {
-            if (counter == 0) BattleMgr.Instance.VibrateDouble(0.5f, 0.3f);
+            damageVector *= 0.9f;
+            playerTf.position += new Vector3(damageVector.x, 0, 0);
+        }
+        else if (stateInfo.fullPathHash == AnimState.Instance.CriticalDown) {
+            playerTf.position = new Vector3(playerTf.position.x + damageVector.x, playerTf.position.y - 2, 0);
+            if (playerTf.position.y < 0.1f && playerTf.position.y != 0) {
+                playerTf.position = new Vector3(playerTf.position.x, 0, 0);
+                BattleMgr.Instance.VibrateDouble(1.0f, 1.0f);
+                animator.Play("CriticalUp");
+            }
         }
         else if (stateInfo.fullPathHash == AnimState.Instance.LimitBreak) {//
             switch (counter) {

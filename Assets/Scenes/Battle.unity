@@ -1708,7 +1708,6 @@ MonoBehaviour:
   CriticalFall: 0
   CriticalFallEnd: 0
   CriticalDown: 0
-  CriticalDownEnd: 0
   Death: 0
   GameEnd: 0
   Wince: 0

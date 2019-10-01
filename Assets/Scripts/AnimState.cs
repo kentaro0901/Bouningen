@@ -34,7 +34,6 @@ public class AnimState : MonoBehaviour {
     public int CriticalFall;
     public int CriticalFallEnd;
     public int CriticalDown;
-    public int CriticalDownEnd;
     public int Death;
     public int GameEnd;
     public int Wince;
@@ -87,7 +86,6 @@ public class AnimState : MonoBehaviour {
         CriticalFall = Animator.StringToHash("Base Layer.CriticalFall");
         CriticalFallEnd = Animator.StringToHash("Base Layer.CriticalFallEnd");
         CriticalDown = Animator.StringToHash("Base Layer.CriticalDown");
-        CriticalDownEnd = Animator.StringToHash("Base Layer.CriticalDownEnd");
         Death = Animator.StringToHash("Base Layer.Death");
         GameEnd = Animator.StringToHash("Base Layer.GameEnd");
         Wince = Animator.StringToHash("Base Layer.Wince");

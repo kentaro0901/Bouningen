@@ -51,7 +51,7 @@ public abstract class Character : MonoBehaviour {
     }
 
     //被ダメージ
-    public void Damaged(float damage, Vector2 vector, bool isCritical, bool isUpArmor, bool isSideArmor) {
+    public void Damaged(float damage, Vector2 vector, bool isCritical, bool isUpArmor, bool isSideArmor, bool isDownArmor) {
         if (0 < playerController.hp && playerController.hp - damage <= 0 && (!isCritical || vector.x < vector.y)) { //横クリティカル以外ではゲームが終了しない
             playerController.hp = 1.0f;
         }
@@ -61,16 +61,20 @@ public abstract class Character : MonoBehaviour {
         playerController.mp += damage * (isCritical ? 1.5f :1.2f);
         playerController.damageVector = new Vector2((playerController.enemyTf.position.x < playerTf.position.x) ? vector.x : -vector.x, vector.y);
         if (isCritical) { //クリティカル
-            if (vector.y <= vector.x && !isSideArmor) { //横クリティカル
+            if (vector.y == 0 && !isSideArmor) { //横クリティカル
                 playerController.counter = 0;
                 BattleMgr.Instance.ChangeTimeScale(0.0f, 0.5f);
                 BattleMgr.Instance.ChangeToneDouble(0.5f, ((int)playerController.playerNum == 2 ? CameraEffect.ToneName.redBlack : CameraEffect.ToneName.blueBlack));
                 BattleMgr.Instance.ZoomInOutDouble(0.1f);
                 playerController.animator.Play("Critical");
             }
-            else if(!isUpArmor){ //上クリティカル
+            else if (vector.y > 0 && !isUpArmor){ //上クリティカル
                 playerController.counter = 0;
                 playerController.animator.Play("CriticalUp");
+            }
+            else if (vector.y < 0 && !isDownArmor){ //下クリティカル
+                playerController.counter = 0;
+                playerController.animator.Play("CriticalDown");
             }
         }
     }
