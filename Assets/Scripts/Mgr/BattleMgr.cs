@@ -45,6 +45,10 @@ public class BattleMgr : MonoBehaviour {
     [SerializeField] Slider c1hpBar2;
     [SerializeField] Slider c2hpBar1;
     [SerializeField] Slider c2hpBar2;
+    [SerializeField] Slider c1mpBar1;
+    [SerializeField] Slider c1mpBar2;
+    [SerializeField] Slider c2mpBar1;
+    [SerializeField] Slider c2mpBar2;
     [SerializeField] GameObject[] GrandPref;
 
     public int resistCounter1P = 0;
@@ -83,6 +87,8 @@ public class BattleMgr : MonoBehaviour {
     private void UpdateUI() {
         c1hpBar1.value = c2hpBar1.value = playerController1.hp / playerController1.maxhp;
         c1hpBar2.value = c2hpBar2.value = playerController2.hp / playerController2.maxhp;
+        c1mpBar1.value = c2mpBar1.value = playerController1.mp / 100;
+        c1mpBar2.value = c2mpBar2.value = playerController2.mp / 100;
     }
     private void ResistMgr() {
         if(resistCounter1P - resistCounter2P >= 2) {

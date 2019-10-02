@@ -96,7 +96,10 @@ public class PlayerController : MonoBehaviour {
             }
         }
         else if (stateInfo.fullPathHash == AnimState.Instance.Idle) {
-            if(animator.GetBool("ButtonL") && !isLimitBreak) animator.Play("LimitBreak");
+            if (animator.GetBool("ButtonL") && !isLimitBreak && 100 <= mp) {
+                animator.Play("LimitBreak");
+                mp = 0;
+            }
         }
         else if (stateInfo.fullPathHash == AnimState.Instance.Dash) {
             playerTf.position += Vector3.right * dashspeed * xAxisD;
