@@ -165,7 +165,7 @@ MonoBehaviour:
   enemyController: {fileID: 1288113352}
   enemyTf: {fileID: 0}
   animator: {fileID: 0}
-  dashspeed: 0.5
+  dashspeed: 0.8
   airspeed: 0.1
   vectorspeed: 3
   damageVector: {x: 0, y: 0, z: 0}
@@ -1676,6 +1676,10 @@ MonoBehaviour:
   c1hpBar2: {fileID: 279284787}
   c2hpBar1: {fileID: 1885723015}
   c2hpBar2: {fileID: 1479420745}
+  GrandPref:
+  - {fileID: 3030730356319239748, guid: c179acb1d3fcd5345946eb79aac92f3a, type: 3}
+  - {fileID: 6124810052568752046, guid: 0d0a0583965d5ba48a771762832b22f7, type: 3}
+  - {fileID: 2187116308042254094, guid: d9ec29a55eefb6b438b3dc6e16a34104, type: 3}
   resistCounter1P: 0
   resistCounter2P: 0
   resistResult: 2
@@ -2712,7 +2716,7 @@ MonoBehaviour:
   enemyController: {fileID: 2320028}
   enemyTf: {fileID: 0}
   animator: {fileID: 0}
-  dashspeed: 0.5
+  dashspeed: 0.8
   airspeed: 0.1
   vectorspeed: 3
   damageVector: {x: 0, y: 0, z: 0}
