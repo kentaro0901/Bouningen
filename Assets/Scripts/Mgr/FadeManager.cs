@@ -8,42 +8,30 @@ using System.Collections.Generic;
 public class FadeManager : MonoBehaviour {
 
     //シングルトン
-	private static FadeManager instance;
-	public static FadeManager Instance {
-		get {
-			if (instance == null) {
-				instance = (FadeManager)FindObjectOfType (typeof(FadeManager));
-				if (instance == null) Debug.LogError (typeof(FadeManager) + "is nothing");
-			}
-			return instance;
-		}
-	}
+    private static FadeManager instance;
+    public static FadeManager Instance {
+        get {
+            if (instance == null) {
+                instance = (FadeManager)FindObjectOfType(typeof(FadeManager));
+                if (instance == null) Debug.LogError(typeof(FadeManager) + "is nothing");
+            }
+            return instance;
+        }
+    }
 
-	//private float fadeAlpha = 0; //不透明度（0で透明、１で不透明）
-	public bool isFading = false;
-	//public Color fadeColor = Color.black;
+    public bool isFading = false;
 
-    private float fadeValue = 0;
-    RectTransform transLeftD1;
-    RectTransform transRightD1;
-    RectTransform transLeftD2;
-    RectTransform transRightD2;
+    [SerializeField] GameObject c1TransCircle1;
+    [SerializeField] GameObject c1TransCircle2;
+    [SerializeField] GameObject c2TransCircle1;
+    [SerializeField] GameObject c2TransCircle2;
 
 	public void Awake () {
-		if (this != Instance) { //２つ目以降のインスタンスは破棄
+		if (this != Instance) {
 			Destroy (this.gameObject);
 			return;
 		}
 		DontDestroyOnLoad (this.gameObject);
-
-        transLeftD1 = this.gameObject.transform.GetChild(0).GetChild(0).GetComponent<RectTransform>();
-        transRightD1 = this.gameObject.transform.GetChild(0).GetChild(1).GetComponent<RectTransform>();
-        transLeftD1.offsetMax = Vector2.right * -Screen.width;
-        transRightD1.offsetMin = Vector2.right * Screen.width;
-        transLeftD2 = this.gameObject.transform.GetChild(1).GetChild(0).GetComponent<RectTransform>();
-        transRightD2 = this.gameObject.transform.GetChild(1).GetChild(1).GetComponent<RectTransform>();
-        transLeftD2.offsetMax = Vector2.right * -Screen.width;
-        transRightD2.offsetMin = Vector2.right * Screen.width;
     }
 
 	public void LoadScene (string scene, float interval) {
@@ -52,35 +40,42 @@ public class FadeManager : MonoBehaviour {
 
 	private IEnumerator TransScene (string scene, float interval) {
 		this.isFading = true;
-		float time = 0;
-		while (time <= interval) {
-			this.fadeValue = Mathf.Lerp (0f, 1f, time / interval);
-            fadeValue = Mathf.Pow(fadeValue, 0.5f);
-            transLeftD1.offsetMax = Vector2.right * (-Screen.width + Screen.width / 2 * fadeValue);
-            transRightD1.offsetMin = Vector2.right *(Screen.width - Screen.width / 2 * fadeValue);
-            transLeftD2.offsetMax = Vector2.right * (-Screen.width + Screen.width / 2 * fadeValue);
-            transRightD2.offsetMin = Vector2.right * (Screen.width - Screen.width / 2 * fadeValue);
-            time += Time.deltaTime;
-			yield return 0;
-		}
-
+        c1TransCircle1.GetComponent<RectTransform>().localRotation = Quaternion.Euler(0, 0, 0);
+        c1TransCircle2.GetComponent<RectTransform>().localRotation = Quaternion.Euler(0, 0, 90);
+        c2TransCircle1.GetComponent<RectTransform>().localRotation = Quaternion.Euler(0, 0, 0);
+        c2TransCircle2.GetComponent<RectTransform>().localRotation = Quaternion.Euler(0, 0, 90);
+        yield return 0;
+        iTween.RotateTo(c1TransCircle1, iTween.Hash("z", -60, "time", 0.3f, "EaseType", iTween.EaseType.easeOutCirc, "islocal", true));
+        iTween.RotateTo(c1TransCircle2, iTween.Hash("z", 98, "time", 0.3f, "EaseType", iTween.EaseType.easeOutCirc, "islocal", true));
+        iTween.RotateTo(c2TransCircle1, iTween.Hash("z", -60, "time", 0.3f, "EaseType", iTween.EaseType.easeOutCirc, "islocal", true));
+        iTween.RotateTo(c2TransCircle2, iTween.Hash("z", 98, "time", 0.3f, "EaseType", iTween.EaseType.easeOutCirc, "islocal", true));
+        yield return new WaitForSeconds(0.4f);
+        iTween.RotateAdd(c1TransCircle1, iTween.Hash("z", -45, "time", interval /2, "EaseType", iTween.EaseType.easeInBack, "islocal", true));
+        iTween.RotateAdd(c1TransCircle2, iTween.Hash("z", -45, "time", interval /2, "EaseType", iTween.EaseType.easeInBack, "islocal", true));
+        iTween.RotateAdd(c2TransCircle1, iTween.Hash("z", -45, "time", interval / 2, "EaseType", iTween.EaseType.easeInBack, "islocal", true));
+        iTween.RotateAdd(c2TransCircle2, iTween.Hash("z", -45, "time", interval / 2, "EaseType", iTween.EaseType.easeInBack, "islocal", true));
+        yield return new WaitForSeconds(interval * 0.55f);
 		SceneManager.LoadScene (scene);
-
-		time = 0;
-		while (time <= interval) {
-			this.fadeValue = Mathf.Lerp (1f, 0f, time / interval);
-            fadeValue = Mathf.Pow(fadeValue, 0.33f);
-            transLeftD1.offsetMax = Vector2.right * (-Screen.width + Screen.width / 2 * fadeValue);
-            transRightD1.offsetMin = Vector2.right * (Screen.width - Screen.width / 2 * fadeValue);
-            transLeftD2.offsetMax = Vector2.right * (-Screen.width + Screen.width / 2 * fadeValue);
-            transRightD2.offsetMin = Vector2.right * (Screen.width - Screen.width / 2 * fadeValue);
-            time += Time.deltaTime;
-			yield return 0;
-		}
-        transLeftD1.offsetMax = Vector2.right * -Screen.width;
-        transRightD1.offsetMin = Vector2.right * Screen.width;
-        transLeftD2.offsetMax = Vector2.right * -Screen.width;
-        transRightD2.offsetMin = Vector2.right * Screen.width;
+        c1TransCircle1.GetComponent<RectTransform>().localRotation = Quaternion.Euler(0, 0, -10);
+        c1TransCircle2.GetComponent<RectTransform>().localRotation = Quaternion.Euler(0, 0, 148);
+        c2TransCircle1.GetComponent<RectTransform>().localRotation = Quaternion.Euler(0, 0, -10);
+        c2TransCircle2.GetComponent<RectTransform>().localRotation = Quaternion.Euler(0, 0, 148);
+        yield return 0;
+        iTween.RotateAdd(c1TransCircle1, iTween.Hash("z", -50, "time", interval /2, "EaseType", iTween.EaseType.easeOutBack, "islocal", true));
+        iTween.RotateAdd(c1TransCircle2, iTween.Hash("z", -50, "time", interval /2, "EaseType", iTween.EaseType.easeOutBack, "islocal", true));
+        iTween.RotateAdd(c2TransCircle1, iTween.Hash("z", -50, "time", interval / 2, "EaseType", iTween.EaseType.easeOutBack, "islocal", true));
+        iTween.RotateAdd(c2TransCircle2, iTween.Hash("z", -50, "time", interval / 2, "EaseType", iTween.EaseType.easeOutBack, "islocal", true));
+        yield return new WaitForSeconds(interval * 0.55f);
+        iTween.RotateTo(c1TransCircle1, iTween.Hash("z", 0, "time", 0.3f, "EaseType", iTween.EaseType.easeInCirc, "islocal", true));
+        iTween.RotateTo(c1TransCircle2, iTween.Hash("z", 90, "time", 0.3f, "EaseType", iTween.EaseType.easeInCirc, "islocal", true));
+        iTween.RotateTo(c2TransCircle1, iTween.Hash("z", 0, "time", 0.3f, "EaseType", iTween.EaseType.easeInCirc, "islocal", true));
+        iTween.RotateTo(c2TransCircle2, iTween.Hash("z", 90, "time", 0.3f, "EaseType", iTween.EaseType.easeInCirc, "islocal", true));
+        yield return new WaitForSeconds(0.4f);
+        c1TransCircle1.GetComponent<RectTransform>().localRotation = Quaternion.Euler(0, 0, 0);
+        c1TransCircle2.GetComponent<RectTransform>().localRotation = Quaternion.Euler(0, 0, 90);
+        c2TransCircle1.GetComponent<RectTransform>().localRotation = Quaternion.Euler(0, 0, 0);
+        c2TransCircle2.GetComponent<RectTransform>().localRotation = Quaternion.Euler(0, 0, 90);
         this.isFading = false;
+        yield return 0;
 	}
 }
