@@ -64,13 +64,14 @@ public class BattleMgr : MonoBehaviour {
 
     void Start() {
         Main.state = Main.State.Battle;
+        Main.battleResult = Main.BattleResult.Battle;
         Main.CameraSetting();
         camera1Tf = chaseCamera1.transform;
         camera2Tf = chaseCamera2.transform;
         player1Tf = playerController1.playerTf;
         player2Tf = playerController2.playerTf;
         for (int i = -100; i <= 100; i++){
-            GameObject g = Instantiate(GrandPref[(int)Random.Range(0, GrandPref.Length)], new Vector3(i * 20, -1.2f, 0), Quaternion.identity);
+            GameObject g = Instantiate(GrandPref[(int)Random.Range(0, GrandPref.Length)], new Vector3(i * 20, -1.5f, 0), Quaternion.identity);
         }
     }
 

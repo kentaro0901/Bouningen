@@ -49,6 +49,7 @@ MonoBehaviour:
   character: {fileID: 0}
   isUpArmor: 0
   isSideArmor: 0
+  isDownArmor: 0
 --- !u!212 &7234601671019043536
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -765,7 +766,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4663070644501396518}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.38, y: 0.52, z: 65.23828}
+  m_LocalPosition: {x: 0.02, y: 0.52, z: 65.23828}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 6487946451456971823}
@@ -806,8 +807,8 @@ TrailRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -1135142227
+  m_SortingLayer: 1
   m_SortingOrder: 0
   m_Time: 0.2
   m_Parameters:
@@ -1166,8 +1167,8 @@ TrailRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -331754971
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Time: 0.2
   m_Parameters:
@@ -1634,8 +1635,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -280957169
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: 4723107735738678597, guid: 74fe04118b07ef14bb143b5a9c6ea472,
     type: 3}
@@ -1716,7 +1717,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6544412943547299724}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 3.53, z: 65.23828}
+  m_LocalPosition: {x: 0, y: 1.41, z: 65.23828}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 6487946451456971823}
@@ -1757,8 +1758,8 @@ TrailRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -331754971
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Time: 0.4
   m_Parameters:

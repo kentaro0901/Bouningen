@@ -170,6 +170,10 @@ MonoBehaviour:
   vectorspeed: 3
   damageVector: {x: 0, y: 0, z: 0}
   isResistance: 0
+  HibiPref:
+  - {fileID: 7077348887940661510, guid: 583f5997ca169b942b3ea44f63e13351, type: 3}
+  - {fileID: 2388291135847210284, guid: cc30c5a31fe68a64184f16075abde209, type: 3}
+  - {fileID: 981414883995648703, guid: ee4f3244ae07c7640b803707f1749c61, type: 3}
 --- !u!4 &2320029
 Transform:
   m_ObjectHideFlags: 0
@@ -913,7 +917,7 @@ SpriteRenderer:
   m_SortingLayerID: 559253765
   m_SortingLayer: -1
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: e3e43a09e8a73d947af418c25a31ca3e, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 5c8f9a1af15bc1c46a6e3b45e8f579ec, type: 3}
   m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -3541,6 +3545,10 @@ MonoBehaviour:
   vectorspeed: 3
   damageVector: {x: 0, y: 0, z: 0}
   isResistance: 0
+  HibiPref:
+  - {fileID: 7077348887940661510, guid: 583f5997ca169b942b3ea44f63e13351, type: 3}
+  - {fileID: 2388291135847210284, guid: cc30c5a31fe68a64184f16075abde209, type: 3}
+  - {fileID: 981414883995648703, guid: ee4f3244ae07c7640b803707f1749c61, type: 3}
 --- !u!1 &1396387650
 GameObject:
   m_ObjectHideFlags: 0
