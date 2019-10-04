@@ -35,9 +35,9 @@ public class PlayerController : MonoBehaviour {
     public AnimatorStateInfo stateInfo;
     public Animator animator;
 
-    [SerializeField] float dashspeed;
-    [SerializeField] float airspeed;
-    [SerializeField] float vectorspeed;
+    static float dashspeed = 0.8f;
+    static float airspeed = 0.15f; 
+    static float vectorspeed = 3.0f;
 
     float xAxisD;
     float yAxisD;
@@ -46,7 +46,7 @@ public class PlayerController : MonoBehaviour {
     public Vector3 damageVector = Vector3.zero;
 
     public bool isResistance = false;
-    bool isLimitBreak = false;
+    public bool isLimitBreak = false;
 
     [SerializeField] GameObject[] HibiPref;
 
@@ -95,6 +95,7 @@ public class PlayerController : MonoBehaviour {
                 BattleMgr.Instance.ChangeToneDouble(0.1f, CameraEffect.ToneName.reverseTone);
                 BattleMgr.Instance.ZoomInOutDouble(0.1f);
                 BattleMgr.Instance.VibrateDouble(0.8f, 2.0f);
+                animator.speed = Main.Instance.gameSpeed;
             }
         }
         else if (stateInfo.fullPathHash == AnimState.Instance.Idle) {
@@ -122,7 +123,7 @@ public class PlayerController : MonoBehaviour {
         else if (stateInfo.fullPathHash == AnimState.Instance.Lightning) {
             if (counter == 0) BattleMgr.Instance.VibrateDouble(0.8f, 1.0f);
             if (counter <= 5) {
-                Vector3 ofs = 4 * (enemyTf.position.x > playerTf.position.x ? Vector3.left : Vector3.right);
+                Vector3 ofs = 5 * (enemyTf.position.x > playerTf.position.x ? Vector3.left : Vector3.right);
                 if (xAxisD > 0) ofs += Vector3.right;
                 else if (xAxisD < 0) ofs += Vector3.left;
                 if (yAxisD > 0) ofs += 2* Vector3.up;
@@ -133,7 +134,9 @@ public class PlayerController : MonoBehaviour {
             playerTf.position += new Vector3(enemyController.damageVector.x, 0, 0);
         }
         else if (stateInfo.fullPathHash == AnimState.Instance.LightningAttack) {
-            Debug.Log("LA");
+            if (Time.timeScale == 1.0f) {
+                playerTf.position += new Vector3(enemyController.damageVector.x, 0, 0);
+            }
         }
         else if (stateInfo.fullPathHash == AnimState.Instance.SideB) {
             if(counter == 13) BattleMgr.Instance.VibrateDouble(0.5f, 0.5f);
@@ -166,7 +169,7 @@ public class PlayerController : MonoBehaviour {
             if (Time.timeScale == 1.0f) {
                 playerTf.position += damageVector;
                 playerTf.position = new Vector3(playerTf.position.x, playerTf.position.y - (counter * 0.002f), 0);
-                if (playerTf.position.y < 0.1f && 45 < counter) {
+                if (playerTf.position.y < 0.1f && 40 < counter) {
                     playerTf.position = new Vector3(playerTf.position.x, 0, 0);
                     if (hp <= 0) animator.Play("Death");
                     else animator.Play("CriticalEnd");                  
@@ -229,20 +232,16 @@ public class PlayerController : MonoBehaviour {
             BattleMgr.Instance.ChangeToneDouble(0.0f, CameraEffect.ToneName.NormalTone);
             character.LimitBreak();
             playerTf.position = new Vector3(playerTf.position.x, 0, playerTf.position.z);
-            animator.speed = 1.2f;
+            animator.speed *= 1.2f;
         }
         if (stateInfo.fullPathHash == AnimState.Instance.SideA_R || 
             stateInfo.fullPathHash == AnimState.Instance.NutralA_R || 
             stateInfo.fullPathHash == AnimState.Instance.SideB_R) {
-            if (counter == 0) {
-                BattleMgr.Instance.resistCounter1P = 0;
-                BattleMgr.Instance.resistCounter2P = 0;
-                BattleMgr.Instance.ChangeTimeScale(0.0f, 0.3f);
-                BattleMgr.Instance.ChangeToneDouble(2.0f, CameraEffect.ToneName.reverseTone);
-                BattleMgr.Instance.ZoomInOutDouble(0.1f);
-            }
-            if (playerNum == PlayerNum.player1 && Input.GetButtonDown("ButtonA_" + (int)playerNum)) BattleMgr.Instance.resistCounter1P++;
-            else if (Input.GetButtonDown("ButtonA_" + (int)playerNum)) BattleMgr.Instance.resistCounter2P++;    
+            if (counter == 0 && playerNum == PlayerNum.player1)  BattleMgr.Instance.StartResistance();
+            if (Input.GetButtonDown("ButtonA_" + (int)playerNum) || Input.GetButtonDown("ButtonB_" + (int)playerNum)) {
+                if (playerNum == PlayerNum.player1) BattleMgr.Instance.resistCounter1P++;
+                if (playerNum == PlayerNum.player2) BattleMgr.Instance.resistCounter2P++;
+            }   
             if(counter == 60) {
                 isResistance = false;
                 if (BattleMgr.Instance.resistResult == BattleMgr.ResistResult.Critical1P) {

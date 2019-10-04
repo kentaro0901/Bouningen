@@ -79,7 +79,7 @@ public class BattleMgr : MonoBehaviour {
         UpdateUI();
         ResistMgr();
         TimeScaleCountDown();
-        ChangeCameraChaseMode();
+        if (Main.state != Main.State.Result) ChangeCameraChaseMode();
         if (Main.state == Main.State.Result &&  Input.GetButtonDown("ButtonA_0")) {
             ChangeTimeScale(1.0f, 0);
             Main.Init(true);
@@ -167,6 +167,14 @@ public class BattleMgr : MonoBehaviour {
         cameraEffect2.ChangeTone(seconds, name);
     }
 
+    public void StartResistance() {
+        resistCounter1P = 0;
+        resistCounter2P = 0;
+        ChangeTimeScale(0.0f, 0.3f);
+        ChangeToneDouble(2.0f, CameraEffect.ToneName.reverseTone);
+        Instance.ZoomInOutDouble(0.1f);
+    }
+
     public void BattleEnd() {
         if(playerController1.hp <= 0 && playerController2.hp > 0) {
             Main.battleResult = Main.BattleResult.Win2P;
@@ -183,6 +191,10 @@ public class BattleMgr : MonoBehaviour {
             c1Txt.text = "DRAW";
             c2Txt.text = "DRAW";
         }
+        Destroy(c1LFRTf.gameObject);
+        Destroy(c1RFRTf.gameObject);
+        Destroy(c2LFRTf.gameObject);
+        Destroy(c2RFRTf.gameObject);
         ChangeTimeScale(0, 1000);
         VibrateDouble(0.5f, 1.0f);
         cameraEffect1.ChangeTone(0, CameraEffect.ToneName.redBlack);

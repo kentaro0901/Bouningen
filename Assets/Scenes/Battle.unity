@@ -3541,7 +3541,7 @@ MonoBehaviour:
   enemyTf: {fileID: 0}
   animator: {fileID: 0}
   dashspeed: 0.8
-  airspeed: 0.3
+  airspeed: 0.15
   vectorspeed: 3
   damageVector: {x: 0, y: 0, z: 0}
   isResistance: 0

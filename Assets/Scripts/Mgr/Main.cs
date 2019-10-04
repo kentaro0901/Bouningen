@@ -53,6 +53,7 @@ public class Main : MonoBehaviour {
     public bool isDynamicCamera = false;
     public bool isVisibleBox = false;
     public float cameraSize = 5.0f;
+    public float gameSpeed = 1.0f;
 
     void Awake() {
         if (this != Instance) { //２つ目以降のインスタンスは破棄

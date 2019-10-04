@@ -51,6 +51,10 @@ public class SelectMgr : MonoBehaviour {
     [SerializeField] Toggle InvisibleBox;
     [SerializeField] Slider cameraSize;
     [SerializeField] Slider volume;
+    [SerializeField] Slider gameSpeed;
+    [SerializeField] Text cameraSizeValue;
+    [SerializeField] Text volumeValue;
+    [SerializeField] Text gameSpeedValue;
     bool isMultiDisplays; //経由しないとうまくいかない
     bool isDynamicCamera;
     bool isVisibleBox;
@@ -87,6 +91,10 @@ public class SelectMgr : MonoBehaviour {
         InvisibleBox.SetIsOnWithoutNotify(!isVisibleBox);
         cameraSize.value = Main.Instance.cameraSize;
         volume.value = Main.Instance.bgm.volume * volume.maxValue;
+        gameSpeed.value = Main.Instance.gameSpeed * 10;
+        cameraSizeValue.text = "" + cameraSize.value;
+        volumeValue.text = "" + volume.value;
+        gameSpeedValue.text = "×" + (gameSpeed.value * 0.1f);
         Selectable[] sel = settingPanel.GetComponentsInChildren<Selectable>();
         foreach(Selectable s in sel) {
             s.interactable = false;
@@ -139,7 +147,11 @@ public class SelectMgr : MonoBehaviour {
                     foreach (Selectable s in sel) {
                         s.interactable = true;
                     }
-                    settingPanel.transform.GetChild(0).GetChild(0).GetChild(0).gameObject.GetComponent<Toggle>().Select();//初期
+                    settingPanel.transform.GetChild(0).GetChild(0).GetChild(1).gameObject.GetComponent<Toggle>().interactable = false;
+                    settingPanel.transform.GetChild(0).GetChild(0).GetChild(2).gameObject.GetComponent<Toggle>().interactable = false;
+                    settingPanel.transform.GetChild(0).GetChild(1).GetChild(1).gameObject.GetComponent<Toggle>().interactable = false;
+                    settingPanel.transform.GetChild(0).GetChild(1).GetChild(2).gameObject.GetComponent<Toggle>().interactable = false;
+                    settingPanel.transform.GetChild(0).GetChild(2).GetChild(1).gameObject.GetComponent<Toggle>().Select();//初期
                 }
                 break;
             case SelectState.Manual:
@@ -262,8 +274,8 @@ public class SelectMgr : MonoBehaviour {
             Main.Instance.isMultiDisplays = isMultiDisplays;
             Main.Instance.isDynamicCamera = isDynamicCamera;
             Main.Instance.isVisibleBox = isVisibleBox;
-            FadeManager.Instance.LoadScene("Battle", 0.5f);
             Main.state = Main.State.Battle;
+            FadeManager.Instance.LoadScene("Battle", 0.5f);
         }
     }
 
@@ -278,10 +290,30 @@ public class SelectMgr : MonoBehaviour {
     }
     public void ChangeCameraSize(Slider slider) {
         Main.Instance.cameraSize = slider.value;
+        cameraSizeValue.text = "" + slider.value;
     }
     public void ChangeVolume(Slider slider) {
         Main.Instance.bgm.volume = slider.value / slider.maxValue;
+        volumeValue.text = "" + slider.value;
     }
+    public void ChangeGameSpeed(Slider slider) {
+        Main.Instance.gameSpeed = slider.value * 0.1f;
+        gameSpeedValue.text = "×" + (slider.value * 0.1f);
+    }
+    public void SetDefault() {
+        multiDisplays.SetIsOnWithoutNotify(true);
+        dynamicCamera.SetIsOnWithoutNotify(true);
+        InvisibleBox.SetIsOnWithoutNotify(true);
+        isMultiDisplays = true;
+        isDynamicCamera = true;
+        isVisibleBox = false;
+        cameraSize.value = 5.0f;
+        volume.value = 10.0f;
+        gameSpeed.value = 10.0f;
+        cameraSizeValue.text = "" + cameraSize.value;
+        volumeValue.text = "" + volume.value;
+        gameSpeedValue.text = "×" + (gameSpeed.value * 0.1f);
+}
 
     void MoveEnd1() {
         isReleseAxis1 = true;

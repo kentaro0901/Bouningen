@@ -42,8 +42,8 @@ public class TitleMgr : MonoBehaviour {
             
         }
         if (Input.GetButtonDown("ButtonA_0") && Main.state == Main.State.Title) {
-            FadeManager.Instance.LoadScene("Select", 0.5f);
             Main.state = Main.State.Select;
+            FadeManager.Instance.LoadScene("Select", 0.5f);
         }
     }
 }

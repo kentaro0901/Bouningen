@@ -12,7 +12,7 @@ public class HurtBox : MonoBehaviour {
     void OnTriggerEnter2D(Collider2D collision) {
         if (collision.gameObject.transform.parent != this.transform.parent && collision.gameObject.tag == "HitBox" && !character.playerController.isResistance) { //ヒット
             HitBox hitBox = collision.gameObject.GetComponent<HitBox>();
-            character.Damaged(hitBox.attack, hitBox.vector, hitBox.isCritical, isUpArmor, isSideArmor, isDownArmor);
+            character.Damaged(hitBox.attack, hitBox.vector, hitBox.isCritical, isUpArmor, isSideArmor, isDownArmor, hitBox.character.playerController.isLimitBreak);
         }
     }
 }

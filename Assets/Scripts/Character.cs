@@ -51,14 +51,14 @@ public abstract class Character : MonoBehaviour {
     }
 
     //被ダメージ
-    public void Damaged(float damage, Vector2 vector, bool isCritical, bool isUpArmor, bool isSideArmor, bool isDownArmor) {
-        if (0 < playerController.hp && playerController.hp - damage <= 0 && (!isCritical || vector.x < vector.y)) { //横クリティカル以外ではゲームが終了しない
+    public void Damaged(float damage, Vector2 vector, bool isCritical, bool isUpArmor, bool isSideArmor, bool isDownArmor, bool isLimitBreak) {
+        if (0 < playerController.hp && playerController.hp - damage * (isLimitBreak ? 1.2f : 1.0f) <= 0 && (!isCritical || vector.x < vector.y)) { //横クリティカル以外ではゲームが終了しない
             playerController.hp = 1.0f;
         }
         else {
-            playerController.hp -= damage;
+            playerController.hp -= damage * (isLimitBreak ? 1.2f : 1.0f);
         }
-        playerController.mp += damage * (isCritical ? 1.5f :1.2f);
+        playerController.mp += damage * (isCritical ? 1.2f :1.0f);
         playerController.damageVector = new Vector2((playerController.enemyTf.position.x < playerTf.position.x) ? vector.x : -vector.x, vector.y);
         if (isCritical) { //クリティカル
             if (vector.y == 0 && !isSideArmor) { //横クリティカル
@@ -76,6 +76,9 @@ public abstract class Character : MonoBehaviour {
                 playerController.counter = 0;
                 playerController.animator.Play("CriticalDown");
             }
+        }
+        else {
+            playerController.damageVector = Vector3.zero;
         }
     }
     public void Resistance(Vector2 vector) {

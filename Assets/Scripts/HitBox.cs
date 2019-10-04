@@ -14,7 +14,7 @@ public class HitBox : MonoBehaviour {
 
         //ヒット
         if (collision.gameObject.transform.parent != this.transform.parent && collision.gameObject.tag == "HurtBox") {
-            character.playerController.mp += attack * (isCritical ? 1.2f : 0.8f);
+            character.playerController.mp += attack * (isCritical ? 0.6f : 0.5f);
         }
 
         //鍔迫り合い

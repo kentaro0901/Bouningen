@@ -522,11 +522,12 @@ MonoBehaviour:
   chara1P: 0
   chara2P: 0
   bgm: {fileID: 0}
-  mainMusic: {fileID: 8300000, guid: d1612ef1bb8d61b4fa12bc0f9ce526a3, type: 3}
+  mainMusic: {fileID: 8300000, guid: 975367b2cd85dc0489c84605fa2eede9, type: 3}
   isMultiDisplays: 1
   isDynamicCamera: 1
   isVisibleBox: 0
   cameraSize: 5
+  gameSpeed: 1
 --- !u!4 &506392973
 Transform:
   m_ObjectHideFlags: 0
