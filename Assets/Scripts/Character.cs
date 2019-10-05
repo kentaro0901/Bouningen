@@ -63,7 +63,7 @@ public abstract class Character : MonoBehaviour {
         if (isCritical) { //クリティカル
             if (vector.y == 0 && !isSideArmor) { //横クリティカル
                 playerController.counter = 0;
-                BattleMgr.Instance.ChangeTimeScale(0.0f, 0.5f);
+                BattleMgr.Instance.ChangeTimeScale(0.05f, 0.5f);
                 BattleMgr.Instance.ChangeToneDouble(0.5f, ((int)playerController.playerNum == 2 ? CameraEffect.ToneName.redBlack : CameraEffect.ToneName.blueBlack));
                 BattleMgr.Instance.ZoomInOutDouble(0.1f);
                 playerController.animator.Play("Critical");
@@ -132,7 +132,8 @@ public abstract class Character : MonoBehaviour {
         Instantiate(playerController.HibiPref[Random.Range(0, playerController.HibiPref.Length)], new Vector3(playerTf.position.x, 0, 0), Quaternion.identity);
         yield return 0;
     }
-    public void Resistance() {
+    public IEnumerator Resistance() {
+        yield return 0;
     }
     public virtual IEnumerator UpB_Fall() {
         yield return 0;

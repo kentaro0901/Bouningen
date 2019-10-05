@@ -21,8 +21,10 @@ public class HitBox : MonoBehaviour {
         if (collision.gameObject.transform.parent != this.transform.parent && collision.gameObject.tag == "HitBox" && isResist && collision.gameObject.GetComponent<HitBox>().isResist) {
             HitBox hitBox = collision.gameObject.GetComponent<HitBox>();
             character.playerController.isResistance = true;
-            character.playerController.resistVector = 1.0f * new Vector3 ((((character.playerController.enemyTf.position.x < character.playerController.playerTf.position.x && hitBox.vector.x > vector.x)
-                || character.playerController.enemyTf.position.x > character.playerController.playerTf.position.x && hitBox.vector.x < vector.x) ? 1:-1) * Mathf.Abs(hitBox.vector.x - vector.x), 0, 0);
+            if (!character.playerController.animator.GetBool("isLand") && !hitBox.character.playerController.animator.GetBool("isLand")) { //空中だと滑る
+                character.playerController.resistVector = 1.0f * new Vector3((((character.playerController.enemyTf.position.x < character.playerController.playerTf.position.x && hitBox.vector.x > vector.x)
+                || character.playerController.enemyTf.position.x > character.playerController.playerTf.position.x && hitBox.vector.x < vector.x) ? 1 : -1) * Mathf.Abs(hitBox.vector.x - vector.x), 0, 0);
+            }
             collision.gameObject.GetComponent<HitBox>().character.Resistance(hitBox.vector);
         }
     }

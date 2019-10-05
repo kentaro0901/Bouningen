@@ -26,6 +26,7 @@ public class AnimState : MonoBehaviour {
     public int NutralA;
     public int NutralB;
     public int NutralA_R;
+    public int NutralA_RW;
     public int LimitBreak;
     public int Critical;
     public int CriticalEnd;
@@ -45,8 +46,10 @@ public class AnimState : MonoBehaviour {
     public int DashEnd;
     public int SideA;
     public int SideA_R;
+    public int SideA_RW;
     public int SideB;
     public int SideB_R;
+    public int SideB_RW;
 
     public int JumpStart;
     public int Jump;
@@ -78,6 +81,7 @@ public class AnimState : MonoBehaviour {
         NutralA = Animator.StringToHash("Base Layer.NutralA");
         NutralB = Animator.StringToHash("Base Layer.NutralB");
         NutralA_R = Animator.StringToHash("Base Layer.NutralA_R");
+        NutralA_RW = Animator.StringToHash("Base Layer.NutralA_RW");
         LimitBreak = Animator.StringToHash("Base Layer.LimitBreak");
         Critical = Animator.StringToHash("Base Layer.Critical");
         CriticalEnd = Animator.StringToHash("Base Layer.CriticalEnd");
@@ -97,8 +101,10 @@ public class AnimState : MonoBehaviour {
         DashEnd = Animator.StringToHash("Base Layer.Side.DashEnd");
         SideA = Animator.StringToHash("Base Layer.Side.SideA");
         SideA_R = Animator.StringToHash("Base Layer.Side.SideA_R");
+        SideA_RW = Animator.StringToHash("Base Layer.Side.SideA_RW");
         SideB = Animator.StringToHash("Base Layer.Side.SideB");
         SideB_R = Animator.StringToHash("Base Layer.Side.SideB_R");
+        SideB_RW = Animator.StringToHash("Base Layer.Side.SideB_RW");
 
         JumpStart = Animator.StringToHash("Base Layer.Up.JumpStart");
         Jump = Animator.StringToHash("Base Layer.Up.Jump");

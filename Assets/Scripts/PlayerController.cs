@@ -177,19 +177,19 @@ public class PlayerController : MonoBehaviour {
             playerTf.position = new Vector3(playerTf.position.x, playerTf.position.y - (counter * 0.2f), 0);
             if (playerTf.position.y < 0.1f && playerTf.position.y != 0) playerTf.position = new Vector3(playerTf.position.x, 0, 0);
         }
-        else if (stateInfo.fullPathHash == AnimState.Instance.Critical) {
+        else if (stateInfo.fullPathHash == AnimState.Instance.Critical) { //クリティカル
             if (counter == 0) {
                 playerTf.localScale = damageVector.x > 0 ? new Vector3(-1, 1, 1) : Vector3.one;
                 if (hp <= 0) Main.battleResult = Main.BattleResult.Finish;
             }
-            if (Time.timeScale == 1.0f) {
-                playerTf.position += damageVector;
-                playerTf.position = new Vector3(playerTf.position.x, playerTf.position.y - (counter * 0.002f), 0);
-                if (playerTf.position.y < 0.1f && 40 < counter) {
-                    playerTf.position = new Vector3(playerTf.position.x, 0, 0);
-                    if (hp <= 0) animator.Play("Death");
-                    else animator.Play("CriticalEnd");                  
-                }
+            playerTf.position += damageVector * Time.timeScale;
+            playerTf.position = new Vector3(playerTf.position.x, playerTf.position.y - (counter * 0.002f), 0);
+            if (playerTf.position.y < 0.1f && 40 < counter) {
+                playerTf.position = new Vector3(playerTf.position.x, 0, 0);
+                if (hp <= 0)
+                    animator.Play("Death");
+                else
+                    animator.Play("CriticalEnd");
             }
         }
         else if (stateInfo.fullPathHash == AnimState.Instance.CriticalEnd ||
@@ -253,24 +253,30 @@ public class PlayerController : MonoBehaviour {
                 resistVector = Vector3.zero;
                 if (BattleMgr.Instance.resistResult == BattleMgr.ResistResult.Critical1P) {
                     if (playerNum == PlayerNum.player1) {
-                        BattleMgr.Instance.ChangeTimeScale(0.0f, 0.5f);
+                        BattleMgr.Instance.ChangeTimeScale(0.05f, 0.5f);
                         BattleMgr.Instance.ChangeToneDouble(0.5f, CameraEffect.ToneName.blueBlack);
                         animator.Play("Critical");
                     }
                     else {
                         damageVector = Vector3.zero;
-                        animator.Play("Idle");
+                        if (stateInfo.fullPathHash == AnimState.Instance.NutralA_R) animator.Play("NutralA_RW");
+                        else if (stateInfo.fullPathHash == AnimState.Instance.SideA_R) animator.Play("SideA_RW");
+                        else if (stateInfo.fullPathHash == AnimState.Instance.SideB_R) animator.Play("SideB_RW");
+                        else animator.Play("Idle");                      
                     }
                 }
                 else if (BattleMgr.Instance.resistResult == BattleMgr.ResistResult.Critical2P) {
                     if (playerNum == PlayerNum.player2) {
-                        BattleMgr.Instance.ChangeTimeScale(0.0f, 0.5f);
+                        BattleMgr.Instance.ChangeTimeScale(0.05f, 0.5f);
                         BattleMgr.Instance.ChangeToneDouble(0.5f, CameraEffect.ToneName.redBlack);
                         animator.Play("Critical");
                     }
                     else {
-                        animator.Play("Idle");
                         damageVector = Vector3.zero;
+                        if (stateInfo.fullPathHash == AnimState.Instance.NutralA_R) animator.Play("NutralA_RW");
+                        else if (stateInfo.fullPathHash == AnimState.Instance.SideA_R) animator.Play("SideA_RW");
+                        else if (stateInfo.fullPathHash == AnimState.Instance.SideB_R) animator.Play("SideB_RW");
+                        else animator.Play("Idle");
                     }
                 }
                 else {

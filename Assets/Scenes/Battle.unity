@@ -1676,7 +1676,7 @@ MonoBehaviour:
   isDynamicCamera: 1
   isVisibleBox: 1
   cameraSize: 5
-  gameSpeed: 1
+  gameSpeed: 2
 --- !u!4 &495413259
 Transform:
   m_ObjectHideFlags: 0
@@ -2022,6 +2022,7 @@ MonoBehaviour:
   NutralA: 0
   NutralB: 0
   NutralA_R: 0
+  NutralA_RW: 0
   LimitBreak: 0
   Critical: 0
   CriticalEnd: 0
@@ -2040,8 +2041,10 @@ MonoBehaviour:
   DashEnd: 0
   SideA: 0
   SideA_R: 0
+  SideA_RW: 0
   SideB: 0
   SideB_R: 0
+  SideB_RW: 0
   JumpStart: 0
   Jump: 0
   JumpEnd: 0
