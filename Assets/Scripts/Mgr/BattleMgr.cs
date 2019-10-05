@@ -76,15 +76,18 @@ public class BattleMgr : MonoBehaviour {
     }
 
     void Update() {
-        UpdateUI();
-        ResistMgr();
-        TimeScaleCountDown();
         if (Main.state != Main.State.Result) ChangeCameraChaseMode();
         if (Main.state == Main.State.Result &&  Input.GetButtonDown("ButtonA_0")) {
             ChangeTimeScale(1.0f, 0);
             Main.Init(true);
         }
     }
+    void LateUpdate() {
+        UpdateUI();
+        ResistMgr();
+        TimeScaleCountDown();
+    }
+
     private void UpdateUI() {
         c1hpBar1.value = c2hpBar1.value = playerController1.hp / playerController1.maxhp;
         c1hpBar2.value = c2hpBar2.value = playerController2.hp / playerController2.maxhp;

@@ -1676,7 +1676,7 @@ MonoBehaviour:
   isDynamicCamera: 1
   isVisibleBox: 1
   cameraSize: 5
-  gameSpeed: 2
+  gameSpeed: 1
 --- !u!4 &495413259
 Transform:
   m_ObjectHideFlags: 0
