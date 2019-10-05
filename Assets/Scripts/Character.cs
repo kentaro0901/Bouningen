@@ -99,24 +99,42 @@ public abstract class Character : MonoBehaviour {
             Debug.LogError("NoneResist");
         }
     }
-    public void LimitBreak() {
-        if(playerController.playerNum == PlayerController.PlayerNum.player1) {
+    public IEnumerator LimitBreak() {
+        float speed = playerController.animator.speed;
+        BattleMgr.Instance.ChangeToneDouble(0.1f, CameraEffect.ToneName.reverseTone);
+        yield return new WaitForSeconds(20.0f / 60 / speed);
+        BattleMgr.Instance.VibrateDouble(0.8f, 1.0f);
+        yield return new WaitForSeconds(20.0f / 60 / speed);
+        BattleMgr.Instance.ChangeToneDouble(0.1f, CameraEffect.ToneName.reverseTone);
+        yield return new WaitForSeconds(20.0f / 60 / speed);
+        BattleMgr.Instance.VibrateDouble(1.5f, 2.0f);
+        BattleMgr.Instance.ChangeToneDouble(1.0f, CameraEffect.ToneName.whiteWhite);
+        yield return new WaitForSeconds(10.0f / 60 / speed);
+        BattleMgr.Instance.ChangeToneDouble(3.0f, CameraEffect.ToneName.reverseTone);
+        yield return 0;
+    }
+    public void LimitBreakEnd() {
+        if (playerController.playerNum == PlayerController.PlayerNum.player1) {
             playerTf.gameObject.GetComponent<SpriteRenderer>().material = redWhite;
         }
         if (playerController.playerNum == PlayerController.PlayerNum.player2) {
             playerTf.gameObject.GetComponent<SpriteRenderer>().material = blueBlack;
         }
-
     }
-
     public void LightningAttack() {
     }
     public void SideA() {
     }
-    public void DownA() {
+    public IEnumerator DownA() {
+        float speed = playerController.animator.speed;
+        yield return new WaitForSeconds(14.0f / 60 / speed);
+        BattleMgr.Instance.VibrateDouble(0.8f, 2.0f);
+        Instantiate(playerController.HibiPref[Random.Range(0, playerController.HibiPref.Length)], new Vector3(playerTf.position.x, 0, 0), Quaternion.identity);
+        yield return 0;
     }
     public void Resistance() {
     }
-    public virtual void UpB() {
+    public virtual IEnumerator UpB_Fall() {
+        yield return 0;
     }
 }

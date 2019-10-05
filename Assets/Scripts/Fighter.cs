@@ -6,7 +6,8 @@ public class Fighter : Character {
 
     static public float maxhp = 120.0f;
 
-    public override void UpB() {
+    public override IEnumerator UpB_Fall() {
         Debug.Log("UpB_F");
+        yield return 0;
     }
 }

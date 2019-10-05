@@ -33,8 +33,8 @@ public class BattleMgr : MonoBehaviour {
     [SerializeField] CameraEffect cameraEffect2;
     [SerializeField] PlayerController playerController1;
     [SerializeField] PlayerController playerController2;
-    Transform player1Tf;
-    Transform player2Tf;
+    public Transform player1Tf;
+    public Transform player2Tf;
     [SerializeField] RectTransform c1LFRTf;
     [SerializeField] RectTransform c1RFRTf;
     [SerializeField] RectTransform c2LFRTf;

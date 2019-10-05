@@ -165,11 +165,10 @@ MonoBehaviour:
   enemyController: {fileID: 1288113352}
   enemyTf: {fileID: 0}
   animator: {fileID: 0}
-  dashspeed: 0.8
-  airspeed: 0.15
-  vectorspeed: 3
   damageVector: {x: 0, y: 0, z: 0}
+  resistVector: {x: 0, y: 0, z: 0}
   isResistance: 0
+  isLimitBreak: 0
   HibiPref:
   - {fileID: 7077348887940661510, guid: 583f5997ca169b942b3ea44f63e13351, type: 3}
   - {fileID: 2388291135847210284, guid: cc30c5a31fe68a64184f16075abde209, type: 3}
@@ -1677,6 +1676,7 @@ MonoBehaviour:
   isDynamicCamera: 1
   isVisibleBox: 1
   cameraSize: 5
+  gameSpeed: 1
 --- !u!4 &495413259
 Transform:
   m_ObjectHideFlags: 0
@@ -1978,6 +1978,8 @@ MonoBehaviour:
   cameraEffect2: {fileID: 886981722}
   playerController1: {fileID: 2320028}
   playerController2: {fileID: 1288113352}
+  player1Tf: {fileID: 0}
+  player2Tf: {fileID: 0}
   c1LFRTf: {fileID: 1037698859}
   c1RFRTf: {fileID: 1780217132}
   c2LFRTf: {fileID: 594834045}
@@ -3540,11 +3542,10 @@ MonoBehaviour:
   enemyController: {fileID: 2320028}
   enemyTf: {fileID: 0}
   animator: {fileID: 0}
-  dashspeed: 0.8
-  airspeed: 0.15
-  vectorspeed: 3
   damageVector: {x: 0, y: 0, z: 0}
+  resistVector: {x: 0, y: 0, z: 0}
   isResistance: 0
+  isLimitBreak: 0
   HibiPref:
   - {fileID: 7077348887940661510, guid: 583f5997ca169b942b3ea44f63e13351, type: 3}
   - {fileID: 2388291135847210284, guid: cc30c5a31fe68a64184f16075abde209, type: 3}

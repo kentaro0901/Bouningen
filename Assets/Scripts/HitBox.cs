@@ -19,8 +19,11 @@ public class HitBox : MonoBehaviour {
 
         //鍔迫り合い
         if (collision.gameObject.transform.parent != this.transform.parent && collision.gameObject.tag == "HitBox" && isResist && collision.gameObject.GetComponent<HitBox>().isResist) {
+            HitBox hitBox = collision.gameObject.GetComponent<HitBox>();
             character.playerController.isResistance = true;
-            collision.gameObject.GetComponent<HitBox>().character.Resistance(vector);
+            character.playerController.resistVector = 1.0f * new Vector3 ((((character.playerController.enemyTf.position.x < character.playerController.playerTf.position.x && hitBox.vector.x > vector.x)
+                || character.playerController.enemyTf.position.x > character.playerController.playerTf.position.x && hitBox.vector.x < vector.x) ? 1:-1) * Mathf.Abs(hitBox.vector.x - vector.x), 0, 0);
+            collision.gameObject.GetComponent<HitBox>().character.Resistance(hitBox.vector);
         }
     }
 }

@@ -44,11 +44,12 @@ public class PlayerController : MonoBehaviour {
     Vector3 prePos;
     Vector2 vector;
     public Vector3 damageVector = Vector3.zero;
+    public Vector3 resistVector = Vector3.zero;
 
     public bool isResistance = false;
     public bool isLimitBreak = false;
 
-    [SerializeField] GameObject[] HibiPref;
+    public GameObject[] HibiPref;
 
     void Awake() { 
         //キャラの生成
@@ -81,8 +82,29 @@ public class PlayerController : MonoBehaviour {
     void Update() {
         vector = playerTf.position - prePos;
 
-        xAxisD = Input.GetAxis("DPad_XAxis_" + (int)playerNum);
-        yAxisD = Input.GetAxis("DPad_YAxis_" + (int)playerNum);
+
+        //X
+        if (Mathf.Abs(Input.GetAxis("DPad_XAxis_" + (int)playerNum)) > Mathf.Abs(Input.GetAxis("L_XAxis_" + (int)playerNum)) &&
+            Mathf.Abs(Input.GetAxis("DPad_XAxis_" + (int)playerNum)) > Mathf.Abs(Input.GetAxis("R_XAxis_" + (int)playerNum))) {
+            xAxisD = Input.GetAxis("DPad_XAxis_" + (int)playerNum);
+        }
+        else if (Mathf.Abs(Input.GetAxis("L_XAxis_" + (int)playerNum)) > Mathf.Abs(Input.GetAxis("R_XAxis_" + (int)playerNum))) {
+            xAxisD = Input.GetAxis("L_XAxis_" + (int)playerNum);
+        }
+        else {
+            xAxisD = Input.GetAxis("R_XAxis_" + (int)playerNum);
+        }
+        //Y
+        if (Mathf.Abs(Input.GetAxis("DPad_YAxis_" + (int)playerNum)) > Mathf.Abs(Input.GetAxis("L_YAxis_" + (int)playerNum)) &&
+            Mathf.Abs(Input.GetAxis("DPad_YAxis_" + (int)playerNum)) > Mathf.Abs(Input.GetAxis("R_YAxis_" + (int)playerNum))) {
+            yAxisD = Input.GetAxis("DPad_YAxis_" + (int)playerNum);
+        }
+        else if (Mathf.Abs(Input.GetAxis("L_YAxis_" + (int)playerNum)) > Mathf.Abs(Input.GetAxis("R_YAxis_" + (int)playerNum))) {
+            yAxisD = Input.GetAxis("L_YAxis_" + (int)playerNum);
+        }
+        else {
+            yAxisD = Input.GetAxis("R_YAxis_" + (int)playerNum);
+        }
 
         stateInfo = animator.GetCurrentAnimatorStateInfo(0);
 
@@ -142,24 +164,18 @@ public class PlayerController : MonoBehaviour {
             if(counter == 13) BattleMgr.Instance.VibrateDouble(0.5f, 0.5f);
         }
         else if (stateInfo.fullPathHash == AnimState.Instance.DownA) {
+            if (counter == 0) StartCoroutine(character.DownA());
             playerTf.position = new Vector3(playerTf.position.x, playerTf.position.y - (counter * 0.2f), 0);
             if (playerTf.position.y < 0.1f && playerTf.position.y != 0) playerTf.position = new Vector3(playerTf.position.x, 0, 0);
-            if (counter == 14) {
-                BattleMgr.Instance.VibrateDouble(0.8f, 2.0f);
-                Instantiate(HibiPref[Random.Range(0, HibiPref.Length)], new Vector3(playerTf.position.x, 0, 0), Quaternion.identity);
-            }
         }
         else if (stateInfo.fullPathHash == AnimState.Instance.DownB_Air) {
             playerTf.position = new Vector3(playerTf.position.x, playerTf.position.y - (counter * 0.2f), 0);
             if (playerTf.position.y < 0.1f && playerTf.position.y != 0) playerTf.position = new Vector3(playerTf.position.x, 0, 0);
         }
         else if (stateInfo.fullPathHash == AnimState.Instance.UpB_Fall) {
+            if (counter == 0) StartCoroutine(character.UpB_Fall());
             playerTf.position = new Vector3(playerTf.position.x, playerTf.position.y - (counter * 0.2f), 0);
             if (playerTf.position.y < 0.1f && playerTf.position.y != 0) playerTf.position = new Vector3(playerTf.position.x, 0, 0);
-            if (counter == 10) {
-                BattleMgr.Instance.VibrateDouble(0.8f, 2.0f);
-                Instantiate(HibiPref[Random.Range(0, HibiPref.Length)], new Vector3(playerTf.position.x, 0, 0), Quaternion.identity);
-            }
         }
         else if (stateInfo.fullPathHash == AnimState.Instance.Critical) {
             if (counter == 0) {
@@ -211,39 +227,30 @@ public class PlayerController : MonoBehaviour {
                 animator.Play("CriticalUp");
             }
         }
-        else if (stateInfo.fullPathHash == AnimState.Instance.LimitBreak) {//
-            switch (counter) {
-                case 0:
-                    isLimitBreak = true;
-                    BattleMgr.Instance.ChangeToneDouble(0.1f, CameraEffect.ToneName.reverseTone); break;
-                case 20:
-                    BattleMgr.Instance.VibrateDouble(0.8f, 1.0f); break;
-                case 40:
-                    BattleMgr.Instance.ChangeToneDouble(0.1f, CameraEffect.ToneName.reverseTone); break;
-                case 60:
-                    BattleMgr.Instance.VibrateDouble(1.5f, 2.0f);
-                    BattleMgr.Instance.ChangeToneDouble(0.2f, CameraEffect.ToneName.whiteWhite); break;
-                case 70:
-                    BattleMgr.Instance.ChangeToneDouble(3.0f, CameraEffect.ToneName.reverseTone); break;               
-                default: break;
+        else if (stateInfo.fullPathHash == AnimState.Instance.LimitBreak) {
+            if (counter == 0) {
+                isLimitBreak = true;
+                StartCoroutine(character.LimitBreak());
             }
         }
         if (stateInfo.fullPathHash != AnimState.Instance.LimitBreak && preStateInfo.fullPathHash == AnimState.Instance.LimitBreak) {
             BattleMgr.Instance.ChangeToneDouble(0.0f, CameraEffect.ToneName.NormalTone);
-            character.LimitBreak();
+            character.LimitBreakEnd();
             playerTf.position = new Vector3(playerTf.position.x, 0, playerTf.position.z);
             animator.speed *= 1.2f;
         }
-        if (stateInfo.fullPathHash == AnimState.Instance.SideA_R || 
+        if (stateInfo.fullPathHash == AnimState.Instance.SideA_R || //鍔迫り合い
             stateInfo.fullPathHash == AnimState.Instance.NutralA_R || 
             stateInfo.fullPathHash == AnimState.Instance.SideB_R) {
             if (counter == 0 && playerNum == PlayerNum.player1)  BattleMgr.Instance.StartResistance();
             if (Input.GetButtonDown("ButtonA_" + (int)playerNum) || Input.GetButtonDown("ButtonB_" + (int)playerNum)) {
                 if (playerNum == PlayerNum.player1) BattleMgr.Instance.resistCounter1P++;
                 if (playerNum == PlayerNum.player2) BattleMgr.Instance.resistCounter2P++;
-            }   
+            }
+            playerTf.position += resistVector;
             if(counter == 60) {
                 isResistance = false;
+                resistVector = Vector3.zero;
                 if (BattleMgr.Instance.resistResult == BattleMgr.ResistResult.Critical1P) {
                     if (playerNum == PlayerNum.player1) {
                         BattleMgr.Instance.ChangeTimeScale(0.0f, 0.5f);
@@ -273,6 +280,8 @@ public class PlayerController : MonoBehaviour {
                 }
             }
         }
+
+        //ゲーム終了
         if (stateInfo.fullPathHash == AnimState.Instance.GameEnd) {
             if (counter == 0) BattleMgr.Instance.BattleEnd();
         }
@@ -318,7 +327,9 @@ public class PlayerController : MonoBehaviour {
             animator.SetBool("LeftArrow", xAxisD < 0);
             animator.SetBool("DownArrow", yAxisD < 0);
 
-            animator.SetBool("ButtonA", Input.GetButton("ButtonA_" + (int)playerNum));
+            animator.SetBool("ButtonA", Input.GetButton("ButtonA_" + (int)playerNum) ||
+                Mathf.Abs(Input.GetAxis("R_XAxis_" + (int)playerNum)) > 0 || 
+                Mathf.Abs(Input.GetAxis("R_YAxis_" + (int)playerNum)) > 0);
             animator.SetBool("ButtonB", Input.GetButton("ButtonB_" + (int)playerNum));
             animator.SetBool("ButtonY", Input.GetButton("ButtonY_" + (int)playerNum));
             animator.SetBool("ButtonX", Input.GetButton("ButtonX_" + (int)playerNum));
