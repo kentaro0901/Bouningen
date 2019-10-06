@@ -137,16 +137,16 @@ TextureImporter:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 240
+        width: 240.5
         height: 241
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 6
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 335b5335a10fa304f9bb714ef3b0a005
+      spriteID: 9aee313d1fb4e9548b1e473423d03619
       internalID: 7419131564701046623
       vertices: []
       indices: 
@@ -160,14 +160,14 @@ TextureImporter:
         y: 0
         width: 240.5
         height: 241
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 6
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 547561248a2232045a92726ebbe4d4be
+      spriteID: 2483317d7ace68c4498a58a55e30d0f2
       internalID: 2845595827973306124
       vertices: []
       indices: 
@@ -181,14 +181,14 @@ TextureImporter:
         y: 0
         width: 240.5
         height: 241
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 6
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 09ce6af85694de74b828f667d6f221db
+      spriteID: b2be5240690cc6141915292d3376f752
       internalID: -8581673125234481883
       vertices: []
       indices: 
@@ -198,18 +198,18 @@ TextureImporter:
       name: DamageSand_3
       rect:
         serializedVersion: 2
-        x: 716
+        x: 720
         y: 0
-        width: 240
+        width: 240.5
         height: 241
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 6
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: bfdfe22337d637b4d839c193fc5c3e96
+      spriteID: c48898075df91b34d887b5c7757de2d4
       internalID: -1511239675622670138
       vertices: []
       indices: 

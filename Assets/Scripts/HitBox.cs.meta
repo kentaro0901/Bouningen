@@ -3,7 +3,10 @@ guid: 55f97968408d801448976554df79ffff
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - character: {instanceID: 0}
+  - LightningAttackHitPref: {fileID: 203485943792685021, guid: 352ec08bca14c7f4e830d485e0bc1a98,
+      type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

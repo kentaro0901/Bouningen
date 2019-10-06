@@ -10,11 +10,18 @@ public class HitBox : MonoBehaviour {
     public bool isCritical = false;
     public bool isResist = false;
 
+    [SerializeField] GameObject LightningAttackHitPref;
+
     void OnTriggerEnter2D(Collider2D collision) {
 
         //ヒット
         if (collision.gameObject.transform.parent != this.transform.parent && collision.gameObject.tag == "HurtBox") {
             character.playerController.mp += attack * (isCritical ? 0.6f : 0.5f);
+            if (character.playerController.stateInfo.fullPathHash == AnimState.Instance.LightningAttack) {
+                GameObject g = Instantiate(LightningAttackHitPref, transform.position, Quaternion.identity);
+                g.GetComponent<DestroyParticle>().lifeTime = 0.5f;
+                g.transform.parent = transform;
+            }
         }
 
         //鍔迫り合い

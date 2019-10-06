@@ -102,12 +102,13 @@ public abstract class Character : MonoBehaviour {
     public IEnumerator LimitBreak() {
         float speed = playerController.animator.speed;
         BattleMgr.Instance.ChangeToneDouble(0.1f, CameraEffect.ToneName.reverseTone);
+        BattleMgr.Instance.VibrateDouble(0.5f, 0.5f);
         yield return new WaitForSeconds(20.0f / 60 / speed);
-        BattleMgr.Instance.VibrateDouble(0.8f, 1.0f);
+        BattleMgr.Instance.VibrateDouble(1.0f, 1.0f);
         yield return new WaitForSeconds(20.0f / 60 / speed);
         BattleMgr.Instance.ChangeToneDouble(0.1f, CameraEffect.ToneName.reverseTone);
         yield return new WaitForSeconds(20.0f / 60 / speed);
-        BattleMgr.Instance.VibrateDouble(1.5f, 2.0f);
+        BattleMgr.Instance.VibrateDouble(2.0f, 2.0f);
         BattleMgr.Instance.ChangeToneDouble(1.0f, CameraEffect.ToneName.whiteWhite);
         yield return new WaitForSeconds(10.0f / 60 / speed);
         BattleMgr.Instance.ChangeToneDouble(3.0f, CameraEffect.ToneName.reverseTone);

@@ -275,6 +275,8 @@ MonoBehaviour:
   vector: {x: 0, y: 0}
   isCritical: 0
   isResist: 0
+  LightningAttackHitPref: {fileID: 203485943792685021, guid: 352ec08bca14c7f4e830d485e0bc1a98,
+    type: 3}
 --- !u!212 &5684922204741716907
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -421,6 +423,8 @@ MonoBehaviour:
   vector: {x: 0, y: 0}
   isCritical: 1
   isResist: 0
+  LightningAttackHitPref: {fileID: 203485943792685021, guid: 352ec08bca14c7f4e830d485e0bc1a98,
+    type: 3}
 --- !u!212 &4094760312766203109
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -646,6 +650,8 @@ MonoBehaviour:
   vector: {x: 0, y: 0}
   isCritical: 1
   isResist: 0
+  LightningAttackHitPref: {fileID: 203485943792685021, guid: 352ec08bca14c7f4e830d485e0bc1a98,
+    type: 3}
 --- !u!212 &1016870660581157692
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -927,6 +933,8 @@ MonoBehaviour:
   vector: {x: 0, y: 0}
   isCritical: 0
   isResist: 0
+  LightningAttackHitPref: {fileID: 203485943792685021, guid: 352ec08bca14c7f4e830d485e0bc1a98,
+    type: 3}
 --- !u!212 &1147751176672338257
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1887,6 +1895,8 @@ MonoBehaviour:
   vector: {x: 0, y: 0}
   isCritical: 1
   isResist: 0
+  LightningAttackHitPref: {fileID: 203485943792685021, guid: 352ec08bca14c7f4e830d485e0bc1a98,
+    type: 3}
 --- !u!212 &1002750114947274531
 SpriteRenderer:
   m_ObjectHideFlags: 0
