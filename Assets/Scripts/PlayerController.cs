@@ -250,7 +250,9 @@ public class PlayerController : MonoBehaviour {
                 if (playerNum == PlayerNum.player2) BattleMgr.Instance.resistCounter2P++;
             }
             playerTf.position += resistVector;
-            if(counter == 60) {
+            if (counter == 20) BattleMgr.Instance.VibrateDouble(0.3f, 2.0f);
+            if (counter == 40) BattleMgr.Instance.VibrateDouble(0.4f, 2.0f);
+            if (counter == 60) {
                 isResistance = false;
                 resistVector = Vector3.zero;
                 if (BattleMgr.Instance.resistResult == BattleMgr.ResistResult.Critical1P) {

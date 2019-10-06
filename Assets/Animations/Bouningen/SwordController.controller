@@ -2180,6 +2180,9 @@ AnimatorStateTransition:
   - m_ConditionMode: 1
     m_ConditionEvent: ButtonA
     m_EventTreshold: 0
+  - m_ConditionMode: 2
+    m_ConditionEvent: DownArrow
+    m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -4690801674470471323}
   m_Solo: 0
@@ -2455,6 +2458,9 @@ AnimatorStateTransition:
   - m_ConditionMode: 1
     m_ConditionEvent: UpArrow
     m_EventTreshold: 0
+  - m_ConditionMode: 2
+    m_ConditionEvent: ButtonR
+    m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -5994343665442221884}
   m_Solo: 0
@@ -2695,6 +2701,9 @@ AnimatorStateTransition:
     m_EventTreshold: 0
   - m_ConditionMode: 1
     m_ConditionEvent: ButtonX
+    m_EventTreshold: 0
+  - m_ConditionMode: 2
+    m_ConditionEvent: ButtonR
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -5994343665442221884}
@@ -5232,7 +5241,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 0}
+  m_Motion: {fileID: 7400000, guid: 752b0423d2781014d82d71a04d0e7b65, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 

@@ -51,6 +51,9 @@ public class BattleMgr : MonoBehaviour {
     [SerializeField] Slider c2mpBar2;
     [SerializeField] GameObject[] GrandPref;
 
+    [SerializeField] GameObject VFX;
+    Animator anim;
+
     public int resistCounter1P = 0;
     public int resistCounter2P = 0;
     public enum ResistResult {
@@ -73,6 +76,7 @@ public class BattleMgr : MonoBehaviour {
         for (int i = -100; i <= 100; i++){
             GameObject g = Instantiate(GrandPref[(int)Random.Range(0, GrandPref.Length)], new Vector3(i * 20, -1.5f, 0), Quaternion.identity);
         }
+        anim = VFX.GetComponent<Animator>();
     }
 
     void Update() {
@@ -176,6 +180,8 @@ public class BattleMgr : MonoBehaviour {
         ChangeTimeScale(0.0f, 0.3f);
         ChangeToneDouble(2.0f, CameraEffect.ToneName.reverseTone);
         Instance.ZoomInOutDouble(0.1f);
+        VFX.transform.localPosition = player1Tf.position - (player1Tf.position - player2Tf.position) / 2 + Vector3.up;
+        anim.Play("Sunder");
     }
 
     public void BattleEnd() {

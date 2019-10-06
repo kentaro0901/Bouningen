@@ -12,6 +12,9 @@ public class ChaseCamera : MonoBehaviour {
     Camera _camera;
     public static float chaseRange = 1.0f;
     public float verticalRange = 1.0f;
+    [SerializeField] GameObject BackLinePref;
+    GameObject BackLineLeft;
+    GameObject BackLineRight;
 
     void Start(){
         cameraTf = this.gameObject.transform;
@@ -19,13 +22,21 @@ public class ChaseCamera : MonoBehaviour {
         cameraTf.position = new Vector3(playerTf.position.x, cameraInitPos.y, cameraInitPos.z);
         _camera = GetComponentInChildren<Camera>();
         chaseRange = _camera.orthographicSize * ((float)Screen.width/ Screen.height) / (Main.Instance.isMultiDisplays? 2: 4);
+        BackLineLeft = Instantiate(BackLinePref, new Vector3(cameraInitPos.x - chaseRange * 4, cameraInitPos.y, 0), Quaternion.identity);
+        BackLineLeft.transform.parent = this.gameObject.transform;
+        BackLineRight = Instantiate(BackLinePref, new Vector3(cameraInitPos.x + chaseRange * 4, cameraInitPos.y, 0), Quaternion.identity);
+        BackLineRight.transform.parent = this.gameObject.transform;
     }
 
     public void NearCamera() {
+        BackLineLeft.SetActive(false);
+        BackLineRight.SetActive(false);
         isNear = true;
     }
     public void FarCamera(bool isLeft) {
         if (isLeft) { //左
+            BackLineLeft.SetActive(true);
+            BackLineRight.SetActive(false);
             if (Main.Instance.isMultiDisplays) {
                 _camera.rect = new Rect(0, 0, 1, 1);
                 _camera.targetDisplay = 0;
@@ -36,6 +47,8 @@ public class ChaseCamera : MonoBehaviour {
             }
         }
         else { //右
+            BackLineLeft.SetActive(false);
+            BackLineRight.SetActive(true);
             if (Main.Instance.isMultiDisplays) {
                 _camera.rect = new Rect(0, 0, 1, 1);
                 _camera.targetDisplay = 1;

@@ -522,7 +522,7 @@ MonoBehaviour:
   chara1P: 0
   chara2P: 0
   bgm: {fileID: 0}
-  mainMusic: {fileID: 8300000, guid: 975367b2cd85dc0489c84605fa2eede9, type: 3}
+  mainMusic: {fileID: 8300000, guid: c586e9194a5151646a4c1cf368dbd547, type: 3}
   isMultiDisplays: 1
   isDynamicCamera: 1
   isVisibleBox: 0
