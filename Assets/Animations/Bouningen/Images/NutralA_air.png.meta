@@ -1,43 +1,43 @@
 fileFormatVersion: 2
-guid: a327676128b0f2b479634532e3d3d9f0
+guid: 9654c89fc0503c3409b99bb99b3fc3da
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -8014642664058171490
-    second: NutralA_air_0
+      213: 4508901549154387735
+    second: NutralA_Air_0
   - first:
-      213: -1687136229327576430
-    second: NutralA_air_1
+      213: 7436936719216529044
+    second: NutralA_Air_1
   - first:
-      213: -4398242925304858872
-    second: NutralA_air_2
+      213: -8326570864684816748
+    second: NutralA_Air_2
   - first:
-      213: -7675820161435189677
-    second: NutralA_air_3
+      213: 3775530011873253679
+    second: NutralA_Air_3
   - first:
-      213: -504914798218060584
-    second: NutralA_air_4
+      213: -5251334035125856317
+    second: NutralA_Air_4
   - first:
-      213: -6676150427281770999
-    second: NutralA_air_5
+      213: 3764918134851011831
+    second: NutralA_Air_5
   - first:
-      213: 5244635224581156237
-    second: NutralA_air_6
+      213: 6545927349040322736
+    second: NutralA_Air_6
   - first:
-      213: 2748758528959856369
-    second: NutralA_air_7
+      213: -1263128085618377105
+    second: NutralA_Air_7
   - first:
-      213: -5489814563114493090
-    second: NutralA_air_8
+      213: -6951424091329817840
+    second: NutralA_Air_8
   - first:
-      213: -6875364607071659779
-    second: NutralA_air_9
+      213: 4589799039620502271
+    second: NutralA_Air_9
   - first:
-      213: 4955040956819802692
-    second: NutralA_air_10
+      213: -5573954434181437903
+    second: NutralA_Air_10
   - first:
-      213: -8730468569923617458
-    second: NutralA_air_11
+      213: 7713232901930840564
+    second: NutralA_Air_11
   externalObjects: {}
   serializedVersion: 10
   mipmaps:
@@ -153,7 +153,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: NutralA_air_0
+      name: NutralA_Air_0
       rect:
         serializedVersion: 2
         x: 0
@@ -167,14 +167,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 665bd395ec8fbe54da083a2e15ee8e6e
-      internalID: -8014642664058171490
+      spriteID: 0cfd6e7a5534c6945a485c32e5196fd0
+      internalID: 4508901549154387735
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: NutralA_air_1
+      name: NutralA_Air_1
       rect:
         serializedVersion: 2
         x: 512
@@ -188,14 +188,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4a9031285203242418c6fed72cfbd3d8
-      internalID: -1687136229327576430
+      spriteID: a0b034b3c6deb6145a7b90e561291d52
+      internalID: 7436936719216529044
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: NutralA_air_2
+      name: NutralA_Air_2
       rect:
         serializedVersion: 2
         x: 1024
@@ -209,14 +209,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 0938abda4c34c814db18d764c52dcc98
-      internalID: -4398242925304858872
+      spriteID: 25093c37b98779249a46b821b090fe60
+      internalID: -8326570864684816748
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: NutralA_air_3
+      name: NutralA_Air_3
       rect:
         serializedVersion: 2
         x: 1536
@@ -230,14 +230,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 655bf848a007bd243ac319427cb08daf
-      internalID: -7675820161435189677
+      spriteID: ce18b9083292cfb49997c3d90ace8a7f
+      internalID: 3775530011873253679
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: NutralA_air_4
+      name: NutralA_Air_4
       rect:
         serializedVersion: 2
         x: 2048
@@ -251,14 +251,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 395d9a05425901d43ac76a56139a5dc2
-      internalID: -504914798218060584
+      spriteID: 2cb41bbc35a53b547aee48dd5875036a
+      internalID: -5251334035125856317
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: NutralA_air_5
+      name: NutralA_Air_5
       rect:
         serializedVersion: 2
         x: 0
@@ -272,14 +272,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 6e6df926f9a37884d9a22e66fbbb0dfb
-      internalID: -6676150427281770999
+      spriteID: e68ee157eab2efc459c69305aff78710
+      internalID: 3764918134851011831
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: NutralA_air_6
+      name: NutralA_Air_6
       rect:
         serializedVersion: 2
         x: 512
@@ -293,14 +293,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 03ca651ea1730a04da2a5eeaa8b1309a
-      internalID: 5244635224581156237
+      spriteID: 8f9caa5b455178d4c851599ad4089875
+      internalID: 6545927349040322736
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: NutralA_air_7
+      name: NutralA_Air_7
       rect:
         serializedVersion: 2
         x: 1024
@@ -314,14 +314,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 8d23589bf2c6460479cb7e69a44fceb9
-      internalID: 2748758528959856369
+      spriteID: 78b4ca2636b1ea54ea7d9aca030681e1
+      internalID: -1263128085618377105
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: NutralA_air_8
+      name: NutralA_Air_8
       rect:
         serializedVersion: 2
         x: 1536
@@ -335,14 +335,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 3834f7fb263d9c547a3ea4cd5abad252
-      internalID: -5489814563114493090
+      spriteID: 4bc03a4e5f311b84386dc9b595082be7
+      internalID: -6951424091329817840
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: NutralA_air_9
+      name: NutralA_Air_9
       rect:
         serializedVersion: 2
         x: 2048
@@ -356,14 +356,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7f5c5af0ec6892a47a35cb582711e2b0
-      internalID: -6875364607071659779
+      spriteID: 18ba2390bfc4a6747a0dbcfd27980d8e
+      internalID: 4589799039620502271
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: NutralA_air_10
+      name: NutralA_Air_10
       rect:
         serializedVersion: 2
         x: 0
@@ -377,14 +377,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b71f482b595d3a146a93024ea776a118
-      internalID: 4955040956819802692
+      spriteID: 134296bc4991bdf47a72783635fab490
+      internalID: -5573954434181437903
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: NutralA_air_11
+      name: NutralA_Air_11
       rect:
         serializedVersion: 2
         x: 512
@@ -398,8 +398,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 0b4b26cc964dc454783342d419555e90
-      internalID: -8730468569923617458
+      spriteID: 752e47223a8262043894c2b6d19743fd
+      internalID: 7713232901930840564
       vertices: []
       indices: 
       edges: []
@@ -407,7 +407,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 74e0fe95139c5334eadaebace9bf8630
+    spriteID: 435641a80725f244abac5ff2d35873d5
     internalID: 0
     vertices: []
     indices: 
