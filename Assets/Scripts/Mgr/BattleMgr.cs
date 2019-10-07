@@ -51,8 +51,7 @@ public class BattleMgr : MonoBehaviour {
     [SerializeField] Slider c2mpBar2;
     [SerializeField] GameObject[] GrandPref;
 
-    [SerializeField] GameObject VFX;
-    Animator anim;
+    [SerializeField] GameObject VFXPref;
 
     public int resistCounter1P = 0;
     public int resistCounter2P = 0;
@@ -65,6 +64,11 @@ public class BattleMgr : MonoBehaviour {
 
     float timeScaleSeconds = 0.0f;
 
+    float preHP1;
+    float preHP2;
+    float preMP1;
+    float preMP2;
+
     void Start() {
         Main.state = Main.State.Battle;
         Main.battleResult = Main.BattleResult.Battle;
@@ -76,7 +80,12 @@ public class BattleMgr : MonoBehaviour {
         for (int i = -100; i <= 100; i++){
             GameObject g = Instantiate(GrandPref[(int)Random.Range(0, GrandPref.Length)], new Vector3(i * 20, -1.5f, 0), Quaternion.identity);
         }
-        anim = VFX.GetComponent<Animator>();
+        preHP1 = playerController1.hp;
+        preHP2 = playerController2.hp;
+        c1hpBar1.value = c2hpBar1.value = playerController1.hp / playerController1.maxhp;
+        c1hpBar2.value = c2hpBar2.value = playerController2.hp / playerController2.maxhp;
+        c1mpBar1.value = c2mpBar1.value = playerController1.mp / 100;
+        c1mpBar2.value = c2mpBar2.value = playerController2.mp / 100;
     }
 
     void Update() {
@@ -93,11 +102,25 @@ public class BattleMgr : MonoBehaviour {
     }
 
     private void UpdateUI() {
-        c1hpBar1.value = c2hpBar1.value = playerController1.hp / playerController1.maxhp;
-        c1hpBar2.value = c2hpBar2.value = playerController2.hp / playerController2.maxhp;
-        c1mpBar1.value = c2mpBar1.value = playerController1.mp / 100;
-        c1mpBar2.value = c2mpBar2.value = playerController2.mp / 100;
+        if (preHP1 != playerController1.hp) StartCoroutine(EasingBar(c1hpBar1, c2hpBar1, preHP1, playerController1.hp, playerController1.maxhp));
+        if (preHP2 != playerController2.hp) StartCoroutine(EasingBar(c1hpBar2, c2hpBar2, preHP2, playerController2.hp, playerController2.maxhp));
+        if (preMP1 != playerController1.mp) StartCoroutine(EasingBar(c1mpBar1, c2mpBar1, preMP1, playerController1.mp, 100));
+        if (preMP2 != playerController2.mp) StartCoroutine(EasingBar(c1mpBar2, c2mpBar2, preMP2, playerController2.mp, 100));
+        preHP1 = playerController1.hp;
+        preHP2 = playerController2.hp;
+        preMP1 = playerController1.mp;
+        preMP2 = playerController2.mp;
     }
+    IEnumerator EasingBar(Slider c1slider, Slider c2slider, float pre, float now, float max) {
+        float time = 0.0f;
+        while (time <= 0.3f) {
+            c1slider.value = c2slider.value = Easing.ExpOut(time, 0.3f, pre, now) / max;
+            time += Time.unscaledDeltaTime;
+            yield return null;
+        }
+        yield return 0;
+    }
+
     private void ResistMgr() {
         if(resistCounter1P - resistCounter2P >= 2) {
             resistResult = ResistResult.Critical2P;
@@ -180,8 +203,14 @@ public class BattleMgr : MonoBehaviour {
         ChangeTimeScale(0.0f, 0.3f);
         ChangeToneDouble(2.0f, CameraEffect.ToneName.reverseTone);
         Instance.ZoomInOutDouble(0.1f);
-        VFX.transform.localPosition = player1Tf.position - (player1Tf.position - player2Tf.position) / 2 + Vector3.up;
-        anim.Play("Sunder");
+        CreateVFX("Sunder", player1Tf.position - (player1Tf.position - player2Tf.position) / 2 + Vector3.up, 1.0f);
+    }
+
+    public GameObject CreateVFX(string name, Vector3 position, float lifeTime) {
+        GameObject vfx = Instantiate(VFXPref, position, Quaternion.identity);
+        vfx.GetComponent<Animator>().Play(name);
+        vfx.GetComponent<DestroyParticle>().lifeTime = lifeTime;
+        return vfx;
     }
 
     public void BattleEnd() {

@@ -10,17 +10,14 @@ public class HitBox : MonoBehaviour {
     public bool isCritical = false;
     public bool isResist = false;
 
-    [SerializeField] GameObject LightningAttackHitPref;
-
     void OnTriggerEnter2D(Collider2D collision) {
 
         //ヒット
         if (collision.gameObject.transform.parent != this.transform.parent && collision.gameObject.tag == "HurtBox") {
-            character.playerController.mp += attack * (isCritical ? 0.6f : 0.5f);
-            if (character.playerController.stateInfo.fullPathHash == AnimState.Instance.LightningAttack) {
-                GameObject g = Instantiate(LightningAttackHitPref, transform.position, Quaternion.identity);
-                g.GetComponent<DestroyParticle>().lifeTime = 0.5f;
-                g.transform.parent = transform;
+            if (!character.playerController.isLimitBreak) character.playerController.mp += attack * (isCritical ? 0.6f : 0.5f);
+            if (vector.y == 0) {//とりま横だけ適応
+                BattleMgr.Instance.CreateVFX("Hit", transform.position, 1.0f);
+                BattleMgr.Instance.CreateVFX("HitWave", transform.position, 1.0f);
             }
         }
 

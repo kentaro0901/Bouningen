@@ -182,6 +182,10 @@ public class PlayerController : MonoBehaviour {
         else if (stateInfo.fullPathHash == AnimState.Instance.Critical) { //クリティカル
             if (counter == 0) {
                 playerTf.localScale = damageVector.x > 0 ? new Vector3(-1, 1, 1) : Vector3.one;
+                BattleMgr.Instance.ChangeTimeScale(0.05f, 0.5f);
+                BattleMgr.Instance.ChangeToneDouble(0.5f, ((int)playerNum == 2 ? CameraEffect.ToneName.redBlack : CameraEffect.ToneName.blueBlack));
+                BattleMgr.Instance.ZoomInOutDouble(0.1f);
+                BattleMgr.Instance.CreateVFX("CriticalWave", transform.position + new Vector3((enemyTf.position.x < playerTf.position.x ? 3 : -3), 1, 0), 1.0f);
                 if (hp <= 0) Main.battleResult = Main.BattleResult.Finish;
             }
             playerTf.position += damageVector * Time.timeScale;
@@ -205,6 +209,9 @@ public class PlayerController : MonoBehaviour {
             }
         }
         else if (stateInfo.fullPathHash == AnimState.Instance.CriticalUp) {
+            if (counter == 0) {
+                BattleMgr.Instance.CreateVFX("CriticalWave", playerTf.position + Vector3.up, 1.0f).transform.rotation = Quaternion.Euler(0,0,90);
+            }
             playerTf.position += new Vector3(damageVector.x, 0, 0);
         }
         else if (stateInfo.fullPathHash == AnimState.Instance.CriticalFall) {
@@ -311,16 +318,14 @@ public class PlayerController : MonoBehaviour {
             if (0 < playerTf.position.y) playerTf.position += Vector3.right * (vectorspeed * vector.x + airspeed * xAxisD);
         }
 
-        //自動反転
+        //反転
         if (stateInfo.fullPathHash == AnimState.Instance.Start ||
             stateInfo.fullPathHash == AnimState.Instance.Idle ||
             stateInfo.fullPathHash == AnimState.Instance.CriticalUp ||
             stateInfo.fullPathHash == AnimState.Instance.CriticalFall) {
-            playerTf.localScale = enemyTf.position.x > playerTf.position.x ? Vector3.one : new Vector3(-1, 1, 1);//
+            playerTf.localScale = enemyTf.position.x > playerTf.position.x ? Vector3.one : new Vector3(-1, 1, 1);
         }
-
-        //手動反転
-        if (stateInfo.fullPathHash == AnimState.Instance.Step ||
+        else if (stateInfo.fullPathHash == AnimState.Instance.Step ||
             stateInfo.fullPathHash == AnimState.Instance.StepEnd ||
             stateInfo.fullPathHash == AnimState.Instance.DashEnd ||
             stateInfo.fullPathHash == AnimState.Instance.JumpStart ||
