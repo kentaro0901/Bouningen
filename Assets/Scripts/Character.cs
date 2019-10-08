@@ -91,6 +91,9 @@ public abstract class Character : MonoBehaviour {
             playerController.stateInfo.fullPathHash == AnimState.Instance.CriticalNA) {
             playerController.animator.Play("NutralA_R");
         }
+        else if (playerController.stateInfo.fullPathHash == AnimState.Instance.SideA_Air) {
+            playerController.animator.Play("SideA_Air_R");
+        }
         else { //なぜかたまにここに入る
             playerController.animator.Play("SideA_R");
             Debug.LogError("NoneResist");

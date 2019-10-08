@@ -265,7 +265,8 @@ public class PlayerController : MonoBehaviour {
         }
         if (stateInfo.fullPathHash == AnimState.Instance.SideA_R || //鍔迫り合い
             stateInfo.fullPathHash == AnimState.Instance.NutralA_R || 
-            stateInfo.fullPathHash == AnimState.Instance.SideB_R) {
+            stateInfo.fullPathHash == AnimState.Instance.SideB_R || 
+            stateInfo.fullPathHash == AnimState.Instance.SideA_Air_R) {
             if (counter == 0 && playerNum == PlayerNum.player1)  BattleMgr.Instance.StartResistance();
             if (Input.GetButtonDown("ButtonA_" + (int)playerNum) || Input.GetButtonDown("ButtonB_" + (int)playerNum)) {
                 if (playerNum == PlayerNum.player1) BattleMgr.Instance.resistCounter1P++;
@@ -281,6 +282,8 @@ public class PlayerController : MonoBehaviour {
                     if (playerNum == PlayerNum.player1) {
                         BattleMgr.Instance.ChangeTimeScale(0.05f, 0.5f);
                         BattleMgr.Instance.ChangeToneDouble(0.5f, CameraEffect.ToneName.blueBlack);
+                        BattleMgr.Instance.CreateVFX("Hit", playerTf.position, 1.0f);
+                        BattleMgr.Instance.CreateVFX("HitWave", playerTf.position, 1.0f);
                         animator.Play("Critical");
                     }
                     else {
@@ -288,13 +291,16 @@ public class PlayerController : MonoBehaviour {
                         if (stateInfo.fullPathHash == AnimState.Instance.NutralA_R) animator.Play("NutralA_RW");
                         else if (stateInfo.fullPathHash == AnimState.Instance.SideA_R) animator.Play("SideA_RW");
                         else if (stateInfo.fullPathHash == AnimState.Instance.SideB_R) animator.Play("SideB_RW");
-                        else animator.Play("Idle");                      
+                        else if (stateInfo.fullPathHash == AnimState.Instance.SideA_Air_R) animator.Play("SideA_Air_RW");
+                        else animator.Play("SideA_RW"); //エラー回避
                     }
                 }
                 else if (BattleMgr.Instance.resistResult == BattleMgr.ResistResult.Critical2P) {
                     if (playerNum == PlayerNum.player2) {
                         BattleMgr.Instance.ChangeTimeScale(0.05f, 0.5f);
                         BattleMgr.Instance.ChangeToneDouble(0.5f, CameraEffect.ToneName.redBlack);
+                        BattleMgr.Instance.CreateVFX("Hit", playerTf.position, 1.0f);
+                        BattleMgr.Instance.CreateVFX("HitWave", playerTf.position, 1.0f);
                         animator.Play("Critical");
                     }
                     else {
@@ -302,7 +308,8 @@ public class PlayerController : MonoBehaviour {
                         if (stateInfo.fullPathHash == AnimState.Instance.NutralA_R) animator.Play("NutralA_RW");
                         else if (stateInfo.fullPathHash == AnimState.Instance.SideA_R) animator.Play("SideA_RW");
                         else if (stateInfo.fullPathHash == AnimState.Instance.SideB_R) animator.Play("SideB_RW");
-                        else animator.Play("Idle");
+                        else if (stateInfo.fullPathHash == AnimState.Instance.SideA_Air_R) animator.Play("SideA_Air_RW");
+                        else animator.Play("SideA_RW");
                     }
                 }
                 else {

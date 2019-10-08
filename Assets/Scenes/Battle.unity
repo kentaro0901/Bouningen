@@ -2061,6 +2061,8 @@ MonoBehaviour:
   NutralA_Air: 0
   NutralB_Air: 0
   SideA_Air: 0
+  SideA_Air_R: 0
+  SideA_Air_RW: 0
   SideB_Air: 0
 --- !u!1 &756613376
 GameObject:
