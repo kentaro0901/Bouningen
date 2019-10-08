@@ -22,6 +22,7 @@ public class AnimState : MonoBehaviour {
     public int Idle;
     public int LightningStart;
     public int Lightning;
+    public int LightningEnd;
     public int LightningAttack;
     public int LightningAttackDown;
     public int NutralA;
@@ -78,6 +79,7 @@ public class AnimState : MonoBehaviour {
         Idle = Animator.StringToHash("Base Layer.Idle");
         LightningStart = Animator.StringToHash("Base Layer.LightningStart");
         Lightning = Animator.StringToHash("Base Layer.Lightning");
+        LightningEnd = Animator.StringToHash("Base Layer.LightningEnd");
         LightningAttack = Animator.StringToHash("Base Layer.LightningAttack");
         LightningAttackDown = Animator.StringToHash("Base Layer.LightningAttackDown");
         NutralA = Animator.StringToHash("Base Layer.NutralA");

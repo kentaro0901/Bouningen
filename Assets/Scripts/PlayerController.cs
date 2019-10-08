@@ -154,13 +154,16 @@ public class PlayerController : MonoBehaviour {
                 playerTf.position += (enemyTf.position + lightningPos - playerTf.position) / (counter == 5 ? 1:2);
                 playerTf.localScale = enemyTf.position.x > playerTf.position.x ? Vector3.one : new Vector3(-1, 1, 1);
             }
-            playerTf.position += new Vector3(enemyController.damageVector.x, 0, 0);
+            else playerTf.position += new Vector3(enemyController.damageVector.x, 0, 0);
         }
         else if (stateInfo.fullPathHash == AnimState.Instance.LightningAttack) {
             playerTf.position += new Vector3(enemyController.damageVector.x * Time.timeScale, 0, 0);
         }
+        else if (stateInfo.fullPathHash == AnimState.Instance.LightningEnd) {
+            playerTf.position += new Vector3(enemyController.damageVector.x * Time.timeScale, 0, 0);
+        }
         else if (stateInfo.fullPathHash == AnimState.Instance.LightningAttackDown) {
-            playerTf.position += new Vector3(enemyController.damageVector.x * Time.timeScale, playerTf.position.y - (counter * 0.2f) * animator.speed, 0);
+            playerTf.position += new Vector3(enemyController.damageVector.x * Time.timeScale, - (counter * 0.2f) * animator.speed, 0);
         }
         else if (stateInfo.fullPathHash == AnimState.Instance.SideB) {
             if(counter == 13) BattleMgr.Instance.VibrateDouble(0.5f, 0.5f);

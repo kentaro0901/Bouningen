@@ -139,7 +139,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 1defbdf5da82d32448137a1ba8332b4d
+      spriteID: f3153248398b7d641bd20840790d496b
       internalID: 5285705633349911987
       vertices: []
       indices: 
@@ -160,7 +160,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 1067f22d9e571c34b85721677d449b3a
+      spriteID: 80e5fcf0bfcfb4843a7ef63e8dc255c8
       internalID: -4630364565689453498
       vertices: []
       indices: 
@@ -181,7 +181,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 8d966523102af4542b8377e8f486afcd
+      spriteID: e9d5d89b3f41cdc449d9a56b2f99dbc2
       internalID: -4195951496502639294
       vertices: []
       indices: 
@@ -202,7 +202,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 9f10ff4bb1538bc46816c7bf749322c1
+      spriteID: 232ef4c09776798478a2bb41dafd35a3
       internalID: 4441439522720523462
       vertices: []
       indices: 
@@ -223,7 +223,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 11e63830745c4e14296054a5e74de766
+      spriteID: 9e7ad23121915f644a6ef2911da9a43d
       internalID: 7105829831163085711
       vertices: []
       indices: 
@@ -244,7 +244,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 48c56a68f3af08c429e702ea29e8b771
+      spriteID: c6e7557f352b77f4ba03a28118011fec
       internalID: 205048185883412677
       vertices: []
       indices: 
@@ -265,7 +265,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4090914add14d7c47931458600166af2
+      spriteID: 6b5601515ca85f64bb0b07ef981e730c
       internalID: 414411231134693517
       vertices: []
       indices: 
@@ -275,7 +275,7 @@ TextureImporter:
       name: LightningAttackDown_7
       rect:
         serializedVersion: 2
-        x: 1027
+        x: 1024
         y: 0
         width: 512
         height: 512
@@ -286,7 +286,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e66ac0c91d2cda543944797998bc045f
+      spriteID: 06962a0c87ccebb47af0f94db19d98df
       internalID: -1295543285443871239
       vertices: []
       indices: 
@@ -307,7 +307,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d82766a765510e8429a733207132b7ff
+      spriteID: f468e79d1cbb66b4badcf055acd0b5a5
       internalID: -1059838155221958481
       vertices: []
       indices: 
@@ -328,7 +328,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 0e9654057b60f674fadafb03a7ea5830
+      spriteID: d6878f321f32ec546900f686c17f0dab
       internalID: 1276939502646231018
       vertices: []
       indices: 
@@ -337,7 +337,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 18afbfc5acd104d409593c2ca74e1e1b
+    spriteID: 7b6c08c9f50aa8745810682017102d70
     internalID: 0
     vertices: []
     indices: 

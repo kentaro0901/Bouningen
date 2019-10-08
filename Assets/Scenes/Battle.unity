@@ -2019,6 +2019,7 @@ MonoBehaviour:
   Idle: 0
   LightningStart: 0
   Lightning: 0
+  LightningEnd: 0
   LightningAttack: 0
   LightningAttackDown: 0
   NutralA: 0
