@@ -244,7 +244,7 @@ public class PlayerController : MonoBehaviour {
             }
         }
         else if (stateInfo.fullPathHash == AnimState.Instance.CriticalDown) {
-            playerTf.position = new Vector3(playerTf.position.x + damageVector.x, playerTf.position.y - 1.5f * animator.speed, 0);
+            playerTf.position = new Vector3(playerTf.position.x + damageVector.x, playerTf.position.y + damageVector.y, 0) * animator.speed;
             if (playerTf.position.y < 0.1f && playerTf.position.y != 0) {
                 playerTf.position = new Vector3(playerTf.position.x, 0, 0);
                 BattleMgr.Instance.VibrateDouble(1.0f, 1.0f);
@@ -278,42 +278,24 @@ public class PlayerController : MonoBehaviour {
             if (counter == 60) {
                 isResistance = false;
                 resistVector = Vector3.zero;
-                if (BattleMgr.Instance.resistResult == BattleMgr.ResistResult.Critical1P) {
-                    if (playerNum == PlayerNum.player1) {
-                        BattleMgr.Instance.ChangeTimeScale(0.05f, 0.5f);
-                        BattleMgr.Instance.ChangeToneDouble(0.5f, CameraEffect.ToneName.blueBlack);
-                        BattleMgr.Instance.CreateVFX("Hit", playerTf.position, 1.0f);
-                        BattleMgr.Instance.CreateVFX("HitWave", playerTf.position, 1.0f);
-                        animator.Play("Critical");
-                    }
-                    else {
-                        damageVector = Vector3.zero;
-                        if (stateInfo.fullPathHash == AnimState.Instance.NutralA_R) animator.Play("NutralA_RW");
-                        else if (stateInfo.fullPathHash == AnimState.Instance.SideA_R) animator.Play("SideA_RW");
-                        else if (stateInfo.fullPathHash == AnimState.Instance.SideB_R) animator.Play("SideB_RW");
-                        else if (stateInfo.fullPathHash == AnimState.Instance.SideA_Air_R) animator.Play("SideA_Air_RW");
-                        else animator.Play("SideA_RW"); //エラー回避
-                    }
+                if ((BattleMgr.Instance.resistResult == BattleMgr.ResistResult.Critical1P && playerNum == PlayerNum.player1) ||
+                    (BattleMgr.Instance.resistResult == BattleMgr.ResistResult.Critical2P && playerNum == PlayerNum.player2)) { //鍔迫り合いに負けた時
+                    BattleMgr.Instance.ChangeTimeScale(0.05f, 0.5f);
+                    BattleMgr.Instance.ChangeToneDouble(0.5f, playerNum == PlayerNum.player1 ? CameraEffect.ToneName.redBlack : CameraEffect.ToneName.blueBlack);
+                    BattleMgr.Instance.CreateVFX("Hit", playerTf.position, 1.0f);
+                    BattleMgr.Instance.CreateVFX("HitWave", playerTf.position, 1.0f);
+                    animator.Play("Critical");
                 }
-                else if (BattleMgr.Instance.resistResult == BattleMgr.ResistResult.Critical2P) {
-                    if (playerNum == PlayerNum.player2) {
-                        BattleMgr.Instance.ChangeTimeScale(0.05f, 0.5f);
-                        BattleMgr.Instance.ChangeToneDouble(0.5f, CameraEffect.ToneName.redBlack);
-                        BattleMgr.Instance.CreateVFX("Hit", playerTf.position, 1.0f);
-                        BattleMgr.Instance.CreateVFX("HitWave", playerTf.position, 1.0f);
-                        animator.Play("Critical");
-                    }
-                    else {
-                        damageVector = Vector3.zero;
-                        if (stateInfo.fullPathHash == AnimState.Instance.NutralA_R) animator.Play("NutralA_RW");
-                        else if (stateInfo.fullPathHash == AnimState.Instance.SideA_R) animator.Play("SideA_RW");
-                        else if (stateInfo.fullPathHash == AnimState.Instance.SideB_R) animator.Play("SideB_RW");
-                        else if (stateInfo.fullPathHash == AnimState.Instance.SideA_Air_R) animator.Play("SideA_Air_RW");
-                        else animator.Play("SideA_RW");
-                    }
+                else if (BattleMgr.Instance.resistResult != BattleMgr.ResistResult.Wince) { //勝った時
+                    damageVector = Vector3.zero;
+                    if (stateInfo.fullPathHash == AnimState.Instance.NutralA_R) animator.Play("NutralA_RW");
+                    else if (stateInfo.fullPathHash == AnimState.Instance.SideA_R) animator.Play("SideA_RW");
+                    else if (stateInfo.fullPathHash == AnimState.Instance.SideB_R) animator.Play("SideB_RW");
+                    else if (stateInfo.fullPathHash == AnimState.Instance.SideA_Air_R) animator.Play("SideA_Air_RW");
+                    else animator.Play("SideA_RW");
                 }
                 else {
-                    BattleMgr.Instance.ChangeToneDouble(0.0f, CameraEffect.ToneName.NormalTone);
+                    BattleMgr.Instance.ChangeToneDouble(0.0f, CameraEffect.ToneName.NormalTone); //引き分け
                     damageVector = Vector3.zero;
                     animator.Play("Wince");
                 }

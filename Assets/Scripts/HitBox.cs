@@ -26,10 +26,10 @@ public class HitBox : MonoBehaviour {
             HitBox hitBox = collision.gameObject.GetComponent<HitBox>();
             character.playerController.isResistance = true;
             if (!character.playerController.animator.GetBool("isLand") && !hitBox.character.playerController.animator.GetBool("isLand")) { //両方空中だと滑る
-                character.playerController.resistVector = 3.0f * new Vector3((((character.playerController.enemyTf.position.x < character.playerController.playerTf.position.x && hitBox.vector.x > vector.x)
+                character.playerController.resistVector = 1.0f * new Vector3((((character.playerController.enemyTf.position.x < character.playerController.playerTf.position.x && hitBox.vector.x > vector.x)
                 || character.playerController.enemyTf.position.x > character.playerController.playerTf.position.x && hitBox.vector.x < vector.x) ? 1 : -1) * Mathf.Abs(hitBox.vector.x - vector.x), 0, 0);
             }
-            collision.gameObject.GetComponent<HitBox>().character.Resistance(hitBox.vector);
+            collision.gameObject.GetComponent<HitBox>().character.Resistance(vector);
         }
     }
 }
