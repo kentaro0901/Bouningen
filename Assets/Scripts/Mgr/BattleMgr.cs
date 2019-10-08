@@ -63,6 +63,9 @@ public class BattleMgr : MonoBehaviour {
     public ResistResult resistResult = ResistResult.Wince;
 
     float timeScaleSeconds = 0.0f;
+    float animeSpeedSeconds = 0.0f;
+    float preAnimeSpeed1 = 1.0f;
+    float preAnimeSpeed2 = 1.0f;
 
     float preHP1;
     float preHP2;
@@ -99,6 +102,7 @@ public class BattleMgr : MonoBehaviour {
         UpdateUI();
         ResistMgr();
         TimeScaleCountDown();
+        AnimeSpeedCountDown();
     }
 
     private void UpdateUI() {
@@ -181,6 +185,23 @@ public class BattleMgr : MonoBehaviour {
         else {
             timeScaleSeconds = 0.0f;
             Time.timeScale = 1.0f;
+        }
+    }
+    public void ChangeAnimeSpeedDouble(float speed, float seconds) {
+        preAnimeSpeed1 = playerController1.animator.speed;
+        preAnimeSpeed2 = playerController2.animator.speed;
+        playerController1.animator.speed = speed;
+        playerController2.animator.speed = speed;
+        animeSpeedSeconds = seconds;
+    }
+    private void AnimeSpeedCountDown() {
+        if (animeSpeedSeconds > 0) {
+            animeSpeedSeconds -= Time.unscaledDeltaTime;
+        }
+        else {
+            animeSpeedSeconds = 0.0f;
+            playerController1.animator.speed = preAnimeSpeed1;
+            playerController2.animator.speed = preAnimeSpeed2;
         }
     }
 

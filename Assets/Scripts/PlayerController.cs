@@ -175,9 +175,21 @@ public class PlayerController : MonoBehaviour {
             if (playerTf.position.y < 0.1f && playerTf.position.y != 0) playerTf.position = new Vector3(playerTf.position.x, 0, 0);
         }
         else if (stateInfo.fullPathHash == AnimState.Instance.UpB_Fall) {
-            if (counter == 0) StartCoroutine(character.UpB_Fall());
+            if (counter == 0) {
+                if (enemyController.stateInfo.fullPathHash == AnimState.Instance.CriticalUp ||
+                    enemyController.stateInfo.fullPathHash == AnimState.Instance.CriticalFall) {
+                    BattleMgr.Instance.CreateVFX("XLight", playerTf.position + Vector3.up, 1.0f);
+                    BattleMgr.Instance.CreateVFX("OLight", playerTf.position + Vector3.up, 1.0f);
+                    BattleMgr.Instance.ChangeToneDouble(0.3f, CameraEffect.ToneName.reverseTone);
+                    BattleMgr.Instance.ChangeAnimeSpeedDouble(0.05f, 0.3f);
+                }
+            }
             playerTf.position = new Vector3(playerTf.position.x, playerTf.position.y - (counter * 0.2f) * animator.speed, 0);
-            if (playerTf.position.y < 0.1f && playerTf.position.y != 0) playerTf.position = new Vector3(playerTf.position.x, 0, 0);
+            if (playerTf.position.y < 0.05f && !animator.GetBool("isLand")) { //着地寸前
+                playerTf.position = new Vector3(playerTf.position.x, 0, 0);
+                BattleMgr.Instance.VibrateDouble(0.8f, 2.0f);
+                Instantiate(HibiPref[Random.Range(0, HibiPref.Length)], new Vector3(playerTf.position.x, 0, 0), Quaternion.identity);
+            }
         }
         else if (stateInfo.fullPathHash == AnimState.Instance.Critical) { //クリティカル
             if (counter == 0) {
@@ -210,7 +222,7 @@ public class PlayerController : MonoBehaviour {
         }
         else if (stateInfo.fullPathHash == AnimState.Instance.CriticalUp) {
             if (counter == 0) {
-                BattleMgr.Instance.CreateVFX("CriticalWave", playerTf.position + Vector3.up, 1.0f).transform.rotation = Quaternion.Euler(0,0,90);
+                BattleMgr.Instance.CreateVFX("CriticalUpWave", playerTf.position + Vector3.up, 1.0f);
             }
             playerTf.position += new Vector3(damageVector.x, 0, 0);
         }
@@ -315,7 +327,7 @@ public class PlayerController : MonoBehaviour {
             stateInfo.fullPathHash == AnimState.Instance.Fall ||
             stateInfo.fullPathHash == AnimState.Instance.CriticalFall ||
             stateInfo.fullPathHash == AnimState.Instance.UpB_Fall) {
-            if (0 < playerTf.position.y) playerTf.position += Vector3.right * (vectorspeed * vector.x + airspeed * xAxisD);
+            if (0 < playerTf.position.y) playerTf.position += Vector3.right * (vectorspeed * vector.x + airspeed * xAxisD) * animator.speed;
         }
 
         //反転
