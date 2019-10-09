@@ -52,6 +52,7 @@ public class Main : MonoBehaviour {
     public bool isMultiDisplays = true;
     public bool isDynamicCamera = false;
     public bool isVisibleBox = false;
+    public bool isVisibleUI = true;
     public float cameraSize = 5.0f;
     public float gameSpeed = 1.0f;
 

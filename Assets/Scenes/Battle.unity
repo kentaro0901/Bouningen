@@ -167,6 +167,7 @@ MonoBehaviour:
   animator: {fileID: 0}
   damageVector: {x: 0, y: 0, z: 0}
   resistVector: {x: 0, y: 0, z: 0}
+  resistDamage: 0
   isResistance: 0
   isLimitBreak: 0
   HibiPref:
@@ -1141,7 +1142,7 @@ RectTransform:
   - {fileID: 60564217}
   - {fileID: 368102875}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -1675,6 +1676,7 @@ MonoBehaviour:
   isMultiDisplays: 1
   isDynamicCamera: 1
   isVisibleBox: 1
+  isVisibleUI: 1
   cameraSize: 5
   gameSpeed: 1
 --- !u!4 &495413259
@@ -1986,6 +1988,8 @@ MonoBehaviour:
   c2RFRTf: {fileID: 60564217}
   c1Txt: {fileID: 608325642}
   c2Txt: {fileID: 368102876}
+  c1: {fileID: 1007278196}
+  c2: {fileID: 1834824116}
   c1hpBar1: {fileID: 767620463}
   c1hpBar2: {fileID: 279284787}
   c2hpBar1: {fileID: 1447297788}
@@ -1999,6 +2003,11 @@ MonoBehaviour:
   - {fileID: 6124810052568752046, guid: 0d0a0583965d5ba48a771762832b22f7, type: 3}
   - {fileID: 2187116308042254094, guid: d9ec29a55eefb6b438b3dc6e16a34104, type: 3}
   VFXPref: {fileID: 8492234232141568191, guid: a80c9d94fe7192e4c881640b277f73ab, type: 3}
+  CrackPref:
+  - {fileID: 1155615969238140471, guid: 5ad7dd0a7ed0a5649853e24432d1925d, type: 3}
+  - {fileID: 1155615969238140471, guid: 8b0855e0105a538459affffbcc81e8d4, type: 3}
+  - {fileID: 1155615969238140471, guid: 9bf14c51938f4004c84c1b4eec3783d1, type: 3}
+  - {fileID: 1155615969238140471, guid: 8379a296c3c3e324cbf0234c80a150fd, type: 3}
   resistCounter1P: 0
   resistCounter2P: 0
   resistResult: 2
@@ -2058,7 +2067,10 @@ MonoBehaviour:
   Landing: 0
   DownA: 0
   DownB_Air: 0
+  DownB_Air_Fall: 0
   NutralA_Air: 0
+  NutralA_Air_R: 0
+  NutralA_Air_RW: 0
   NutralB_Air: 0
   SideA_Air: 0
   SideA_Air_R: 0
@@ -2354,7 +2366,7 @@ RectTransform:
   - {fileID: 1780217132}
   - {fileID: 608325641}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -3554,6 +3566,7 @@ MonoBehaviour:
   animator: {fileID: 0}
   damageVector: {x: 0, y: 0, z: 0}
   resistVector: {x: 0, y: 0, z: 0}
+  resistDamage: 0
   isResistance: 0
   isLimitBreak: 0
   HibiPref:

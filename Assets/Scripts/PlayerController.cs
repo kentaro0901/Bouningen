@@ -172,13 +172,20 @@ public class PlayerController : MonoBehaviour {
             if(counter == 13) BattleMgr.Instance.VibrateDouble(0.5f, 0.5f);
         }
         else if (stateInfo.fullPathHash == AnimState.Instance.DownA) {
-            if (counter == 0) StartCoroutine(character.DownA());
             playerTf.position = new Vector3(playerTf.position.x, playerTf.position.y - (counter * 0.2f) * animator.speed, 0);
-            if (playerTf.position.y < 0.1f && playerTf.position.y != 0) playerTf.position = new Vector3(playerTf.position.x, 0, 0);
+            if (playerTf.position.y < 0.05f && !animator.GetBool("isLand")) {
+                playerTf.position = new Vector3(playerTf.position.x, 0, 0);
+                Instantiate(HibiPref[Random.Range(0, HibiPref.Length)], new Vector3(playerTf.position.x, 0, 0), Quaternion.identity);
+                BattleMgr.Instance.VibrateDouble(0.8f, 2.0f);
+            }
         }
-        else if (stateInfo.fullPathHash == AnimState.Instance.DownB_Air) {
+        else if (stateInfo.fullPathHash == AnimState.Instance.DownB_Air_Fall) {
             playerTf.position = new Vector3(playerTf.position.x, playerTf.position.y - (counter * 0.2f) * animator.speed, 0);
-            if (playerTf.position.y < 0.1f && playerTf.position.y != 0) playerTf.position = new Vector3(playerTf.position.x, 0, 0);
+            if (playerTf.position.y < 0.05f && !animator.GetBool("isLand")) {
+                playerTf.position = new Vector3(playerTf.position.x, 0, 0);
+                Instantiate(HibiPref[Random.Range(0, HibiPref.Length)], new Vector3(playerTf.position.x, 0, 0), Quaternion.identity);
+                BattleMgr.Instance.VibrateDouble(1.0f, 1.5f);
+            }
         }
         else if (stateInfo.fullPathHash == AnimState.Instance.UpB_Fall) {
             if (counter == 0) {
@@ -204,6 +211,7 @@ public class PlayerController : MonoBehaviour {
                 BattleMgr.Instance.ChangeToneDouble(0.5f, ((int)playerNum == 2 ? CameraEffect.ToneName.redBlack : CameraEffect.ToneName.blueBlack));
                 BattleMgr.Instance.ZoomInOutDouble(0.1f);
                 BattleMgr.Instance.CreateVFX("CriticalWave", transform.position + new Vector3((enemyTf.position.x < playerTf.position.x ? 3 : -3), 1, 0), 1.0f);
+                if (hp < maxhp * 0.25f ) BattleMgr.Instance.CreateCrack(damageVector.x < 0);
                 if (hp <= 0) Main.battleResult = Main.BattleResult.Finish;
             }
             playerTf.position += damageVector * Time.timeScale;

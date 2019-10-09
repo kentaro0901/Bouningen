@@ -41,6 +41,8 @@ public class BattleMgr : MonoBehaviour {
     [SerializeField] RectTransform c2RFRTf;
     [SerializeField] Text c1Txt;
     [SerializeField] Text c2Txt;
+    [SerializeField] RectTransform c1;
+    [SerializeField] RectTransform c2;
     [SerializeField] Slider c1hpBar1;
     [SerializeField] Slider c1hpBar2;
     [SerializeField] Slider c2hpBar1;
@@ -49,9 +51,10 @@ public class BattleMgr : MonoBehaviour {
     [SerializeField] Slider c1mpBar2;
     [SerializeField] Slider c2mpBar1;
     [SerializeField] Slider c2mpBar2;
-    [SerializeField] GameObject[] GrandPref;
 
+    [SerializeField] GameObject[] GrandPref;
     [SerializeField] GameObject VFXPref;
+    [SerializeField] GameObject[] CrackPref;
 
     public int resistCounter1P = 0;
     public int resistCounter2P = 0;
@@ -83,12 +86,25 @@ public class BattleMgr : MonoBehaviour {
         for (int i = -100; i <= 100; i++){
             GameObject g = Instantiate(GrandPref[(int)Random.Range(0, GrandPref.Length)], new Vector3(i * 20, -1.5f, 0), Quaternion.identity);
         }
-        preHP1 = playerController1.hp;
-        preHP2 = playerController2.hp;
-        c1hpBar1.value = c2hpBar1.value = playerController1.hp / playerController1.maxhp;
-        c1hpBar2.value = c2hpBar2.value = playerController2.hp / playerController2.maxhp;
-        c1mpBar1.value = c2mpBar1.value = playerController1.mp / 100;
-        c1mpBar2.value = c2mpBar2.value = playerController2.mp / 100;
+
+        if (Main.Instance.isVisibleUI) {
+            preHP1 = playerController1.hp;
+            preHP2 = playerController2.hp;
+            c1hpBar1.value = c2hpBar1.value = playerController1.hp / playerController1.maxhp;
+            c1hpBar2.value = c2hpBar2.value = playerController2.hp / playerController2.maxhp;
+            c1mpBar1.value = c2mpBar1.value = playerController1.mp / 100;
+            c1mpBar2.value = c2mpBar2.value = playerController2.mp / 100;
+        }
+        else {
+            c1hpBar1.gameObject.SetActive(false);
+            c1hpBar2.gameObject.SetActive(false);
+            c1mpBar1.gameObject.SetActive(false);
+            c1mpBar2.gameObject.SetActive(false);
+            c2hpBar1.gameObject.SetActive(false);
+            c2hpBar2.gameObject.SetActive(false);
+            c2mpBar1.gameObject.SetActive(false);
+            c2mpBar2.gameObject.SetActive(false);
+        }
     }
 
     void Update() {
@@ -99,7 +115,7 @@ public class BattleMgr : MonoBehaviour {
         }
     }
     void LateUpdate() {
-        UpdateUI();
+        if(Main.Instance.isVisibleUI) UpdateUI();
         ResistMgr();
         TimeScaleCountDown();
         AnimeSpeedCountDown();
@@ -168,8 +184,7 @@ public class BattleMgr : MonoBehaviour {
                     c2LFRTf.offsetMax = Vector2.zero;
                     c2RFRTf.offsetMin = Vector2.right * -Screen.width / (Main.Instance.isMultiDisplays ? 20 : 40)
                         * Mathf.Min(1.0f, (Mathf.Abs(player1Tf.position.x - player2Tf.position.x) - ChaseCamera.chaseRange * 6) / (ChaseCamera.chaseRange * 20));
-                }
-              
+                }        
             }
         }
     }
@@ -204,7 +219,6 @@ public class BattleMgr : MonoBehaviour {
             playerController2.animator.speed = preAnimeSpeed2;
         }
     }
-
     public void VibrateDouble(float seconds, float range) {
         cameraEffect1.Vibrate(seconds, range);
         cameraEffect2.Vibrate(seconds, range);
@@ -232,6 +246,13 @@ public class BattleMgr : MonoBehaviour {
         vfx.GetComponent<Animator>().Play(name);
         vfx.GetComponent<DestroyParticle>().lifeTime = lifeTime;
         return vfx;
+    }
+    public GameObject CreateCrack(bool isLeftCanvas) {
+        RectTransform r = Instantiate(CrackPref[Random.Range(0, CrackPref.Length)], isLeftCanvas? c1: c2).GetComponent<RectTransform>();
+        r.localPosition = new Vector3(isLeftCanvas ? Random.Range(-Screen.width/2, -Screen.width/10*4) : Random.Range(Screen.width/10*4, Screen.width/2), 
+            Random.Range(-Screen.height / 4, Screen.height / 4), 0);
+        r.localRotation = Quaternion.Euler(0, 0, Random.Range(-45, 45));
+        return r.gameObject;
     }
 
     public void BattleEnd() {

@@ -48,7 +48,9 @@ public class SelectMgr : MonoBehaviour {
     [SerializeField] Toggle dynamicCamera;
     [SerializeField] Toggle normalCamera;
     [SerializeField] Toggle visibleBox;
-    [SerializeField] Toggle InvisibleBox;
+    [SerializeField] Toggle invisibleBox;
+    [SerializeField] Toggle visibleUI;
+    [SerializeField] Toggle invisibleUI;
     [SerializeField] Slider cameraSize;
     [SerializeField] Slider volume;
     [SerializeField] Slider gameSpeed;
@@ -58,6 +60,7 @@ public class SelectMgr : MonoBehaviour {
     bool isMultiDisplays; //経由しないとうまくいかない
     bool isDynamicCamera;
     bool isVisibleBox;
+    bool isVisibleUI;
 
     [SerializeField] GameObject[] manualPanel1;
     [SerializeField] GameObject[] manualPanel2;
@@ -88,7 +91,10 @@ public class SelectMgr : MonoBehaviour {
         normalCamera.SetIsOnWithoutNotify(!isDynamicCamera);
         isVisibleBox = Main.Instance.isVisibleBox;
         visibleBox.SetIsOnWithoutNotify(isVisibleBox);
-        InvisibleBox.SetIsOnWithoutNotify(!isVisibleBox);
+        invisibleBox.SetIsOnWithoutNotify(!isVisibleBox);
+        isVisibleUI = Main.Instance.isVisibleUI;
+        visibleUI.SetIsOnWithoutNotify(isVisibleUI);
+        invisibleBox.SetIsOnWithoutNotify(!isVisibleUI);
         cameraSize.value = Main.Instance.cameraSize;
         volume.value = Main.Instance.bgm.volume * volume.maxValue;
         gameSpeed.value = Main.Instance.gameSpeed * 10;
@@ -274,6 +280,7 @@ public class SelectMgr : MonoBehaviour {
             Main.Instance.isMultiDisplays = isMultiDisplays;
             Main.Instance.isDynamicCamera = isDynamicCamera;
             Main.Instance.isVisibleBox = isVisibleBox;
+            Main.Instance.isVisibleUI = isVisibleUI;
             Main.state = Main.State.Battle;
             FadeManager.Instance.LoadScene("Battle", 0.5f);
         }
@@ -287,6 +294,9 @@ public class SelectMgr : MonoBehaviour {
     }
     public void ChangeVisibleBox(Toggle toggle) {
         isVisibleBox = toggle.isOn;
+    }
+    public void ChangeVisibleUI(Toggle toggle) {
+        isVisibleUI = toggle.isOn;
     }
     public void ChangeCameraSize(Slider slider) {
         Main.Instance.cameraSize = slider.value;
@@ -303,10 +313,12 @@ public class SelectMgr : MonoBehaviour {
     public void SetDefault() {
         multiDisplays.SetIsOnWithoutNotify(true);
         dynamicCamera.SetIsOnWithoutNotify(true);
-        InvisibleBox.SetIsOnWithoutNotify(true);
+        invisibleBox.SetIsOnWithoutNotify(true);
+        visibleUI.SetIsOnWithoutNotify(true);
         isMultiDisplays = true;
         isDynamicCamera = true;
         isVisibleBox = false;
+        isVisibleUI = true;
         cameraSize.value = 5.0f;
         volume.value = 10.0f;
         gameSpeed.value = 10.0f;
