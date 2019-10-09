@@ -52,7 +52,7 @@ public abstract class Character : MonoBehaviour {
 
     //被ダメージ
     public void Damaged(float damage, Vector2 vector, bool isCritical, bool isUpArmor, bool isSideArmor, bool isDownArmor, bool isLimitBreak) {
-        if (0 < playerController.hp && playerController.hp - damage * (isLimitBreak ? 1.2f : 1.0f) <= 0 && (!isCritical || vector.x < vector.y)) { //横クリティカル以外ではゲームが終了しない
+        if (0 < playerController.hp && playerController.hp - damage * (isLimitBreak ? 1.2f : 1.0f) <= 0 && (!isCritical || !(vector.y == 0 && !isSideArmor))) { //横クリティカル以外ではゲームが終了しない
             playerController.hp = 1.0f;
         }
         else {
@@ -133,6 +133,10 @@ public abstract class Character : MonoBehaviour {
     public void SideA() {
     }
     public IEnumerator DownA() {
+        float speed = playerController.animator.speed;
+        yield return new WaitForSeconds(14.0f / 60 / speed);
+        Instantiate(playerController.HibiPref[Random.Range(0, playerController.HibiPref.Length)], new Vector3(playerTf.position.x, 0, 0), Quaternion.identity);
+        BattleMgr.Instance.VibrateDouble(0.8f, 2.0f);
         yield return 0;
     }
     public IEnumerator Resistance() {

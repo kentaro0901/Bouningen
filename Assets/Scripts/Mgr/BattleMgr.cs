@@ -83,7 +83,7 @@ public class BattleMgr : MonoBehaviour {
         camera2Tf = chaseCamera2.transform;
         player1Tf = playerController1.playerTf;
         player2Tf = playerController2.playerTf;
-        for (int i = -100; i <= 100; i++){
+        for (int i = -150; i <= 150; i++){
             GameObject g = Instantiate(GrandPref[(int)Random.Range(0, GrandPref.Length)], new Vector3(i * 20, -1.5f, 0), Quaternion.identity);
         }
 
@@ -279,6 +279,14 @@ public class BattleMgr : MonoBehaviour {
         VibrateDouble(0.5f, 1.0f);
         cameraEffect1.ChangeTone(0, CameraEffect.ToneName.redBlack);
         cameraEffect2.ChangeTone(0, CameraEffect.ToneName.blueBlack);
+        c1hpBar1.gameObject.SetActive(false);
+        c1hpBar2.gameObject.SetActive(false);
+        c1mpBar1.gameObject.SetActive(false);
+        c1mpBar2.gameObject.SetActive(false);
+        c2hpBar1.gameObject.SetActive(false);
+        c2hpBar2.gameObject.SetActive(false);
+        c2mpBar1.gameObject.SetActive(false);
+        c2mpBar2.gameObject.SetActive(false);
         Main.state = Main.State.Result;
     }
 }
