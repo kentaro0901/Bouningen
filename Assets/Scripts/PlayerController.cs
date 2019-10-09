@@ -45,6 +45,7 @@ public class PlayerController : MonoBehaviour {
     Vector2 vector;
     public Vector3 damageVector = Vector3.zero;
     public Vector3 resistVector = Vector3.zero;
+    public float resistDamage = 0.0f;
 
     public bool isResistance = false;
     public bool isLimitBreak = false;
@@ -142,17 +143,19 @@ public class PlayerController : MonoBehaviour {
                 playerTf.localScale = enemyTf.position.x > playerTf.position.x ? Vector3.one : new Vector3(-1, 1, 1);      
                 lightningPos = 5 * (enemyTf.position.x > playerTf.position.x ? Vector3.left : Vector3.right);
             }
-            if (xAxisD > 0) lightningPos = 5 * (enemyTf.position.x > playerTf.position.x ? Vector3.left : Vector3.right) + 2 * Vector3.right;
-            else if (xAxisD < 0) lightningPos = 5 * (enemyTf.position.x > playerTf.position.x ? Vector3.left : Vector3.right) + 2 * Vector3.left;
-            if (yAxisD > 0) lightningPos = 7 * Vector3.up; 
         }
         else if (stateInfo.fullPathHash == AnimState.Instance.Lightning) {
             if (counter == 0) {
                 BattleMgr.Instance.VibrateDouble(0.8f, 1.0f);
             }
             if (counter <= 5) {
-                playerTf.position += (enemyTf.position + lightningPos - playerTf.position) / (counter == 5 ? 1:2);
                 playerTf.localScale = enemyTf.position.x > playerTf.position.x ? Vector3.one : new Vector3(-1, 1, 1);
+                lightningPos = 5 * (enemyTf.position.x > playerTf.position.x ? Vector3.left : Vector3.right);
+                Vector3 ofs = Vector3.zero;
+                if (xAxisD > 0) ofs = 2 * Vector3.right;
+                else if (xAxisD < 0) ofs = 2 * Vector3.left;
+                if (yAxisD > 0) ofs = 2 * Vector3.up;
+                playerTf.position += (enemyTf.position + lightningPos + ofs - playerTf.position) / (counter == 5 ? 1:2);            
             }
             else playerTf.position += new Vector3(enemyController.damageVector.x, 0, 0);
         }
@@ -183,8 +186,8 @@ public class PlayerController : MonoBehaviour {
                     enemyController.stateInfo.fullPathHash == AnimState.Instance.CriticalFall) {
                     BattleMgr.Instance.CreateVFX("XLight", playerTf.position + Vector3.up, 1.0f);
                     BattleMgr.Instance.CreateVFX("OLight", playerTf.position + Vector3.up, 1.0f);
-                    BattleMgr.Instance.ChangeToneDouble(0.3f, CameraEffect.ToneName.reverseTone);
-                    BattleMgr.Instance.ChangeAnimeSpeedDouble(0.05f, 0.3f);
+                    BattleMgr.Instance.ChangeToneDouble(0.35f, CameraEffect.ToneName.reverseTone);
+                    BattleMgr.Instance.ChangeAnimeSpeedDouble(0.05f, 0.35f);
                 }
             }
             playerTf.position = new Vector3(playerTf.position.x, playerTf.position.y - (counter * 0.2f) * animator.speed, 0);
@@ -251,6 +254,13 @@ public class PlayerController : MonoBehaviour {
                 animator.Play("CriticalUp");
             }
         }
+        else if (stateInfo.fullPathHash == AnimState.Instance.Wince) {
+            playerTf.position += new Vector3(damageVector.x, -counter * 0.1f * animator.speed, 0);
+            if (playerTf.position.y < 0.05f && !animator.GetBool("isLand")) {
+                playerTf.position = new Vector3(playerTf.position.x, 0, 0);
+                BattleMgr.Instance.VibrateDouble(1.0f, 1.0f);
+            }
+        }
         else if (stateInfo.fullPathHash == AnimState.Instance.LimitBreak) {
             if (counter == 0) {
                 isLimitBreak = true;
@@ -266,7 +276,8 @@ public class PlayerController : MonoBehaviour {
         if (stateInfo.fullPathHash == AnimState.Instance.SideA_R || //鍔迫り合い
             stateInfo.fullPathHash == AnimState.Instance.NutralA_R || 
             stateInfo.fullPathHash == AnimState.Instance.SideB_R || 
-            stateInfo.fullPathHash == AnimState.Instance.SideA_Air_R) {
+            stateInfo.fullPathHash == AnimState.Instance.SideA_Air_R ||
+            stateInfo.fullPathHash == AnimState.Instance.NutralA_Air_R) {
             if (counter == 0 && playerNum == PlayerNum.player1)  BattleMgr.Instance.StartResistance();
             if (Input.GetButtonDown("ButtonA_" + (int)playerNum) || Input.GetButtonDown("ButtonB_" + (int)playerNum)) {
                 if (playerNum == PlayerNum.player1) BattleMgr.Instance.resistCounter1P++;
@@ -284,18 +295,31 @@ public class PlayerController : MonoBehaviour {
                     BattleMgr.Instance.ChangeToneDouble(0.5f, playerNum == PlayerNum.player1 ? CameraEffect.ToneName.redBlack : CameraEffect.ToneName.blueBlack);
                     BattleMgr.Instance.CreateVFX("Hit", playerTf.position, 1.0f);
                     BattleMgr.Instance.CreateVFX("HitWave", playerTf.position, 1.0f);
-                    animator.Play("Critical");
+                    hp -= resistDamage * 2.0f;
+                    resistDamage = 0;
+                    if (damageVector.y == 0) animator.Play("Critical");
+                    else if (0 < damageVector.y) animator.Play("CriticalUp");
+                    else animator.Play("CriticalDown");
                 }
                 else if (BattleMgr.Instance.resistResult != BattleMgr.ResistResult.Wince) { //勝った時
                     damageVector = Vector3.zero;
-                    if (stateInfo.fullPathHash == AnimState.Instance.NutralA_R) animator.Play("NutralA_RW");
-                    else if (stateInfo.fullPathHash == AnimState.Instance.SideA_R) animator.Play("SideA_RW");
-                    else if (stateInfo.fullPathHash == AnimState.Instance.SideB_R) animator.Play("SideB_RW");
-                    else if (stateInfo.fullPathHash == AnimState.Instance.SideA_Air_R) animator.Play("SideA_Air_RW");
-                    else animator.Play("SideA_RW");
+                    resistDamage = 0;
+                    if (stateInfo.fullPathHash == AnimState.Instance.NutralA_R)
+                        animator.Play("NutralA_RW");
+                    else if (stateInfo.fullPathHash == AnimState.Instance.SideA_R)
+                        animator.Play("SideA_RW");
+                    else if (stateInfo.fullPathHash == AnimState.Instance.SideB_R)
+                        animator.Play("SideB_RW");
+                    else if (stateInfo.fullPathHash == AnimState.Instance.SideA_Air_R)
+                        animator.Play("SideA_Air_RW");
+                    else if (stateInfo.fullPathHash == AnimState.Instance.NutralA_Air_R)
+                        animator.Play("NutralA_Air_RW");
+                    else
+                        animator.Play("SideA_RW");
                 }
                 else {
                     BattleMgr.Instance.ChangeToneDouble(0.0f, CameraEffect.ToneName.NormalTone); //引き分け
+                    resistDamage = 0;
                     damageVector = Vector3.zero;
                     animator.Play("Wince");
                 }

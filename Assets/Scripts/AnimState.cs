@@ -65,6 +65,8 @@ public class AnimState : MonoBehaviour {
     public int DownA;
     public int DownB_Air;
     public int NutralA_Air;
+    public int NutralA_Air_R;
+    public int NutralA_Air_RW;
     public int NutralB_Air;
     public int SideA_Air;
     public int SideA_Air_R;
@@ -124,6 +126,8 @@ public class AnimState : MonoBehaviour {
         DownA = Animator.StringToHash("Base Layer.Down.DownA");
         DownB_Air = Animator.StringToHash("Base Layer.Down.DownB_Air");
         NutralA_Air = Animator.StringToHash("Base Layer.Down.NutralA_Air");
+        NutralA_Air_R = Animator.StringToHash("Base Layer.Down.NutralA_Air_R");
+        NutralA_Air_RW = Animator.StringToHash("Base Layer.Down.NutralA_Air_RW");
         NutralB_Air = Animator.StringToHash("Base Layer.Down.NutralB_Air");
         SideA_Air = Animator.StringToHash("Base Layer.Down.SideA_Air");
         SideA_Air_R = Animator.StringToHash("Base Layer.Down.SideA_Air_R");

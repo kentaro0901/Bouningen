@@ -221,7 +221,7 @@ public class BattleMgr : MonoBehaviour {
     public void StartResistance() {
         resistCounter1P = 0;
         resistCounter2P = 0;
-        ChangeTimeScale(0.0f, 0.3f);
+        ChangeTimeScale(0.05f, 0.5f);
         ChangeToneDouble(2.0f, CameraEffect.ToneName.reverseTone);
         Instance.ZoomInOutDouble(0.1f);
         CreateVFX("Sunder", player1Tf.position - (player1Tf.position - player2Tf.position) / 2 + Vector3.up, 1.0f);

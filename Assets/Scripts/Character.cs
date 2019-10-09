@@ -78,8 +78,9 @@ public abstract class Character : MonoBehaviour {
             playerController.damageVector = Vector3.zero;
         }
     }
-    public void Resistance(Vector2 vector) {
+    public void Resistance(Vector2 vector, float damage) {
         playerController.damageVector = new Vector2((playerController.enemyTf.position.x < playerTf.position.x) ? vector.x : -vector.x, vector.y);
+        playerController.resistDamage = damage;
         if (playerController.stateInfo.fullPathHash == AnimState.Instance.SideA ||
             playerController.stateInfo.fullPathHash == AnimState.Instance.LightningAttack) {
             playerController.animator.Play("SideA_R");
@@ -93,6 +94,9 @@ public abstract class Character : MonoBehaviour {
         }
         else if (playerController.stateInfo.fullPathHash == AnimState.Instance.SideA_Air) {
             playerController.animator.Play("SideA_Air_R");
+        }
+        else if (playerController.stateInfo.fullPathHash == AnimState.Instance.NutralA_Air) {
+            playerController.animator.Play("NutralA_Air_R");
         }
         else { //なぜかたまにここに入る
             playerController.animator.Play("SideA_R");
