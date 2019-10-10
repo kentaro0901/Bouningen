@@ -96,7 +96,7 @@ public class SelectMgr : MonoBehaviour {
         visibleUI.SetIsOnWithoutNotify(isVisibleUI);
         invisibleUI.SetIsOnWithoutNotify(!isVisibleUI);
         cameraSize.value = Main.Instance.cameraSize;
-        volume.value = Main.Instance.bgm.volume * volume.maxValue;
+        volume.value = Main.Instance.mainBgm.volume * volume.maxValue;
         gameSpeed.value = Main.Instance.gameSpeed * 10;
         cameraSizeValue.text = "" + cameraSize.value;
         volumeValue.text = "" + volume.value;
@@ -303,7 +303,7 @@ public class SelectMgr : MonoBehaviour {
         cameraSizeValue.text = "" + slider.value;
     }
     public void ChangeVolume(Slider slider) {
-        Main.Instance.bgm.volume = slider.value / slider.maxValue;
+        Main.Instance.mainBgm.volume = slider.value / slider.maxValue;
         volumeValue.text = "" + slider.value;
     }
     public void ChangeGameSpeed(Slider slider) {

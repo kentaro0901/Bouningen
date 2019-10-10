@@ -44,8 +44,10 @@ public class Main : MonoBehaviour {
     }
     public static BattleResult battleResult = BattleResult.Default;
 
-    public AudioSource bgm;
-    public AudioClip mainMusic;
+    public AudioSource mainBgm;
+    public AudioSource subBgm;
+    [SerializeField] AudioClip mainMusic;
+    [SerializeField] AudioClip subMusic;
 
     Camera camera1;
     Camera camera2;
@@ -62,14 +64,16 @@ public class Main : MonoBehaviour {
             return;
         }
         DontDestroyOnLoad(this.gameObject);
-        bgm = this.GetComponent<AudioSource>();
-        bgm.clip = mainMusic;
+        mainBgm.clip = mainMusic;
+        subBgm.clip = subMusic;
     }
 
     //タイトルへ
     public static void Init(bool isFade) {
-        Instance.bgm.Stop();
-        Instance.bgm.Play();
+        Instance.mainBgm.Stop();
+        Instance.mainBgm.Play();
+        Instance.subBgm.Stop();
+        Instance.subBgm.Play();
         state = State.Title;
         battleResult = BattleResult.Default;
         if (isFade) {
