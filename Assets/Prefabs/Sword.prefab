@@ -235,7 +235,7 @@ GameObject:
   - component: {fileID: 487173773221372211}
   - component: {fileID: 3350103020899471916}
   m_Layer: 0
-  m_Name: Sumi (1)
+  m_Name: Sumi2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -896,7 +896,7 @@ GameObject:
   - component: {fileID: 677749910378266809}
   - component: {fileID: 2798413988491598282}
   m_Layer: 0
-  m_Name: Sumi (2)
+  m_Name: Sumi3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

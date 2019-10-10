@@ -192,12 +192,16 @@ public class PlayerController : MonoBehaviour {
                     BattleMgr.Instance.CreateVFX("OLight", playerTf.position + Vector3.up, 1.0f);
                     BattleMgr.Instance.ChangeToneDouble(0.35f, CameraEffect.ToneName.reverseTone);
                     BattleMgr.Instance.ChangeAnimeSpeedDouble(0.05f, 0.35f);
-                }
+                }          
+            }
+            if (counter % 3 == 0 && counter <= 9) {
+                BattleMgr.Instance.CreateVFX("CriticalDownWave", playerTf.position + Vector3.up * 2, 1.0f);
             }
             playerTf.position = new Vector3(playerTf.position.x, playerTf.position.y - (counter * 0.2f) * animator.speed, 0);
             if (playerTf.position.y < 0.05f && !animator.GetBool("isLand")) {
                 playerTf.position = new Vector3(playerTf.position.x, 0, 0);
                 Instantiate(HibiPref[Random.Range(0, HibiPref.Length)], new Vector3(playerTf.position.x, 0, 0), Quaternion.identity);
+                BattleMgr.Instance.CreateVFX("LandWave", playerTf.position, 1.0f);
                 BattleMgr.Instance.VibrateDouble(1.0f, 1.5f);
             }
         }
