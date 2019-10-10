@@ -59,7 +59,7 @@ public abstract class Character : MonoBehaviour {
             playerController.hp -= damage * (isLimitBreak ? 1.2f : 1.0f);
         }
         if (!playerController.isLimitBreak) playerController.mp += damage * (isCritical ? 1.2f :1.0f);
-        playerController.damageVector = new Vector2((playerController.enemyTf.position.x < playerTf.position.x) ? vector.x : -vector.x, vector.y);
+        playerController.damageVector = vector;
         if (isCritical) { //クリティカル
             if (vector.y == 0 && !isSideArmor) { //横クリティカル
                 playerController.counter = 0;
@@ -79,7 +79,7 @@ public abstract class Character : MonoBehaviour {
         }
     }
     public void Resistance(Vector2 vector, float damage) {
-        playerController.damageVector = new Vector2((playerController.enemyTf.position.x < playerTf.position.x) ? vector.x : -vector.x, vector.y);
+        playerController.damageVector = vector;
         playerController.resistDamage = damage;
         if (playerController.stateInfo.fullPathHash == AnimState.Instance.SideA ||
             playerController.stateInfo.fullPathHash == AnimState.Instance.LightningAttack) {

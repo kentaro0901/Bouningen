@@ -31,7 +31,8 @@ public class HitBox : MonoBehaviour {
                 || character.playerController.enemyTf.position.x > character.playerController.playerTf.position.x && hitBox.vector.x < vector.x) ? 1 : -1), 0, 0);
             }
             */
-            collision.gameObject.GetComponent<HitBox>().character.Resistance(vector, attack);
+            Vector2 v = new Vector2(character.playerController.animator.GetBool("isRight") ? vector.x : -vector.x, vector.y);
+            collision.gameObject.GetComponent<HitBox>().character.Resistance(v, attack);
         }
     }
 }

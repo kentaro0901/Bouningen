@@ -94,7 +94,7 @@ public class SelectMgr : MonoBehaviour {
         invisibleBox.SetIsOnWithoutNotify(!isVisibleBox);
         isVisibleUI = Main.Instance.isVisibleUI;
         visibleUI.SetIsOnWithoutNotify(isVisibleUI);
-        invisibleBox.SetIsOnWithoutNotify(!isVisibleUI);
+        invisibleUI.SetIsOnWithoutNotify(!isVisibleUI);
         cameraSize.value = Main.Instance.cameraSize;
         volume.value = Main.Instance.bgm.volume * volume.maxValue;
         gameSpeed.value = Main.Instance.gameSpeed * 10;
