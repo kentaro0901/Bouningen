@@ -186,6 +186,14 @@ public class PlayerController : MonoBehaviour {
                 playerTf.position = new Vector3(playerTf.position.x, 0, 0);
             }
         }
+        else if (stateInfo.fullPathHash == AnimState.Instance.DownB) {
+            if (counter == 0) {
+                StartCoroutine(character.DownB());             
+            }
+            if (counter % 4 == 0 && counter <= 8) {
+                BattleMgr.Instance.CreateVFX("FallSunder", playerTf.position, 1.0f);
+            }
+        }
         else if (stateInfo.fullPathHash == AnimState.Instance.DownB_Air_Fall) {
             if (counter == 0) {
                 if (Mathf.Abs(enemyTf.position.x -playerTf.position.x) <= 1.5f) {

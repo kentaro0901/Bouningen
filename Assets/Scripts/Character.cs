@@ -139,6 +139,13 @@ public abstract class Character : MonoBehaviour {
         BattleMgr.Instance.VibrateDouble(0.8f, 2.0f);
         yield return 0;
     }
+    public IEnumerator DownB() {
+        float speed = playerController.animator.speed;
+        yield return new WaitForSeconds(15.0f / 60 / speed);
+        Instantiate(playerController.HibiPref[Random.Range(0, playerController.HibiPref.Length)], new Vector3(playerTf.position.x, 0, 0), Quaternion.identity);
+        BattleMgr.Instance.VibrateDouble(0.8f, 2.0f);
+        yield return 0;
+    }
     public IEnumerator Resistance() {
         yield return 0;
     }
