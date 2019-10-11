@@ -15,10 +15,8 @@ public class HitBox : MonoBehaviour {
         //ヒット
         if (collision.gameObject.transform.parent != this.transform.parent && collision.gameObject.tag == "HurtBox") {
             if (!character.playerController.isLimitBreak) character.playerController.mp += attack * (isCritical ? 0.6f : 0.5f);
-            if (vector.y == 0) {//とりま横だけ適応
-                BattleMgr.Instance.CreateVFX("Hit", transform.position, 1.0f);
-                BattleMgr.Instance.CreateVFX("HitWave", transform.position, 1.0f);
-            }
+            BattleMgr.Instance.CreateVFX("Hit", transform.position, 1.0f);
+            BattleMgr.Instance.CreateVFX("HitWave", transform.position, 1.0f);
         }
 
         //鍔迫り合い

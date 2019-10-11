@@ -8,6 +8,7 @@ TagManager:
   - HurtBox
   - Camera1
   - Camera2
+  - VFX
   layers:
   - Default
   - TransparentFX

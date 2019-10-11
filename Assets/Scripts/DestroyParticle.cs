@@ -7,7 +7,7 @@ public class DestroyParticle : MonoBehaviour {
     public float lifeTime = 1.0f;
 
     void Update() {
-        lifeTime -= Time.unscaledDeltaTime;
+        if (lifeTime <= 100) lifeTime -= Time.unscaledDeltaTime;
         if (lifeTime <= 0) {
             Destroy(this.gameObject);
         }

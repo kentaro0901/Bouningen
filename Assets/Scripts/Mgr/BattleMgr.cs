@@ -56,6 +56,9 @@ public class BattleMgr : MonoBehaviour {
     [SerializeField] GameObject VFXPref;
     [SerializeField] GameObject[] CrackPref;
 
+    //[SerializeField] Material Red;
+    //[SerializeField] Material Blue;
+
     public int resistCounter1P = 0;
     public int resistCounter2P = 0;
     public enum ResistResult {
@@ -122,8 +125,22 @@ public class BattleMgr : MonoBehaviour {
     private void UpdateUI() {
         if (preHP1 != playerController1.hp) StartCoroutine(EasingBar(c1hpBar1, c2hpBar1, preHP1, playerController1.hp, playerController1.maxhp));
         if (preHP2 != playerController2.hp) StartCoroutine(EasingBar(c1hpBar2, c2hpBar2, preHP2, playerController2.hp, playerController2.maxhp));
-        if (preMP1 != playerController1.mp) StartCoroutine(EasingBar(c1mpBar1, c2mpBar1, preMP1, playerController1.mp, 100));
-        if (preMP2 != playerController2.mp) StartCoroutine(EasingBar(c1mpBar2, c2mpBar2, preMP2, playerController2.mp, 100));
+        if (preMP1 != playerController1.mp) {
+            StartCoroutine(EasingBar(c1mpBar1, c2mpBar1, preMP1, playerController1.mp, 100));
+            if (preMP1 < 100 && 100 <= playerController1.mp) {
+                GameObject g = instance.CreateVFX("MaxCharge", player1Tf.position, 1000);
+                g.transform.parent = player1Tf;
+                g.GetComponent<SpriteRenderer>().color = new Color(1, 0, 0, 0.3f);
+            }
+        }
+        if (preMP2 != playerController2.mp) {
+            StartCoroutine(EasingBar(c1mpBar2, c2mpBar2, preMP2, playerController2.mp, 100));
+            if (preMP2 < 100 && 100 <= playerController2.mp) {
+                GameObject g = instance.CreateVFX("MaxCharge", player2Tf.position, 1000);
+                g.transform.parent = player2Tf;
+                g.GetComponent<SpriteRenderer>().color = new Color(0, 0, 1, 0.3f);
+            }
+        }
         preHP1 = playerController1.hp;
         preHP2 = playerController2.hp;
         preMP1 = playerController1.mp;
