@@ -35,9 +35,9 @@ public class PlayerController : MonoBehaviour {
     public AnimatorStateInfo stateInfo;
     public Animator animator;
 
-    static float dashspeed = 0.8f;
-    static float airspeed = 0.15f; 
-    static float vectorspeed = 3.0f;
+    static float dashspeed = 0.9f;
+    static float airspeed = 0.2f; 
+    static float vectorspeed = 12.0f;
 
     float xAxisD;
     float yAxisD;
