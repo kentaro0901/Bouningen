@@ -176,8 +176,26 @@ public class PlayerController : MonoBehaviour {
         else if (stateInfo.fullPathHash == AnimState.Instance.LightningAttackDown) {
             playerTf.position += new Vector3(enemyController.damageVector.x * Time.timeScale, - (counter * 0.2f) * animator.speed, 0);
         }
+        else if (stateInfo.fullPathHash == AnimState.Instance.SideA) {
+            if (counter == 10) {
+                BattleMgr.Instance.CreateVFX("CriticalWave", playerTf.position, 1.0f);
+            }
+        }
+        else if (stateInfo.fullPathHash == AnimState.Instance.SideA_Air) {
+            if (counter == 10) {
+                BattleMgr.Instance.CreateVFX("CriticalWave", playerTf.position, 1.0f);
+            }
+        }
         else if (stateInfo.fullPathHash == AnimState.Instance.SideB) {
             if(counter == 13) BattleMgr.Instance.VibrateDouble(0.5f, 0.5f);
+        }
+        else if (stateInfo.fullPathHash == AnimState.Instance.SideB_Air) {
+            playerTf.position = new Vector3(playerTf.position.x, playerTf.position.y - (counter * 0.5f) * animator.speed, 0);
+            if (playerTf.position.y < 0.05f && !animator.GetBool("isLand")) {
+                playerTf.position = new Vector3(playerTf.position.x, 0, 0);
+                BattleMgr.Instance.VibrateDouble(0.8f, 2.0f);
+                Instantiate(HibiPref[Random.Range(0, HibiPref.Length)], new Vector3(playerTf.position.x, 0, 0), Quaternion.identity);
+            }
         }
         else if (stateInfo.fullPathHash == AnimState.Instance.DownA) {
             if (counter == 0) StartCoroutine(character.DownA());
@@ -214,6 +232,11 @@ public class PlayerController : MonoBehaviour {
                 BattleMgr.Instance.VibrateDouble(1.0f, 1.5f);
             }
         }
+        else if (stateInfo.fullPathHash == AnimState.Instance.UpB) {
+            if (counter == 0) {
+                //BattleMgr.Instance.CreateVFX("CriticalUpWave", playerTf.position, 1.0f);
+            }
+        }
         else if (stateInfo.fullPathHash == AnimState.Instance.UpB_Fall) {
             if (counter == 0) {
                 if (enemyController.stateInfo.fullPathHash == AnimState.Instance.CriticalUp ||
@@ -222,6 +245,7 @@ public class PlayerController : MonoBehaviour {
                     BattleMgr.Instance.CreateVFX("OLight", playerTf.position + Vector3.up, 1.0f);
                     BattleMgr.Instance.ChangeToneDouble(0.35f, CameraEffect.ToneName.reverseTone);
                     BattleMgr.Instance.ChangeAnimeSpeedDouble(0.05f, 0.35f);
+                    BattleMgr.Instance.CreateVFX("CriticalUpWave", playerTf.position, 1.0f);
                 }
             }
             playerTf.position = new Vector3(playerTf.position.x, playerTf.position.y - (counter * 0.2f) * animator.speed, 0);
@@ -430,7 +454,7 @@ public class PlayerController : MonoBehaviour {
             animator.SetBool("ButtonL", false);
         }
         
-        animator.SetBool("isLand", playerTf.position.y <= 0);
+        animator.SetBool("isLand", playerTf.position.y <= 0.05f);
         animator.SetBool("isRight", 0 < playerTf.localScale.x);
 
         counter++;

@@ -85,7 +85,8 @@ public abstract class Character : MonoBehaviour {
             playerController.stateInfo.fullPathHash == AnimState.Instance.LightningAttack) {
             playerController.animator.Play("SideA_R");
         }
-        else if (playerController.stateInfo.fullPathHash == AnimState.Instance.SideB) {
+        else if (playerController.stateInfo.fullPathHash == AnimState.Instance.SideB ||
+            playerController.stateInfo.fullPathHash == AnimState.Instance.SideB_Air) {
             playerController.animator.Play("SideB_R");
         }
         else if (playerController.stateInfo.fullPathHash == AnimState.Instance.NutralA ||

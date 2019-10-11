@@ -149,6 +149,7 @@ public class SelectMgr : MonoBehaviour {
                     Main.Instance.chara1P = Main.Chara.Sword;
                     selectState1 = SelectState.Ready;
                     readyPanel1.SetActive(true);
+                    //iTween.ScaleFrom(readyPanel1, iTween.Hash("y", 0, "islocal", true, "time", 1.0f));
                 }
                 if (count1 == 3 && isReleseAxis1 && Input.GetButtonDown("ButtonA_1")) { //設定開く
                     selectState1 = SelectState.Setting;
