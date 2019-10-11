@@ -53,9 +53,11 @@ public class SelectMgr : MonoBehaviour {
     [SerializeField] Toggle invisibleUI;
     [SerializeField] Slider cameraSize;
     [SerializeField] Slider volume;
+    [SerializeField] Slider subVolume;
     [SerializeField] Slider gameSpeed;
     [SerializeField] Text cameraSizeValue;
     [SerializeField] Text volumeValue;
+    [SerializeField] Text subVolumeValue;
     [SerializeField] Text gameSpeedValue;
     bool isMultiDisplays; //経由しないとうまくいかない
     bool isDynamicCamera;
@@ -97,9 +99,11 @@ public class SelectMgr : MonoBehaviour {
         invisibleUI.SetIsOnWithoutNotify(!isVisibleUI);
         cameraSize.value = Main.Instance.cameraSize;
         volume.value = Main.Instance.mainBgm.volume * volume.maxValue;
+        subVolume.value = Main.Instance.subBgm.volume * subVolume.maxValue;
         gameSpeed.value = Main.Instance.gameSpeed * 10;
         cameraSizeValue.text = "" + cameraSize.value;
         volumeValue.text = "" + volume.value;
+        subVolumeValue.text = "" + subVolume.value;
         gameSpeedValue.text = "×" + (gameSpeed.value * 0.1f);
         Selectable[] sel = settingPanel.GetComponentsInChildren<Selectable>();
         foreach(Selectable s in sel) {
@@ -306,6 +310,10 @@ public class SelectMgr : MonoBehaviour {
         Main.Instance.mainBgm.volume = slider.value / slider.maxValue;
         volumeValue.text = "" + slider.value;
     }
+    public void ChangeSubVolume(Slider slider) {
+        Main.Instance.subBgm.volume = slider.value / slider.maxValue;
+        subVolumeValue.text = "" + slider.value;
+    }
     public void ChangeGameSpeed(Slider slider) {
         Main.Instance.gameSpeed = slider.value * 0.1f;
         gameSpeedValue.text = "×" + (slider.value * 0.1f);
@@ -321,9 +329,11 @@ public class SelectMgr : MonoBehaviour {
         isVisibleUI = true;
         cameraSize.value = 5.0f;
         volume.value = 10.0f;
+        subVolume.value = 5.0f;
         gameSpeed.value = 10.0f;
         cameraSizeValue.text = "" + cameraSize.value;
         volumeValue.text = "" + volume.value;
+        subVolumeValue.text = "" + subVolume.value;
         gameSpeedValue.text = "×" + (gameSpeed.value * 0.1f);
 }
 

@@ -79,6 +79,7 @@ public class PlayerController : MonoBehaviour {
         character.playerController = this;
         animator = characterIns.GetComponent<Animator>();
         enemyTf = enemyController.playerTf;
+        animator.speed = Main.Instance.gameSpeed;
     }
 
     void Update() {
@@ -128,7 +129,7 @@ public class PlayerController : MonoBehaviour {
             }
         }
         else if (stateInfo.fullPathHash == AnimState.Instance.Dash) {
-            playerTf.position += Vector3.right * dashspeed * xAxisD;
+            playerTf.position += Vector3.right * dashspeed * xAxisD * animator.speed;
         }
         else if (stateInfo.fullPathHash == AnimState.Instance.JumpStart ||
             stateInfo.fullPathHash == AnimState.Instance.Jump ||
@@ -138,7 +139,7 @@ public class PlayerController : MonoBehaviour {
             }
         }
         else if (stateInfo.fullPathHash == AnimState.Instance.Fall) {
-            playerTf.position = new Vector3(playerTf.position.x, playerTf.position.y - (counter * 0.1f), 0);
+            playerTf.position += new Vector3(0, - (counter * 0.1f), 0) * animator.speed;
             if (playerTf.position.y < 0.1f && playerTf.position.y != 0) playerTf.position = new Vector3(playerTf.position.x, 0, 0);
         }
         else if (stateInfo.fullPathHash == AnimState.Instance.Landing) {

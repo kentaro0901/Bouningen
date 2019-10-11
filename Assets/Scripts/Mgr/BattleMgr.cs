@@ -67,8 +67,6 @@ public class BattleMgr : MonoBehaviour {
 
     float timeScaleSeconds = 0.0f;
     float animeSpeedSeconds = 0.0f;
-    float preAnimeSpeed1 = 1.0f;
-    float preAnimeSpeed2 = 1.0f;
 
     float preHP1;
     float preHP2;
@@ -203,8 +201,6 @@ public class BattleMgr : MonoBehaviour {
         }
     }
     public void ChangeAnimeSpeedDouble(float speed, float seconds) {
-        preAnimeSpeed1 = playerController1.animator.speed;
-        preAnimeSpeed2 = playerController2.animator.speed;
         playerController1.animator.speed = speed;
         playerController2.animator.speed = speed;
         animeSpeedSeconds = seconds;
@@ -215,8 +211,8 @@ public class BattleMgr : MonoBehaviour {
         }
         else {
             animeSpeedSeconds = 0.0f;
-            playerController1.animator.speed = preAnimeSpeed1;
-            playerController2.animator.speed = preAnimeSpeed2;
+            playerController1.animator.speed = Main.Instance.gameSpeed * (playerController1.isLimitBreak ? 1.2f : 1.0f);
+            playerController2.animator.speed = Main.Instance.gameSpeed * (playerController2.isLimitBreak ? 1.2f : 1.0f);
         }
     }
     public void VibrateDouble(float seconds, float range) {
