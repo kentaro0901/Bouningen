@@ -110,7 +110,7 @@ public class Main : MonoBehaviour {
 
         //タイトルに戻る
         if (Input.GetKeyDown(KeyCode.F5) || 
-            (Input.GetKeyDown(KeyCode.E) && Input.GetKeyDown(KeyCode.N) && Input.GetKeyDown(KeyCode.D))) {
+            (Input.GetKey(KeyCode.E) && Input.GetKey(KeyCode.N) && Input.GetKey(KeyCode.D))) {
             Init(false);
         }
 

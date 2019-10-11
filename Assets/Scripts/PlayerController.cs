@@ -36,8 +36,8 @@ public class PlayerController : MonoBehaviour {
     public Animator animator;
 
     static float dashspeed = 0.9f;
-    static float airspeed = 0.2f; 
-    static float vectorspeed = 12.0f;
+    static float airspeed = 0.25f; 
+    static float vectorspeed = 3.0f;
 
     float xAxisD;
     float yAxisD;
@@ -347,8 +347,14 @@ public class PlayerController : MonoBehaviour {
                 if (playerNum == PlayerNum.player2) BattleMgr.Instance.resistCounter2P++;
             }
             playerTf.position += resistVector;
-            if (counter == 20) BattleMgr.Instance.VibrateDouble(0.3f, 2.0f);
-            if (counter == 40) BattleMgr.Instance.VibrateDouble(0.4f, 2.0f);
+            if (counter == 20) {
+                BattleMgr.Instance.VibrateDouble(0.3f, 2.0f);
+                BattleMgr.Instance.CreateVFX("Stone", playerTf.position + (enemyTf.position - playerTf.position) / 2 +Vector3.up * 2, 1.0f);
+            }
+            if (counter == 40) {
+                BattleMgr.Instance.VibrateDouble(0.4f, 2.0f);
+                BattleMgr.Instance.CreateVFX("Stone", playerTf.position + (enemyTf.position - playerTf.position) / 2 + Vector3.up * 2, 1.0f);
+            }
             if (counter == 60) {
                 isResistance = false;
                 resistVector = Vector3.zero;

@@ -97,6 +97,12 @@ AnimatorStateMachine:
   m_AnyStateTransitions: []
   m_EntryTransitions: []
   m_StateMachineTransitions:
+  - first: {fileID: -1874387144926038531}
+    second:
+    - {fileID: 6418969212825405965}
+    - {fileID: -8243611843814431446}
+    - {fileID: 9076392023747301191}
+    - {fileID: 673243237133864131}
   - first: {fileID: -8252231840961463509}
     second:
     - {fileID: 2759313928737336257}
@@ -108,12 +114,6 @@ AnimatorStateMachine:
     - {fileID: 4816757757543909380}
     - {fileID: 3403829722783566964}
     - {fileID: 3114871006094964260}
-  - first: {fileID: -1874387144926038531}
-    second:
-    - {fileID: 6418969212825405965}
-    - {fileID: -8243611843814431446}
-    - {fileID: 9076392023747301191}
-    - {fileID: 673243237133864131}
   m_StateMachineBehaviours: []
   m_AnyStatePosition: {x: -1120, y: -140, z: 0}
   m_EntryPosition: {x: -560, y: -70, z: 0}
@@ -886,6 +886,7 @@ AnimatorState:
   - {fileID: -847541666187690757}
   - {fileID: 3142872883711141100}
   - {fileID: -2684239229549826539}
+  - {fileID: 7220398605206059797}
   m_StateMachineBehaviours: []
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
@@ -2823,6 +2824,9 @@ AnimatorStateTransition:
     m_EventTreshold: 0
   - m_ConditionMode: 2
     m_ConditionEvent: ButtonX
+    m_EventTreshold: 0
+  - m_ConditionMode: 2
+    m_ConditionEvent: ButtonY
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -4320122586975426605}
@@ -4996,6 +5000,37 @@ AnimatorStateTransition:
   m_TransitionOffset: 0
   m_ExitTime: 0.75
   m_HasExitTime: 0
+  m_HasFixedDuration: 1
+  m_InterruptionSource: 0
+  m_OrderedInterruption: 1
+  m_CanTransitionToSelf: 1
+--- !u!1101 &7220398605206059797
+AnimatorStateTransition:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  m_Conditions:
+  - m_ConditionMode: 1
+    m_ConditionEvent: isLand
+    m_EventTreshold: 0
+  - m_ConditionMode: 1
+    m_ConditionEvent: ButtonY
+    m_EventTreshold: 0
+  - m_ConditionMode: 2
+    m_ConditionEvent: ButtonR
+    m_EventTreshold: 0
+  m_DstStateMachine: {fileID: 0}
+  m_DstState: {fileID: -5994343665442221884}
+  m_Solo: 0
+  m_Mute: 0
+  m_IsExit: 0
+  serializedVersion: 3
+  m_TransitionDuration: 0.25
+  m_TransitionOffset: 0
+  m_ExitTime: 0.65116274
+  m_HasExitTime: 1
   m_HasFixedDuration: 1
   m_InterruptionSource: 0
   m_OrderedInterruption: 1

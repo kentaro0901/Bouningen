@@ -618,12 +618,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   chara1P: 0
   chara2P: 0
-  bgm: {fileID: 0}
+  mainBgm: {fileID: 0}
+  subBgm: {fileID: 0}
   mainMusic: {fileID: 8300000, guid: d1612ef1bb8d61b4fa12bc0f9ce526a3, type: 3}
+  subMusic: {fileID: 0}
   isMultiDisplays: 1
   isDynamicCamera: 0
   isVisibleBox: 0
+  isVisibleUI: 1
   cameraSize: 5
+  gameSpeed: 1
 --- !u!4 &297375135
 Transform:
   m_ObjectHideFlags: 0
@@ -1140,7 +1144,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: a93fa52414656d047acd8b22f90a2ed6, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1161,7 +1165,7 @@ SpriteRenderer:
   m_SortingLayer: -2
   m_SortingOrder: -2
   m_Sprite: {fileID: 21300000, guid: e3e43a09e8a73d947af418c25a31ca3e, type: 3}
-  m_Color: {r: 0.7725491, g: 0, b: 0.18823531, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -3477,7 +3481,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: e86de86d8ede1f749841428e6fd9e09f, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -3498,7 +3502,7 @@ SpriteRenderer:
   m_SortingLayer: -2
   m_SortingOrder: -3
   m_Sprite: {fileID: 21300000, guid: e3e43a09e8a73d947af418c25a31ca3e, type: 3}
-  m_Color: {r: 0, g: 0.5019608, b: 0.78823537, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0

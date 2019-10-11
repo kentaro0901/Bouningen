@@ -1,19 +1,22 @@
 fileFormatVersion: 2
-guid: 52de47a94a64d124e875fd6a697680eb
+guid: 3f06583352eb16744ad61b4b49a39c2f
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 7419131564701046623
-    second: DamageSand_0
+      213: 8399011212269539787
+    second: Stone_0
   - first:
-      213: 2845595827973306124
-    second: DamageSand_1
+      213: -6471164996032937220
+    second: Stone_1
   - first:
-      213: -8581673125234481883
-    second: DamageSand_2
+      213: -2685253163611956912
+    second: Stone_2
   - first:
-      213: -1511239675622670138
-    second: DamageSand_3
+      213: -2657622170025962153
+    second: Stone_3
+  - first:
+      213: 1779410674617963968
+    second: Stone_4
   externalObjects: {}
   serializedVersion: 10
   mipmaps:
@@ -107,85 +110,106 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: DamageSand_0
+      name: Stone_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
         width: 1024
         height: 1024
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 69fac654cc3b4f149a3b2214d2ebea37
-      internalID: 7419131564701046623
+      spriteID: cd4ef2452733c1a48bbbbf8ad8680fcc
+      internalID: 8399011212269539787
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DamageSand_1
+      name: Stone_1
       rect:
         serializedVersion: 2
         x: 1024
         y: 0
         width: 1024
         height: 1024
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: da854770f24a9294d87e7c38eeedcda8
-      internalID: 2845595827973306124
+      spriteID: f214ee37925f0d647911f1dfbe98f796
+      internalID: -6471164996032937220
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DamageSand_2
+      name: Stone_2
       rect:
         serializedVersion: 2
-        x: 2056
+        x: 2048
         y: 0
         width: 1024
         height: 1024
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a87a54ec61895f84990e6d7d2f3d5e0b
-      internalID: -8581673125234481883
+      spriteID: 7794644225ab1fb4fa37bd495e0c0983
+      internalID: -2685253163611956912
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DamageSand_3
+      name: Stone_3
       rect:
         serializedVersion: 2
         x: 3072
         y: 0
         width: 1024
         height: 1024
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 8bb8bda47d3a8e54ebc802d6273e30a8
-      internalID: -1511239675622670138
+      spriteID: 6b038914ded27944da816f2cf6c70f27
+      internalID: -2657622170025962153
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Stone_4
+      rect:
+        serializedVersion: 2
+        x: 4096
+        y: 0
+        width: 1024
+        height: 1024
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 65c6100c1d9abd944b103be7e629684e
+      internalID: 1779410674617963968
       vertices: []
       indices: 
       edges: []
@@ -193,7 +217,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 3aac922cc302da64dbcde6ec7e6a6b6b
+    spriteID: a7a4664d94fd0c244881d567f57a7707
     internalID: 0
     vertices: []
     indices: 
