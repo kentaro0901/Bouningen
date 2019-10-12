@@ -131,14 +131,12 @@ public class BattleMgr : MonoBehaviour {
             if (preMP2 != playerController2.mp) StartCoroutine(EasingBar(c1mpBar2, c2mpBar2, preMP2, playerController2.mp, 100));
         }
         if (preMP1 < 100 && 100 <= playerController1.mp) {
-            GameObject g = instance.CreateVFX("MaxCharge", player1Tf.position, 1000);
+            GameObject g = instance.CreateVFX("MaxChargeR", player1Tf.position, Quaternion.identity, 1000);
             g.transform.parent = player1Tf;
-            g.GetComponent<SpriteRenderer>().color = new Color(1, 0, 0, 0.3f);
         }
         if (preMP2 < 100 && 100 <= playerController2.mp) {
-            GameObject g = instance.CreateVFX("MaxCharge", player2Tf.position, 1000);
+            GameObject g = instance.CreateVFX("MaxChargeB", player2Tf.position,Quaternion.identity ,1000);
             g.transform.parent = player2Tf;
-            g.GetComponent<SpriteRenderer>().color = new Color(0, 0, 1, 0.3f);
         }
         preHP1 = playerController1.hp;
         preHP2 = playerController2.hp;
@@ -247,12 +245,19 @@ public class BattleMgr : MonoBehaviour {
         ChangeTimeScale(0.05f, 0.5f);
         ChangeToneDouble(2.0f, CameraEffect.ToneName.reverseTone);
         Instance.ZoomInOutDouble(0.1f);
-        CreateVFX("Sunder", player1Tf.position - (player1Tf.position - player2Tf.position) / 2 + Vector3.up, 1.0f);
+        CreateVFX("Sunder", player1Tf.position - (player1Tf.position - player2Tf.position) / 2 + Vector3.up, Quaternion.identity, 1.0f);
     }
-    public GameObject CreateVFX(string name, Vector3 position, float lifeTime) {
+    public GameObject CreateVFX(string name, Vector3 position, Quaternion rotation,float lifeTime) {
+        GameObject vfx = Instantiate(VFXPref, position, rotation);
+        vfx.GetComponent<Animator>().Play(name);
+        vfx.GetComponent<DestroyParticle>().lifeTime = lifeTime;
+        return vfx;
+    }
+    public GameObject CreateVFXP(string name, Vector3 position, float lifeTime, Color color) {
         GameObject vfx = Instantiate(VFXPref, position, Quaternion.identity);
         vfx.GetComponent<Animator>().Play(name);
         vfx.GetComponent<DestroyParticle>().lifeTime = lifeTime;
+        vfx.GetComponent<SpriteRenderer>().color = color;
         return vfx;
     }
     public GameObject CreateCrack(bool isLeftCanvas) {

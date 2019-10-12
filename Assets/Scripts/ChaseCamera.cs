@@ -61,7 +61,7 @@ public class ChaseCamera : MonoBehaviour {
         isNear = false;
     }
 
-    void Update(){ //動くけど無駄がある
+    void LateUpdate(){ //動くけど無駄がある
         if (Main.Instance.isDynamicCamera) {
             if (!isNear) { //遠
                 if (playerTf.position.x < cameraTf.position.x - chaseRange) { //左

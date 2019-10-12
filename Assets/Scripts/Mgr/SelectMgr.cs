@@ -329,7 +329,7 @@ public class SelectMgr : MonoBehaviour {
         isDynamicCamera = true;
         isVisibleBox = false;
         isVisibleUI = true;
-        cameraSize.value = 5.0f;
+        cameraSize.value = 6.0f;
         volume.value = 10.0f;
         subVolume.value = 5.0f;
         gameSpeed.value = 10.0f;

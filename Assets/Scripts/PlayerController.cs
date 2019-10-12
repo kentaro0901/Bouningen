@@ -153,9 +153,12 @@ public class PlayerController : MonoBehaviour {
         else if (stateInfo.fullPathHash == AnimState.Instance.Lightning) {
             if (counter == 0) {
                 BattleMgr.Instance.VibrateDouble(0.8f, 1.0f);
+                BattleMgr.Instance.CreateVFX("HitWave", playerTf.position, Quaternion.identity, 1.0f);
+                GameObject g = BattleMgr.Instance.CreateVFX("LandKick", playerTf.position, Quaternion.identity, 1.0f);
+                if (0 < playerTf.localScale.x) g.GetComponent<SpriteRenderer>().flipX = true;
             }
             if (counter <= 5) {
-                BattleMgr.Instance.CreateVFX("CriticalWave", playerTf.position + Vector3.up, 1.0f);
+                BattleMgr.Instance.CreateVFX("CriticalWave", playerTf.position + Vector3.up,Quaternion.identity, 1.0f);
                 playerTf.localScale = enemyTf.position.x > playerTf.position.x ? Vector3.one : new Vector3(-1, 1, 1);
                 lightningPos = 5 * (enemyTf.position.x > playerTf.position.x ? Vector3.left : Vector3.right);
                 Vector3 ofs = Vector3.zero;
@@ -180,19 +183,19 @@ public class PlayerController : MonoBehaviour {
         }
         else if (stateInfo.fullPathHash == AnimState.Instance.SideA) {
             if (counter == 10) {
-                BattleMgr.Instance.CreateVFX("CriticalWave", playerTf.position, 1.0f);
+                BattleMgr.Instance.CreateVFX("CriticalWave", playerTf.position, Quaternion.identity, 1.0f);
             }
         }
         else if (stateInfo.fullPathHash == AnimState.Instance.SideA_Air) {
-            if (counter == 5) {
-                BattleMgr.Instance.CreateVFX("CriticalWave", playerTf.position, 1.0f);
+            if (counter == 8) {
+                BattleMgr.Instance.CreateVFX("CriticalWave", playerTf.position, Quaternion.identity , 1.0f);
             }
         }
         else if (stateInfo.fullPathHash == AnimState.Instance.SideB) {
             if(counter == 13) BattleMgr.Instance.VibrateDouble(0.5f, 0.5f);
         }
         else if (stateInfo.fullPathHash == AnimState.Instance.SideB_Air) {
-            playerTf.position = new Vector3(playerTf.position.x, playerTf.position.y - (counter * 0.05f) * animator.speed, 0);
+            playerTf.position += Vector3.down * counter * 0.03f * animator.speed;
             if (playerTf.position.y < 0.05f && !animator.GetBool("isLand")) {
                 playerTf.position = new Vector3(playerTf.position.x, 0, 0);
                 BattleMgr.Instance.VibrateDouble(0.8f, 2.0f);
@@ -211,26 +214,27 @@ public class PlayerController : MonoBehaviour {
                 StartCoroutine(character.DownB());             
             }
             if (counter % 4 == 0 && counter <= 8) {
-                BattleMgr.Instance.CreateVFX("FallSunder", playerTf.position, 1.0f);
+                BattleMgr.Instance.CreateVFX("FallSunder", playerTf.position, Quaternion.identity, 1.0f);
             }
         }
         else if (stateInfo.fullPathHash == AnimState.Instance.DownB_Air_Fall) {
             if (counter == 0) {
                 if (Mathf.Abs(enemyTf.position.x -playerTf.position.x) <= 1.5f) {
-                    BattleMgr.Instance.CreateVFX("XLight", playerTf.position + Vector3.up, 1.0f);
-                    BattleMgr.Instance.CreateVFX("OLight", playerTf.position + Vector3.up, 1.0f);
+                    BattleMgr.Instance.CreateVFX("XLight", playerTf.position + Vector3.up, Quaternion.identity, 1.0f);
+                    BattleMgr.Instance.CreateVFX("OLight", playerTf.position + Vector3.up, Quaternion.identity, 1.0f);
                     BattleMgr.Instance.ChangeToneDouble(0.35f, CameraEffect.ToneName.reverseTone);
                     BattleMgr.Instance.ChangeAnimeSpeedDouble(0.05f, 0.35f);
                 }          
             }
             if (counter % 3 == 0 && counter <= 9) {
-                BattleMgr.Instance.CreateVFX("CriticalDownWave", playerTf.position + Vector3.up * 2, 1.0f);
+                BattleMgr.Instance.CreateVFX("CriticalDownWave", playerTf.position + Vector3.up * 2, Quaternion.identity, 1.0f);
             }
             playerTf.position = new Vector3(playerTf.position.x, playerTf.position.y - (counter * 0.2f) * animator.speed, 0);
             if (playerTf.position.y < 0.05f && !animator.GetBool("isLand")) {
                 playerTf.position = new Vector3(playerTf.position.x, 0, 0);
                 Instantiate(HibiPref[Random.Range(0, HibiPref.Length)], new Vector3(playerTf.position.x, 0, 0), Quaternion.identity);
-                BattleMgr.Instance.CreateVFX("LandWave", playerTf.position, 1.0f);
+                BattleMgr.Instance.CreateVFX("LandWave", playerTf.position, Quaternion.identity, 1.0f);
+                BattleMgr.Instance.CreateVFX("LandingCrash", playerTf.position, Quaternion.identity, 1.0f);
                 BattleMgr.Instance.VibrateDouble(1.0f, 1.5f);
             }
         }
@@ -243,11 +247,11 @@ public class PlayerController : MonoBehaviour {
             if (counter == 0) {
                 if (enemyController.stateInfo.fullPathHash == AnimState.Instance.CriticalUp ||
                     enemyController.stateInfo.fullPathHash == AnimState.Instance.CriticalFall) {
-                    BattleMgr.Instance.CreateVFX("XLight", playerTf.position + Vector3.up, 1.0f);
-                    BattleMgr.Instance.CreateVFX("OLight", playerTf.position + Vector3.up, 1.0f);
+                    BattleMgr.Instance.CreateVFX("XLight", playerTf.position + Vector3.up, Quaternion.identity, 1.0f);
+                    BattleMgr.Instance.CreateVFX("OLight", playerTf.position + Vector3.up, Quaternion.identity, 1.0f);
                     BattleMgr.Instance.ChangeToneDouble(0.35f, CameraEffect.ToneName.reverseTone);
                     BattleMgr.Instance.ChangeAnimeSpeedDouble(0.05f, 0.35f);
-                    BattleMgr.Instance.CreateVFX("CriticalUpWave", playerTf.position, 1.0f);
+                    BattleMgr.Instance.CreateVFX("CriticalUpWave", playerTf.position, Quaternion.identity, 1.0f);
                 }
             }
             playerTf.position = new Vector3(playerTf.position.x, playerTf.position.y - (counter * 0.2f) * animator.speed, 0);
@@ -263,7 +267,7 @@ public class PlayerController : MonoBehaviour {
                 BattleMgr.Instance.ChangeTimeScale(0.05f, 0.5f);
                 BattleMgr.Instance.ChangeToneDouble(0.5f, ((int)playerNum == 2 ? CameraEffect.ToneName.redBlack : CameraEffect.ToneName.blueBlack));
                 BattleMgr.Instance.ZoomInOutDouble(0.1f);
-                BattleMgr.Instance.CreateVFX("CriticalWave", playerTf.position + new Vector3((enemyTf.position.x < playerTf.position.x ? 3 : -3), 1, 0), 1.0f);
+                BattleMgr.Instance.CreateVFX("CriticalWave", playerTf.position + new Vector3((enemyTf.position.x < playerTf.position.x ? 3 : -3), 1, 0), Quaternion.identity, 1.0f);
                 if (hp < maxhp * 0.25f ) BattleMgr.Instance.CreateCrack(damageVector.x < 0);
                 if (hp <= 0) Main.battleResult = Main.BattleResult.Finish;
             }
@@ -289,7 +293,7 @@ public class PlayerController : MonoBehaviour {
         }
         else if (stateInfo.fullPathHash == AnimState.Instance.CriticalUp) {
             if (counter == 0) {
-                BattleMgr.Instance.CreateVFX("CriticalUpWave", playerTf.position + Vector3.up, 1.0f);
+                BattleMgr.Instance.CreateVFX("CriticalUpWave", playerTf.position + Vector3.up, Quaternion.identity, 1.0f);
             }
             playerTf.position += new Vector3(damageVector.x, 0, 0);
         }
@@ -310,12 +314,12 @@ public class PlayerController : MonoBehaviour {
         else if (stateInfo.fullPathHash == AnimState.Instance.CriticalDown) {
             if (counter == 0) {
                 BattleMgr.Instance.ChangeToneDouble(0.1f, ((int)playerNum == 2 ? CameraEffect.ToneName.redBlack : CameraEffect.ToneName.blueBlack));
-                BattleMgr.Instance.CreateVFX("CriticalDownWave", playerTf.position + Vector3.up * 2.0f, 1.0f);
+                BattleMgr.Instance.CreateVFX("CriticalDownWave", playerTf.position + Vector3.up * 2.0f, Quaternion.identity, 1.0f);
             }
             playerTf.position = new Vector3(playerTf.position.x + damageVector.x, playerTf.position.y + damageVector.y, 0) * animator.speed;
             if (playerTf.position.y < 0.1f && playerTf.position.y != 0) {
                 playerTf.position = new Vector3(playerTf.position.x, 0, 0);
-                BattleMgr.Instance.CreateVFX("LandWave", playerTf.position, 1.0f);
+                BattleMgr.Instance.CreateVFX("LandWave", playerTf.position, Quaternion.identity, 1.0f);
                 BattleMgr.Instance.VibrateDouble(1.0f, 1.0f);
                 animator.Play("CriticalUp");
             }
@@ -352,11 +356,13 @@ public class PlayerController : MonoBehaviour {
             playerTf.position += resistVector;
             if (counter == 20) {
                 BattleMgr.Instance.VibrateDouble(0.3f, 2.0f);
-                BattleMgr.Instance.CreateVFX("Stone", playerTf.position + (enemyTf.position - playerTf.position) / 2 +Vector3.up * 2, 1.0f);
+                BattleMgr.Instance.CreateVFX("Stone", playerTf.position + (enemyTf.position - playerTf.position) / 2 +Vector3.up * 2, Quaternion.identity, 1.0f);
+                BattleMgr.Instance.CreateVFX("Line", playerTf.position + (enemyTf.position - playerTf.position) / 2 + Vector3.up * 2, Quaternion.Euler(0,0, Random.Range(-70,70)), 1.0f);
             }
             if (counter == 40) {
                 BattleMgr.Instance.VibrateDouble(0.4f, 2.0f);
-                BattleMgr.Instance.CreateVFX("Stone", playerTf.position + (enemyTf.position - playerTf.position) / 2 + Vector3.up * 2, 1.0f);
+                BattleMgr.Instance.CreateVFX("Stone", playerTf.position + (enemyTf.position - playerTf.position) / 2 + Vector3.up * 2, Quaternion.identity, 1.0f);
+                BattleMgr.Instance.CreateVFX("Line", playerTf.position + (enemyTf.position - playerTf.position) / 2 + Vector3.up * 2, Quaternion.Euler(0, 0, Random.Range(-70, 70)), 1.0f);
             }
             if (counter == 60) {
                 isResistance = false;
@@ -365,8 +371,8 @@ public class PlayerController : MonoBehaviour {
                     (BattleMgr.Instance.resistResult == BattleMgr.ResistResult.Critical2P && playerNum == PlayerNum.player2)) { //鍔迫り合いに負けた時
                     BattleMgr.Instance.ChangeTimeScale(0.05f, 0.5f);
                     BattleMgr.Instance.ChangeToneDouble(0.5f, playerNum == PlayerNum.player1 ? CameraEffect.ToneName.redBlack : CameraEffect.ToneName.blueBlack);
-                    BattleMgr.Instance.CreateVFX("Hit", playerTf.position, 1.0f);
-                    BattleMgr.Instance.CreateVFX("HitWave", playerTf.position, 1.0f);
+                    BattleMgr.Instance.CreateVFX("Hit", playerTf.position, Quaternion.identity, 1.0f);
+                    BattleMgr.Instance.CreateVFX("HitWave", playerTf.position, Quaternion.identity, 1.0f);
                     hp -= resistDamage * 2.0f;
                     resistDamage = 0;
                     animator.Play("Critical");

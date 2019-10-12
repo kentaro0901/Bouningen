@@ -529,7 +529,7 @@ MonoBehaviour:
   isDynamicCamera: 1
   isVisibleBox: 0
   isVisibleUI: 1
-  cameraSize: 5
+  cameraSize: 6
   gameSpeed: 1
 --- !u!4 &506392973
 Transform:
