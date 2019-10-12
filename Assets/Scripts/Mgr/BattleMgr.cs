@@ -107,7 +107,9 @@ public class BattleMgr : MonoBehaviour {
         counter = 0;
     }
     void Update() {
-        if (Main.state == Main.State.Battle) ChangeCameraChaseMode();
+        UpdateUI();
+        TimeScaleCountDown();
+        AnimeSpeedCountDown();
         if (Main.state == Main.State.Result) {
             counter++;
             if (Input.GetButtonDown("ButtonA_0") && 60 <= counter) {
@@ -117,10 +119,8 @@ public class BattleMgr : MonoBehaviour {
         }
     }
     void LateUpdate() {
-        UpdateUI();
+        if (Main.state == Main.State.Battle) ChangeCameraChaseMode();
         ResistMgr();
-        TimeScaleCountDown();
-        AnimeSpeedCountDown();
     }
 
     private void UpdateUI() {

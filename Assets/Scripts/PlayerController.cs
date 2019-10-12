@@ -139,7 +139,7 @@ public class PlayerController : MonoBehaviour {
             }
         }
         else if (stateInfo.fullPathHash == AnimState.Instance.Fall) {
-            playerTf.position += new Vector3(0, - (counter * 0.1f), 0) * animator.speed;
+            playerTf.position += Vector3.down * counter * 0.1f * animator.speed;
             if (playerTf.position.y < 0.1f && playerTf.position.y != 0) playerTf.position = new Vector3(playerTf.position.x, 0, 0);
         }
         else if (stateInfo.fullPathHash == AnimState.Instance.Landing) {
@@ -176,13 +176,15 @@ public class PlayerController : MonoBehaviour {
         else if (stateInfo.fullPathHash == AnimState.Instance.LightningAttackDown) {
             playerTf.position += new Vector3(enemyController.damageVector.x * Time.timeScale, - (counter * 0.2f) * animator.speed, 0);
         }
+        else if (stateInfo.fullPathHash == AnimState.Instance.NutralB_Air) {
+        }
         else if (stateInfo.fullPathHash == AnimState.Instance.SideA) {
             if (counter == 10) {
                 BattleMgr.Instance.CreateVFX("CriticalWave", playerTf.position, 1.0f);
             }
         }
         else if (stateInfo.fullPathHash == AnimState.Instance.SideA_Air) {
-            if (counter == 10) {
+            if (counter == 5) {
                 BattleMgr.Instance.CreateVFX("CriticalWave", playerTf.position, 1.0f);
             }
         }
@@ -266,7 +268,7 @@ public class PlayerController : MonoBehaviour {
                 if (hp <= 0) Main.battleResult = Main.BattleResult.Finish;
             }
             playerTf.position += damageVector * Time.timeScale;
-            playerTf.position = new Vector3(playerTf.position.x, playerTf.position.y - (counter * 0.002f), 0);
+            playerTf.position += Vector3.down * counter * 0.002f * animator.speed;
             if (playerTf.position.y < 0.1f && 40 < counter * animator.speed) {
                 playerTf.position = new Vector3(playerTf.position.x, 0, 0);
                 if (hp <= 0)
@@ -313,6 +315,7 @@ public class PlayerController : MonoBehaviour {
             playerTf.position = new Vector3(playerTf.position.x + damageVector.x, playerTf.position.y + damageVector.y, 0) * animator.speed;
             if (playerTf.position.y < 0.1f && playerTf.position.y != 0) {
                 playerTf.position = new Vector3(playerTf.position.x, 0, 0);
+                BattleMgr.Instance.CreateVFX("LandWave", playerTf.position, 1.0f);
                 BattleMgr.Instance.VibrateDouble(1.0f, 1.0f);
                 animator.Play("CriticalUp");
             }
