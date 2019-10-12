@@ -190,7 +190,7 @@ public class PlayerController : MonoBehaviour {
             if(counter == 13) BattleMgr.Instance.VibrateDouble(0.5f, 0.5f);
         }
         else if (stateInfo.fullPathHash == AnimState.Instance.SideB_Air) {
-            playerTf.position = new Vector3(playerTf.position.x, playerTf.position.y - (counter * 0.5f) * animator.speed, 0);
+            playerTf.position = new Vector3(playerTf.position.x, playerTf.position.y - (counter * 0.05f) * animator.speed, 0);
             if (playerTf.position.y < 0.05f && !animator.GetBool("isLand")) {
                 playerTf.position = new Vector3(playerTf.position.x, 0, 0);
                 BattleMgr.Instance.VibrateDouble(0.8f, 2.0f);
