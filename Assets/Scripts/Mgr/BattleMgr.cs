@@ -182,18 +182,18 @@ public class BattleMgr : MonoBehaviour {
                 }
                 if(player1Tf.position.x < player2Tf.position.x) {//1P左
                     c1LFRTf.offsetMax = Vector2.zero;
-                    c1RFRTf.offsetMin = Vector2.right * -Screen.width / (Main.Instance.isMultiDisplays ? 20 : 40) 
+                    c1RFRTf.offsetMin = Vector2.right * -Screen.width / (Main.Instance.isMultiDisplays ? 40 : 80) 
                         * Mathf.Min(1.0f, (Mathf.Abs(player1Tf.position.x - player2Tf.position.x) - ChaseCamera.chaseRange * 6) / (ChaseCamera.chaseRange * 20));
-                    c2LFRTf.offsetMax = Vector2.right * Screen.width / (Main.Instance.isMultiDisplays ? 20 : 40)
+                    c2LFRTf.offsetMax = Vector2.right * Screen.width / (Main.Instance.isMultiDisplays ? 40 : 80)
                         * Mathf.Min(1.0f, (Mathf.Abs(player1Tf.position.x - player2Tf.position.x) - ChaseCamera.chaseRange * 6) / (ChaseCamera.chaseRange * 20));
                     c2RFRTf.offsetMin = Vector2.zero;
                 }
                 else { //1P右
-                    c1LFRTf.offsetMax = Vector2.right * Screen.width / (Main.Instance.isMultiDisplays ? 20 : 40)
+                    c1LFRTf.offsetMax = Vector2.right * Screen.width / (Main.Instance.isMultiDisplays ? 40 : 80)
                         * Mathf.Min(1.0f, (Mathf.Abs(player1Tf.position.x - player2Tf.position.x) - ChaseCamera.chaseRange * 6) / (ChaseCamera.chaseRange * 20));
                     c1RFRTf.offsetMin = Vector2.zero;
                     c2LFRTf.offsetMax = Vector2.zero;
-                    c2RFRTf.offsetMin = Vector2.right * -Screen.width / (Main.Instance.isMultiDisplays ? 20 : 40)
+                    c2RFRTf.offsetMin = Vector2.right * -Screen.width / (Main.Instance.isMultiDisplays ? 40 : 80)
                         * Mathf.Min(1.0f, (Mathf.Abs(player1Tf.position.x - player2Tf.position.x) - ChaseCamera.chaseRange * 6) / (ChaseCamera.chaseRange * 20));
                 }        
             }
@@ -251,13 +251,6 @@ public class BattleMgr : MonoBehaviour {
         GameObject vfx = Instantiate(VFXPref, position, rotation);
         vfx.GetComponent<Animator>().Play(name);
         vfx.GetComponent<DestroyParticle>().lifeTime = lifeTime;
-        return vfx;
-    }
-    public GameObject CreateVFXP(string name, Vector3 position, float lifeTime, Color color) {
-        GameObject vfx = Instantiate(VFXPref, position, Quaternion.identity);
-        vfx.GetComponent<Animator>().Play(name);
-        vfx.GetComponent<DestroyParticle>().lifeTime = lifeTime;
-        vfx.GetComponent<SpriteRenderer>().color = color;
         return vfx;
     }
     public GameObject CreateCrack(bool isLeftCanvas) {

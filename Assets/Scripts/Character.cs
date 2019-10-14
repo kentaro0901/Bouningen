@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static AnimState;
 
 //キャラの共通処理
 public abstract class Character : MonoBehaviour {
@@ -81,30 +82,30 @@ public abstract class Character : MonoBehaviour {
     public void Resistance(Vector2 vector, float damage) {
         playerController.damageVector = vector;
         playerController.resistDamage = damage;
-        if (playerController.stateInfo.fullPathHash == AnimState.Instance.SideA ||
-            playerController.stateInfo.fullPathHash == AnimState.Instance.LightningAttack) {
+        if (playerController.stateInfo.fullPathHash == SideA ||
+            playerController.stateInfo.fullPathHash == LightningAttack) {
             playerController.animator.Play("SideA_R");
         }
-        else if (playerController.stateInfo.fullPathHash == AnimState.Instance.SideB ||
-            playerController.stateInfo.fullPathHash == AnimState.Instance.SideB_Air) {
+        else if (playerController.stateInfo.fullPathHash == SideB ||
+            playerController.stateInfo.fullPathHash == SideB_Air) {
             playerController.animator.Play("SideB_R");
         }
-        else if (playerController.stateInfo.fullPathHash == AnimState.Instance.NutralA ||
-            playerController.stateInfo.fullPathHash == AnimState.Instance.CriticalNA) {
+        else if (playerController.stateInfo.fullPathHash == NutralA ||
+            playerController.stateInfo.fullPathHash == CriticalNA) {
             playerController.animator.Play("NutralA_R");
         }
-        else if (playerController.stateInfo.fullPathHash == AnimState.Instance.SideA_Air) {
+        else if (playerController.stateInfo.fullPathHash == SideA_Air) {
             playerController.animator.Play("SideA_Air_R");
         }
-        else if (playerController.stateInfo.fullPathHash == AnimState.Instance.NutralA_Air) {
+        else if (playerController.stateInfo.fullPathHash == NutralA_Air) {
             playerController.animator.Play("NutralA_Air_R");
         }
-        else { //なぜかたまにここに入る
+        else {
             playerController.animator.Play("SideA_R");
-            Debug.LogError("NoneResist");
+            Debug.LogError("NoneR");
         }
     }
-    public IEnumerator LimitBreak() {
+    public IEnumerator LimitBreakFunc() {
         float speed = playerController.animator.speed;
         BattleMgr.Instance.ChangeToneDouble(0.1f, CameraEffect.ToneName.reverseTone);
         BattleMgr.Instance.VibrateDouble(0.5f, 0.5f);
@@ -121,7 +122,7 @@ public abstract class Character : MonoBehaviour {
         BattleMgr.Instance.VibrateDouble(1.0f, 1.0f);
         yield return 0;
     }
-    public void LimitBreakEnd() {
+    public void LimitBreakEndFunc() {
         if (playerController.playerNum == PlayerController.PlayerNum.player1) {
             playerTf.gameObject.GetComponent<SpriteRenderer>().material = redWhite;
         }
@@ -129,11 +130,7 @@ public abstract class Character : MonoBehaviour {
             playerTf.gameObject.GetComponent<SpriteRenderer>().material = blueBlack;
         }
     }
-    public void LightningAttack() {
-    }
-    public void SideA() {
-    }
-    public IEnumerator DownA() {
+    public IEnumerator DownAFunc() {
         float speed = playerController.animator.speed;
         yield return new WaitForSeconds(14.0f / 60 / speed);
         BattleMgr.Instance.CreateVFX("LandingCrash", playerTf.position, Quaternion.identity, 1.0f);
@@ -141,17 +138,17 @@ public abstract class Character : MonoBehaviour {
         BattleMgr.Instance.VibrateDouble(0.8f, 2.0f);
         yield return 0;
     }
-    public IEnumerator DownB() {
+    public IEnumerator DownBFunc() {
         float speed = playerController.animator.speed;
         yield return new WaitForSeconds(15.0f / 60 / speed);
         Instantiate(playerController.HibiPref[Random.Range(0, playerController.HibiPref.Length)], new Vector3(playerTf.position.x, 0, 0), Quaternion.identity);
         BattleMgr.Instance.VibrateDouble(0.8f, 2.0f);
         yield return 0;
     }
-    public IEnumerator Resistance() {
+    public IEnumerator ResistanceFunc() {
         yield return 0;
     }
-    public virtual IEnumerator UpB_Fall() {
+    public virtual IEnumerator UpB_FallFunc() {
         yield return 0;
     }
 }

@@ -158,11 +158,7 @@ public class SelectMgr : MonoBehaviour {
                     foreach (Selectable s in sel) {
                         s.interactable = true;
                     }
-                    settingPanel.transform.GetChild(0).GetChild(0).GetChild(1).gameObject.GetComponent<Toggle>().interactable = false;
-                    settingPanel.transform.GetChild(0).GetChild(0).GetChild(2).gameObject.GetComponent<Toggle>().interactable = false;
-                    settingPanel.transform.GetChild(0).GetChild(1).GetChild(1).gameObject.GetComponent<Toggle>().interactable = false;
-                    settingPanel.transform.GetChild(0).GetChild(1).GetChild(2).gameObject.GetComponent<Toggle>().interactable = false;
-                    settingPanel.transform.GetChild(0).GetChild(2).GetChild(1).gameObject.GetComponent<Toggle>().Select();//初期
+                    settingPanel.transform.GetChild(0).GetChild(0).GetChild(1).gameObject.GetComponent<Toggle>().Select();//初期
                 }
                 break;
             case SelectState.Manual:
