@@ -150,6 +150,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerNum: 1
+  isAI: 1
   myChara: 0
   swordPref: {fileID: 6487946451456971819, guid: 72729bf2e36f83c4284b0850981aeadf,
     type: 3}
@@ -1527,7 +1528,7 @@ MonoBehaviour:
   isDynamicCamera: 1
   isVisibleBox: 1
   isVisibleUI: 1
-  cameraSize: 5
+  cameraSize: 6
   gameSpeed: 1
 --- !u!4 &495413259
 Transform:
@@ -1946,59 +1947,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c9d9919163f46944faf465a13aa8d7d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Prepare: 0
-  Start: 0
-  Idle: 0
-  LightningStart: 0
-  Lightning: 0
-  LightningEnd: 0
-  LightningAttack: 0
-  LightningAttackDown: 0
-  NutralA: 0
-  NutralB: 0
-  NutralA_R: 0
-  NutralA_RW: 0
-  LimitBreak: 0
-  Critical: 0
-  CriticalEnd: 0
-  CriticalNA: 0
-  CriticalUp: 0
-  CriticalFall: 0
-  CriticalFallEnd: 0
-  CriticalDown: 0
-  Death: 0
-  GameEnd: 0
-  Wince: 0
-  DownB: 0
-  Step: 0
-  StepEnd: 0
-  Dash: 0
-  DashEnd: 0
-  SideA: 0
-  SideA_R: 0
-  SideA_RW: 0
-  SideB: 0
-  SideB_R: 0
-  SideB_RW: 0
-  JumpStart: 0
-  Jump: 0
-  JumpEnd: 0
-  UpA: 0
-  UpB: 0
-  UpB_Fall: 0
-  Fall: 0
-  Landing: 0
-  DownA: 0
-  DownB_Air: 0
-  DownB_Air_Fall: 0
-  NutralA_Air: 0
-  NutralA_Air_R: 0
-  NutralA_Air_RW: 0
-  NutralB_Air: 0
-  SideA_Air: 0
-  SideA_Air_R: 0
-  SideA_Air_RW: 0
-  SideB_Air: 0
 --- !u!1 &726608776
 GameObject:
   m_ObjectHideFlags: 0
@@ -3598,6 +3546,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerNum: 2
+  isAI: 1
   myChara: 0
   swordPref: {fileID: 6487946451456971819, guid: 72729bf2e36f83c4284b0850981aeadf,
     type: 3}

@@ -55,6 +55,7 @@ public class AnimState : MonoBehaviour {
     public static int SideB_RW;
 
     public static int JumpStart;
+    public static int ShortJump;
     public static int Jump;
     public static int JumpEnd;
     public static int UpA;
@@ -143,6 +144,7 @@ public class AnimState : MonoBehaviour {
         //Air
         JumpStart = Animator.StringToHash(Air+"JumpStart");
         Jump = Animator.StringToHash(Air+"Jump");
+        ShortJump = Animator.StringToHash(Air + "ShortJump");
         JumpEnd = Animator.StringToHash(Air+"JumpEnd");
         Fall = Animator.StringToHash(Air+"Fall");
         Landing = Animator.StringToHash(Air+"Landing");
