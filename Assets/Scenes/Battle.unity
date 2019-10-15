@@ -150,7 +150,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerNum: 1
-  isAI: 1
+  isAI: 0
+  isTeacher: 0
+  inputAI: {fileID: 0}
   myChara: 0
   swordPref: {fileID: 6487946451456971819, guid: 72729bf2e36f83c4284b0850981aeadf,
     type: 3}
@@ -3547,6 +3549,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerNum: 2
   isAI: 1
+  isTeacher: 0
+  inputAI: {fileID: 0}
   myChara: 0
   swordPref: {fileID: 6487946451456971819, guid: 72729bf2e36f83c4284b0850981aeadf,
     type: 3}

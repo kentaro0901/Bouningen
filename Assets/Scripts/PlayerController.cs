@@ -13,7 +13,8 @@ public class PlayerController : MonoBehaviour {
     }
     public PlayerNum playerNum;
     public bool isAI = false;
-    InputAI inputAI;
+    public bool isTeacher = false;
+    public InputAI inputAI;
     public Main.Chara myChara = Main.Chara.Sword;
     [SerializeField] GameObject swordPref;
     [SerializeField] GameObject fighterPref;
@@ -138,6 +139,9 @@ public class PlayerController : MonoBehaviour {
         }
         else if (stateInfo.fullPathHash == Dash) {
             playerTf.position += Vector3.right * dashspeed * (isAI? inputAI.AxisX: xAxisD) * animator.speed;
+            if (isTeacher && enemyController.isAI) {
+                //enemyController.inputAI.inputValues[0].deltaX[]
+            }
         }
         else if (stateInfo.fullPathHash == JumpStart ||
             stateInfo.fullPathHash == Jump ||
@@ -408,7 +412,15 @@ public class PlayerController : MonoBehaviour {
 
         //ゲーム終了
         if (stateInfo.fullPathHash == GameEnd) {
-            if (counter == 0) BattleMgr.Instance.BattleEnd();
+            if (counter == 0) {
+                BattleMgr.Instance.BattleEnd();
+                if (isAI && enemyController.isTeacher) {
+                    inputAI.UpdateCSV();
+                }
+                else if (isTeacher && enemyController.isAI) {
+                    enemyController.inputAI.UpdateCSV();
+                }
+            }
         }
 
         //地面判定（仮）

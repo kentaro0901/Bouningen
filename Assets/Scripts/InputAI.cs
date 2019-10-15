@@ -16,8 +16,10 @@ public class InputAI : MonoBehaviour {
     public bool L = false;
 
     string filename = "TestAI";
+    string firstLine = "";
+    string secondLine = "";
 
-    class InputValue {
+    public class InputValue {
         public string name = "";
         public float[] deltaX = new float[5];
         public float[] deltaY = new float[5];
@@ -33,14 +35,16 @@ public class InputAI : MonoBehaviour {
             deltaY = y;
         }
     }
-    const int num = 3;
-    InputValue[] inputValues = new InputValue[num]; //0はIdleがよさそう
-    InputValue total = new InputValue("Total", new float[5] { 0, 0, 0, 0, 0 }, new float[5] { 0, 0, 0, 0, 0 });
+    const int num = 12;
+    const int xDataNum = 16;
+    const int yDataNum = 7;
+    public InputValue[] inputValues = new InputValue[num]; //0はIdleがよさそう
+    public InputValue total = new InputValue("Total", new float[16] {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 }, new float[7] {0,0,0,0,0,0,0});
 
     void Awake() {
         controller = gameObject.GetComponent<PlayerController>();
         for (int i= 0; i < num; i++) {
-            inputValues[i] = new InputValue("", new float[5] { 0,0,0,0,0}, new float[5] { 0,0,0,0,0});
+            inputValues[i] = new InputValue("", new float[16] {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}, new float[7] {0,0,0,0,0,0,0});
         }
         LoadCSV();
         //UpdateCSV();
@@ -53,18 +57,15 @@ public class InputAI : MonoBehaviour {
     void AIDesition() {
         int desition = 0;
         Vector2 dv = controller.enemyTf.position - controller.playerTf.position;
-        int dx;
+        int dx = Mathf.Min(Mathf.Abs((int)dv.x), 15);
         int dy;
-        if (Mathf.Abs(dv.x) < 3) dx = 0;
-        else if (Mathf.Abs(dv.x) < 5) dx = 1;
-        else if (Mathf.Abs(dv.x) < 10) dx = 2;
-        else if (Mathf.Abs(dv.x) < 15) dx = 3;
-        else dx = 4;
         if (dv.y < -3) dy = 0;
-        else if (dv.y < -1) dy = 1;
-        else if (dv.y < 1) dy = 2;
-        else if (dv.y < 3) dy = 3;
-        else dy = 4;
+        else if (dv.y < -2) dy = 1;
+        else if (dv.y < -1) dy = 2;
+        else if (dv.y < 0) dy = 3;
+        else if (dv.y < 1) dy = 4;
+        else if (dv.y < 3) dy = 5;
+        else dy = 6;
 
         float bar = Random.Range(0.0f, 1.0f);
         float t = 0.0f;
@@ -93,20 +94,24 @@ public class InputAI : MonoBehaviour {
         while (reader.Peek() > -1) {
             string line = reader.ReadLine(); //1行
             string[] values = line.Split(',');
-            if (2 <= i) {
+            if (i == 0) firstLine = line;
+            else if (i == 1) secondLine = line;
+            else if (2 <= i) {
                 inputValues[i-2].name = values[0];
-                for (int k = 0; k <= 4; k++) {
+                for (int k = 0; k <= xDataNum-1; k++) {
                     inputValues[i-2].deltaX[k] = float.Parse(values[1 + k]);
-                    inputValues[i-2].deltaY[k] = float.Parse(values[6 + k]);
                     total.deltaX[k] += float.Parse(values[1 + k]);
-                    total.deltaY[k] += float.Parse(values[6 + k]);
                 }
-                inputValues[i-2].axisX = float.Parse(values[11]);
-                inputValues[i-2].axisY = float.Parse(values[12]);
-                inputValues[i-2].a = int.Parse(values[13]);
-                inputValues[i-2].b = int.Parse(values[14]);
-                inputValues[i-2].r = int.Parse(values[15]);
-                inputValues[i-2].l = int.Parse(values[16]);
+                for (int k = 0; k <= yDataNum-1; k++) {
+                    inputValues[i - 2].deltaY[k] = float.Parse(values[xDataNum + k]);
+                    total.deltaY[k] += float.Parse(values[xDataNum + k]);
+                }
+                inputValues[i-2].axisX = float.Parse(values[xDataNum+yDataNum]);
+                inputValues[i-2].axisY = float.Parse(values[xDataNum + yDataNum+1]);
+                inputValues[i-2].a = int.Parse(values[xDataNum + yDataNum+2]);
+                inputValues[i-2].b = int.Parse(values[xDataNum + yDataNum+3]);
+                inputValues[i-2].r = int.Parse(values[xDataNum + yDataNum+4]);
+                inputValues[i-2].l = int.Parse(values[xDataNum + yDataNum+5]);
             }
             i++;
         }
