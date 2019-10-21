@@ -3548,7 +3548,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerNum: 2
-  isAI: 1
+  isAI: 0
   isTeacher: 0
   inputAI: {fileID: 0}
   myChara: 0

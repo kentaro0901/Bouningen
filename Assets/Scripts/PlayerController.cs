@@ -14,6 +14,9 @@ public class PlayerController : MonoBehaviour {
     public PlayerNum playerNum;
     public bool isAI = false;
     public bool isTeacher = false;
+    Vector2 dv;
+    int dx;
+    int dy;
     public InputAI inputAI;
     public Main.Chara myChara = Main.Chara.Sword;
     [SerializeField] GameObject swordPref;
@@ -121,6 +124,17 @@ public class PlayerController : MonoBehaviour {
         //カウンターリセット
         if (stateInfo.fullPathHash != preStateInfo.fullPathHash) counter = 0;
 
+        //AI強化用(仮)
+        dv = enemyTf.position - playerTf.position;
+        dx = Mathf.Min(Mathf.Abs((int)dv.x), 15);
+        if (dv.y < -3) dy = 0;
+        else if (dv.y < -2) dy = 1;
+        else if (dv.y < -1) dy = 2;
+        else if (dv.y < 0) dy = 3;
+        else if (dv.y < 1) dy = 4;
+        else if (dv.y < 3) dy = 5;
+        else dy = 6;
+
         //状態分岐
         if (stateInfo.fullPathHash == Prepare) {}
         else if (stateInfo.fullPathHash == StartGame) {
@@ -139,13 +153,11 @@ public class PlayerController : MonoBehaviour {
         }
         else if (stateInfo.fullPathHash == Dash) {
             playerTf.position += Vector3.right * dashspeed * (isAI? inputAI.AxisX: xAxisD) * animator.speed;
-            if (isTeacher && enemyController.isAI) {
-                //enemyController.inputAI.inputValues[0].deltaX[]
-            }
+            Teach(0);
         }
-        else if (stateInfo.fullPathHash == JumpStart ||
-            stateInfo.fullPathHash == Jump ||
-            stateInfo.fullPathHash == JumpEnd) {}
+        else if (stateInfo.fullPathHash == JumpStart) {
+            if (counter == 0) Teach(1);
+        }
         else if (stateInfo.fullPathHash == Fall) {
             playerTf.position += Vector3.down * counter * 0.1f * animator.speed;
             if (playerTf.position.y < 0.1f && playerTf.position.y != 0) playerTf.position = new Vector3(playerTf.position.x, 0, 0);
@@ -155,7 +167,8 @@ public class PlayerController : MonoBehaviour {
         }
         else if (stateInfo.fullPathHash == LightningStart) {
             if (counter == 0) {
-                playerTf.localScale = enemyTf.position.x > playerTf.position.x ? Vector3.one : new Vector3(-1, 1, 1);      
+                playerTf.localScale = enemyTf.position.x > playerTf.position.x ? Vector3.one : new Vector3(-1, 1, 1);
+                Teach(2);
             }
         }
         else if (stateInfo.fullPathHash == Lightning) {
@@ -187,21 +200,52 @@ public class PlayerController : MonoBehaviour {
         else if (stateInfo.fullPathHash == LightningAttackDown) {
             playerTf.position += new Vector3(enemyController.damageVector.x * Time.timeScale, - (counter * 0.2f) * animator.speed, 0);
         }
-        else if (stateInfo.fullPathHash == NutralB_Air) {}
+        else if (stateInfo.fullPathHash == NutralA) {
+            if (counter == 0) {
+                Teach(3);
+            }
+        }
+        else if (stateInfo.fullPathHash == NutralA_Air) {
+            if (counter == 0) {
+                Teach(3);
+            }
+        }
+        else if (stateInfo.fullPathHash == NutralB) {
+            if (counter == 0) {
+                Teach(4);
+            }
+        }
+        else if (stateInfo.fullPathHash == NutralB_Air) {
+            if (counter == 0) {
+                Teach(4);
+            }     
+        }
         else if (stateInfo.fullPathHash == SideA) {
+            if(counter == 0) {
+                Teach(5);
+            }
             if (counter == 10) {
                 BattleMgr.Instance.CreateVFX("CriticalWave", playerTf.position, Quaternion.identity, 1.0f);
             }
         }
         else if (stateInfo.fullPathHash == SideA_Air) {
+            if (counter == 0) {
+                Teach(5);
+            }
             if (counter == 8) {
                 BattleMgr.Instance.CreateVFX("CriticalWave", playerTf.position, Quaternion.identity , 1.0f);
             }
         }
         else if (stateInfo.fullPathHash == SideB) {
+            if (counter == 0) {
+                Teach(6);
+            }
             if(counter == 13) BattleMgr.Instance.VibrateDouble(0.5f, 0.5f);
         }
         else if (stateInfo.fullPathHash == SideB_Air) {
+            if(counter == 0) {
+                Teach(6);
+            }
             playerTf.position += Vector3.down * counter * 0.03f * animator.speed;
             if (playerTf.position.y < 0.05f && !animator.GetBool(isLand)) {
                 playerTf.position = new Vector3(playerTf.position.x, 0, 0);
@@ -210,10 +254,16 @@ public class PlayerController : MonoBehaviour {
             }
         }
         else if (stateInfo.fullPathHash == DownA) {
-            if (counter == 0) StartCoroutine(character.DownAFunc());
+            if (counter == 0) {
+                StartCoroutine(character.DownAFunc());
+                Teach(7);
+            }
         }
         else if (stateInfo.fullPathHash == DownA_Air) {
-            if (counter == 0) StartCoroutine(character.DownAFunc());
+            if (counter == 0) {
+                StartCoroutine(character.DownAFunc());
+                Teach(7);
+            }
             playerTf.position = new Vector3(playerTf.position.x, playerTf.position.y - (counter * 0.2f) * animator.speed, 0);
             if (playerTf.position.y < 0.05f && playerTf.position.y != 0) {
                 playerTf.position = new Vector3(playerTf.position.x, 0, 0);
@@ -221,7 +271,8 @@ public class PlayerController : MonoBehaviour {
         }
         else if (stateInfo.fullPathHash == DownB) {
             if (counter == 0) {
-                StartCoroutine(character.DownBFunc());             
+                StartCoroutine(character.DownBFunc());
+                Teach(8);
             }
             if (counter % 4 == 0 && counter <= 8) {
                 BattleMgr.Instance.CreateVFX("FallSunder", playerTf.position, Quaternion.identity, 1.0f);
@@ -234,7 +285,8 @@ public class PlayerController : MonoBehaviour {
                     BattleMgr.Instance.CreateVFX("OLight", playerTf.position + Vector3.up, Quaternion.identity, 1.0f);
                     BattleMgr.Instance.ChangeToneDouble(0.35f, CameraEffect.ToneName.reverseTone);
                     BattleMgr.Instance.ChangeAnimeSpeedDouble(0.05f, 0.35f);
-                }          
+                }
+                Teach(8);
             }
             if (counter % 3 == 0 && counter <= 9) {
                 BattleMgr.Instance.CreateVFX("CriticalDownWave", playerTf.position + Vector3.up * 2, Quaternion.identity, 1.0f);
@@ -248,9 +300,15 @@ public class PlayerController : MonoBehaviour {
                 BattleMgr.Instance.VibrateDouble(1.0f, 1.5f);
             }
         }
+        else if (stateInfo.fullPathHash == UpA) {
+            if (counter == 0) {
+                Teach(9);
+            }
+        }
         else if (stateInfo.fullPathHash == UpB) {
             if (counter == 0) {
                 //BattleMgr.Instance.CreateVFX("CriticalUpWave", playerTf.position, 1.0f);
+                Teach(10);
             }
         }
         else if (stateInfo.fullPathHash == UpB_Fall) {
@@ -345,6 +403,7 @@ public class PlayerController : MonoBehaviour {
             if (counter == 0) {
                 isLimitBreak = true;
                 StartCoroutine(character.LimitBreakFunc());
+                Teach(11);
             }
         }
         if (stateInfo.fullPathHash != LimitBreak && preStateInfo.fullPathHash == LimitBreak) {
@@ -493,5 +552,12 @@ public class PlayerController : MonoBehaviour {
         counter++;
         prePos = playerTf.position;
         preStateInfo = stateInfo;
+    }
+
+    void Teach(int n) {
+        if (isTeacher && enemyController.isAI) { //強化用
+            enemyController.inputAI.inputValues[n].deltaX[dx] += 1;
+            enemyController.inputAI.inputValues[n].deltaY[dy] += 1;
+        }
     }
 }

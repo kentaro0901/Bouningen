@@ -276,6 +276,12 @@ public class BattleMgr : MonoBehaviour {
             c1Txt.text = "DRAW";
             c2Txt.text = "DRAW";
         }
+        if (playerController1.isAI) {
+            playerController1.inputAI.UpdateCSV();
+        }
+        else if (playerController2.isAI) {
+            playerController2.inputAI.UpdateCSV();
+        }
         Destroy(c1LFRTf.gameObject);
         Destroy(c1RFRTf.gameObject);
         Destroy(c2LFRTf.gameObject);

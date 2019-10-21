@@ -47,9 +47,8 @@ public class InputAI : MonoBehaviour {
             inputValues[i] = new InputValue("", new float[16] {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}, new float[7] {0,0,0,0,0,0,0});
         }
         LoadCSV();
-        //UpdateCSV();
+        //InitCSV();
     }
-
     void Update() {
         AIDesition();
     }
@@ -86,7 +85,6 @@ public class InputAI : MonoBehaviour {
         R = 0 < inputValues[desition].r;
         L = 0 < inputValues[desition].l;
     }
-
     void LoadCSV() { //CSVの読み込み
         int i = 0;
         TextAsset csv = Resources.Load(filename) as TextAsset;
@@ -98,27 +96,66 @@ public class InputAI : MonoBehaviour {
             else if (i == 1) secondLine = line;
             else if (2 <= i) {
                 inputValues[i-2].name = values[0];
-                for (int k = 0; k <= xDataNum-1; k++) {
+                for (int k = 0; k < xDataNum; k++) {
                     inputValues[i-2].deltaX[k] = float.Parse(values[1 + k]);
                     total.deltaX[k] += float.Parse(values[1 + k]);
                 }
-                for (int k = 0; k <= yDataNum-1; k++) {
-                    inputValues[i - 2].deltaY[k] = float.Parse(values[xDataNum + k]);
-                    total.deltaY[k] += float.Parse(values[xDataNum + k]);
+                for (int k = 0; k < yDataNum; k++) {
+                    inputValues[i - 2].deltaY[k] = float.Parse(values[1 + xDataNum + k]);
+                    total.deltaY[k] += float.Parse(values[1 + xDataNum + k]);
                 }
-                inputValues[i-2].axisX = float.Parse(values[xDataNum+yDataNum]);
-                inputValues[i-2].axisY = float.Parse(values[xDataNum + yDataNum+1]);
-                inputValues[i-2].a = int.Parse(values[xDataNum + yDataNum+2]);
-                inputValues[i-2].b = int.Parse(values[xDataNum + yDataNum+3]);
-                inputValues[i-2].r = int.Parse(values[xDataNum + yDataNum+4]);
-                inputValues[i-2].l = int.Parse(values[xDataNum + yDataNum+5]);
+                inputValues[i-2].axisX = float.Parse(values[xDataNum+yDataNum+1]);
+                inputValues[i-2].axisY = float.Parse(values[xDataNum + yDataNum+2]);
+                inputValues[i-2].a = int.Parse(values[xDataNum + yDataNum+3]);
+                inputValues[i-2].b = int.Parse(values[xDataNum + yDataNum+4]);
+                inputValues[i-2].r = int.Parse(values[xDataNum + yDataNum+5]);
+                inputValues[i-2].l = int.Parse(values[xDataNum + yDataNum+6]);
             }
             i++;
         }
     }
     public void UpdateCSV() { //CSVの更新
+        StreamWriter streamWriter = new StreamWriter(Application.dataPath + "/Resources/" + filename + ".csv", false, System.Text.Encoding.GetEncoding("shift_jis"));//
+        streamWriter.WriteLine(firstLine);
+        streamWriter.WriteLine(secondLine);
+        for (int i= 0; i < num; i++) {
+            streamWriter.Write(inputValues[i].name + ",");
+            for (int j = 0; j < xDataNum; j++) {
+                streamWriter.Write(inputValues[i].deltaX[j] + ",");
+            }
+            for (int j = 0; j < yDataNum; j++) {
+                streamWriter.Write(inputValues[i].deltaY[j] + ",");
+            }
+            streamWriter.Write(inputValues[i].axisX + ",");
+            streamWriter.Write(inputValues[i].axisY + ",");
+            streamWriter.Write(inputValues[i].a + ",");
+            streamWriter.Write(inputValues[i].b + ",");
+            streamWriter.Write(inputValues[i].r + ",");
+            streamWriter.Write(inputValues[i].l);
+            streamWriter.WriteLine("");
+        }
+        streamWriter.Close();
+    }
+    void InitCSV() { //学習データを初期化
         StreamWriter streamWriter = new StreamWriter(Application.dataPath + "/Resources/" + filename + ".csv", false, System.Text.Encoding.GetEncoding("shift_jis"));
-        streamWriter.WriteLine("1行書き込み");
+        streamWriter.WriteLine(firstLine);
+        streamWriter.WriteLine(secondLine);
+        for (int i = 0; i < num; i++) {
+            streamWriter.Write("1,");
+            for (int j = 0; j < xDataNum; j++) {
+                streamWriter.Write("1,");
+            }
+            for (int j = 0; j < yDataNum; j++) {
+                streamWriter.Write("1,");
+            }
+            streamWriter.Write(inputValues[i].axisX + ",");
+            streamWriter.Write(inputValues[i].axisY + ",");
+            streamWriter.Write(inputValues[i].a + ",");
+            streamWriter.Write(inputValues[i].b + ",");
+            streamWriter.Write(inputValues[i].r + ",");
+            streamWriter.Write(inputValues[i].l);
+            streamWriter.WriteLine("");
+        }
         streamWriter.Close();
     }
 }
