@@ -87,7 +87,8 @@ public abstract class Character : MonoBehaviour {
             playerController.animator.Play("SideA_R");
         }
         else if (playerController.stateInfo.fullPathHash == SideB ||
-            playerController.stateInfo.fullPathHash == SideB_Air) {
+            playerController.stateInfo.fullPathHash == SideB_Air ||
+            playerController.stateInfo.fullPathHash == UpB_Fall) {
             playerController.animator.Play("SideB_R");
         }
         else if (playerController.stateInfo.fullPathHash == NutralA ||
@@ -102,7 +103,7 @@ public abstract class Character : MonoBehaviour {
         }
         else {
             playerController.animator.Play("SideA_R");
-            Debug.LogError("NoneR");
+            Debug.Log("NoneR");
         }
     }
     public IEnumerator LimitBreakFunc() {

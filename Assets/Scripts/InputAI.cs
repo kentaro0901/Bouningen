@@ -15,39 +15,45 @@ public class InputAI : MonoBehaviour {
     public bool R = false;
     public bool L = false;
 
-    string filename = "TestAI";
+    string filename = "TestAI02";
     string firstLine = "";
     string secondLine = "";
+    const int dataNum = 12;
+    public const int xDataNum = 30;
+    public const int yDataNum = 11;
 
     public class InputValue {
-        public string name = "";
-        public float[] deltaX = new float[5];
-        public float[] deltaY = new float[5];
+        public string name;
+        public float[] deltaX;
+        public float[] deltaY;
         public float axisX = 0.0f;
         public float axisY = 0.0f;
         public int a = 0;
         public int b = 0;
         public int r = 0;
         public int l = 0;
+        public InputValue() {
+            name = "";
+            deltaX = new float[xDataNum];
+            deltaY = new float[yDataNum];
+        }
         public InputValue(string s, float[] x, float[] y) {
             name = s;
             deltaX = x;
             deltaY = y;
         }
     }
-    const int num = 12;
-    const int xDataNum = 16;
-    const int yDataNum = 7;
-    public InputValue[] inputValues = new InputValue[num]; //0はIdleがよさそう
-    public InputValue total = new InputValue("Total", new float[16] {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 }, new float[7] {0,0,0,0,0,0,0});
+    public InputValue[] inputValues = new InputValue[dataNum];
+    public InputValue total = new InputValue();
 
     void Awake() {
         controller = gameObject.GetComponent<PlayerController>();
-        for (int i= 0; i < num; i++) {
-            inputValues[i] = new InputValue("", new float[16] {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}, new float[7] {0,0,0,0,0,0,0});
+        for (int i= 0; i < dataNum; i++) {
+            inputValues[i] = new InputValue();
         }
         LoadCSV();
         //InitCSV();
+        //LoadCSV();
     }
     void Update() {
         AIDesition();
@@ -56,19 +62,12 @@ public class InputAI : MonoBehaviour {
     void AIDesition() {
         int desition = 0;
         Vector2 dv = controller.enemyTf.position - controller.playerTf.position;
-        int dx = Mathf.Min(Mathf.Abs((int)dv.x), 15);
-        int dy;
-        if (dv.y < -3) dy = 0;
-        else if (dv.y < -2) dy = 1;
-        else if (dv.y < -1) dy = 2;
-        else if (dv.y < 0) dy = 3;
-        else if (dv.y < 1) dy = 4;
-        else if (dv.y < 3) dy = 5;
-        else dy = 6;
+        int dx = Mathf.Min(Mathf.Abs((int)dv.x), xDataNum-1);
+        int dy = ((int)Mathf.Abs(dv.y) < (int)Mathf.Floor(yDataNum / 2) ? (int)dv.y: (dv.y<0 ? -1: 1) * (int)Mathf.Floor(yDataNum / 2)) + (int)Mathf.Floor(yDataNum/2);
 
         float bar = Random.Range(0.0f, 1.0f);
         float t = 0.0f;
-        for(int i = 0; i < num; i++) {
+        for(int i = 0; i < dataNum; i++) {
             if (t <= bar && bar < t + (inputValues[i].deltaX[dx] + inputValues[i].deltaY[dy]) / (total.deltaX[dx] + total.deltaY[dy])) {
                 desition = i;
                 break;
@@ -118,7 +117,7 @@ public class InputAI : MonoBehaviour {
         StreamWriter streamWriter = new StreamWriter(Application.dataPath + "/Resources/" + filename + ".csv", false, System.Text.Encoding.GetEncoding("shift_jis"));//
         streamWriter.WriteLine(firstLine);
         streamWriter.WriteLine(secondLine);
-        for (int i= 0; i < num; i++) {
+        for (int i= 0; i < dataNum; i++) {
             streamWriter.Write(inputValues[i].name + ",");
             for (int j = 0; j < xDataNum; j++) {
                 streamWriter.Write(inputValues[i].deltaX[j] + ",");
@@ -140,7 +139,7 @@ public class InputAI : MonoBehaviour {
         StreamWriter streamWriter = new StreamWriter(Application.dataPath + "/Resources/" + filename + ".csv", false, System.Text.Encoding.GetEncoding("shift_jis"));
         streamWriter.WriteLine(firstLine);
         streamWriter.WriteLine(secondLine);
-        for (int i = 0; i < num; i++) {
+        for (int i = 0; i < dataNum; i++) {
             streamWriter.Write("1,");
             for (int j = 0; j < xDataNum; j++) {
                 streamWriter.Write("1,");

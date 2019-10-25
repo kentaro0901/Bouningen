@@ -46,12 +46,17 @@ public class PlayerController : MonoBehaviour {
     static float airspeed = 0.25f; 
     static float vectorspeed = 3.0f;
 
-    float xAxisD;
-    float yAxisD;
+    float xAxis = 0.0f;
+    float yAxis = 0.0f;
+    bool A = false;
+    bool B = false;
+    bool X = false;
+    bool Y = false;
+    bool L = false;
+    bool R = false;
     Vector3 prePos;
     Vector2 vector;
     public Vector3 damageVector = Vector3.zero;
-    public Vector3 resistVector = Vector3.zero;
     public float resistDamage = 0.0f;
 
     public bool isResistance = false;
@@ -96,28 +101,42 @@ public class PlayerController : MonoBehaviour {
     void Update() {
         vector = playerTf.position - prePos;
 
-        //X
-        if (Mathf.Abs(Input.GetAxis("DPad_XAxis_" + (int)playerNum)) > Mathf.Abs(Input.GetAxis("L_XAxis_" + (int)playerNum)) &&
+        //xAxis
+        if (isAI) {
+            xAxis = inputAI.AxisX;
+        }
+        else if (Mathf.Abs(Input.GetAxis("DPad_XAxis_" + (int)playerNum)) > Mathf.Abs(Input.GetAxis("L_XAxis_" + (int)playerNum)) &&
             Mathf.Abs(Input.GetAxis("DPad_XAxis_" + (int)playerNum)) > Mathf.Abs(Input.GetAxis("R_XAxis_" + (int)playerNum))) {
-            xAxisD = Input.GetAxis("DPad_XAxis_" + (int)playerNum);
+            xAxis = Input.GetAxis("DPad_XAxis_" + (int)playerNum);
         }
         else if (Mathf.Abs(Input.GetAxis("L_XAxis_" + (int)playerNum)) > Mathf.Abs(Input.GetAxis("R_XAxis_" + (int)playerNum))) {
-            xAxisD = Input.GetAxis("L_XAxis_" + (int)playerNum);
+            xAxis = Input.GetAxis("L_XAxis_" + (int)playerNum);
         }
         else {
-            xAxisD = Input.GetAxis("R_XAxis_" + (int)playerNum);
+            xAxis = Input.GetAxis("R_XAxis_" + (int)playerNum);
         }
-        //Y
-        if (Mathf.Abs(Input.GetAxis("DPad_YAxis_" + (int)playerNum)) > Mathf.Abs(Input.GetAxis("L_YAxis_" + (int)playerNum)) &&
+        //yAxis
+        if (isAI) {
+            yAxis = inputAI.AxisY;
+        }
+        else if (Mathf.Abs(Input.GetAxis("DPad_YAxis_" + (int)playerNum)) > Mathf.Abs(Input.GetAxis("L_YAxis_" + (int)playerNum)) &&
             Mathf.Abs(Input.GetAxis("DPad_YAxis_" + (int)playerNum)) > Mathf.Abs(Input.GetAxis("R_YAxis_" + (int)playerNum))) {
-            yAxisD = Input.GetAxis("DPad_YAxis_" + (int)playerNum);
+            yAxis = Input.GetAxis("DPad_YAxis_" + (int)playerNum);
         }
         else if (Mathf.Abs(Input.GetAxis("L_YAxis_" + (int)playerNum)) > Mathf.Abs(Input.GetAxis("R_YAxis_" + (int)playerNum))) {
-            yAxisD = Input.GetAxis("L_YAxis_" + (int)playerNum);
+            yAxis = Input.GetAxis("L_YAxis_" + (int)playerNum);
         }
         else {
-            yAxisD = Input.GetAxis("R_YAxis_" + (int)playerNum);
+            yAxis = Input.GetAxis("R_YAxis_" + (int)playerNum);
         }
+        A = isAI ? inputAI.A : (Input.GetButton("ButtonA_" + (int)playerNum) ||
+                Mathf.Abs(Input.GetAxis("R_XAxis_" + (int)playerNum)) > 0 ||
+                Mathf.Abs(Input.GetAxis("R_YAxis_" + (int)playerNum)) > 0);
+        B = isAI ? inputAI.B : Input.GetButton("ButtonB_" + (int)playerNum);
+        Y = isAI ? inputAI.Y : Input.GetButton("ButtonY_" + (int)playerNum);
+        X = isAI ? inputAI.X : Input.GetButton("ButtonX_" + (int)playerNum);
+        R = isAI ? inputAI.R : Input.GetButton("ButtonR_" + (int)playerNum) || Input.GetButton("ButtonZR_" + (int)playerNum);
+        L = isAI ? inputAI.L : Input.GetButton("ButtonL_" + (int)playerNum) || Input.GetButton("ButtonZL_" + (int)playerNum);
 
         stateInfo = animator.GetCurrentAnimatorStateInfo(0);
 
@@ -126,14 +145,8 @@ public class PlayerController : MonoBehaviour {
 
         //AI強化用(仮)
         dv = enemyTf.position - playerTf.position;
-        dx = Mathf.Min(Mathf.Abs((int)dv.x), 15);
-        if (dv.y < -3) dy = 0;
-        else if (dv.y < -2) dy = 1;
-        else if (dv.y < -1) dy = 2;
-        else if (dv.y < 0) dy = 3;
-        else if (dv.y < 1) dy = 4;
-        else if (dv.y < 3) dy = 5;
-        else dy = 6;
+        dx = Mathf.Min(Mathf.Abs((int)dv.x), InputAI.xDataNum-1);
+        dy = ((int)Mathf.Abs(dv.y) < (int)Mathf.Floor(InputAI.yDataNum / 2) ? (int)dv.y : (dv.y < 0 ? -1 : 1) * (int)Mathf.Floor(InputAI.yDataNum / 2)) + (int)Mathf.Floor(InputAI.yDataNum / 2);
 
         //状態分岐
         if (stateInfo.fullPathHash == Prepare) {}
@@ -152,7 +165,7 @@ public class PlayerController : MonoBehaviour {
             }
         }
         else if (stateInfo.fullPathHash == Dash) {
-            playerTf.position += Vector3.right * dashspeed * (isAI? inputAI.AxisX: xAxisD) * animator.speed;
+            playerTf.position += Vector3.right * dashspeed * xAxis * animator.speed;
             Teach(0);
         }
         else if (stateInfo.fullPathHash == JumpStart) {
@@ -183,10 +196,10 @@ public class PlayerController : MonoBehaviour {
                 playerTf.localScale = enemyTf.position.x > playerTf.position.x ? Vector3.one : new Vector3(-1, 1, 1);
                 lightningPos = 5 * (enemyTf.position.x > playerTf.position.x ? Vector3.left : Vector3.right);
                 Vector3 ofs = Vector3.zero;
-                if (xAxisD > 0) ofs = 1 * Vector3.right;
-                else if (xAxisD < 0) ofs = 1 * Vector3.left;
-                if (yAxisD > 0) ofs = 5 * Vector3.up;
-                else if (yAxisD < 0) ofs = 5 * Vector3.down;
+                if (xAxis > 0) ofs = 1 * Vector3.right;
+                else if (xAxis < 0) ofs = 1 * Vector3.left;
+                if (yAxis > 0) ofs = 5 * Vector3.up;
+                else if (yAxis < 0) ofs = 5 * Vector3.down;
                 playerTf.position += (enemyTf.position + lightningPos + ofs - playerTf.position) / (counter == 5 ? 1:2);            
             }
             else playerTf.position += new Vector3(enemyController.damageVector.x, 0, 0);
@@ -403,7 +416,10 @@ public class PlayerController : MonoBehaviour {
             if (counter == 0) {
                 isLimitBreak = true;
                 StartCoroutine(character.LimitBreakFunc());
-                Teach(11);
+                 if (isTeacher && enemyController.isAI) { //入力回数が少ないので別処理
+                    enemyController.inputAI.inputValues[11].deltaX[dx] += 10;
+                    enemyController.inputAI.inputValues[11].deltaY[dy] += 10;
+                 }
             }
         }
         if (stateInfo.fullPathHash != LimitBreak && preStateInfo.fullPathHash == LimitBreak) {
@@ -418,11 +434,10 @@ public class PlayerController : MonoBehaviour {
             stateInfo.fullPathHash == SideA_Air_R ||
             stateInfo.fullPathHash == NutralA_Air_R) {
             if (counter == 0 && playerNum == PlayerNum.player1)  BattleMgr.Instance.StartResistance();
-            if (Input.GetButtonDown("ButtonA_" + (int)playerNum) || Input.GetButtonDown("ButtonB_" + (int)playerNum)) {
+            if (A || B) {
                 if (playerNum == PlayerNum.player1) BattleMgr.Instance.resistCounter1P++;
                 if (playerNum == PlayerNum.player2) BattleMgr.Instance.resistCounter2P++;
             }
-            playerTf.position += resistVector;
             if (counter == 20) {
                 BattleMgr.Instance.VibrateDouble(0.3f, 2.0f);
                 BattleMgr.Instance.CreateVFX("Stone", playerTf.position + (enemyTf.position - playerTf.position) / 2 +Vector3.up * 2, Quaternion.identity, 1.0f);
@@ -435,7 +450,6 @@ public class PlayerController : MonoBehaviour {
             }
             if (counter == 60) {
                 isResistance = false;
-                resistVector = Vector3.zero;
                 if ((BattleMgr.Instance.resistResult == BattleMgr.ResistResult.Critical1P && playerNum == PlayerNum.player1) ||
                     (BattleMgr.Instance.resistResult == BattleMgr.ResistResult.Critical2P && playerNum == PlayerNum.player2)) { //鍔迫り合いに負けた時
                     BattleMgr.Instance.CreateVFX("Hit", playerTf.position, Quaternion.identity, 1.0f);
@@ -457,7 +471,7 @@ public class PlayerController : MonoBehaviour {
                     else if (stateInfo.fullPathHash == SideB_Air_R) animator.Play("SideB_Air_RW");              
                     else {
                         animator.Play("SideA_RW");
-                        Debug.LogError("NoneRW");
+                        Debug.Log("NoneRW");
                     }
                 }
                 else {
@@ -495,7 +509,7 @@ public class PlayerController : MonoBehaviour {
             stateInfo.fullPathHash == Fall ||
             stateInfo.fullPathHash == CriticalFall ||
             stateInfo.fullPathHash == UpB_Fall) {
-            if (0 < playerTf.position.y) playerTf.position += Vector3.right * (vectorspeed * vector.x + airspeed * (isAI? inputAI.AxisX: xAxisD)) * animator.speed;
+            if (0 < playerTf.position.y) playerTf.position += Vector3.right * (vectorspeed * vector.x + airspeed * xAxis) * animator.speed;
         }
 
         //反転
@@ -513,24 +527,22 @@ public class PlayerController : MonoBehaviour {
             stateInfo.fullPathHash == ShortJump ||
             stateInfo.fullPathHash == JumpEnd ||
             stateInfo.fullPathHash == Fall ) {
-            if (isAI ? inputAI.AxisX>0: xAxisD > 0) playerTf.localScale = new Vector3(1, 1, 1);
-            if (isAI ? inputAI.AxisX<0: xAxisD < 0) playerTf.localScale = new Vector3(-1, 1, 1);
+            if (xAxis > 0) playerTf.localScale = new Vector3(1, 1, 1);
+            if (xAxis < 0) playerTf.localScale = new Vector3(-1, 1, 1);
         }
 
         if (Main.battleResult == Main.BattleResult.Battle) {
-            animator.SetBool(UpArrow, isAI ? inputAI.AxisY > 0 : yAxisD > 0);
-            animator.SetBool(RightArrow, isAI ? inputAI.AxisX > 0 : xAxisD > 0);
-            animator.SetBool(LeftArrow, isAI ? inputAI.AxisX < 0 : xAxisD < 0);
-            animator.SetBool(DownArrow, isAI ? inputAI.AxisY < 0 : yAxisD < 0);
+            animator.SetBool(UpArrow, yAxis > 0);
+            animator.SetBool(RightArrow, xAxis > 0);
+            animator.SetBool(LeftArrow, xAxis < 0);
+            animator.SetBool(DownArrow, yAxis < 0);
 
-            animator.SetBool(ButtonA, isAI ? inputAI.A : (Input.GetButton("ButtonA_" + (int)playerNum) ||
-                Mathf.Abs(Input.GetAxis("R_XAxis_" + (int)playerNum)) > 0 || 
-                Mathf.Abs(Input.GetAxis("R_YAxis_" + (int)playerNum)) > 0));
-            animator.SetBool(ButtonB, isAI ? inputAI.B : Input.GetButton("ButtonB_" + (int)playerNum));
-            animator.SetBool(ButtonY, isAI ? inputAI.Y : Input.GetButton("ButtonY_" + (int)playerNum));
-            animator.SetBool(ButtonX, isAI ? inputAI.X : Input.GetButton("ButtonX_" + (int)playerNum));
-            animator.SetBool(ButtonR, isAI ? inputAI.R : Input.GetButton("ButtonR_" + (int)playerNum) || Input.GetButton("ButtonZR_" + (int)playerNum));
-            animator.SetBool(ButtonL, isAI ? inputAI.L : Input.GetButton("ButtonL_" + (int)playerNum) || Input.GetButton("ButtonZL_" + (int)playerNum));
+            animator.SetBool(ButtonA, A);
+            animator.SetBool(ButtonB, B);
+            animator.SetBool(ButtonY, Y);
+            animator.SetBool(ButtonX, X);
+            animator.SetBool(ButtonR, R);
+            animator.SetBool(ButtonL, L);
         }
         else { //バトル中でないならすべてのパッド入力を無効にする
             animator.SetBool(UpArrow, false);

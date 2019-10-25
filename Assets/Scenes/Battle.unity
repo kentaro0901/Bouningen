@@ -151,7 +151,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerNum: 1
   isAI: 0
-  isTeacher: 0
+  isTeacher: 1
   inputAI: {fileID: 0}
   myChara: 0
   swordPref: {fileID: 6487946451456971819, guid: 72729bf2e36f83c4284b0850981aeadf,
@@ -169,7 +169,6 @@ MonoBehaviour:
   enemyTf: {fileID: 0}
   animator: {fileID: 0}
   damageVector: {x: 0, y: 0, z: 0}
-  resistVector: {x: 0, y: 0, z: 0}
   resistDamage: 0
   isResistance: 0
   isLimitBreak: 0
@@ -3548,7 +3547,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerNum: 2
-  isAI: 0
+  isAI: 1
   isTeacher: 0
   inputAI: {fileID: 0}
   myChara: 0
@@ -3567,7 +3566,6 @@ MonoBehaviour:
   enemyTf: {fileID: 0}
   animator: {fileID: 0}
   damageVector: {x: 0, y: 0, z: 0}
-  resistVector: {x: 0, y: 0, z: 0}
   resistDamage: 0
   isResistance: 0
   isLimitBreak: 0
