@@ -29,7 +29,7 @@ public class ResultMgr : MonoBehaviour {
 
     void Start() {
         Main.state = Main.State.Result;
-        Main.CameraSetting();
+        Main.Instance.BattleCameraSetting();
         switch (Main.battleResult) {
             case Main.BattleResult.Win1P:
                 winText.text = "1PWIN"; break;
@@ -42,7 +42,7 @@ public class ResultMgr : MonoBehaviour {
 
     void Update() {
         if (Input.GetKeyDown(KeyCode.Space)) {//仮
-            Main.Init(true);
+            Main.Instance.Init(true);
         }
     }
 }

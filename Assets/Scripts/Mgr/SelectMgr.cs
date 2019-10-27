@@ -77,7 +77,7 @@ public class SelectMgr : MonoBehaviour {
 
     void Start() {
         Main.state = Main.State.Select;
-        Main.CameraSetting();
+        Main.Instance.UICameraSetting();
         Frame1PRTf.sizeDelta = new Vector2(Screen.width / 2, Frame1PRTf.sizeDelta.y);
         Frame1PRTf.GetChild(0).GetComponent<RectTransform>().sizeDelta = new Vector2(Screen.width / 2, Frame1PRTf.sizeDelta.y);
         Frame2PRTf.sizeDelta = new Vector2(Screen.width / 2, Frame2PRTf.sizeDelta.y);

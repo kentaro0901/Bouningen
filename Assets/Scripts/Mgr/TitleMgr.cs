@@ -28,7 +28,7 @@ public class TitleMgr : MonoBehaviour {
 
     void Start() {
         Main.state = Main.State.Title;
-        //Main.CameraSetting();
+        Main.Instance.UICameraSetting();
     }
 
     void Update() {

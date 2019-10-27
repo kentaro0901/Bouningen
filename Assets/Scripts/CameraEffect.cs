@@ -29,12 +29,14 @@ public class CameraEffect : MonoBehaviour {
     Transform tf;
     Vector3 iniPos;
     Camera _camera;
+    ChaseCamera chaseCamera;
 
     private void Start() {
         tf = this.transform;
         iniPos = tf.localPosition;
         material = NormalTone;
         _camera = this.GetComponent<Camera>();
+        chaseCamera = transform.parent.GetComponent<ChaseCamera>();
     }
 
     void OnRenderImage(RenderTexture src, RenderTexture dest) {
@@ -67,18 +69,20 @@ public class CameraEffect : MonoBehaviour {
     }
     private void ZoomCountDown() {
         if (zoomInSeconds > 0) {
-            tf.localPosition = iniPos + new Vector3(0, -2.0f, 0f);
             _camera.orthographicSize = 1;
+            tf.position = chaseCamera.playerTf.position;
             zoomInSeconds -= Time.unscaledDeltaTime;
         }
         else if (zoomOutSeconds > 0) {
             zoomInSeconds = 0.0f;
-            tf.localPosition = iniPos;
             _camera.orthographicSize = 10;
+            tf.localPosition = iniPos + Vector3.right * (chaseCamera.isLeft? -1:1)* (Main.Instance.isMultiDisplays? 1: 0.5f) * 
+                (_camera.orthographicSize -  Main.Instance.cameraSize) * ((float)Screen.width / Screen.height);
             zoomOutSeconds -= Time.unscaledDeltaTime;
         }
         else {
             zoomOutSeconds = 0.0f;
+            tf.localPosition = iniPos;
             _camera.orthographicSize = Main.Instance.cameraSize;
         }
     }

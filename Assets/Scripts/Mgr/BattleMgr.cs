@@ -78,7 +78,7 @@ public class BattleMgr : MonoBehaviour {
     void Start() {
         Main.state = Main.State.Battle;
         Main.battleResult = Main.BattleResult.Battle;
-        Main.CameraSetting();
+        Main.Instance.BattleCameraSetting();
         camera1Tf = chaseCamera1.transform;
         camera2Tf = chaseCamera2.transform;
         player1Tf = playerController1.playerTf;
@@ -114,7 +114,7 @@ public class BattleMgr : MonoBehaviour {
             counter++;
             if (Input.GetButtonDown("ButtonA_0") && 60 <= counter) {
                 ChangeTimeScale(1.0f, 0);
-                Main.Init(true);
+                Main.Instance.Init(true);
             }
         }
     }
@@ -232,8 +232,8 @@ public class BattleMgr : MonoBehaviour {
         cameraEffect2.Vibrate(seconds, range);
     }
     public void ZoomInOutDouble(float seconds) {
-        cameraEffect1.ZoomInOut(seconds);
-        cameraEffect2.ZoomInOut(seconds);
+            cameraEffect1.ZoomInOut(seconds);
+            cameraEffect2.ZoomInOut(seconds);
     }
     public void ChangeToneDouble(float seconds, CameraEffect.ToneName name) {
         cameraEffect1.ChangeTone(seconds, name);
@@ -254,10 +254,10 @@ public class BattleMgr : MonoBehaviour {
         return vfx;
     }
     public GameObject CreateCrack(bool isLeftCanvas) {
-        RectTransform r = Instantiate(CrackPref[Random.Range(0, CrackPref.Length)], isLeftCanvas? c1: c2).GetComponent<RectTransform>();
-        r.localPosition = new Vector3(isLeftCanvas ? Random.Range(-Screen.width/2, -Screen.width/10*4) : Random.Range(Screen.width/10*4, Screen.width/2), 
+        RectTransform r = Instantiate(CrackPref[Random.Range(0, CrackPref.Length)], Main.Instance.isMultiDisplays? (isLeftCanvas? c1: c2): c1).GetComponent<RectTransform>();
+        r.localPosition = new Vector3(isLeftCanvas ? Random.Range(-Screen.width/2, -Screen.width/16*7) : Random.Range(Screen.width/16*7, Screen.width/2), 
             Random.Range(-Screen.height / 4, Screen.height / 4), 0);
-        r.localRotation = Quaternion.Euler(0, 0, Random.Range(-45, 45));
+        r.localRotation = Quaternion.Euler(0, 0, Random.Range(-30, 30));
         return r.gameObject;
     }
     public void BattleEnd() {

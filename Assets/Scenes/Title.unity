@@ -622,7 +622,7 @@ MonoBehaviour:
   subBgm: {fileID: 0}
   mainMusic: {fileID: 8300000, guid: d1612ef1bb8d61b4fa12bc0f9ce526a3, type: 3}
   subMusic: {fileID: 0}
-  isMultiDisplays: 1
+  isMultiDisplays: 0
   isDynamicCamera: 0
   isVisibleBox: 0
   isVisibleUI: 1
@@ -1966,7 +1966,7 @@ Transform:
   m_GameObject: {fileID: 1163062198}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 8.62, y: 0.52, z: 0}
-  m_LocalScale: {x: 5.049775, y: 1.75644, z: 1}
+  m_LocalScale: {x: 6, y: 3, z: 1}
   m_Children:
   - {fileID: 1354699235}
   - {fileID: 1219371818}

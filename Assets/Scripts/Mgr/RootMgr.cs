@@ -26,11 +26,11 @@ public class RootMgr : MonoBehaviour {
 
     void Start() {
         Main.state = Main.State.Root;
-        Main.CameraSetting();
+        Main.Instance.UICameraSetting();
         if (Main.Instance.isMultiDisplays) {
             StartMultiDisplays();
         }
-        Main.Init(false);
+        Main.Instance.Init(false);
     }
 
     //マルチディスプレイ

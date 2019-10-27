@@ -69,7 +69,7 @@ public class Main : MonoBehaviour {
     }
 
     //タイトルへ
-    public static void Init(bool isFade) {
+    public void Init(bool isFade) {
         Instance.mainBgm.Stop();
         Instance.mainBgm.Play();
         Instance.subBgm.Stop();
@@ -85,24 +85,45 @@ public class Main : MonoBehaviour {
     }
 
     //カメラ
-    public static void CameraSetting() {
-        Main.Instance.camera1 = GameObject.FindGameObjectWithTag("Camera1").GetComponent<Camera>();
-        Main.Instance.camera2 = GameObject.FindGameObjectWithTag("Camera2").GetComponent<Camera>();
-        if (Main.Instance.isMultiDisplays) { //マルチディスプレイ
-            Main.Instance.camera1.rect = new Rect(0, 0, 1, 1);
-            Main.Instance.camera1.targetDisplay = 0;
-            Main.Instance.camera1.orthographicSize = Main.instance.cameraSize;
-            Main.Instance.camera2.rect = new Rect(0, 0, 1, 1);
-            Main.Instance.camera2.targetDisplay = 1;
-            Main.Instance.camera2.orthographicSize = Main.instance.cameraSize;
+    public void UICameraSetting() {
+        camera1 = GameObject.FindGameObjectWithTag("Camera1").GetComponent<Camera>();
+        camera2 = GameObject.FindGameObjectWithTag("Camera2").GetComponent<Camera>();
+        if (isMultiDisplays) { //マルチディスプレイ
+            camera1.transform.position = new Vector3(0, 0, -10);
+            camera1.rect = new Rect(0, 0, 1, 1);
+            camera1.targetDisplay = 0;
+            camera1.orthographicSize = 5.0f;
+            camera2.transform.position = new Vector3(17.8f, 0, -10);//
+            camera2.rect = new Rect(0, 0, 1, 1);
+            camera2.targetDisplay = 1;
+            camera2.orthographicSize = 5.0f;
         }
         else { //シングルディスプレイ
-            Main.Instance.camera1.rect = new Rect(0, 0, 0.5f, 1);
-            Main.Instance.camera1.targetDisplay = 0;
-            Main.Instance.camera1.orthographicSize = Main.instance.cameraSize;
-            Main.Instance.camera2.rect = new Rect(0.5f, 0, 0.5f, 1);
-            Main.Instance.camera2.targetDisplay = 0;
-            Main.Instance.camera2.orthographicSize = Main.instance.cameraSize;
+            camera1.transform.position = new Vector3(8, 0, -10);
+            camera1.rect = new Rect(0, 0, 1, 1);
+            camera1.targetDisplay = 0;
+            camera1.orthographicSize = 8.0f;
+            camera2.enabled = false;
+        }
+    }
+    public void BattleCameraSetting() {
+        camera1 = GameObject.FindGameObjectWithTag("Camera1").GetComponent<Camera>();
+        camera2 = GameObject.FindGameObjectWithTag("Camera2").GetComponent<Camera>();
+        if (Main.Instance.isMultiDisplays) { //マルチディスプレイ
+            camera1.rect = new Rect(0, 0, 1, 1);
+            camera1.targetDisplay = 0;
+            camera1.orthographicSize = Main.instance.cameraSize;
+            camera2.rect = new Rect(0, 0, 1, 1);
+            camera2.targetDisplay = 1;
+            camera2.orthographicSize = Main.instance.cameraSize;
+        }
+        else { //シングルディスプレイ
+            camera1.rect = new Rect(0, 0, 0.5f, 1);
+            camera1.targetDisplay = 0;
+            camera1.orthographicSize = Main.instance.cameraSize;
+            camera2.rect = new Rect(0.5f, 0, 0.5f, 1);
+            camera2.targetDisplay = 0;
+            camera2.orthographicSize = Main.instance.cameraSize;
         }
     }
 

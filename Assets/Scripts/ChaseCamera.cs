@@ -8,6 +8,7 @@ public class ChaseCamera : MonoBehaviour {
     public static bool isNear = false;
     Transform cameraTf;
     [SerializeField] Transform enemyCameraTf;
+    public bool isLeft = false;
     Vector3 cameraInitPos;
     Camera _camera;
     public static float chaseRange = 1.0f;
@@ -62,6 +63,7 @@ public class ChaseCamera : MonoBehaviour {
     }
 
     void LateUpdate(){ //動くけど無駄がある
+        isLeft = cameraTf.position.x < enemyCameraTf.position.x;
         if (Main.Instance.isDynamicCamera) {
             if (!isNear) { //遠
                 if (playerTf.position.x < cameraTf.position.x - chaseRange) { //左
