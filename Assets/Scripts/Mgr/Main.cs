@@ -17,6 +17,13 @@ public class Main : MonoBehaviour {
             return instance;
         }
     }
+    void Awake() {
+        if (this != Instance) { //２つ目以降のインスタンスは破棄
+            Destroy(this.gameObject);
+            return;
+        }
+        DontDestroyOnLoad(this.gameObject);
+    }
 
     public enum State{
         Root,
@@ -26,13 +33,19 @@ public class Main : MonoBehaviour {
         Result
     }
     public static State state = State.Root;
-
     public enum Chara {
         Sword,
         Fighter
     }
     public Chara chara1P = Chara.Sword;
     public Chara chara2P = Chara.Sword;
+    public enum Controller {
+        None,
+        Elecom,
+        Joycon
+    }
+    public Controller controller1 = Controller.None;
+    public Controller controller2 = Controller.None;
 
     public enum BattleResult {
         Default,
@@ -58,12 +71,7 @@ public class Main : MonoBehaviour {
     public float cameraSize = 6.0f;
     public float gameSpeed = 1.0f;
 
-    void Awake() {
-        if (this != Instance) { //２つ目以降のインスタンスは破棄
-            Destroy(this.gameObject);
-            return;
-        }
-        DontDestroyOnLoad(this.gameObject);
+    void Start() {
         mainBgm.clip = mainMusic;
         subBgm.clip = subMusic;
     }
@@ -127,14 +135,44 @@ public class Main : MonoBehaviour {
         }
     }
 
-    void Update() {
+    //ゲームパッド
+    public void CheckGamePad() {
+        //Debug.Log("Num:" + Input.GetJoystickNames().Length);
+        if (Input.GetJoystickNames()[0] == "PC Game Controller       ") {
+            controller1 = Controller.Elecom;
+            Debug.Log("1P:Elecom");
+        }
+        else if (Input.GetJoystickNames()[0] == "Wireless Gamepad") {
+            controller1 = Controller.Joycon;
+            Debug.Log("1P:Joycon");
+        }
+        else {
+            controller1 = Controller.None;
+            Debug.Log("1P:None");
+            Debug.Log("1P:" + Input.GetJoystickNames()[0]);
+        }
+        if (Input.GetJoystickNames()[1] == "PC Game Controller       ") {
+            controller2 = Controller.Elecom;
+            Debug.Log("2P:Elecom");
+        }
+        else if (Input.GetJoystickNames()[1] == "Wireless Gamepad") {
+            controller2 = Controller.Joycon;
+            Debug.Log("2P:Joycon");
+        }
+        else {
+            controller2 = Controller.None;
+            Debug.Log("2P:None");
+            Debug.Log("2P:" + Input.GetJoystickNames()[1]);
+        }
+    }
 
+    void Update() {
+        
         //タイトルに戻る
         if (Input.GetKeyDown(KeyCode.F5) || 
             (Input.GetKey(KeyCode.E) && Input.GetKey(KeyCode.N) && Input.GetKey(KeyCode.D))) {
             Init(false);
         }
-
         //強制終了
         if (Input.GetKeyDown(KeyCode.Escape)) {
             Application.Quit();

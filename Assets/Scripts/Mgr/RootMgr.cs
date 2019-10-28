@@ -27,9 +27,8 @@ public class RootMgr : MonoBehaviour {
     void Start() {
         Main.state = Main.State.Root;
         Main.Instance.UICameraSetting();
-        if (Main.Instance.isMultiDisplays) {
-            StartMultiDisplays();
-        }
+        StartMultiDisplays();
+        Main.Instance.CheckGamePad();
         Main.Instance.Init(false);
     }
 
@@ -37,6 +36,10 @@ public class RootMgr : MonoBehaviour {
     void StartMultiDisplays() {
         if (Display.displays.Length > 1) {
             Display.displays[1].Activate();
+            Main.Instance.isMultiDisplays = true;
+        }
+        else {
+            Main.Instance.isMultiDisplays = false;
         }
         Screen.SetResolution(Screen.currentResolution.width, Screen.currentResolution.height, true);
     }

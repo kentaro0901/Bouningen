@@ -268,13 +268,13 @@ public class PlayerController : MonoBehaviour {
         }
         else if (stateInfo.fullPathHash == DownA) {
             if (counter == 0) {
-                StartCoroutine(character.DownAFunc());
+                StartCoroutine(character.DownA());
                 Teach(7);
             }
         }
         else if (stateInfo.fullPathHash == DownA_Air) {
             if (counter == 0) {
-                StartCoroutine(character.DownAFunc());
+                StartCoroutine(character.DownA());
                 Teach(7);
             }
             playerTf.position = new Vector3(playerTf.position.x, playerTf.position.y - (counter * 0.2f) * animator.speed, 0);
@@ -284,7 +284,7 @@ public class PlayerController : MonoBehaviour {
         }
         else if (stateInfo.fullPathHash == DownB) {
             if (counter == 0) {
-                StartCoroutine(character.DownBFunc());
+                StartCoroutine(character.DownB());
                 Teach(8);
             }
             if (counter % 4 == 0 && counter <= 8) {
@@ -415,7 +415,7 @@ public class PlayerController : MonoBehaviour {
         else if (stateInfo.fullPathHash == LimitBreak) {
             if (counter == 0) {
                 isLimitBreak = true;
-                StartCoroutine(character.LimitBreakFunc());
+                StartCoroutine(character.LimitBreak());
                  if (isTeacher && enemyController.isAI) { //入力回数が少ないので別処理
                     enemyController.inputAI.inputValues[11].deltaX[dx] += 10;
                     enemyController.inputAI.inputValues[11].deltaY[dy] += 10;
@@ -424,7 +424,7 @@ public class PlayerController : MonoBehaviour {
         }
         if (stateInfo.fullPathHash != LimitBreak && preStateInfo.fullPathHash == LimitBreak) {
             BattleMgr.Instance.ChangeToneDouble(0.0f, CameraEffect.ToneName.NormalTone);
-            character.LimitBreakEndFunc();
+            character.LimitBreakEnd();
             playerTf.position = new Vector3(playerTf.position.x, 0, playerTf.position.z);
             animator.speed *= 1.2f;
         }
