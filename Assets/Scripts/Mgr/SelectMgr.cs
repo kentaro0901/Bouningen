@@ -35,6 +35,11 @@ public class SelectMgr : MonoBehaviour {
     SelectState selectState1 = SelectState.Loading;
     SelectState selectState2 = SelectState.Loading;
 
+    //入力
+    float[] xAxis = {0.0f, 0.0f};
+    bool[] a = {false, false};
+    bool[] b = {false, false};
+
     [SerializeField] RectTransform Frame1PRTf;
     [SerializeField] RectTransform Frame2PRTf;
     [SerializeField] RectTransform Frame1PS;
@@ -80,12 +85,12 @@ public class SelectMgr : MonoBehaviour {
     [SerializeField] GameObject ready1S;
     [SerializeField] GameObject ready2S;
     [SerializeField] Image sumiCircleS;
-    //[SerializeField] Image sumiCircle2S;
     int readyCount = 0;
 
     void Start() {
         Main.state = Main.State.Select;
         Main.Instance.UICameraSetting();
+        Main.Instance.CheckGamePad();
         if (!Main.Instance.isMultiDisplays) { //シングル用
             Frame1PRTf.transform.parent.gameObject.SetActive(false);
             Frame1PRTf = Frame1PS;
@@ -148,6 +153,34 @@ public class SelectMgr : MonoBehaviour {
 
     void Update() {
 
+        //Input
+        for(int i = 0; i <= 1; i++) {
+            //switch式はunity側でエラーが出る
+            switch (Main.controller[i]) {
+                case Main.Controller.Elecom:
+                    xAxis[i] = Input.GetAxis("DPad_XAxis_" + (i + 1)); break;
+                case Main.Controller.Joycon:
+                    xAxis[i] = (i == 0 ? -1 : 1) * Main.joycon[i].GetStick()[1]; break;
+                default:
+                    xAxis[i] = 0.0f; break;
+            }
+            switch (Main.controller[i]) {
+                case Main.Controller.Elecom:
+                    a[i] = Input.GetButtonDown("ButtonA_" + (i + 1)); break;
+                case Main.Controller.Joycon:
+                    a[i] = Main.joycon[i].GetButtonDown(i == 0 ? Joycon.Button.DPAD_DOWN : Joycon.Button.DPAD_UP); break;
+                default:
+                    a[i] = false; break;
+            }
+            switch (Main.controller[i]) {
+                case Main.Controller.Elecom:
+                    b[i] = Input.GetButtonDown("ButtonB_" + (i + 1)); break;
+                case Main.Controller.Joycon:
+                    b[i] = Main.joycon[i].GetButtonDown(i == 0 ? Joycon.Button.DPAD_LEFT : Joycon.Button.DPAD_RIGHT); break;
+                default:
+                    b[i] = false; break;
+            }
+        }
         //1P
         switch (selectState1) {
             case SelectState.Loading:
@@ -156,29 +189,29 @@ public class SelectMgr : MonoBehaviour {
                 }
                 break;
             case SelectState.Select:
-                if (Input.GetAxis("DPad_XAxis_1") > 0 && isReleseAxis1 && count1 < 3) { //右移動
+                if (xAxis[0] > 0 && isReleseAxis1 && count1 < 3) { //右移動
                     isReleseAxis1 = false;
                     count1++;
                     iTween.MoveBy(Frame1PRTf.gameObject, iTween.Hash("x", Screen.width / 4, "time", 0.2f, "oncomplete", "MoveEnd1", "oncompletetarget", gameObject));
                 }
-                else if (Input.GetAxis("DPad_XAxis_1") < 0 && isReleseAxis1 && -1 < count1) { //左移動
+                else if (xAxis[0] < 0 && isReleseAxis1 && -1 < count1) { //左移動
                     isReleseAxis1 = false;
                     count1--;
                     iTween.MoveBy(Frame1PRTf.gameObject, iTween.Hash("x", -Screen.width / 4, "time", 0.2f, "oncomplete", "MoveEnd1", "oncompletetarget", gameObject));
                 }
-                if(count1 == -1 && isReleseAxis1 && Input.GetButtonDown("ButtonA_1")) { //操作開く
+                if(count1 == -1 && isReleseAxis1 && a[0]) { //操作開く
                     selectState1 = SelectState.Manual;
                     manualCount1 = 0;
                     manualPanel1[0].SetActive(true);
                 }
-                if (count1 == 1 && isReleseAxis1 && Input.GetButtonDown("ButtonA_1")) { //剣
+                if (count1 == 1 && isReleseAxis1 && a[0]) { //剣
                     Main.Instance.chara1P = Main.Chara.Sword;
                     selectState1 = SelectState.Ready;
                     readyPanel1.SetActive(true);
                     readyPanel1.GetComponent<RectTransform>().localScale = readyPanelInitSize1;
                     iTween.ScaleFrom(readyPanel1, iTween.Hash("y", 0, "islocal", true, "time", 0.5f));
                 }
-                if (count1 == 3 && isReleseAxis1 && Input.GetButtonDown("ButtonA_1")) { //設定開く
+                if (count1 == 3 && isReleseAxis1 && a[0]) { //設定開く
                     selectState1 = SelectState.Setting;
                     settingPanel.GetComponent<Canvas>().sortingOrder = 1;
                     Selectable[] sel = settingPanel.GetComponentsInChildren<Selectable>();
@@ -191,7 +224,7 @@ public class SelectMgr : MonoBehaviour {
                 }
                 break;
             case SelectState.Manual:
-                if (Input.GetButtonDown("ButtonA_1")) {
+                if (a[0]) {
                     if(manualCount1 < manualPanel1.Length-1) {
                         manualPanel1[manualCount1].SetActive(false);
                         manualCount1++;
@@ -202,7 +235,7 @@ public class SelectMgr : MonoBehaviour {
                         selectState1 = SelectState.Select;
                     }
                 }
-                if (Input.GetButtonDown("ButtonB_1")) {
+                if (b[0]) {
                     if (0 < manualCount1) {
                         manualPanel1[manualCount1].SetActive(false);
                         manualCount1--;
@@ -215,7 +248,7 @@ public class SelectMgr : MonoBehaviour {
                 }
                 break;
             case SelectState.Setting:
-                if (Input.GetButtonDown("ButtonB_1")) { //設定閉じる
+                if (b[0]) { //設定閉じる
                     Selectable[] sel = settingPanel.GetComponentsInChildren<Selectable>();
                     foreach (Selectable s in sel) {
                         s.interactable = false;
@@ -225,9 +258,8 @@ public class SelectMgr : MonoBehaviour {
                 }
                 break;
             case SelectState.Ready:
-                if (Input.GetButtonDown("ButtonB_1")) { //戻る
+                if (b[0]) { //戻る
                     selectState1 = SelectState.Select;
-                    //readyPanel1.GetComponent<RectTransform>().sizeDelta = readyPanelInitSize1;
                     readyPanel1.SetActive(false);
                 }
                 break;
@@ -241,22 +273,22 @@ public class SelectMgr : MonoBehaviour {
                 }
                 break;
             case SelectState.Select:
-                if (Input.GetAxis("DPad_XAxis_2") > 0 && isReleseAxis2 && count2 < 2) { //右
+                if (xAxis[1] > 0 && isReleseAxis2 && count2 < 2) { //右
                     isReleseAxis2 = false;
                     count2++;
                     iTween.MoveBy(Frame2PRTf.gameObject, iTween.Hash("x", Screen.width / 4, "time", 0.2f, "oncomplete", "MoveEnd2", "oncompletetarget", gameObject));
                 }
-                else if (Input.GetAxis("DPad_XAxis_2") < 0 && isReleseAxis2 && (Main.Instance.isMultiDisplays? -1: 0) < count2) { //左
+                else if (xAxis[1] < 0 && isReleseAxis2 && (Main.Instance.isMultiDisplays? -1: 0) < count2) { //左
                     isReleseAxis2 = false;
                     count2--;
                     iTween.MoveBy(Frame2PRTf.gameObject, iTween.Hash("x", -Screen.width / 4, "time", 0.2f, "oncomplete", "MoveEnd2", "oncompletetarget", gameObject));
                 }
-                if (count2 == -1 && isReleseAxis2 && Input.GetButtonDown("ButtonA_2")) { //操作開く
+                if (count2 == -1 && isReleseAxis2 && a[1]) { //操作開く
                     selectState2 = SelectState.Manual;
                     manualCount2 = 0;
                     manualPanel2[0].SetActive(true);
                 }
-                if (count2 == 1 && isReleseAxis2 && Input.GetButtonDown("ButtonA_2")) { //剣
+                if (count2 == 1 && isReleseAxis2 && a[1]) { //剣
                     Main.Instance.chara2P = Main.Chara.Sword;
                     selectState2 = SelectState.Ready;
                     readyPanel2.SetActive(true);
@@ -265,7 +297,7 @@ public class SelectMgr : MonoBehaviour {
                 }
                 break;
             case SelectState.Manual:
-                if (Input.GetButtonDown("ButtonA_2")) {
+                if (a[1]) {
                     if (manualCount2 < manualPanel2.Length-1) {
                         manualPanel2[manualCount2].SetActive(false);
                         manualCount2++;
@@ -276,7 +308,7 @@ public class SelectMgr : MonoBehaviour {
                         selectState2 = SelectState.Select;
                     }
                 }
-                if (Input.GetButtonDown("ButtonB_2")) {
+                if (b[1]) {
                     if (0 < manualCount2) {
                         manualPanel2[manualCount2].SetActive(false);
                         manualCount2--;
@@ -290,9 +322,8 @@ public class SelectMgr : MonoBehaviour {
                 break;
             case SelectState.Setting: break;
             case SelectState.Ready:
-                if (Input.GetButtonDown("ButtonB_2")) { //戻る
+                if (b[1]) { //戻る
                     selectState2 = SelectState.Select;
-                    //readyPanel2.GetComponent<RectTransform>().sizeDelta = readyPanelInitSize2;
                     readyPanel2.SetActive(false);
                 }
                 break;

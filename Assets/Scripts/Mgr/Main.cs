@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -44,8 +45,10 @@ public class Main : MonoBehaviour {
         Elecom,
         Joycon
     }
-    public Controller controller1 = Controller.None;
-    public Controller controller2 = Controller.None;
+    public static Controller[] controller = new Controller[2];
+    public static List<Joycon> joycons;
+    public static Joycon[] joycon = new Joycon[2];
+    //public static Joycon joyconR;
 
     public enum BattleResult {
         Default,
@@ -137,36 +140,41 @@ public class Main : MonoBehaviour {
 
     //ゲームパッド
     public void CheckGamePad() {
-        //Debug.Log("Num:" + Input.GetJoystickNames().Length);
-        if (Input.GetJoystickNames()[0] == "PC Game Controller       ") {
-            controller1 = Controller.Elecom;
+        joycons = JoyconManager.Instance.j;
+        joycon[0] = joycons.Find(c => c.isLeft); // Joy-Con (L)
+        joycon[1] = joycons.Find(c => !c.isLeft); // Joy-Con (R)
+
+        if (joycons.Any(c => c.isLeft)) {
+            controller[0] = Controller.Joycon;
+            Debug.Log("1P:JoyconL");
+        }
+        else if (Input.GetJoystickNames()[0] == "PC Game Controller       ") {
+            controller[0] = Controller.Elecom;
             Debug.Log("1P:Elecom");
         }
-        else if (Input.GetJoystickNames()[0] == "Wireless Gamepad") {
-            controller1 = Controller.Joycon;
-            Debug.Log("1P:Joycon");
-        }
         else {
-            controller1 = Controller.None;
+            controller[0] = Controller.None;
             Debug.Log("1P:None");
-            Debug.Log("1P:" + Input.GetJoystickNames()[0]);
         }
-        if (Input.GetJoystickNames()[1] == "PC Game Controller       ") {
-            controller2 = Controller.Elecom;
-            Debug.Log("2P:Elecom");
+
+        if (joycons.Any(c => !c.isLeft)) {
+            controller[1] = Controller.Joycon;
+            Debug.Log("2P:JoyconR");
         }
-        else if (Input.GetJoystickNames()[1] == "Wireless Gamepad") {
-            controller2 = Controller.Joycon;
-            Debug.Log("2P:Joycon");
+        else if(1 < Input.GetJoystickNames().Length) {
+            if (Input.GetJoystickNames()[1] == "PC Game Controller       ") {
+                controller[1] = Controller.Elecom;
+                Debug.Log("2P:Elecom");
+            }
         }
         else {
-            controller2 = Controller.None;
+            controller[1] = Controller.None;
             Debug.Log("2P:None");
-            Debug.Log("2P:" + Input.GetJoystickNames()[1]);
         }
     }
 
-    void Update() {
+
+        void Update() {
         
         //タイトルに戻る
         if (Input.GetKeyDown(KeyCode.F5) || 

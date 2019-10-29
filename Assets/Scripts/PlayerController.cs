@@ -101,42 +101,53 @@ public class PlayerController : MonoBehaviour {
     void Update() {
         vector = playerTf.position - prePos;
 
-        //xAxis
+
+        //Input
         if (isAI) {
             xAxis = inputAI.AxisX;
-        }
-        else if (Mathf.Abs(Input.GetAxis("DPad_XAxis_" + (int)playerNum)) > Mathf.Abs(Input.GetAxis("L_XAxis_" + (int)playerNum)) &&
-            Mathf.Abs(Input.GetAxis("DPad_XAxis_" + (int)playerNum)) > Mathf.Abs(Input.GetAxis("R_XAxis_" + (int)playerNum))) {
-            xAxis = Input.GetAxis("DPad_XAxis_" + (int)playerNum);
-        }
-        else if (Mathf.Abs(Input.GetAxis("L_XAxis_" + (int)playerNum)) > Mathf.Abs(Input.GetAxis("R_XAxis_" + (int)playerNum))) {
-            xAxis = Input.GetAxis("L_XAxis_" + (int)playerNum);
-        }
-        else {
-            xAxis = Input.GetAxis("R_XAxis_" + (int)playerNum);
-        }
-        //yAxis
-        if (isAI) {
             yAxis = inputAI.AxisY;
-        }
-        else if (Mathf.Abs(Input.GetAxis("DPad_YAxis_" + (int)playerNum)) > Mathf.Abs(Input.GetAxis("L_YAxis_" + (int)playerNum)) &&
-            Mathf.Abs(Input.GetAxis("DPad_YAxis_" + (int)playerNum)) > Mathf.Abs(Input.GetAxis("R_YAxis_" + (int)playerNum))) {
-            yAxis = Input.GetAxis("DPad_YAxis_" + (int)playerNum);
-        }
-        else if (Mathf.Abs(Input.GetAxis("L_YAxis_" + (int)playerNum)) > Mathf.Abs(Input.GetAxis("R_YAxis_" + (int)playerNum))) {
-            yAxis = Input.GetAxis("L_YAxis_" + (int)playerNum);
+            A = inputAI.A;
+            B = inputAI.B;
+            X = inputAI.X;
+            Y = inputAI.Y;
+            R = inputAI.R;
+            L = inputAI.L;
         }
         else {
-            yAxis = Input.GetAxis("R_YAxis_" + (int)playerNum);
+            switch (Main.controller[(int)(playerNum - 1)]) {
+                case Main.Controller.Elecom:
+                    if (Mathf.Abs(Input.GetAxis("DPad_XAxis_" + (int)playerNum)) > Mathf.Abs(Input.GetAxis("L_XAxis_" + (int)playerNum)) && Mathf.Abs(Input.GetAxis("DPad_XAxis_" + (int)playerNum)) > Mathf.Abs(Input.GetAxis("R_XAxis_" + (int)playerNum))) {
+                        xAxis = Input.GetAxis("DPad_XAxis_" + (int)playerNum);
+                    } else if (Mathf.Abs(Input.GetAxis("L_XAxis_" + (int)playerNum)) > Mathf.Abs(Input.GetAxis("R_XAxis_" + (int)playerNum))) {
+                        xAxis = Input.GetAxis("L_XAxis_" + (int)playerNum);
+                    } else {
+                        xAxis = Input.GetAxis("R_XAxis_" + (int)playerNum);
+                    }
+                    if (Mathf.Abs(Input.GetAxis("DPad_YAxis_" + (int)playerNum)) > Mathf.Abs(Input.GetAxis("L_YAxis_" + (int)playerNum)) && Mathf.Abs(Input.GetAxis("DPad_YAxis_" + (int)playerNum)) > Mathf.Abs(Input.GetAxis("R_YAxis_" + (int)playerNum))) {
+                        yAxis = Input.GetAxis("DPad_YAxis_" + (int)playerNum);
+                    } else if (Mathf.Abs(Input.GetAxis("L_YAxis_" + (int)playerNum)) > Mathf.Abs(Input.GetAxis("R_YAxis_" + (int)playerNum))) {
+                        yAxis = Input.GetAxis("L_YAxis_" + (int)playerNum);
+                    } else {
+                        yAxis = Input.GetAxis("R_YAxis_" + (int)playerNum);
+                    }
+                    A = (Input.GetButton("ButtonA_" + (int)playerNum) || Mathf.Abs(Input.GetAxis("R_XAxis_" + (int)playerNum)) > 0 || Mathf.Abs(Input.GetAxis("R_YAxis_" + (int)playerNum)) > 0);
+                    B = Input.GetButton("ButtonB_" + (int)playerNum);
+                    Y = Input.GetButton("ButtonY_" + (int)playerNum);
+                    X = Input.GetButton("ButtonX_" + (int)playerNum);
+                    R = Input.GetButton("ButtonR_" + (int)playerNum) || Input.GetButton("ButtonZR_" + (int)playerNum);
+                    L = Input.GetButton("ButtonL_" + (int)playerNum) || Input.GetButton("ButtonZL_" + (int)playerNum); break;
+                case Main.Controller.Joycon:
+                    xAxis = (playerNum == PlayerNum.player1 ? -1 : 1) * Main.joycon[(int)(playerNum - 1)].GetStick()[1];
+                    yAxis = (playerNum == PlayerNum.player1 ? 1 : -1) * Main.joycon[(int)(playerNum - 1)].GetStick()[0];
+                    A = Main.joycon[(int)(playerNum - 1)].GetButton(playerNum == PlayerNum.player1 ? Joycon.Button.DPAD_DOWN: Joycon.Button.DPAD_UP);
+                    B = Main.joycon[(int)(playerNum - 1)].GetButton(playerNum == PlayerNum.player1 ? Joycon.Button.DPAD_LEFT : Joycon.Button.DPAD_RIGHT);
+                    X = Main.joycon[(int)(playerNum - 1)].GetButton(playerNum == PlayerNum.player1 ? Joycon.Button.DPAD_RIGHT : Joycon.Button.DPAD_LEFT);
+                    Y = Main.joycon[(int)(playerNum - 1)].GetButton(playerNum == PlayerNum.player1 ? Joycon.Button.DPAD_UP : Joycon.Button.DPAD_DOWN);
+                    R = Main.joycon[(int)(playerNum - 1)].GetButton(Joycon.Button.SR);
+                    L = Main.joycon[(int)(playerNum - 1)].GetButton(Joycon.Button.SL); break;
+                default: break;
+            }
         }
-        A = isAI ? inputAI.A : (Input.GetButton("ButtonA_" + (int)playerNum) ||
-                Mathf.Abs(Input.GetAxis("R_XAxis_" + (int)playerNum)) > 0 ||
-                Mathf.Abs(Input.GetAxis("R_YAxis_" + (int)playerNum)) > 0);
-        B = isAI ? inputAI.B : Input.GetButton("ButtonB_" + (int)playerNum);
-        Y = isAI ? inputAI.Y : Input.GetButton("ButtonY_" + (int)playerNum);
-        X = isAI ? inputAI.X : Input.GetButton("ButtonX_" + (int)playerNum);
-        R = isAI ? inputAI.R : Input.GetButton("ButtonR_" + (int)playerNum) || Input.GetButton("ButtonZR_" + (int)playerNum);
-        L = isAI ? inputAI.L : Input.GetButton("ButtonL_" + (int)playerNum) || Input.GetButton("ButtonZL_" + (int)playerNum);
 
         stateInfo = animator.GetCurrentAnimatorStateInfo(0);
 
