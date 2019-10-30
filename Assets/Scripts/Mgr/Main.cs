@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -17,6 +18,13 @@ public class Main : MonoBehaviour {
             return instance;
         }
     }
+    void Awake() {
+        if (this != Instance) { //２つ目以降のインスタンスは破棄
+            Destroy(this.gameObject);
+            return;
+        }
+        DontDestroyOnLoad(this.gameObject);
+    }
 
     public enum State{
         Root,
@@ -26,13 +34,21 @@ public class Main : MonoBehaviour {
         Result
     }
     public static State state = State.Root;
-
     public enum Chara {
         Sword,
         Fighter
     }
     public Chara chara1P = Chara.Sword;
     public Chara chara2P = Chara.Sword;
+    public enum Controller {
+        None,
+        Elecom,
+        Joycon
+    }
+    public static Controller[] controller = new Controller[2];
+    public static List<Joycon> joycons;
+    public static Joycon[] joycon = new Joycon[2];
+    //public static Joycon joyconR;
 
     public enum BattleResult {
         Default,
@@ -58,12 +74,7 @@ public class Main : MonoBehaviour {
     public float cameraSize = 6.0f;
     public float gameSpeed = 1.0f;
 
-    void Awake() {
-        if (this != Instance) { //２つ目以降のインスタンスは破棄
-            Destroy(this.gameObject);
-            return;
-        }
-        DontDestroyOnLoad(this.gameObject);
+    void Start() {
         mainBgm.clip = mainMusic;
         subBgm.clip = subMusic;
     }
@@ -127,14 +138,49 @@ public class Main : MonoBehaviour {
         }
     }
 
-    void Update() {
+    //ゲームパッド
+    public void CheckGamePad() {
+        joycons = JoyconManager.Instance.j;
+        joycon[0] = joycons.Find(c => c.isLeft); // Joy-Con (L)
+        joycon[1] = joycons.Find(c => !c.isLeft); // Joy-Con (R)
 
+        if (joycons.Any(c => c.isLeft)) {
+            controller[0] = Controller.Joycon;
+            Debug.Log("1P:JoyconL");
+        }
+        else if (Input.GetJoystickNames()[0] == "PC Game Controller       ") {
+            controller[0] = Controller.Elecom;
+            Debug.Log("1P:Elecom");
+        }
+        else {
+            controller[0] = Controller.None;
+            Debug.Log("1P:None");
+        }
+
+        if (joycons.Any(c => !c.isLeft)) {
+            controller[1] = Controller.Joycon;
+            Debug.Log("2P:JoyconR");
+        }
+        else if(1 < Input.GetJoystickNames().Length) {
+            if (Input.GetJoystickNames()[1] == "PC Game Controller       ") {
+                controller[1] = Controller.Elecom;
+                Debug.Log("2P:Elecom");
+            }
+        }
+        else {
+            controller[1] = Controller.None;
+            Debug.Log("2P:None");
+        }
+    }
+
+
+        void Update() {
+        
         //タイトルに戻る
         if (Input.GetKeyDown(KeyCode.F5) || 
             (Input.GetKey(KeyCode.E) && Input.GetKey(KeyCode.N) && Input.GetKey(KeyCode.D))) {
             Init(false);
         }
-
         //強制終了
         if (Input.GetKeyDown(KeyCode.Escape)) {
             Application.Quit();

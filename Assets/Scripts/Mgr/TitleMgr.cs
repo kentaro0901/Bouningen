@@ -29,6 +29,7 @@ public class TitleMgr : MonoBehaviour {
     void Start() {
         Main.state = Main.State.Title;
         Main.Instance.UICameraSetting();
+        Main.Instance.CheckGamePad();
     }
 
     void Update() {
@@ -41,7 +42,10 @@ public class TitleMgr : MonoBehaviour {
             }
             
         }
-        if (Input.GetButtonDown("ButtonA_0") && Main.state == Main.State.Title) {
+        if ((Input.GetButtonDown("ButtonA_0") ||
+            ((Main.controller[0] == Main.Controller.Joycon) ? Main.joycon[0].GetButtonDown(Joycon.Button.DPAD_DOWN) : false) ||
+            ((Main.controller[1] == Main.Controller.Joycon) ? Main.joycon[1].GetButtonDown(Joycon.Button.DPAD_UP) : false)) && 
+            Main.state == Main.State.Title) {
             Main.state = Main.State.Select;
             FadeManager.Instance.LoadScene("Select", 0.5f);
         }

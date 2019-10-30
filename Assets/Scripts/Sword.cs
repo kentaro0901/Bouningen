@@ -6,7 +6,7 @@ public class Sword : Character {
 
     static public float maxhp = 100.0f;
 
-    public override IEnumerator UpB_FallFunc() {
+    public override IEnumerator UpB_Fall() {
         yield return 0;
     }
 }

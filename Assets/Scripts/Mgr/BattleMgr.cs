@@ -79,6 +79,7 @@ public class BattleMgr : MonoBehaviour {
         Main.state = Main.State.Battle;
         Main.battleResult = Main.BattleResult.Battle;
         Main.Instance.BattleCameraSetting();
+        Main.Instance.CheckGamePad();
         camera1Tf = chaseCamera1.transform;
         camera2Tf = chaseCamera2.transform;
         player1Tf = playerController1.playerTf;
@@ -112,7 +113,9 @@ public class BattleMgr : MonoBehaviour {
         AnimeSpeedCountDown();
         if (Main.state == Main.State.Result) {
             counter++;
-            if (Input.GetButtonDown("ButtonA_0") && 60 <= counter) {
+            if ((Input.GetButtonDown("ButtonA_0") ||
+            ((Main.controller[0] == Main.Controller.Joycon) ? Main.joycon[0].GetButtonDown(Joycon.Button.DPAD_DOWN) : false) ||
+            ((Main.controller[1] == Main.Controller.Joycon) ? Main.joycon[1].GetButtonDown(Joycon.Button.DPAD_UP) : false)) && 60 <= counter) {
                 ChangeTimeScale(1.0f, 0);
                 Main.Instance.Init(true);
             }

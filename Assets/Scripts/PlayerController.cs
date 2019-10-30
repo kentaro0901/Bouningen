@@ -101,42 +101,53 @@ public class PlayerController : MonoBehaviour {
     void Update() {
         vector = playerTf.position - prePos;
 
-        //xAxis
+
+        //Input
         if (isAI) {
             xAxis = inputAI.AxisX;
-        }
-        else if (Mathf.Abs(Input.GetAxis("DPad_XAxis_" + (int)playerNum)) > Mathf.Abs(Input.GetAxis("L_XAxis_" + (int)playerNum)) &&
-            Mathf.Abs(Input.GetAxis("DPad_XAxis_" + (int)playerNum)) > Mathf.Abs(Input.GetAxis("R_XAxis_" + (int)playerNum))) {
-            xAxis = Input.GetAxis("DPad_XAxis_" + (int)playerNum);
-        }
-        else if (Mathf.Abs(Input.GetAxis("L_XAxis_" + (int)playerNum)) > Mathf.Abs(Input.GetAxis("R_XAxis_" + (int)playerNum))) {
-            xAxis = Input.GetAxis("L_XAxis_" + (int)playerNum);
-        }
-        else {
-            xAxis = Input.GetAxis("R_XAxis_" + (int)playerNum);
-        }
-        //yAxis
-        if (isAI) {
             yAxis = inputAI.AxisY;
-        }
-        else if (Mathf.Abs(Input.GetAxis("DPad_YAxis_" + (int)playerNum)) > Mathf.Abs(Input.GetAxis("L_YAxis_" + (int)playerNum)) &&
-            Mathf.Abs(Input.GetAxis("DPad_YAxis_" + (int)playerNum)) > Mathf.Abs(Input.GetAxis("R_YAxis_" + (int)playerNum))) {
-            yAxis = Input.GetAxis("DPad_YAxis_" + (int)playerNum);
-        }
-        else if (Mathf.Abs(Input.GetAxis("L_YAxis_" + (int)playerNum)) > Mathf.Abs(Input.GetAxis("R_YAxis_" + (int)playerNum))) {
-            yAxis = Input.GetAxis("L_YAxis_" + (int)playerNum);
+            A = inputAI.A;
+            B = inputAI.B;
+            X = inputAI.X;
+            Y = inputAI.Y;
+            R = inputAI.R;
+            L = inputAI.L;
         }
         else {
-            yAxis = Input.GetAxis("R_YAxis_" + (int)playerNum);
+            switch (Main.controller[(int)(playerNum - 1)]) {
+                case Main.Controller.Elecom:
+                    if (Mathf.Abs(Input.GetAxis("DPad_XAxis_" + (int)playerNum)) > Mathf.Abs(Input.GetAxis("L_XAxis_" + (int)playerNum)) && Mathf.Abs(Input.GetAxis("DPad_XAxis_" + (int)playerNum)) > Mathf.Abs(Input.GetAxis("R_XAxis_" + (int)playerNum))) {
+                        xAxis = Input.GetAxis("DPad_XAxis_" + (int)playerNum);
+                    } else if (Mathf.Abs(Input.GetAxis("L_XAxis_" + (int)playerNum)) > Mathf.Abs(Input.GetAxis("R_XAxis_" + (int)playerNum))) {
+                        xAxis = Input.GetAxis("L_XAxis_" + (int)playerNum);
+                    } else {
+                        xAxis = Input.GetAxis("R_XAxis_" + (int)playerNum);
+                    }
+                    if (Mathf.Abs(Input.GetAxis("DPad_YAxis_" + (int)playerNum)) > Mathf.Abs(Input.GetAxis("L_YAxis_" + (int)playerNum)) && Mathf.Abs(Input.GetAxis("DPad_YAxis_" + (int)playerNum)) > Mathf.Abs(Input.GetAxis("R_YAxis_" + (int)playerNum))) {
+                        yAxis = Input.GetAxis("DPad_YAxis_" + (int)playerNum);
+                    } else if (Mathf.Abs(Input.GetAxis("L_YAxis_" + (int)playerNum)) > Mathf.Abs(Input.GetAxis("R_YAxis_" + (int)playerNum))) {
+                        yAxis = Input.GetAxis("L_YAxis_" + (int)playerNum);
+                    } else {
+                        yAxis = Input.GetAxis("R_YAxis_" + (int)playerNum);
+                    }
+                    A = (Input.GetButton("ButtonA_" + (int)playerNum) || Mathf.Abs(Input.GetAxis("R_XAxis_" + (int)playerNum)) > 0 || Mathf.Abs(Input.GetAxis("R_YAxis_" + (int)playerNum)) > 0);
+                    B = Input.GetButton("ButtonB_" + (int)playerNum);
+                    Y = Input.GetButton("ButtonY_" + (int)playerNum);
+                    X = Input.GetButton("ButtonX_" + (int)playerNum);
+                    R = Input.GetButton("ButtonR_" + (int)playerNum) || Input.GetButton("ButtonZR_" + (int)playerNum);
+                    L = Input.GetButton("ButtonL_" + (int)playerNum) || Input.GetButton("ButtonZL_" + (int)playerNum); break;
+                case Main.Controller.Joycon:
+                    xAxis = (playerNum == PlayerNum.player1 ? -1 : 1) * Main.joycon[(int)(playerNum - 1)].GetStick()[1];
+                    yAxis = (playerNum == PlayerNum.player1 ? 1 : -1) * Main.joycon[(int)(playerNum - 1)].GetStick()[0];
+                    A = Main.joycon[(int)(playerNum - 1)].GetButton(playerNum == PlayerNum.player1 ? Joycon.Button.DPAD_DOWN: Joycon.Button.DPAD_UP);
+                    B = Main.joycon[(int)(playerNum - 1)].GetButton(playerNum == PlayerNum.player1 ? Joycon.Button.DPAD_LEFT : Joycon.Button.DPAD_RIGHT);
+                    X = Main.joycon[(int)(playerNum - 1)].GetButton(playerNum == PlayerNum.player1 ? Joycon.Button.DPAD_RIGHT : Joycon.Button.DPAD_LEFT);
+                    Y = Main.joycon[(int)(playerNum - 1)].GetButton(playerNum == PlayerNum.player1 ? Joycon.Button.DPAD_UP : Joycon.Button.DPAD_DOWN);
+                    R = Main.joycon[(int)(playerNum - 1)].GetButton(Joycon.Button.SR);
+                    L = Main.joycon[(int)(playerNum - 1)].GetButton(Joycon.Button.SL); break;
+                default: break;
+            }
         }
-        A = isAI ? inputAI.A : (Input.GetButton("ButtonA_" + (int)playerNum) ||
-                Mathf.Abs(Input.GetAxis("R_XAxis_" + (int)playerNum)) > 0 ||
-                Mathf.Abs(Input.GetAxis("R_YAxis_" + (int)playerNum)) > 0);
-        B = isAI ? inputAI.B : Input.GetButton("ButtonB_" + (int)playerNum);
-        Y = isAI ? inputAI.Y : Input.GetButton("ButtonY_" + (int)playerNum);
-        X = isAI ? inputAI.X : Input.GetButton("ButtonX_" + (int)playerNum);
-        R = isAI ? inputAI.R : Input.GetButton("ButtonR_" + (int)playerNum) || Input.GetButton("ButtonZR_" + (int)playerNum);
-        L = isAI ? inputAI.L : Input.GetButton("ButtonL_" + (int)playerNum) || Input.GetButton("ButtonZL_" + (int)playerNum);
 
         stateInfo = animator.GetCurrentAnimatorStateInfo(0);
 
@@ -268,13 +279,13 @@ public class PlayerController : MonoBehaviour {
         }
         else if (stateInfo.fullPathHash == DownA) {
             if (counter == 0) {
-                StartCoroutine(character.DownAFunc());
+                StartCoroutine(character.DownA());
                 Teach(7);
             }
         }
         else if (stateInfo.fullPathHash == DownA_Air) {
             if (counter == 0) {
-                StartCoroutine(character.DownAFunc());
+                StartCoroutine(character.DownA());
                 Teach(7);
             }
             playerTf.position = new Vector3(playerTf.position.x, playerTf.position.y - (counter * 0.2f) * animator.speed, 0);
@@ -284,7 +295,7 @@ public class PlayerController : MonoBehaviour {
         }
         else if (stateInfo.fullPathHash == DownB) {
             if (counter == 0) {
-                StartCoroutine(character.DownBFunc());
+                StartCoroutine(character.DownB());
                 Teach(8);
             }
             if (counter % 4 == 0 && counter <= 8) {
@@ -415,7 +426,7 @@ public class PlayerController : MonoBehaviour {
         else if (stateInfo.fullPathHash == LimitBreak) {
             if (counter == 0) {
                 isLimitBreak = true;
-                StartCoroutine(character.LimitBreakFunc());
+                StartCoroutine(character.LimitBreak());
                  if (isTeacher && enemyController.isAI) { //入力回数が少ないので別処理
                     enemyController.inputAI.inputValues[11].deltaX[dx] += 10;
                     enemyController.inputAI.inputValues[11].deltaY[dy] += 10;
@@ -424,7 +435,7 @@ public class PlayerController : MonoBehaviour {
         }
         if (stateInfo.fullPathHash != LimitBreak && preStateInfo.fullPathHash == LimitBreak) {
             BattleMgr.Instance.ChangeToneDouble(0.0f, CameraEffect.ToneName.NormalTone);
-            character.LimitBreakEndFunc();
+            character.LimitBreakEnd();
             playerTf.position = new Vector3(playerTf.position.x, 0, playerTf.position.z);
             animator.speed *= 1.2f;
         }
