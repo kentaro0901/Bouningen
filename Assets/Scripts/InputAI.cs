@@ -140,7 +140,7 @@ public class InputAI : MonoBehaviour {
         streamWriter.WriteLine(firstLine);
         streamWriter.WriteLine(secondLine);
         for (int i = 0; i < dataNum; i++) {
-            streamWriter.Write("1,");
+            streamWriter.Write(inputValues[i].name + ",");
             for (int j = 0; j < xDataNum; j++) {
                 streamWriter.Write("1,");
             }
