@@ -13,6 +13,11 @@ public class Example : MonoBehaviour {
     private Joycon.Button? m_pressedButtonL;
     private Joycon.Button? m_pressedButtonR;
 
+    public float low_freq;
+    public float high_freq;
+    public float amp;
+    public int time;
+
     private void Start() {
         m_joycons = JoyconManager.Instance.j;
 
@@ -40,10 +45,12 @@ public class Example : MonoBehaviour {
         }
 
         if (Input.GetKeyDown(KeyCode.Z)) {
-            m_joyconL.SetRumble(160, 320, 0.6f, 200);
+            //m_joyconL.SetRumble(160, 320, 0.6f, 200);
+            m_joyconL.SetRumble(low_freq, high_freq, amp, time);
         }
         if (Input.GetKeyDown(KeyCode.X)) {
-            m_joyconR.SetRumble(160, 320, 0.6f, 200);
+            //m_joyconR.SetRumble(160, 320, 0.6f, 200);
+            m_joyconR.SetRumble(low_freq, high_freq, amp, time);
         }
     }
 

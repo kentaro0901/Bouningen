@@ -150,6 +150,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05c10ecf67fb38f429327a3b66c76f38, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  low_freq: 160
+  high_freq: 320
+  amp: 0.6
+  time: 200
 --- !u!114 &1028851329
 MonoBehaviour:
   m_ObjectHideFlags: 0

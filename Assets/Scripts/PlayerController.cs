@@ -187,7 +187,12 @@ public class PlayerController : MonoBehaviour {
             if (playerTf.position.y < 0.1f && playerTf.position.y != 0) playerTf.position = new Vector3(playerTf.position.x, 0, 0);
         }
         else if (stateInfo.fullPathHash == Landing) {
-            if (counter == 0) BattleMgr.Instance.VibrateDouble(0.5f, 0.5f);
+            if (counter == 0) {
+                BattleMgr.Instance.VibrateDouble(0.5f, 0.5f);
+                if(Main.controller[(int)playerNum-1] == Main.Controller.Joycon && !isAI) {//
+                    Main.joycon[(int)playerNum - 1].SetRumble(160, 320, 0.3f, 100);
+                }
+            }
         }
         else if (stateInfo.fullPathHash == LightningStart) {
             if (counter == 0) {
