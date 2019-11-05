@@ -151,7 +151,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerNum: 1
   isAI: 0
-  isTeacher: 0
+  isTeacher: 1
   inputAI: {fileID: 0}
   myChara: 0
   swordPref: {fileID: 6487946451456971819, guid: 72729bf2e36f83c4284b0850981aeadf,
@@ -1404,6 +1404,8 @@ GameObject:
   - component: {fileID: 495413258}
   - component: {fileID: 495413257}
   - component: {fileID: 495413260}
+  - component: {fileID: 495413261}
+  - component: {fileID: 495413262}
   m_Layer: 0
   m_Name: nise_Main
   m_TagString: Untagged
@@ -1554,6 +1556,37 @@ AudioListener:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 495413256}
   m_Enabled: 1
+--- !u!114 &495413261
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 495413256}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 959c7470d9fd8ac4abb9854d25bb8516, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  EnableIMU: 1
+  EnableLocalize: 1
+--- !u!114 &495413262
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 495413256}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e73e61c5e0ab7c47926d70adb3f92bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isFading: 0
+  c1TransCircle1: {fileID: 0}
+  c1TransCircle2: {fileID: 0}
+  c2TransCircle1: {fileID: 0}
+  c2TransCircle2: {fileID: 0}
 --- !u!1 &536312954
 GameObject:
   m_ObjectHideFlags: 0

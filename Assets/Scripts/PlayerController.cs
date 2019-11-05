@@ -69,7 +69,7 @@ public class PlayerController : MonoBehaviour {
         //キャラの生成
         switch (myChara) {
             case Main.Chara.Sword:
-                characterIns = Instantiate(swordPref, playerNum == PlayerNum.player1 ? new Vector3(-15,0,0): new Vector3(15,0,0), new Quaternion(0, 0, 0, 0));
+                characterIns = Instantiate(swordPref, playerNum == PlayerNum.player1 ? new Vector3(-20,0,0): new Vector3(20,0,0), new Quaternion(0, 0, 0, 0));
                 character = characterIns.GetComponent<Sword>();
                 maxhp = Sword.maxhp;
                 break;

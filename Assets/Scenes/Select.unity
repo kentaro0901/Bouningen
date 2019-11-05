@@ -7856,6 +7856,7 @@ GameObject:
   - component: {fileID: 1542913054}
   - component: {fileID: 1542913055}
   - component: {fileID: 1542913056}
+  - component: {fileID: 1542913057}
   m_Layer: 0
   m_Name: nise_Main
   m_TagString: Untagged
@@ -7877,8 +7878,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   chara1P: 0
   chara2P: 0
-  controller1: 0
-  controller2: 0
   mainBgm: {fileID: 1542913055}
   subBgm: {fileID: 78854531}
   mainMusic: {fileID: 8300000, guid: 2f1862161086b2c4395ccbd3de12c439, type: 3}
@@ -8025,6 +8024,20 @@ MonoBehaviour:
   c1TransCircle2: {fileID: 0}
   c2TransCircle1: {fileID: 0}
   c2TransCircle2: {fileID: 0}
+--- !u!114 &1542913057
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1542913051}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 959c7470d9fd8ac4abb9854d25bb8516, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  EnableIMU: 1
+  EnableLocalize: 1
 --- !u!1 &1547603374
 GameObject:
   m_ObjectHideFlags: 0

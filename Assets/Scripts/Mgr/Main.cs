@@ -81,10 +81,12 @@ public class Main : MonoBehaviour {
 
     //タイトルへ
     public void Init(bool isFade) {
-        Instance.mainBgm.Stop();
-        Instance.mainBgm.Play();
-        Instance.subBgm.Stop();
-        Instance.subBgm.Play();
+        if (!isFade) {
+            Instance.mainBgm.Stop();
+            Instance.mainBgm.Play();
+            Instance.subBgm.Stop();
+            Instance.subBgm.Play();
+        }
         state = State.Title;
         battleResult = BattleResult.Default;
         if (isFade) {
@@ -148,10 +150,13 @@ public class Main : MonoBehaviour {
             controller[0] = Controller.Joycon;
             Debug.Log("1P:JoyconL");
         }
-        else if (Input.GetJoystickNames()[0] == "PC Game Controller       ") {
-            controller[0] = Controller.Elecom;
-            Debug.Log("1P:Elecom");
+        else if (0 < Input.GetJoystickNames().Length) {
+            if (Input.GetJoystickNames()[0] == "PC Game Controller       ") {
+                controller[0] = Controller.Elecom;
+                Debug.Log("1P:Elecom");
+            }
         }
+ 
         else {
             controller[0] = Controller.None;
             Debug.Log("1P:None");

@@ -76,8 +76,13 @@ public class CameraEffect : MonoBehaviour {
         else if (zoomOutSeconds > 0) {
             zoomInSeconds = 0.0f;
             _camera.orthographicSize = 10;
-            tf.localPosition = iniPos + Vector3.right * (chaseCamera.isLeft? -1:1)* (Main.Instance.isMultiDisplays? 1: 0.5f) * 
-                (_camera.orthographicSize -  Main.Instance.cameraSize) * ((float)Screen.width / Screen.height);
+            if (ChaseCamera.isNear) {
+                tf.localPosition = iniPos + Vector3.right * (chaseCamera.isLeft ? -1 : 1) * (Main.Instance.isMultiDisplays ? 1 : 0.5f) * (_camera.orthographicSize - Main.Instance.cameraSize) * ((float)Screen.width / Screen.height);
+            }
+            else {
+                tf.localPosition = iniPos;
+            }
+
             zoomOutSeconds -= Time.unscaledDeltaTime;
         }
         else {
