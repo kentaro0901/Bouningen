@@ -37,6 +37,7 @@ public class InputAI : InputMethod {
     public InputValue total;
 
     void Start() {
+        filename = controller.AIFileName;
         inputValues = new InputValue[dataNum];
         total = new InputValue();
         for (int i= 0; i < dataNum; i++) {

@@ -24,7 +24,7 @@ public class HitBox : MonoBehaviour {
             HitBox hitBox = collision.gameObject.GetComponent<HitBox>();
             character.playerController.isResistance = true;
             Vector2 v = new Vector2(character.playerController.animator.GetBool("isRight") ? vector.x : -vector.x, vector.y);
-            collision.gameObject.GetComponent<HitBox>().character.Resistance(v, attack);
+            collision.gameObject.GetComponent<HitBox>().character.StartResistance(v, attack);
         }
     }
 }
