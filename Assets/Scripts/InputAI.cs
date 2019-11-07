@@ -3,17 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class InputAI : MonoBehaviour {
-
-    PlayerController controller;
-    public float AxisX = 0.0f;
-    public float AxisY = 0.0f;
-    public bool A = false;
-    public bool B = false;
-    public bool X = false;//
-    public bool Y = false;//
-    public bool R = false;
-    public bool L = false;
+public class InputAI : InputMethod {
 
     string filename = "TestAI02";
     string firstLine = "";
@@ -43,17 +33,16 @@ public class InputAI : MonoBehaviour {
             deltaY = y;
         }
     }
-    public InputValue[] inputValues = new InputValue[dataNum];
-    public InputValue total = new InputValue();
+    public InputValue[] inputValues ;
+    public InputValue total;
 
-    void Awake() {
-        controller = gameObject.GetComponent<PlayerController>();
+    void Start() {
+        inputValues = new InputValue[dataNum];
+        total = new InputValue();
         for (int i= 0; i < dataNum; i++) {
             inputValues[i] = new InputValue();
         }
         LoadCSV();
-        //InitCSV();
-        //LoadCSV();
     }
     void Update() {
         AIDesition();
@@ -77,8 +66,8 @@ public class InputAI : MonoBehaviour {
             }
         }
 
-        AxisX = inputValues[desition].axisX * (controller.playerTf.position.x < controller.enemyTf.position.x ? 1: -1);
-        AxisY = inputValues[desition].axisY;
+        xAxis = inputValues[desition].axisX * (controller.playerTf.position.x < controller.enemyTf.position.x ? 1: -1);
+        yAxis = inputValues[desition].axisY;
         A =  0 < inputValues[desition].a;
         B = 0 < inputValues[desition].b;
         R = 0 < inputValues[desition].r;

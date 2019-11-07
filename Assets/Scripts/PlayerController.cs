@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using static AnimState;
+using static InputMethod;
 
 public class PlayerController : MonoBehaviour {
 
@@ -18,6 +19,7 @@ public class PlayerController : MonoBehaviour {
     int dx;
     int dy;
     public InputAI inputAI;
+    public InputMethod input;
     public Main.Chara myChara = Main.Chara.Sword;
     [SerializeField] GameObject swordPref;
     [SerializeField] GameObject fighterPref;
@@ -46,14 +48,6 @@ public class PlayerController : MonoBehaviour {
     static float airspeed = 0.25f; 
     static float vectorspeed = 3.0f;
 
-    float xAxis = 0.0f;
-    float yAxis = 0.0f;
-    bool A = false;
-    bool B = false;
-    bool X = false;
-    bool Y = false;
-    bool L = false;
-    bool R = false;
     Vector3 prePos;
     Vector2 vector;
     public Vector3 damageVector = Vector3.zero;
@@ -95,59 +89,19 @@ public class PlayerController : MonoBehaviour {
         animator.speed = Main.Instance.gameSpeed;
         if (isAI) {
             inputAI = gameObject.AddComponent<InputAI>();
+            input = gameObject.AddComponent<InputAI>();
+        }
+        else {
+            switch (Main.controller[(int)(playerNum - 1)]) {
+                case Main.Controller.Elecom: input = gameObject.AddComponent<InputGamePad>(); break;
+                case Main.Controller.Joycon:  input = gameObject.AddComponent<InputJoycon>(); break;
+                default: input = gameObject.AddComponent<InputGamePad>(); break;
+            }
         }
     }
 
     void Update() {
         vector = playerTf.position - prePos;
-
-
-        //Input
-        if (isAI) {
-            xAxis = inputAI.AxisX;
-            yAxis = inputAI.AxisY;
-            A = inputAI.A;
-            B = inputAI.B;
-            X = inputAI.X;
-            Y = inputAI.Y;
-            R = inputAI.R;
-            L = inputAI.L;
-        }
-        else {
-            switch (Main.controller[(int)(playerNum - 1)]) {
-                case Main.Controller.Elecom:
-                    if (Mathf.Abs(Input.GetAxis("DPad_XAxis_" + (int)playerNum)) > Mathf.Abs(Input.GetAxis("L_XAxis_" + (int)playerNum)) && Mathf.Abs(Input.GetAxis("DPad_XAxis_" + (int)playerNum)) > Mathf.Abs(Input.GetAxis("R_XAxis_" + (int)playerNum))) {
-                        xAxis = Input.GetAxis("DPad_XAxis_" + (int)playerNum);
-                    } else if (Mathf.Abs(Input.GetAxis("L_XAxis_" + (int)playerNum)) > Mathf.Abs(Input.GetAxis("R_XAxis_" + (int)playerNum))) {
-                        xAxis = Input.GetAxis("L_XAxis_" + (int)playerNum);
-                    } else {
-                        xAxis = Input.GetAxis("R_XAxis_" + (int)playerNum);
-                    }
-                    if (Mathf.Abs(Input.GetAxis("DPad_YAxis_" + (int)playerNum)) > Mathf.Abs(Input.GetAxis("L_YAxis_" + (int)playerNum)) && Mathf.Abs(Input.GetAxis("DPad_YAxis_" + (int)playerNum)) > Mathf.Abs(Input.GetAxis("R_YAxis_" + (int)playerNum))) {
-                        yAxis = Input.GetAxis("DPad_YAxis_" + (int)playerNum);
-                    } else if (Mathf.Abs(Input.GetAxis("L_YAxis_" + (int)playerNum)) > Mathf.Abs(Input.GetAxis("R_YAxis_" + (int)playerNum))) {
-                        yAxis = Input.GetAxis("L_YAxis_" + (int)playerNum);
-                    } else {
-                        yAxis = Input.GetAxis("R_YAxis_" + (int)playerNum);
-                    }
-                    A = (Input.GetButton("ButtonA_" + (int)playerNum) || Mathf.Abs(Input.GetAxis("R_XAxis_" + (int)playerNum)) > 0 || Mathf.Abs(Input.GetAxis("R_YAxis_" + (int)playerNum)) > 0);
-                    B = Input.GetButton("ButtonB_" + (int)playerNum);
-                    Y = Input.GetButton("ButtonY_" + (int)playerNum);
-                    X = Input.GetButton("ButtonX_" + (int)playerNum);
-                    R = Input.GetButton("ButtonR_" + (int)playerNum) || Input.GetButton("ButtonZR_" + (int)playerNum);
-                    L = Input.GetButton("ButtonL_" + (int)playerNum) || Input.GetButton("ButtonZL_" + (int)playerNum); break;
-                case Main.Controller.Joycon:
-                    xAxis = (playerNum == PlayerNum.player1 ? -1 : 1) * Main.joycon[(int)(playerNum - 1)].GetStick()[1];
-                    yAxis = (playerNum == PlayerNum.player1 ? 1 : -1) * Main.joycon[(int)(playerNum - 1)].GetStick()[0];
-                    A = Main.joycon[(int)(playerNum - 1)].GetButton(playerNum == PlayerNum.player1 ? Joycon.Button.DPAD_DOWN: Joycon.Button.DPAD_UP);
-                    B = Main.joycon[(int)(playerNum - 1)].GetButton(playerNum == PlayerNum.player1 ? Joycon.Button.DPAD_LEFT : Joycon.Button.DPAD_RIGHT);
-                    X = Main.joycon[(int)(playerNum - 1)].GetButton(playerNum == PlayerNum.player1 ? Joycon.Button.DPAD_RIGHT : Joycon.Button.DPAD_LEFT);
-                    Y = Main.joycon[(int)(playerNum - 1)].GetButton(playerNum == PlayerNum.player1 ? Joycon.Button.DPAD_UP : Joycon.Button.DPAD_DOWN);
-                    R = Main.joycon[(int)(playerNum - 1)].GetButton(Joycon.Button.SR);
-                    L = Main.joycon[(int)(playerNum - 1)].GetButton(Joycon.Button.SL); break;
-                default: break;
-            }
-        }
 
         stateInfo = animator.GetCurrentAnimatorStateInfo(0);
 
@@ -176,7 +130,7 @@ public class PlayerController : MonoBehaviour {
             }
         }
         else if (stateInfo.fullPathHash == Dash) {
-            playerTf.position += Vector3.right * dashspeed * xAxis * animator.speed;
+            playerTf.position += Vector3.right * dashspeed * input.xAxis * animator.speed;
             Teach(0);
         }
         else if (stateInfo.fullPathHash == JumpStart) {
@@ -212,10 +166,10 @@ public class PlayerController : MonoBehaviour {
                 playerTf.localScale = enemyTf.position.x > playerTf.position.x ? Vector3.one : new Vector3(-1, 1, 1);
                 lightningPos = 5 * (enemyTf.position.x > playerTf.position.x ? Vector3.left : Vector3.right);
                 Vector3 ofs = Vector3.zero;
-                if (xAxis > 0) ofs = 1 * Vector3.right;
-                else if (xAxis < 0) ofs = 1 * Vector3.left;
-                if (yAxis > 0) ofs = 5 * Vector3.up;
-                else if (yAxis < 0) ofs = 5 * Vector3.down;
+                if (input.xAxis > 0) ofs = 1 * Vector3.right;
+                else if (input.xAxis < 0) ofs = 1 * Vector3.left;
+                if (input.yAxis > 0) ofs = 5 * Vector3.up;
+                else if (input.yAxis < 0) ofs = 5 * Vector3.down;
                 playerTf.position += (enemyTf.position + lightningPos + ofs - playerTf.position) / (counter == 5 ? 1:2);            
             }
             else playerTf.position += new Vector3(enemyController.damageVector.x, 0, 0);
@@ -450,7 +404,7 @@ public class PlayerController : MonoBehaviour {
             stateInfo.fullPathHash == SideA_Air_R ||
             stateInfo.fullPathHash == NutralA_Air_R) {
             if (counter == 0 && playerNum == PlayerNum.player1)  BattleMgr.Instance.StartResistance();
-            if (A || B) {
+            if (input.A || input.B) {
                 if (playerNum == PlayerNum.player1) BattleMgr.Instance.resistCounter1P++;
                 if (playerNum == PlayerNum.player2) BattleMgr.Instance.resistCounter2P++;
             }
@@ -525,7 +479,7 @@ public class PlayerController : MonoBehaviour {
             stateInfo.fullPathHash == Fall ||
             stateInfo.fullPathHash == CriticalFall ||
             stateInfo.fullPathHash == UpB_Fall) {
-            if (0 < playerTf.position.y) playerTf.position += Vector3.right * (vectorspeed * vector.x + airspeed * xAxis) * animator.speed;
+            if (0 < playerTf.position.y) playerTf.position += Vector3.right * (vectorspeed * vector.x + airspeed * input.xAxis) * animator.speed;
         }
 
         //反転
@@ -543,22 +497,22 @@ public class PlayerController : MonoBehaviour {
             stateInfo.fullPathHash == ShortJump ||
             stateInfo.fullPathHash == JumpEnd ||
             stateInfo.fullPathHash == Fall ) {
-            if (xAxis > 0) playerTf.localScale = new Vector3(1, 1, 1);
-            if (xAxis < 0) playerTf.localScale = new Vector3(-1, 1, 1);
+            if (input.xAxis > 0) playerTf.localScale = new Vector3(1, 1, 1);
+            if (input.xAxis < 0) playerTf.localScale = new Vector3(-1, 1, 1);
         }
 
         if (Main.battleResult == Main.BattleResult.Battle) {
-            animator.SetBool(UpArrow, yAxis > 0);
-            animator.SetBool(RightArrow, xAxis > 0);
-            animator.SetBool(LeftArrow, xAxis < 0);
-            animator.SetBool(DownArrow, yAxis < 0);
+            animator.SetBool(UpArrow, input.yAxis > 0);
+            animator.SetBool(RightArrow, input.xAxis > 0);
+            animator.SetBool(LeftArrow, input.xAxis < 0);
+            animator.SetBool(DownArrow, input.yAxis < 0);
 
-            animator.SetBool(ButtonA, A);
-            animator.SetBool(ButtonB, B);
-            animator.SetBool(ButtonY, Y);
-            animator.SetBool(ButtonX, X);
-            animator.SetBool(ButtonR, R);
-            animator.SetBool(ButtonL, L);
+            animator.SetBool(ButtonA, input.A);
+            animator.SetBool(ButtonB, input.B);
+            animator.SetBool(ButtonY, input.Y);
+            animator.SetBool(ButtonX, input.X);
+            animator.SetBool(ButtonR, input.R);
+            animator.SetBool(ButtonL, input.L);
         }
         else { //バトル中でないならすべてのパッド入力を無効にする
             animator.SetBool(UpArrow, false);
