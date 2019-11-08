@@ -55,6 +55,7 @@ public class BattleMgr : MonoBehaviour {
     [SerializeField] GameObject[] GrandPref;
     [SerializeField] GameObject VFXPref;
     [SerializeField] GameObject[] CrackPref;
+    [SerializeField] GameObject[] HibiPref;
 
     public int resistCounter1P = 0;
     public int resistCounter2P = 0;
@@ -262,6 +263,9 @@ public class BattleMgr : MonoBehaviour {
             Random.Range(-Screen.height / 4, Screen.height / 4), 0);
         r.localRotation = Quaternion.Euler(0, 0, Random.Range(-30, 30));
         return r.gameObject;
+    }
+    public void CreateHibi(Vector3 position ) {
+        Instantiate(HibiPref[Random.Range(0, HibiPref.Length)], position, Quaternion.identity);
     }
     public void BattleEnd() {
         if(playerController1.hp <= 0 && playerController2.hp > 0) {

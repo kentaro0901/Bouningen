@@ -28,7 +28,7 @@ public class RootMgr : MonoBehaviour {
         Main.state = Main.State.Root;
         Main.Instance.UICameraSetting();
         StartMultiDisplays();
-        Main.Instance.CheckGamePad();
+        //Main.Instance.CheckGamePad();
         Main.Instance.Init(false);
     }
 

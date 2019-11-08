@@ -42,14 +42,20 @@ public class Main : MonoBehaviour {
     public Chara chara2P = Chara.Sword;
     public enum Controller {
         None,
-        Elecom,
+        GamePad,
         Joycon
     }
     public static Controller[] controller = new Controller[2];
     public static List<Joycon> joycons;
     public static Joycon[] joycon = new Joycon[2];
-    //public static Joycon joyconR;
-
+    public bool isSwapController = false;
+    public enum PlayerType {
+        None,
+        Player,
+        AI,
+        Online
+    }
+    public PlayerType[] playerType = new PlayerType[2];
     public enum BattleResult {
         Default,
         Battle,
@@ -77,6 +83,7 @@ public class Main : MonoBehaviour {
     void Start() {
         mainBgm.clip = mainMusic;
         subBgm.clip = subMusic;
+        CheckGamePad();
     }
 
     //タイトルへ
@@ -145,6 +152,10 @@ public class Main : MonoBehaviour {
         joycons = JoyconManager.Instance.j;
         joycon[0] = joycons.Find(c => c.isLeft); // Joy-Con (L)
         joycon[1] = joycons.Find(c => !c.isLeft); // Joy-Con (R)
+        controller[0] = Controller.None;
+        controller[1] = Controller.None;
+        playerType[0] = PlayerType.Player;
+        playerType[1] = PlayerType.Player;
 
         if (joycons.Any(c => c.isLeft)) {
             controller[0] = Controller.Joycon;
@@ -152,13 +163,12 @@ public class Main : MonoBehaviour {
         }
         else if (0 < Input.GetJoystickNames().Length) {
             if (Input.GetJoystickNames()[0] == "PC Game Controller       ") {
-                controller[0] = Controller.Elecom;
-                Debug.Log("1P:Elecom");
+                controller[0] = Controller.GamePad;
+                Debug.Log("1P:GamePad");
             }
+            else Debug.Log("1P:None");
         }
- 
         else {
-            controller[0] = Controller.None;
             Debug.Log("1P:None");
         }
 
@@ -168,13 +178,22 @@ public class Main : MonoBehaviour {
         }
         else if(1 < Input.GetJoystickNames().Length) {
             if (Input.GetJoystickNames()[1] == "PC Game Controller       ") {
-                controller[1] = Controller.Elecom;
-                Debug.Log("2P:Elecom");
+                controller[1] = Controller.GamePad;
+                Debug.Log("2P:GamePad");
             }
+            else Debug.Log("2P:None");
         }
         else {
-            controller[1] = Controller.None;
+            playerType[0] = PlayerType.AI;
             Debug.Log("2P:None");
+        }
+        //スワップ
+        if (controller[0] == Controller.None && controller[1] != Controller.None) {
+            isSwapController = true;
+            controller[0] = controller[1];
+            controller[1] = Controller.None;
+            playerType[1] = PlayerType.AI;
+            Debug.Log("Controller swapped");
         }
     }
 

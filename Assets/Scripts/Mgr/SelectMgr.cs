@@ -39,6 +39,7 @@ public class SelectMgr : MonoBehaviour {
     float[] xAxis = {0.0f, 0.0f};
     bool[] a = {false, false};
     bool[] b = {false, false};
+    bool[] x = { false, false };
 
     [SerializeField] RectTransform Frame1PRTf;
     [SerializeField] RectTransform Frame2PRTf;
@@ -87,10 +88,13 @@ public class SelectMgr : MonoBehaviour {
     [SerializeField] Image sumiCircleS;
     int readyCount = 0;
 
+    [SerializeField] Material red;
+    [SerializeField] Material blue;
+    [SerializeField] Material gray;
+
     void Start() {
         Main.state = Main.State.Select;
         Main.Instance.UICameraSetting();
-        //Main.Instance.CheckGamePad();
         if (!Main.Instance.isMultiDisplays) { //シングル用
             Frame1PRTf.transform.parent.gameObject.SetActive(false);
             Frame1PRTf = Frame1PS;
@@ -100,13 +104,18 @@ public class SelectMgr : MonoBehaviour {
             readyPanel1 = ready1S;
             readyPanel2 = ready2S;
             sumiCircle1 = sumiCircleS;
-            //sumiCircle2 = sumiCircle2S;
         }
         else {
             Frame1PS.transform.parent.gameObject.SetActive(false);
             ready1S.SetActive(false);
             ready2S.SetActive(false);
         }
+
+        if(Main.Instance.playerType[1] == Main.PlayerType.AI) {//2P
+            Frame2PRTf.gameObject.GetComponent<Image>().material = gray;
+            readyPanel2.gameObject.GetComponent<Image>().material = gray;
+        }
+
         Frame1PRTf.sizeDelta = new Vector2(Screen.width / 2, Frame1PRTf.sizeDelta.y);
         Frame1PRTf.GetChild(0).GetComponent<RectTransform>().sizeDelta = new Vector2(Screen.width / 2, Frame1PRTf.sizeDelta.y);
         Frame2PRTf.sizeDelta = new Vector2(Screen.width / 2, Frame2PRTf.sizeDelta.y);
@@ -155,114 +164,29 @@ public class SelectMgr : MonoBehaviour {
 
         //Input
         for(int i = 0; i <= 1; i++) {
-            //switch式はunity側でエラーが出る
+            if (Main.controller[i] == Main.Controller.None) break;
+            int n = 0;
+            if (Main.Instance.isSwapController) n =1;
             switch (Main.controller[i]) {
-                case Main.Controller.Elecom:
-                    xAxis[i] = Input.GetAxis("DPad_XAxis_" + (i + 1)); break;
+                case Main.Controller.GamePad:
+                    xAxis[i] = Input.GetAxis("DPad_XAxis_" + (i + 1 + n));
+                    a[i] = Input.GetButtonDown("ButtonA_" + (i + 1 + n));
+                    b[i] = Input.GetButtonDown("ButtonB_" + (i + 1 + n));
+                    x[i] = Input.GetButtonDown("ButtonX_" + (i + 1 + n));
+                    break;
                 case Main.Controller.Joycon:
-                    xAxis[i] = (i == 0 ? -1 : 1) * Main.joycon[i].GetStick()[1]; break;
+                    xAxis[i] = (i + n == 0 ? -1 : 1) * Main.joycon[i + n].GetStick()[1];
+                    a[i] = Main.joycon[i + n].GetButtonDown(i + n == 0 ? Joycon.Button.DPAD_DOWN : Joycon.Button.DPAD_UP);
+                    b[i] = Main.joycon[i + n].GetButtonDown(i + n == 0 ? Joycon.Button.DPAD_LEFT : Joycon.Button.DPAD_RIGHT);
+                    x[i] = Main.joycon[i + n].GetButtonDown(i + n == 0 ? Joycon.Button.DPAD_RIGHT : Joycon.Button.DPAD_LEFT);
+                    break;
                 default:
-                    xAxis[i] = 0.0f; break;
+                    xAxis[i] = 0.0f;
+                    a[i] = false;
+                    b[i] = false;
+                    x[i] = false;
+                    break;
             }
-            switch (Main.controller[i]) {
-                case Main.Controller.Elecom:
-                    a[i] = Input.GetButtonDown("ButtonA_" + (i + 1)); break;
-                case Main.Controller.Joycon:
-                    a[i] = Main.joycon[i].GetButtonDown(i == 0 ? Joycon.Button.DPAD_DOWN : Joycon.Button.DPAD_UP); break;
-                default:
-                    a[i] = false; break;
-            }
-            switch (Main.controller[i]) {
-                case Main.Controller.Elecom:
-                    b[i] = Input.GetButtonDown("ButtonB_" + (i + 1)); break;
-                case Main.Controller.Joycon:
-                    b[i] = Main.joycon[i].GetButtonDown(i == 0 ? Joycon.Button.DPAD_LEFT : Joycon.Button.DPAD_RIGHT); break;
-                default:
-                    b[i] = false; break;
-            }
-        }
-        //1P
-        switch (selectState1) {
-            case SelectState.Loading:
-                if (!FadeManager.Instance.isFading) {
-                    selectState1 = SelectState.Select;
-                }
-                break;
-            case SelectState.Select:
-                if (xAxis[0] > 0 && isReleseAxis1 && count1 < 3) { //右移動
-                    isReleseAxis1 = false;
-                    count1++;
-                    iTween.MoveBy(Frame1PRTf.gameObject, iTween.Hash("x", Screen.width / 4, "time", 0.2f, "oncomplete", "MoveEnd1", "oncompletetarget", gameObject));
-                }
-                else if (xAxis[0] < 0 && isReleseAxis1 && -1 < count1) { //左移動
-                    isReleseAxis1 = false;
-                    count1--;
-                    iTween.MoveBy(Frame1PRTf.gameObject, iTween.Hash("x", -Screen.width / 4, "time", 0.2f, "oncomplete", "MoveEnd1", "oncompletetarget", gameObject));
-                }
-                if(count1 == -1 && isReleseAxis1 && a[0]) { //操作開く
-                    selectState1 = SelectState.Manual;
-                    manualCount1 = 0;
-                    manualPanel1[0].SetActive(true);
-                }
-                if (count1 == 1 && isReleseAxis1 && a[0]) { //剣
-                    Main.Instance.chara1P = Main.Chara.Sword;
-                    selectState1 = SelectState.Ready;
-                    readyPanel1.SetActive(true);
-                    readyPanel1.GetComponent<RectTransform>().localScale = readyPanelInitSize1;
-                    iTween.ScaleFrom(readyPanel1, iTween.Hash("y", 0, "islocal", true, "time", 0.5f));
-                }
-                if (count1 == 3 && isReleseAxis1 && a[0]) { //設定開く
-                    selectState1 = SelectState.Setting;
-                    settingPanel.GetComponent<Canvas>().sortingOrder = 1;
-                    Selectable[] sel = settingPanel.GetComponentsInChildren<Selectable>();
-                    foreach (Selectable s in sel) {
-                        s.interactable = true;
-                    }
-                    settingPanel.transform.GetChild(0).GetChild(0).GetChild(1).gameObject.GetComponent<Toggle>().interactable = false;
-                    settingPanel.transform.GetChild(0).GetChild(0).GetChild(2).gameObject.GetComponent<Toggle>().interactable = false;
-                    settingPanel.transform.GetChild(0).GetChild(1).GetChild(1).gameObject.GetComponent<Toggle>().Select();//初期
-                }
-                break;
-            case SelectState.Manual:
-                if (a[0]) {
-                    if(manualCount1 < manualPanel1.Length-1) {
-                        manualPanel1[manualCount1].SetActive(false);
-                        manualCount1++;
-                        manualPanel1[manualCount1].SetActive(true);
-                    }
-                    else {
-                        manualPanel1[manualCount1].SetActive(false);
-                        selectState1 = SelectState.Select;
-                    }
-                }
-                if (b[0]) {
-                    if (0 < manualCount1) {
-                        manualPanel1[manualCount1].SetActive(false);
-                        manualCount1--;
-                        manualPanel1[manualCount1].SetActive(true);
-                    }
-                    else {
-                        manualPanel1[0].SetActive(false);
-                        selectState1 = SelectState.Select;
-                    }
-                }
-                break;
-            case SelectState.Setting:
-                if (b[0]) { //設定閉じる
-                    Selectable[] sel = settingPanel.GetComponentsInChildren<Selectable>();
-                    foreach (Selectable s in sel) {
-                        s.interactable = false;
-                    }
-                    settingPanel.GetComponent<Canvas>().sortingOrder = -1;
-                    selectState1 = SelectState.Select;
-                }
-                break;
-            case SelectState.Ready:
-                if (b[0]) { //戻る
-                    selectState1 = SelectState.Select;
-                    readyPanel1.SetActive(false);
-                }
-                break;
         }
 
         //2P
@@ -273,12 +197,13 @@ public class SelectMgr : MonoBehaviour {
                 }
                 break;
             case SelectState.Select:
-                if (xAxis[1] > 0 && isReleseAxis2 && count2 < 2) { //右
+                if (x[1] ||(Main.controller[1] == Main.Controller.None && selectState1 == SelectState.Ready && x[0])) ChangePlayerType(1);
+                if ((xAxis[1] > 0 || (Main.controller[1] == Main.Controller.None && selectState1 == SelectState.Ready && xAxis[0] > 0)) && isReleseAxis2 && count2 < 2) { //右
                     isReleseAxis2 = false;
                     count2++;
                     iTween.MoveBy(Frame2PRTf.gameObject, iTween.Hash("x", Screen.width / 4, "time", 0.2f, "oncomplete", "MoveEnd2", "oncompletetarget", gameObject));
                 }
-                else if (xAxis[1] < 0 && isReleseAxis2 && (Main.Instance.isMultiDisplays? -1: 0) < count2) { //左
+                else if ((xAxis[1] < 0 || (Main.controller[1] == Main.Controller.None && selectState1 == SelectState.Ready && xAxis[0] < 0)) && isReleseAxis2 && (Main.Instance.isMultiDisplays? -1: 0) < count2) { //左
                     isReleseAxis2 = false;
                     count2--;
                     iTween.MoveBy(Frame2PRTf.gameObject, iTween.Hash("x", -Screen.width / 4, "time", 0.2f, "oncomplete", "MoveEnd2", "oncompletetarget", gameObject));
@@ -288,7 +213,7 @@ public class SelectMgr : MonoBehaviour {
                     manualCount2 = 0;
                     manualPanel2[0].SetActive(true);
                 }
-                if (count2 == 1 && isReleseAxis2 && a[1]) { //剣
+                if (count2 == 1 && isReleseAxis2 && (a[1]|| (Main.controller[1] == Main.Controller.None && selectState1 == SelectState.Ready && a[0]))) { //剣
                     Main.Instance.chara2P = Main.Chara.Sword;
                     selectState2 = SelectState.Ready;
                     readyPanel2.SetActive(true);
@@ -329,7 +254,93 @@ public class SelectMgr : MonoBehaviour {
                 break;
         }
 
-        if(selectState1 == SelectState.Ready && selectState2 == SelectState.Ready) {
+        //1P
+        switch (selectState1) {
+            case SelectState.Loading:
+                if (!FadeManager.Instance.isFading) {
+                    selectState1 = SelectState.Select;
+                }
+                break;
+            case SelectState.Select:
+                if (x[0])
+                    ChangePlayerType(0);
+                if (xAxis[0] > 0 && isReleseAxis1 && count1 < 3) { //右移動
+                    isReleseAxis1 = false;
+                    count1++;
+                    iTween.MoveBy(Frame1PRTf.gameObject, iTween.Hash("x", Screen.width / 4, "time", 0.2f, "oncomplete", "MoveEnd1", "oncompletetarget", gameObject));
+                }
+                else if (xAxis[0] < 0 && isReleseAxis1 && -1 < count1) { //左移動
+                    isReleseAxis1 = false;
+                    count1--;
+                    iTween.MoveBy(Frame1PRTf.gameObject, iTween.Hash("x", -Screen.width / 4, "time", 0.2f, "oncomplete", "MoveEnd1", "oncompletetarget", gameObject));
+                }
+                if (count1 == -1 && isReleseAxis1 && a[0]) { //操作開く
+                    selectState1 = SelectState.Manual;
+                    manualCount1 = 0;
+                    manualPanel1[0].SetActive(true);
+                }
+                if (count1 == 1 && isReleseAxis1 && a[0]) { //剣
+                    Main.Instance.chara1P = Main.Chara.Sword;
+                    selectState1 = SelectState.Ready;
+                    readyPanel1.SetActive(true);
+                    readyPanel1.GetComponent<RectTransform>().localScale = readyPanelInitSize1;
+                    iTween.ScaleFrom(readyPanel1, iTween.Hash("y", 0, "islocal", true, "time", 0.5f));
+                }
+                if (count1 == 3 && isReleseAxis1 && a[0]) { //設定開く
+                    selectState1 = SelectState.Setting;
+                    settingPanel.GetComponent<Canvas>().sortingOrder = 1;
+                    Selectable[] sel = settingPanel.GetComponentsInChildren<Selectable>();
+                    foreach (Selectable s in sel) {
+                        s.interactable = true;
+                    }
+                    settingPanel.transform.GetChild(0).GetChild(0).GetChild(1).gameObject.GetComponent<Toggle>().interactable = false;
+                    settingPanel.transform.GetChild(0).GetChild(0).GetChild(2).gameObject.GetComponent<Toggle>().interactable = false;
+                    settingPanel.transform.GetChild(0).GetChild(1).GetChild(1).gameObject.GetComponent<Toggle>().Select();//初期
+                }
+                break;
+            case SelectState.Manual:
+                if (a[0]) {
+                    if (manualCount1 < manualPanel1.Length - 1) {
+                        manualPanel1[manualCount1].SetActive(false);
+                        manualCount1++;
+                        manualPanel1[manualCount1].SetActive(true);
+                    }
+                    else {
+                        manualPanel1[manualCount1].SetActive(false);
+                        selectState1 = SelectState.Select;
+                    }
+                }
+                if (b[0]) {
+                    if (0 < manualCount1) {
+                        manualPanel1[manualCount1].SetActive(false);
+                        manualCount1--;
+                        manualPanel1[manualCount1].SetActive(true);
+                    }
+                    else {
+                        manualPanel1[0].SetActive(false);
+                        selectState1 = SelectState.Select;
+                    }
+                }
+                break;
+            case SelectState.Setting:
+                if (b[0]) { //設定閉じる
+                    Selectable[] sel = settingPanel.GetComponentsInChildren<Selectable>();
+                    foreach (Selectable s in sel) {
+                        s.interactable = false;
+                    }
+                    settingPanel.GetComponent<Canvas>().sortingOrder = -1;
+                    selectState1 = SelectState.Select;
+                }
+                break;
+            case SelectState.Ready:
+                if (b[0]) { //戻る
+                    selectState1 = SelectState.Select;
+                    readyPanel1.SetActive(false);
+                }
+                break;
+        }
+
+        if (selectState1 == SelectState.Ready && selectState2 == SelectState.Ready) {
             readyCount++;
         }
         else if(selectState1 == SelectState.Select || selectState2 == SelectState.Select){
@@ -403,5 +414,36 @@ public class SelectMgr : MonoBehaviour {
     }
     void MoveEnd2() {
         isReleseAxis2 = true;
+    }
+    void ChangePlayerType(int num) {
+        switch (Main.Instance.playerType[num]) {
+            case Main.PlayerType.None: break;
+            case Main.PlayerType.Player: 
+                Main.Instance.playerType[num] = Main.PlayerType.AI;
+                if (num == 0) { //1P
+                    Frame1PRTf.gameObject.GetComponent<Image>().material = gray;
+                    readyPanel1.gameObject.GetComponent<Image>().material = gray;
+                }
+                else {
+                    Frame2PRTf.gameObject.GetComponent<Image>().material = gray;
+                    readyPanel2.gameObject.GetComponent<Image>().material = gray;
+                }
+                break;
+            case Main.PlayerType.AI:
+                Main.Instance.playerType[num] = Main.PlayerType.Player;
+                if (num == 0) { //1P
+                    Frame1PRTf.gameObject.GetComponent<Image>().material = red;
+                    readyPanel1.gameObject.GetComponent<Image>().material = red;
+                }
+                else {
+                    Frame2PRTf.gameObject.GetComponent<Image>().material = blue;
+                    readyPanel2.gameObject.GetComponent<Image>().material = blue;
+                }
+                //Main.Instance.playerType[num] = Main.PlayerType.Online;
+                break;
+            case Main.PlayerType.Online:
+                Main.Instance.playerType[num] = Main.PlayerType.Player;break;
+            default: break;
+        }
     }
 }

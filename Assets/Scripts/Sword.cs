@@ -31,7 +31,7 @@ public class Sword : Character {
         if (playerTf.position.y < 0.05f && !animator.GetBool(AnimState.isLand)) {
             playerTf.position = new Vector3(playerTf.position.x, 0, 0);
             BattleMgr.Instance.VibrateDouble(0.8f, 2.0f);
-            Instantiate(playerController.HibiPref[Random.Range(0, playerController.HibiPref.Length)], new Vector3(playerTf.position.x, 0, 0), Quaternion.identity);//
+            BattleMgr.Instance.CreateHibi(new Vector3(playerTf.position.x, 0, 0));
         }
     }
     public override void DownB() {
@@ -46,7 +46,7 @@ public class Sword : Character {
     IEnumerator DownBCoroutine() {
         float speed = playerController.animator.speed;
         yield return new WaitForSeconds(15.0f / 60 / speed);
-        Instantiate(playerController.HibiPref[Random.Range(0, playerController.HibiPref.Length)], new Vector3(playerTf.position.x, 0, 0), Quaternion.identity);
+        BattleMgr.Instance.CreateHibi(new Vector3(playerTf.position.x, 0, 0));
         BattleMgr.Instance.VibrateDouble(0.8f, 2.0f);
         yield return 0;
     }
@@ -66,7 +66,7 @@ public class Sword : Character {
         playerTf.position = new Vector3(playerTf.position.x, playerTf.position.y - (counter * 0.2f) * animator.speed, 0);
         if (playerTf.position.y < 0.05f && !animator.GetBool(AnimState.isLand)) {
             playerTf.position = new Vector3(playerTf.position.x, 0, 0);
-            Instantiate(playerController.HibiPref[Random.Range(0, playerController.HibiPref.Length)], new Vector3(playerTf.position.x, 0, 0), Quaternion.identity);
+            BattleMgr.Instance.CreateHibi(new Vector3(playerTf.position.x, 0, 0));
             BattleMgr.Instance.CreateVFX("LandWave", playerTf.position, Quaternion.identity, 1.0f);
             BattleMgr.Instance.CreateVFX("LandingCrash", playerTf.position, Quaternion.identity, 1.0f);
             BattleMgr.Instance.VibrateDouble(1.0f, 1.5f);
@@ -92,7 +92,7 @@ public class Sword : Character {
         if (playerTf.position.y < 0.05f && !animator.GetBool(AnimState.isLand)) { //着地寸前
             playerTf.position = new Vector3(playerTf.position.x, 0, 0);
             BattleMgr.Instance.VibrateDouble(0.8f, 2.0f);
-            Instantiate(playerController.HibiPref[Random.Range(0, playerController.HibiPref.Length)], new Vector3(playerTf.position.x, 0, 0), Quaternion.identity);
+            BattleMgr.Instance.CreateHibi(new Vector3(playerTf.position.x, 0, 0));
         }
     }
 }

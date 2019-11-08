@@ -36,7 +36,6 @@ public class PlayerController : MonoBehaviour {
     public int counter = 0;
 
     public ChaseCamera chaseCamera;
-    public CameraEffect cameraEffect;
 
     public Transform playerTf;
 
@@ -54,8 +53,6 @@ public class PlayerController : MonoBehaviour {
 
     public bool isResistance = false;
     public bool isLimitBreak = false;
-
-    public GameObject[] HibiPref;
 
     void Awake() { 
         //キャラの生成
@@ -85,13 +82,13 @@ public class PlayerController : MonoBehaviour {
         animator = characterIns.GetComponent<Animator>();
         enemyTf = enemyController.playerTf;
         animator.speed = Main.Instance.gameSpeed;
-        if (isAI) {
+        if (isAI || Main.Instance.playerType[(int)playerNum - 1] == Main.PlayerType.AI) {
             inputAI = gameObject.AddComponent<InputAI>();
             input = inputAI;
         }
         else {
             switch (Main.controller[(int)(playerNum - 1)]) {
-                case Main.Controller.Elecom: input = gameObject.AddComponent<InputGamePad>(); break;
+                case Main.Controller.GamePad: input = gameObject.AddComponent<InputGamePad>(); break;
                 case Main.Controller.Joycon:  input = gameObject.AddComponent<InputJoycon>(); break;
                 default: input = gameObject.AddComponent<InputGamePad>(); break;
             }
@@ -171,7 +168,6 @@ public class PlayerController : MonoBehaviour {
 
         //自動反転
         if (stateInfo.fullPathHash == StartGame || stateInfo.fullPathHash == Idle ||
-            stateInfo.fullPathHash == CriticalUp || stateInfo.fullPathHash == CriticalFall ||
             stateInfo.fullPathHash == SideA_R || stateInfo.fullPathHash == NutralA_R || stateInfo.fullPathHash == SideB_R ||
             stateInfo.fullPathHash == SideA_Air_R || stateInfo.fullPathHash == NutralA_Air_R) {
             playerTf.localScale = enemyTf.position.x > playerTf.position.x ? Vector3.one : new Vector3(-1, 1, 1);

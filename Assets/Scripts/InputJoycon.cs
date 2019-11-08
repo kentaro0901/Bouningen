@@ -6,7 +6,7 @@ public class InputJoycon : InputMethod {
 
     int num;
     private void Start() {
-        num = (int)controller.playerNum - 1;
+        num = Main.Instance.isSwapController? (int)controller.playerNum : (int)controller.playerNum - 1;
     }
 
     private void Update() {
