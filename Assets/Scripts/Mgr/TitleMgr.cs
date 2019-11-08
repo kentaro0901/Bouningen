@@ -29,7 +29,7 @@ public class TitleMgr : MonoBehaviour {
     void Start() {
         Main.state = Main.State.Title;
         Main.Instance.UICameraSetting();
-        Main.Instance.CheckGamePad();
+        //Main.Instance.CheckGamePad();
     }
 
     void Update() {

@@ -90,7 +90,7 @@ public class SelectMgr : MonoBehaviour {
     void Start() {
         Main.state = Main.State.Select;
         Main.Instance.UICameraSetting();
-        Main.Instance.CheckGamePad();
+        //Main.Instance.CheckGamePad();
         if (!Main.Instance.isMultiDisplays) { //シングル用
             Frame1PRTf.transform.parent.gameObject.SetActive(false);
             Frame1PRTf = Frame1PS;

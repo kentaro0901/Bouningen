@@ -79,7 +79,7 @@ public class BattleMgr : MonoBehaviour {
         Main.state = Main.State.Battle;
         Main.battleResult = Main.BattleResult.Battle;
         Main.Instance.BattleCameraSetting();
-        Main.Instance.CheckGamePad();
+        //Main.Instance.CheckGamePad();
         camera1Tf = chaseCamera1.transform;
         camera2Tf = chaseCamera2.transform;
         player1Tf = playerController1.playerTf;

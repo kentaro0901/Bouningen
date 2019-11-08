@@ -150,7 +150,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerNum: 1
-  isAI: 0
+  isAI: 1
   isTeacher: 0
   dv: {x: 0, y: 0}
   dx: 0

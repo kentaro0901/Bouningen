@@ -87,7 +87,7 @@ public class PlayerController : MonoBehaviour {
         animator.speed = Main.Instance.gameSpeed;
         if (isAI) {
             inputAI = gameObject.AddComponent<InputAI>();
-            input = gameObject.AddComponent<InputAI>();
+            input = inputAI;
         }
         else {
             switch (Main.controller[(int)(playerNum - 1)]) {
