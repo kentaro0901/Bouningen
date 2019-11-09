@@ -276,8 +276,8 @@ public abstract class Character : MonoBehaviour {
     public void Critical() {
         if (counter == 0) {
             playerTf.localScale = playerController.damageVector.x > 0 ? new Vector3(-1, 1, 1) : Vector3.one;
-            BattleMgr.Instance.ChangeTimeScale(0.05f, 0.5f);
-            BattleMgr.Instance.ChangeToneDouble(0.5f, ((int)playerController.playerNum == 2 ? CameraEffect.ToneName.redBlack : CameraEffect.ToneName.blueBlack));
+            BattleMgr.Instance.ChangeTimeScale(0.06f, 0.4f);
+            BattleMgr.Instance.ChangeToneDouble(0.4f, ((int)playerController.playerNum == 2 ? CameraEffect.ToneName.redBlack : CameraEffect.ToneName.blueBlack));
             BattleMgr.Instance.ZoomInOutDouble(0.1f);
             BattleMgr.Instance.CreateVFX("CriticalWave", playerTf.position + new Vector3(playerController.enemyTf.position.x < playerTf.position.x ? 3 : -3, 1, 0), Quaternion.identity, 1.0f);
             if (playerController.hp < playerController.maxhp * 0.25f)
@@ -368,7 +368,7 @@ public abstract class Character : MonoBehaviour {
                 (BattleMgr.Instance.resistResult == BattleMgr.ResistResult.Critical2P && playerController.playerNum == PlayerController.PlayerNum.player2)) { //鍔迫り合いに負けた時
                 BattleMgr.Instance.CreateVFX("Hit", playerTf.position, Quaternion.identity, 1.0f);
                 BattleMgr.Instance.CreateVFX("HitWave", playerTf.position, Quaternion.identity, 1.0f);
-                playerController.hp -= playerController.resistDamage * 2.0f;
+                playerController.hp -= playerController.resistDamage * 1.5f;
                 playerController.mp += playerController.resistDamage;
                 playerController.resistDamage = 0;
                 animator.Play("Critical");
