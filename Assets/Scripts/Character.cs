@@ -391,8 +391,8 @@ public abstract class Character : MonoBehaviour {
                 playerController.resistDamage = 0;
                 if (playerController.stateInfo.fullPathHash == AnimState.NutralA_R)
                     animator.Play("NutralA_RW");
-                else if (playerController.stateInfo.fullPathHash == AnimState.NutralA_Air)
-                    animator.Play("NutralA_Air_R");
+                else if (playerController.stateInfo.fullPathHash == AnimState.NutralA_Air_R)
+                    animator.Play("NutralA_Air_RW");
                 else if (playerController.stateInfo.fullPathHash == AnimState.SideA_R)
                     animator.Play("SideA_RW");
                 else if (playerController.stateInfo.fullPathHash == AnimState.SideA_Air_R)
