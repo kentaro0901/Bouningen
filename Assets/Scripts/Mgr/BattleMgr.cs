@@ -120,6 +120,10 @@ public class BattleMgr : MonoBehaviour {
                 ChangeTimeScale(1.0f, 0);
                 Main.Instance.Init(true);
             }
+            if (60 <= counter && (playerController1.isLeveling || playerController2.isLeveling)) { //自動学習
+                ChangeTimeScale(1.0f, 0);
+                SceneManager.LoadScene("Battle");
+            }
         }
     }
     void LateUpdate() {
@@ -282,12 +286,6 @@ public class BattleMgr : MonoBehaviour {
             Main.battleResult = Main.BattleResult.Draw;
             c1Txt.text = "DRAW";
             c2Txt.text = "DRAW";
-        }
-        if (playerController1.isAI) {
-            playerController1.inputAI.UpdateCSV();
-        }
-        else if (playerController2.isAI) {
-            playerController2.inputAI.UpdateCSV();
         }
         Destroy(c1LFRTf.gameObject);
         Destroy(c1RFRTf.gameObject);

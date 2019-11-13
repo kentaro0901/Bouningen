@@ -9,16 +9,19 @@ public class Sword : Character {
     public override void NutralB() {
         if (counter == 0) {
             Teach(4);
+            Study(4);
         }
     }
     public override void NutralB_Air() {
         if (counter == 0) {
             Teach(4);
+            Study(4);
         }
     }
     public override void SideB() {
         if (counter == 0) {
             Teach(6);
+            Study(6);
         }
         if (counter == 13)
             BattleMgr.Instance.VibrateDouble(0.5f, 0.5f);
@@ -26,6 +29,7 @@ public class Sword : Character {
     public override void SideB_Air() {
         if (counter == 0) {
             Teach(6);
+            Study(6);
         }
         playerTf.position += Vector3.down * counter * 0.03f * animator.speed;
         if (playerTf.position.y < 0.05f && !animator.GetBool(AnimState.isLand)) {
@@ -38,6 +42,7 @@ public class Sword : Character {
         if (counter == 0) {
             StartCoroutine(DownBCoroutine());
             Teach(8);
+            Study(8);
         }
         if (counter % 4 == 0 && counter <= 8) {
             BattleMgr.Instance.CreateVFX("FallSunder", playerTf.position, Quaternion.identity, 1.0f);
@@ -59,6 +64,7 @@ public class Sword : Character {
                 BattleMgr.Instance.ChangeAnimeSpeedDouble(0.05f, 0.35f);
             }
             Teach(8);
+            Study(8);
         }
         if (counter % 3 == 0 && counter <= 9) {
             BattleMgr.Instance.CreateVFX("CriticalDownWave", playerTf.position + Vector3.up * 2, Quaternion.identity, 1.0f);
@@ -75,6 +81,7 @@ public class Sword : Character {
     public override void UpB() {
         if (counter == 0) {
             Teach(10);
+            Study(10);
         }
     }
     public override void UpB_Fall() {

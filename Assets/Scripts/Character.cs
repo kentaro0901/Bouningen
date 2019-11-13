@@ -131,10 +131,13 @@ public abstract class Character : MonoBehaviour {
     public void Dash() {
         playerTf.position += Vector3.right * dashspeed * playerController.input.xAxis * animator.speed;
         Teach(0);
+        Study(0);
     }
     public void JumpStart() {
-        if (counter == 0)
+        if (counter == 0) {
             Teach(1);
+            Study(0);
+        }
     }
     public void Fall() {
         playerTf.position += Vector3.down * counter * 0.1f * animator.speed;
@@ -148,17 +151,20 @@ public abstract class Character : MonoBehaviour {
     public void NutralA() {
         if (counter == 0) {
             Teach(3);
+            Study(3);
         }
     }
     public void NutralA_Air() {
         if (counter == 0) {
             Teach(3);
+            Study(3);
         }
     }
     public void LightningStart() {
         if (counter == 0) {
             playerTf.localScale = playerController.enemyTf.position.x > playerTf.position.x ? Vector3.one : new Vector3(-1, 1, 1);
             Teach(2);
+            Study(2);
         }
     }
     public void Lightning() {
@@ -196,6 +202,7 @@ public abstract class Character : MonoBehaviour {
     public void SideA() {
         if (counter == 0) {
             Teach(5);
+            Study(5);
         }
         if (counter == 10) {
             BattleMgr.Instance.CreateVFX("CriticalWave", playerTf.position, Quaternion.identity, 1.0f);
@@ -204,6 +211,7 @@ public abstract class Character : MonoBehaviour {
     public void SideA_Air() {
         if (counter == 0) {
             Teach(5);
+            Study(5);
         }
         if (counter == 8) {
             BattleMgr.Instance.CreateVFX("CriticalWave", playerTf.position, Quaternion.identity, 1.0f);
@@ -213,12 +221,14 @@ public abstract class Character : MonoBehaviour {
         if (counter == 0) {
             StartCoroutine(DownACoroutine());
             Teach(7);
+            Study(7);
         }
     }
     public void DownA_Air() {
         if (counter == 0) {
             StartCoroutine(DownACoroutine());
             Teach(7);
+            Study(7);
         }
         playerTf.position = new Vector3(playerTf.position.x, playerTf.position.y - (counter * 0.2f) * animator.speed, 0);
         if (playerTf.position.y < 0.05f && playerTf.position.y != 0) {
@@ -236,6 +246,7 @@ public abstract class Character : MonoBehaviour {
     public void UpA() {
         if (counter == 0) {
             Teach(9);
+            Study(9);
         }
     }
     public void LimitBreak() {
@@ -243,6 +254,7 @@ public abstract class Character : MonoBehaviour {
             playerController.isLimitBreak = true;
             StartCoroutine(LimitBreakCoroutine());
             Teach(11, 10);
+            Study(11,10);
         }
     }
     IEnumerator LimitBreakCoroutine() {
@@ -402,14 +414,36 @@ public abstract class Character : MonoBehaviour {
             }
         }
     }
-    public void GameEnd() {
+    public void GameEnd() { //負けた方が発動
         if (counter == 0) {
             BattleMgr.Instance.BattleEnd();
-            if  (playerController.isAI && playerController.enemyController.isTeacher) {
-                playerController.inputAI.UpdateCSV();
+            if (playerController.isAI && playerController.enemyController.isTeacher) {
+                playerController.inputAI.UpdateCSV(playerController.inputAI.updateValues);
             }
             else if (playerController.isTeacher && playerController.enemyController.isAI) {
-                playerController.enemyController.inputAI.UpdateCSV();
+                playerController.enemyController.inputAI.UpdateCSV(playerController.enemyController.inputAI.updateValues);
+            }
+            else if (playerController.isAI && playerController.enemyController.isAI){
+                if (playerController.isLeveling) {
+                    if(Random.Range(0.0f,1.0f) < (float)playerController.level / 100) { //勝った敵の数値をアップデート
+                        playerController.inputAI.UpdateCSV(playerController.enemyController.inputAI.updateValues);
+                        Debug.Log("WinStudy");
+                    }
+                    else { //負けた自分の数値をアップデート
+                        playerController.inputAI.UpdateCSV(playerController.inputAI.updateValues);
+                        Debug.Log("LoseStudy");
+                    }
+                }
+                else if (playerController.enemyController.isLeveling) {
+                    if (Random.Range(0.0f, 1.0f) < (float)playerController.enemyController.level / 100) { //勝った敵の数値をアップデート
+                        playerController.enemyController.inputAI.UpdateCSV(playerController.enemyController.inputAI.updateValues);
+                        Debug.Log("WinStudy");
+                    }
+                    else { //負けた自分の数値をアップデート
+                        playerController.enemyController.inputAI.UpdateCSV(playerController.inputAI.updateValues);
+                        Debug.Log("LoseStudy");
+                    }
+                }
             }
         }
     }
@@ -425,14 +459,26 @@ public abstract class Character : MonoBehaviour {
 
     protected void Teach(int n) {
         if (playerController.isTeacher && playerController.enemyController.isAI) {
-            playerController.enemyController.inputAI.inputValues[n].deltaX[playerController.dx] += 1;
+            playerController.enemyController.inputAI.inputValues[n].deltaX[playerController.dx] += 7;
             playerController.enemyController.inputAI.inputValues[n].deltaY[playerController.dy] += 1;
         }
     }
     protected void Teach(int n, int m) {
         if (playerController.isTeacher && playerController.enemyController.isAI) { 
-            playerController.enemyController.inputAI.inputValues[n].deltaX[playerController.dx] += m;
+            playerController.enemyController.inputAI.inputValues[n].deltaX[playerController.dx] += 7*m;
             playerController.enemyController.inputAI.inputValues[n].deltaY[playerController.dy] += m;
+        }
+    }
+    protected void Study(int n) {
+        if (playerController.isAI && playerController.enemyController.isAI) {
+            playerController.inputAI.updateValues[n].deltaX[playerController.dx] += 7;
+            playerController.inputAI.updateValues[n].deltaY[playerController.dy] += 1;
+        }
+    }
+    protected void Study(int n, int m) {
+        if (playerController.isAI && playerController.enemyController.isAI) {
+            playerController.inputAI.updateValues[n].deltaX[playerController.dx] += 7*m;
+            playerController.inputAI.updateValues[n].deltaY[playerController.dy] += m;
         }
     }
 }

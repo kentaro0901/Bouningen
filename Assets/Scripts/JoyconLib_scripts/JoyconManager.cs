@@ -44,7 +44,7 @@ public class JoyconManager: MonoBehaviour
 			if (ptr == IntPtr.Zero)
 			{ 
 				HIDapi.hid_free_enumeration(ptr);
-				Debug.Log ("No Joy-Cons found!");
+				//Debug.Log ("No Joy-Cons found!");
 			}
 		}
 		hid_device_info enumerate;

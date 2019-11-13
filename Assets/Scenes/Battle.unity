@@ -151,12 +151,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerNum: 1
   isAI: 0
-  isTeacher: 1
+  isTeacher: 0
+  isLeveling: 0
+  level: 50
   dv: {x: 0, y: 0}
   dx: 0
   dy: 0
   inputAI: {fileID: 0}
-  AIFileName: TestAI02
+  AIFileName: AILv05
   input: {fileID: 0}
   myChara: 0
   swordPref: {fileID: 6487946451456971819, guid: 72729bf2e36f83c4284b0850981aeadf,
@@ -3589,11 +3591,13 @@ MonoBehaviour:
   playerNum: 2
   isAI: 1
   isTeacher: 0
+  isLeveling: 0
+  level: 50
   dv: {x: 0, y: 0}
   dx: 0
   dy: 0
   inputAI: {fileID: 0}
-  AIFileName: TestAI02
+  AIFileName: AILv05
   input: {fileID: 0}
   myChara: 0
   swordPref: {fileID: 6487946451456971819, guid: 72729bf2e36f83c4284b0850981aeadf,

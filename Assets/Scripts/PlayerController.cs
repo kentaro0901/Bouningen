@@ -16,6 +16,8 @@ public class PlayerController : MonoBehaviour {
     //AI学習用
     public bool isAI = false;
     public bool isTeacher = false;
+    public bool isLeveling = false;
+    public int level = 50; //0-100
     public Vector2 dv;
     public int dx;
     public int dy;

@@ -33,15 +33,18 @@ public class InputAI : InputMethod {
             deltaY = y;
         }
     }
-    public InputValue[] inputValues ;
+    public InputValue[] inputValues;
+    public InputValue[] updateValues;
     public InputValue total;
 
     void Start() {
         filename = controller.AIFileName;
         inputValues = new InputValue[dataNum];
+        updateValues = new InputValue[dataNum];
         total = new InputValue();
         for (int i= 0; i < dataNum; i++) {
             inputValues[i] = new InputValue();
+            updateValues[i] = new InputValue();
         }
         LoadCSV();
     }
@@ -87,10 +90,12 @@ public class InputAI : InputMethod {
                 inputValues[i-2].name = values[0];
                 for (int k = 0; k < xDataNum; k++) {
                     inputValues[i-2].deltaX[k] = float.Parse(values[1 + k]);
+                    updateValues[i - 2].deltaX[k] = 0;
                     total.deltaX[k] += float.Parse(values[1 + k]);
                 }
                 for (int k = 0; k < yDataNum; k++) {
                     inputValues[i - 2].deltaY[k] = float.Parse(values[1 + xDataNum + k]);
+                    updateValues[i - 2].deltaY[k] = 0;
                     total.deltaY[k] += float.Parse(values[1 + xDataNum + k]);
                 }
                 inputValues[i-2].axisX = float.Parse(values[xDataNum+yDataNum+1]);
@@ -103,17 +108,17 @@ public class InputAI : InputMethod {
             i++;
         }
     }
-    public void UpdateCSV() { //CSVの更新
+    public void UpdateCSV(InputValue[] _updateValues) { //CSVの更新
         StreamWriter streamWriter = new StreamWriter(Application.dataPath + "/Resources/" + filename + ".csv", false, System.Text.Encoding.GetEncoding("shift_jis"));//
         streamWriter.WriteLine(firstLine);
         streamWriter.WriteLine(secondLine);
         for (int i= 0; i < dataNum; i++) {
             streamWriter.Write(inputValues[i].name + ",");
             for (int j = 0; j < xDataNum; j++) {
-                streamWriter.Write(inputValues[i].deltaX[j] + ",");
+                streamWriter.Write(inputValues[i].deltaX[j] + _updateValues[i].deltaX[j] + ",");
             }
             for (int j = 0; j < yDataNum; j++) {
-                streamWriter.Write(inputValues[i].deltaY[j] + ",");
+                streamWriter.Write(inputValues[i].deltaY[j] + _updateValues[i].deltaY[j] + ",");
             }
             streamWriter.Write(inputValues[i].axisX + ",");
             streamWriter.Write(inputValues[i].axisY + ",");
