@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class InputAI : InputMethod {
 
-    string filename = "AILv05";
+    string filename = "AILv050";
     string firstLine = "";
     string secondLine = "";
     const int dataNum = 12;
@@ -92,7 +92,7 @@ public class InputAI : InputMethod {
     void LoadCSV() { //CSVの読み込み
         int i = 0;
         TextAsset csv = Resources.Load(filename) as TextAsset;
-        Debug.Log(filename);
+        //Debug.Log(filename);
         StringReader reader = new StringReader(csv.text);
         while (reader.Peek() > -1) {
             string line = reader.ReadLine(); //1行

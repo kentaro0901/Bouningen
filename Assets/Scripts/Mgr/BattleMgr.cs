@@ -273,16 +273,19 @@ public class BattleMgr : MonoBehaviour {
     }
     public void BattleEnd() {
         if(playerController1.hp <= 0 && playerController2.hp > 0) {
+            Debug.Log("2PWIN");
             Main.battleResult = Main.BattleResult.Win2P;
             c1Txt.text = "LOSE";
             c2Txt.text = "WIN";
         }
         else if(playerController2.hp <= 0 && playerController1.hp > 0) {
+            Debug.Log("1PWIN");
             Main.battleResult = Main.BattleResult.Win1P;
             c1Txt.text = "WIN";
             c2Txt.text = "LOSE";
         }
         else {
+            Debug.Log("DRAW");
             Main.battleResult = Main.BattleResult.Draw;
             c1Txt.text = "DRAW";
             c2Txt.text = "DRAW";
