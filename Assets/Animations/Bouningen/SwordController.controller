@@ -68,9 +68,6 @@ AnimatorStateMachine:
   - {fileID: -8659973182839774671}
   m_EntryTransitions: []
   m_StateMachineTransitions:
-  - first: {fileID: -8252231840961463509}
-    second:
-    - {fileID: -1977963673559096497}
   - first: {fileID: -1874387144926038531}
     second:
     - {fileID: 6769404514457551053}
@@ -78,6 +75,9 @@ AnimatorStateMachine:
     - {fileID: 6676800314470016257}
     - {fileID: -9204830882578558785}
     - {fileID: -1235351284555427990}
+  - first: {fileID: -8252231840961463509}
+    second:
+    - {fileID: -1977963673559096497}
   - first: {fileID: 1411311980320860952}
     second:
     - {fileID: 502405913810655480}
@@ -874,6 +874,9 @@ AnimatorStateTransition:
     m_EventTreshold: 0
   - m_ConditionMode: 1
     m_ConditionEvent: isLand
+    m_EventTreshold: 0
+  - m_ConditionMode: 2
+    m_ConditionEvent: ButtonR
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: -8252231840961463509}
   m_DstState: {fileID: 0}

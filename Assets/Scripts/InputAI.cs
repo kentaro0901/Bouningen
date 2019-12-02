@@ -5,17 +5,20 @@ using UnityEngine;
 
 public class InputAI : InputMethod {
 
-    string filename = "TestAI02";
+    string filename = "AILv05";
     string firstLine = "";
     string secondLine = "";
     const int dataNum = 12;
     public const int xDataNum = 30;
     public const int yDataNum = 11;
+    const int stateNum = 14;
 
     public class InputValue {
         public string name;
         public float[] deltaX;
         public float[] deltaY;
+        public float[] myState;
+        public float[] enState;
         public float axisX = 0.0f;
         public float axisY = 0.0f;
         public int a = 0;
@@ -26,11 +29,18 @@ public class InputAI : InputMethod {
             name = "";
             deltaX = new float[xDataNum];
             deltaY = new float[yDataNum];
+            myState = new float[stateNum];
+            enState = new float[stateNum];
         }
-        public InputValue(string s, float[] x, float[] y) {
+        public InputValue(string s, float[] x, float[] y, float[] m, float[] e) {
             name = s;
             deltaX = x;
             deltaY = y;
+            myState = m;
+            enState = e;
+        }
+        public float Sum(int dx, int dy, int my, int en) {
+            return deltaX[dx] + deltaY[dy] + myState[my] + enState[en];
         }
     }
     public InputValue[] inputValues;
@@ -57,16 +67,18 @@ public class InputAI : InputMethod {
         Vector2 dv = controller.enemyTf.position - controller.playerTf.position;
         int dx = Mathf.Min(Mathf.Abs((int)dv.x), xDataNum-1);
         int dy = ((int)Mathf.Abs(dv.y) < (int)Mathf.Floor(yDataNum / 2) ? (int)dv.y: (dv.y<0 ? -1: 1) * (int)Mathf.Floor(yDataNum / 2)) + (int)Mathf.Floor(yDataNum/2);
+        int my = controller.character.prestatenum;
+        int en = controller.enemyController.character.prestatenum;
 
         float bar = Random.Range(0.0f, 1.0f);
         float t = 0.0f;
         for(int i = 0; i < dataNum; i++) {
-            if (t <= bar && bar < t + (inputValues[i].deltaX[dx] + inputValues[i].deltaY[dy]) / (total.deltaX[dx] + total.deltaY[dy])) {
+            if (t <= bar && bar < t + inputValues[i].Sum(dx,dy,my,en) / total.Sum(dx,dy,my,en)) {
                 desition = i;
                 break;
             }
             else {
-                t += (inputValues[i].deltaX[dx] + inputValues[i].deltaY[dy]) / (total.deltaX[dx] + total.deltaY[dy]);
+                t += inputValues[i].Sum(dx,dy,my,en) / total.Sum(dx,dy,my,en);
             }
         }
 
@@ -80,6 +92,7 @@ public class InputAI : InputMethod {
     void LoadCSV() { //CSVの読み込み
         int i = 0;
         TextAsset csv = Resources.Load(filename) as TextAsset;
+        Debug.Log(filename);
         StringReader reader = new StringReader(csv.text);
         while (reader.Peek() > -1) {
             string line = reader.ReadLine(); //1行
@@ -88,22 +101,37 @@ public class InputAI : InputMethod {
             else if (i == 1) secondLine = line;
             else if (2 <= i) {
                 inputValues[i-2].name = values[0];
+                int t = 1;
                 for (int k = 0; k < xDataNum; k++) {
-                    inputValues[i-2].deltaX[k] = float.Parse(values[1 + k]);
+                    inputValues[i-2].deltaX[k] = float.Parse(values[t + k]);
                     updateValues[i - 2].deltaX[k] = 0;
-                    total.deltaX[k] += float.Parse(values[1 + k]);
+                    total.deltaX[k] += float.Parse(values[t + k]);
                 }
+                t += xDataNum;
                 for (int k = 0; k < yDataNum; k++) {
-                    inputValues[i - 2].deltaY[k] = float.Parse(values[1 + xDataNum + k]);
+                    inputValues[i - 2].deltaY[k] = float.Parse(values[t + k]);
                     updateValues[i - 2].deltaY[k] = 0;
-                    total.deltaY[k] += float.Parse(values[1 + xDataNum + k]);
+                    total.deltaY[k] += float.Parse(values[t + k]);
                 }
-                inputValues[i-2].axisX = float.Parse(values[xDataNum+yDataNum+1]);
-                inputValues[i-2].axisY = float.Parse(values[xDataNum + yDataNum+2]);
-                inputValues[i-2].a = int.Parse(values[xDataNum + yDataNum+3]);
-                inputValues[i-2].b = int.Parse(values[xDataNum + yDataNum+4]);
-                inputValues[i-2].r = int.Parse(values[xDataNum + yDataNum+5]);
-                inputValues[i-2].l = int.Parse(values[xDataNum + yDataNum+6]);
+                t += yDataNum;
+                for (int k = 0; k < stateNum; k++) {
+                    inputValues[i - 2].myState[k] = float.Parse(values[t + k]);
+                    updateValues[i - 2].myState[k] = 0;
+                    total.myState[k] += float.Parse(values[t + k]);
+                }
+                t += stateNum;
+                for (int k = 0; k < stateNum; k++) {
+                    inputValues[i - 2].enState[k] = float.Parse(values[t + k]);
+                    updateValues[i - 2].enState[k] = 0;
+                    total.enState[k] += float.Parse(values[t + k]);
+                }
+                t += stateNum;
+                inputValues[i-2].axisX = float.Parse(values[t]);
+                inputValues[i-2].axisY = float.Parse(values[t+1]);
+                inputValues[i-2].a = int.Parse(values[t+2]);
+                inputValues[i-2].b = int.Parse(values[t+3]);
+                inputValues[i-2].r = int.Parse(values[t+4]);
+                inputValues[i-2].l = int.Parse(values[t+5]);
             }
             i++;
         }
@@ -119,6 +147,12 @@ public class InputAI : InputMethod {
             }
             for (int j = 0; j < yDataNum; j++) {
                 streamWriter.Write(inputValues[i].deltaY[j] + _updateValues[i].deltaY[j] + ",");
+            }
+            for (int j = 0; j < stateNum; j++) {
+                streamWriter.Write(inputValues[i].myState[j] + _updateValues[i].myState[j] + ",");
+            }
+            for (int j = 0; j < stateNum; j++) {
+                streamWriter.Write(inputValues[i].enState[j] + _updateValues[i].enState[j] + ",");
             }
             streamWriter.Write(inputValues[i].axisX + ",");
             streamWriter.Write(inputValues[i].axisY + ",");
@@ -140,6 +174,12 @@ public class InputAI : InputMethod {
                 streamWriter.Write("1,");
             }
             for (int j = 0; j < yDataNum; j++) {
+                streamWriter.Write("1,");
+            }
+            for (int j = 0; j < stateNum; j++) {
+                streamWriter.Write("1,");
+            }
+            for (int j = 0; j < stateNum; j++) {
                 streamWriter.Write("1,");
             }
             streamWriter.Write(inputValues[i].axisX + ",");

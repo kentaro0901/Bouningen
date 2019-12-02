@@ -29,7 +29,7 @@ public class PlayerController : MonoBehaviour {
     [SerializeField] GameObject swordPref;
     [SerializeField] GameObject fighterPref;
     GameObject characterIns;
-    Character character;
+    public Character character;
 
     public float maxhp = 100.0f;
     public float hp = 100.0f;

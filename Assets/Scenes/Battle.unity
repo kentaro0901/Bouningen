@@ -151,7 +151,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerNum: 1
   isAI: 0
-  isTeacher: 0
+  isTeacher: 1
   isLeveling: 0
   level: 50
   dv: {x: 0, y: 0}
@@ -165,6 +165,7 @@ MonoBehaviour:
     type: 3}
   fighterPref: {fileID: 6868318756716019806, guid: ce77b01e4fdd0d940b83d2116b916326,
     type: 3}
+  character: {fileID: 0}
   maxhp: 0
   hp: 100
   mp: 0
@@ -3604,6 +3605,7 @@ MonoBehaviour:
     type: 3}
   fighterPref: {fileID: 6868318756716019806, guid: ce77b01e4fdd0d940b83d2116b916326,
     type: 3}
+  character: {fileID: 0}
   maxhp: 0
   hp: 100
   mp: 0
