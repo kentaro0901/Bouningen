@@ -213,8 +213,22 @@ public class SelectMgr : MonoBehaviour {
                     manualCount2 = 0;
                     manualPanel2[0].SetActive(true);
                 }
+                if (count2 == 0 && isReleseAxis2 && (a[1] || (Main.controller[1] == Main.Controller.None && selectState1 == SelectState.Ready && a[0]))) { //拳
+                    Main.Instance.chara2P = Main.Chara.Fighter;
+                    selectState2 = SelectState.Ready;
+                    readyPanel2.SetActive(true);
+                    readyPanel2.GetComponent<RectTransform>().localScale = readyPanelInitSize2;
+                    iTween.ScaleFrom(readyPanel2, iTween.Hash("y", 0, "islocal", true, "time", 0.5f));
+                }
                 if (count2 == 1 && isReleseAxis2 && (a[1]|| (Main.controller[1] == Main.Controller.None && selectState1 == SelectState.Ready && a[0]))) { //剣
                     Main.Instance.chara2P = Main.Chara.Sword;
+                    selectState2 = SelectState.Ready;
+                    readyPanel2.SetActive(true);
+                    readyPanel2.GetComponent<RectTransform>().localScale = readyPanelInitSize2;
+                    iTween.ScaleFrom(readyPanel2, iTween.Hash("y", 0, "islocal", true, "time", 0.5f));
+                }
+                if (count2 == 2 && isReleseAxis2 && (a[1] || (Main.controller[1] == Main.Controller.None && selectState1 == SelectState.Ready && a[0]))) { //槌
+                    Main.Instance.chara2P = Main.Chara.Hammer;
                     selectState2 = SelectState.Ready;
                     readyPanel2.SetActive(true);
                     readyPanel2.GetComponent<RectTransform>().localScale = readyPanelInitSize2;
@@ -247,7 +261,7 @@ public class SelectMgr : MonoBehaviour {
                 break;
             case SelectState.Setting: break;
             case SelectState.Ready:
-                if (b[1]) { //戻る
+                if (b[1] || (Main.controller[1] == Main.Controller.None && selectState1 == SelectState.Ready && b[0])) { //戻る
                     selectState2 = SelectState.Select;
                     readyPanel2.SetActive(false);
                 }
@@ -279,8 +293,22 @@ public class SelectMgr : MonoBehaviour {
                     manualCount1 = 0;
                     manualPanel1[0].SetActive(true);
                 }
+                if (count1 == 0 && isReleseAxis1 && a[0]) { //拳
+                    Main.Instance.chara1P = Main.Chara.Fighter;
+                    selectState1 = SelectState.Ready;
+                    readyPanel1.SetActive(true);
+                    readyPanel1.GetComponent<RectTransform>().localScale = readyPanelInitSize1;
+                    iTween.ScaleFrom(readyPanel1, iTween.Hash("y", 0, "islocal", true, "time", 0.5f));
+                }
                 if (count1 == 1 && isReleseAxis1 && a[0]) { //剣
                     Main.Instance.chara1P = Main.Chara.Sword;
+                    selectState1 = SelectState.Ready;
+                    readyPanel1.SetActive(true);
+                    readyPanel1.GetComponent<RectTransform>().localScale = readyPanelInitSize1;
+                    iTween.ScaleFrom(readyPanel1, iTween.Hash("y", 0, "islocal", true, "time", 0.5f));
+                }
+                if (count1 == 2 && isReleseAxis1 && a[0]) { //槌
+                    Main.Instance.chara1P = Main.Chara.Hammer;
                     selectState1 = SelectState.Ready;
                     readyPanel1.SetActive(true);
                     readyPanel1.GetComponent<RectTransform>().localScale = readyPanelInitSize1;

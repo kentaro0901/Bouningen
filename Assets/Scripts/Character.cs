@@ -133,12 +133,10 @@ public abstract class Character : MonoBehaviour {
     public void Dash() {
         playerTf.position += Vector3.right * dashspeed * playerController.input.xAxis * animator.speed;
         Teach(0);
-        Study(0);
     }
     public void JumpStart() {
         if (counter == 0) {
             Teach(1);
-            Study(1);
         }
     }
     public void Fall() {
@@ -153,20 +151,17 @@ public abstract class Character : MonoBehaviour {
     public void NutralA() {
         if (counter == 0) {
             Teach(3);
-            Study(3);
         }
     }
     public void NutralA_Air() {
         if (counter == 0) {
             Teach(3);
-            Study(3);
         }
     }
     public void LightningStart() {
         if (counter == 0) {
             playerTf.localScale = playerController.enemyTf.position.x > playerTf.position.x ? Vector3.one : new Vector3(-1, 1, 1);
             Teach(2);
-            Study(2);
         }
     }
     public void Lightning() {
@@ -204,7 +199,6 @@ public abstract class Character : MonoBehaviour {
     public void SideA() {
         if (counter == 0) {
             Teach(5);
-            Study(5);
         }
         if (counter == 10) {
             BattleMgr.Instance.CreateVFX("CriticalWave", playerTf.position, Quaternion.identity, 1.0f);
@@ -213,7 +207,6 @@ public abstract class Character : MonoBehaviour {
     public void SideA_Air() {
         if (counter == 0) {
             Teach(5);
-            Study(5);
         }
         if (counter == 8) {
             BattleMgr.Instance.CreateVFX("CriticalWave", playerTf.position, Quaternion.identity, 1.0f);
@@ -223,14 +216,12 @@ public abstract class Character : MonoBehaviour {
         if (counter == 0) {
             StartCoroutine(DownACoroutine());
             Teach(7);
-            Study(7);
         }
     }
     public void DownA_Air() {
         if (counter == 0) {
             StartCoroutine(DownACoroutine());
             Teach(7);
-            Study(7);
         }
         playerTf.position = new Vector3(playerTf.position.x, playerTf.position.y - (counter * 0.2f) * animator.speed, 0);
         if (playerTf.position.y < 0.05f && playerTf.position.y != 0) {
@@ -248,7 +239,6 @@ public abstract class Character : MonoBehaviour {
     public void UpA() {
         if (counter == 0) {
             Teach(9);
-            Study(9);
         }
     }
     public void LimitBreak() {
@@ -256,7 +246,6 @@ public abstract class Character : MonoBehaviour {
             playerController.isLimitBreak = true;
             StartCoroutine(LimitBreakCoroutine());
             Teach(11, 20);
-            Study(11,20);
         }
     }
     IEnumerator LimitBreakCoroutine() {
@@ -465,12 +454,18 @@ public abstract class Character : MonoBehaviour {
     public virtual void DownB() { }
     public virtual void DownB_Air_Fall() { }
 
-    protected void Teach(int n) { //相手に書き込む
+    protected void Teach(int n) {
         if (playerController.isTeacher && playerController.enemyController.isAI) {
             playerController.enemyController.inputAI.inputValues[n].deltaX[playerController.dx] += 7;
             playerController.enemyController.inputAI.inputValues[n].deltaY[playerController.dy] += 1;
             playerController.enemyController.inputAI.inputValues[n].myState[playerController.character.prestatenum] += 3;
             playerController.enemyController.inputAI.inputValues[n].enState[playerController.enemyController.character.prestatenum] += 3;
+        }
+        else if (playerController.isAI && playerController.enemyController.isAI) {
+            playerController.inputAI.updateValues[n].deltaX[playerController.dx] += 7;
+            playerController.inputAI.updateValues[n].deltaY[playerController.dy] += 1;
+            playerController.inputAI.inputValues[n].myState[playerController.character.prestatenum] += 3;
+            playerController.inputAI.inputValues[n].enState[playerController.enemyController.character.prestatenum] += 3;
         }
         prestatenum = n;
     }
@@ -481,20 +476,8 @@ public abstract class Character : MonoBehaviour {
             playerController.enemyController.inputAI.inputValues[n].myState[playerController.character.prestatenum] += 3;
             playerController.enemyController.inputAI.inputValues[n].enState[playerController.enemyController.character.prestatenum] += 3;
         }
-        prestatenum = n;
-    }
-    protected void Study(int n) { //自分に書き込む
-        if (playerController.isAI && playerController.enemyController.isAI) {
-            playerController.inputAI.updateValues[n].deltaX[playerController.dx] += 7;
-            playerController.inputAI.updateValues[n].deltaY[playerController.dy] += 1;
-            playerController.inputAI.inputValues[n].myState[playerController.character.prestatenum] += 3;
-            playerController.inputAI.inputValues[n].enState[playerController.enemyController.character.prestatenum] += 3;
-        }
-        prestatenum = n;
-    }
-    protected void Study(int n, int m) {
-        if (playerController.isAI && playerController.enemyController.isAI) {
-            playerController.inputAI.updateValues[n].deltaX[playerController.dx] += 7*m;
+        else if (playerController.isAI && playerController.enemyController.isAI) {
+            playerController.inputAI.updateValues[n].deltaX[playerController.dx] += 7 * m;
             playerController.inputAI.updateValues[n].deltaY[playerController.dy] += m;
             playerController.inputAI.inputValues[n].myState[playerController.character.prestatenum] += 3;
             playerController.inputAI.inputValues[n].enState[playerController.enemyController.character.prestatenum] += 3;

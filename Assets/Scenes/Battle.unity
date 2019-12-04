@@ -150,7 +150,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerNum: 1
-  isAI: 1
+  isAI: 0
   isTeacher: 0
   isLeveling: 0
   level: 50
@@ -163,7 +163,9 @@ MonoBehaviour:
   myChara: 0
   swordPref: {fileID: 6487946451456971819, guid: 72729bf2e36f83c4284b0850981aeadf,
     type: 3}
-  fighterPref: {fileID: 6868318756716019806, guid: ce77b01e4fdd0d940b83d2116b916326,
+  fighterPref: {fileID: 713986706464980754, guid: b3b7c0e792a53c047aef23146159d80c,
+    type: 3}
+  hammerPref: {fileID: 6487946451456971819, guid: 3e5f115a0a2808948a34ebc06fde48cf,
     type: 3}
   character: {fileID: 0}
   maxhp: 0
@@ -3592,7 +3594,7 @@ MonoBehaviour:
   playerNum: 2
   isAI: 1
   isTeacher: 0
-  isLeveling: 1
+  isLeveling: 0
   level: 100
   dv: {x: 0, y: 0}
   dx: 0
@@ -3603,7 +3605,9 @@ MonoBehaviour:
   myChara: 0
   swordPref: {fileID: 6487946451456971819, guid: 72729bf2e36f83c4284b0850981aeadf,
     type: 3}
-  fighterPref: {fileID: 6868318756716019806, guid: ce77b01e4fdd0d940b83d2116b916326,
+  fighterPref: {fileID: 713986706464980754, guid: b3b7c0e792a53c047aef23146159d80c,
+    type: 3}
+  hammerPref: {fileID: 6487946451456971819, guid: 3e5f115a0a2808948a34ebc06fde48cf,
     type: 3}
   character: {fileID: 0}
   maxhp: 0

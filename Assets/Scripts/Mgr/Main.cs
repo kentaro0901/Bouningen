@@ -36,7 +36,8 @@ public class Main : MonoBehaviour {
     public static State state = State.Root;
     public enum Chara {
         Sword,
-        Fighter
+        Fighter,
+        Hammer
     }
     public Chara chara1P = Chara.Sword;
     public Chara chara2P = Chara.Sword;
@@ -184,7 +185,7 @@ public class Main : MonoBehaviour {
             else Debug.Log("2P:None");
         }
         else {
-            playerType[0] = PlayerType.AI;
+            playerType[1] = PlayerType.AI;
             Debug.Log("2P:None");
         }
         //スワップ

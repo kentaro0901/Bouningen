@@ -25,9 +25,10 @@ public class PlayerController : MonoBehaviour {
     public string AIFileName;
 
     public InputMethod input;
-    public Main.Chara myChara = Main.Chara.Sword;
+    private Main.Chara myChara = Main.Chara.Sword;
     [SerializeField] GameObject swordPref;
     [SerializeField] GameObject fighterPref;
+    [SerializeField] GameObject hammerPref;
     GameObject characterIns;
     public Character character;
 
@@ -56,8 +57,9 @@ public class PlayerController : MonoBehaviour {
     public bool isResistance = false;
     public bool isLimitBreak = false;
 
-    void Awake() { 
+    void Awake() {
         //キャラの生成
+        myChara = (int)playerNum == 1 ? Main.Instance.chara1P : Main.Instance.chara2P;
         switch (myChara) {
             case Main.Chara.Sword:
                 characterIns = Instantiate(swordPref, playerNum == PlayerNum.player1 ? new Vector3(-20,0,0): new Vector3(20,0,0), new Quaternion(0, 0, 0, 0));
@@ -65,13 +67,19 @@ public class PlayerController : MonoBehaviour {
                 maxhp = Sword.maxhp;
                 break;
             case Main.Chara.Fighter:
-                //characterIns = Instantiate(fighterPref, playerNum == PlayerNum.player1 ? new Vector3(-15, 0, 0) : new Vector3(15, 0, 0), new Quaternion(0, 0, 0, 0));
-                //character = characterIns.GetComponent<Fighter>();
-                //maxhp = Fighter.maxhp;
+                characterIns = Instantiate(fighterPref, playerNum == PlayerNum.player1 ? new Vector3(-20, 0, 0) : new Vector3(20, 0, 0), new Quaternion(0, 0, 0, 0));
+                character = characterIns.GetComponent<Fighter>();
+                maxhp = Fighter.maxhp;
+                break;
+            case Main.Chara.Hammer:
+                characterIns = Instantiate(hammerPref, playerNum == PlayerNum.player1 ? new Vector3(-20, 0, 0) : new Vector3(20, 0, 0), new Quaternion(0, 0, 0, 0));
+                character = characterIns.GetComponent<Hammer>();
+                maxhp = Hammer.maxhp;
                 break;
             default:
                 break;
         }
+        Debug.Log((int)playerNum + "P : " + myChara);
 
         playerTf = characterIns.transform;
         chaseCamera.playerTf = playerTf;
