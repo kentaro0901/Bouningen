@@ -179,7 +179,9 @@ public class PlayerController : MonoBehaviour {
         //自動反転
         if (stateInfo.fullPathHash == StartGame || stateInfo.fullPathHash == Idle ||
             stateInfo.fullPathHash == SideA_R || stateInfo.fullPathHash == NutralA_R || stateInfo.fullPathHash == SideB_R ||
-            stateInfo.fullPathHash == SideA_Air_R || stateInfo.fullPathHash == NutralA_Air_R) {
+            stateInfo.fullPathHash == SideA_Air_R || stateInfo.fullPathHash == NutralA_Air_R ||
+            stateInfo.fullPathHash == SideA_RW|| stateInfo.fullPathHash == NutralA_RW|| stateInfo.fullPathHash == SideB_RW||
+            stateInfo.fullPathHash == SideA_Air_RW|| stateInfo.fullPathHash == NutralA_Air_RW){ 
             playerTf.localScale = enemyTf.position.x > playerTf.position.x ? Vector3.one : new Vector3(-1, 1, 1);
         }
         //手動反転

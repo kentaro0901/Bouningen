@@ -34,7 +34,14 @@ public class FadeManager : MonoBehaviour {
 		DontDestroyOnLoad (this.gameObject);
     }
 
-	public void LoadScene (string scene, float interval) {
+    private void Start() {
+        c1TransCircle1.GetComponent<RectTransform>().localScale = Vector3.one * (float)Screen.width/1024;
+        c1TransCircle2.GetComponent<RectTransform>().localScale = Vector3.one * (float)Screen.width / 1024;
+        c2TransCircle1.GetComponent<RectTransform>().localScale = Vector3.one * (float)Screen.width / 1024;
+        c2TransCircle2.GetComponent<RectTransform>().localScale = Vector3.one * (float)Screen.width / 1024;
+    }
+
+    public void LoadScene (string scene, float interval) {
 		StartCoroutine (TransScene (scene, interval));
 	}
 
