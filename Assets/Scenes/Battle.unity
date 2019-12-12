@@ -160,7 +160,6 @@ MonoBehaviour:
   inputAI: {fileID: 0}
   AIFileName: AILv050
   input: {fileID: 0}
-  myChara: 0
   swordPref: {fileID: 6487946451456971819, guid: 72729bf2e36f83c4284b0850981aeadf,
     type: 3}
   fighterPref: {fileID: 713986706464980754, guid: b3b7c0e792a53c047aef23146159d80c,
@@ -1410,7 +1409,6 @@ GameObject:
   - component: {fileID: 495413257}
   - component: {fileID: 495413260}
   - component: {fileID: 495413261}
-  - component: {fileID: 495413262}
   m_Layer: 0
   m_Name: nise_Main
   m_TagString: Untagged
@@ -1526,7 +1524,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92c39ffd71790224d99967002fc15056, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  chara1P: 0
+  chara1P: 1
   chara2P: 0
   isSwapController: 0
   playerType: 0000000000000000
@@ -1577,23 +1575,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   EnableIMU: 1
   EnableLocalize: 1
---- !u!114 &495413262
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 495413256}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0e73e61c5e0ab7c47926d70adb3f92bc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isFading: 0
-  c1TransCircle1: {fileID: 0}
-  c1TransCircle2: {fileID: 0}
-  c2TransCircle1: {fileID: 0}
-  c2TransCircle2: {fileID: 0}
 --- !u!1 &536312954
 GameObject:
   m_ObjectHideFlags: 0
@@ -3602,7 +3583,6 @@ MonoBehaviour:
   inputAI: {fileID: 0}
   AIFileName: AILv100
   input: {fileID: 0}
-  myChara: 0
   swordPref: {fileID: 6487946451456971819, guid: 72729bf2e36f83c4284b0850981aeadf,
     type: 3}
   fighterPref: {fileID: 713986706464980754, guid: b3b7c0e792a53c047aef23146159d80c,

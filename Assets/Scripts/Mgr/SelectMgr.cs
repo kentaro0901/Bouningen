@@ -111,7 +111,11 @@ public class SelectMgr : MonoBehaviour {
             ready2S.SetActive(false);
         }
 
-        if(Main.Instance.playerType[1] == Main.PlayerType.AI) {//2P
+        if (Main.Instance.playerType[0] == Main.PlayerType.AI) {//1P
+            Frame1PRTf.gameObject.GetComponent<Image>().material = gray;
+            readyPanel1.gameObject.GetComponent<Image>().material = gray;
+        }
+        if (Main.Instance.playerType[1] == Main.PlayerType.AI) {//2P
             Frame2PRTf.gameObject.GetComponent<Image>().material = gray;
             readyPanel2.gameObject.GetComponent<Image>().material = gray;
         }
