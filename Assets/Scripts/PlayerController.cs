@@ -142,6 +142,8 @@ public class PlayerController : MonoBehaviour {
         else if (stateInfo.fullPathHash == DownA) { character.DownA();}
         else if (stateInfo.fullPathHash == DownA_Air) { character.DownA_Air();}
         else if (stateInfo.fullPathHash == DownB) { character.DownB();}
+        else if (stateInfo.fullPathHash == DownB_Fall) { character.DownB_Fall(); }
+        else if (stateInfo.fullPathHash == DownB_Air) { character.DownB_Air(); }
         else if (stateInfo.fullPathHash == DownB_Air_Fall) { character.DownB_Air_Fall();}
         else if (stateInfo.fullPathHash == UpA) { character.UpA();}
         else if (stateInfo.fullPathHash == UpB) { character.UpB();}

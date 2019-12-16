@@ -42,6 +42,7 @@ public class AnimState : MonoBehaviour {
     public static int GameEnd;
     public static int Wince;
     public static int DownB;
+    public static int DownB_Fall;
 
     public static int Step;
     public static int StepEnd;
@@ -140,6 +141,7 @@ public class AnimState : MonoBehaviour {
         SideB_RW = Animator.StringToHash(Land+"SideB_RW");
         DownA = Animator.StringToHash(Land+"DownA");
         DownB = Animator.StringToHash(Land+"DownB");
+        DownB_Fall = Animator.StringToHash(Land + "DownB_Fall");
 
         //Air
         JumpStart = Animator.StringToHash(Air+"JumpStart");

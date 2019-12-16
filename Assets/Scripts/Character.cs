@@ -452,6 +452,8 @@ public abstract class Character : MonoBehaviour {
     public virtual void UpB() { }
     public virtual void UpB_Fall() { }
     public virtual void DownB() { }
+    public virtual void DownB_Fall() { }
+    public virtual void DownB_Air() { }
     public virtual void DownB_Air_Fall() { }
 
     protected void Teach(int n) {
