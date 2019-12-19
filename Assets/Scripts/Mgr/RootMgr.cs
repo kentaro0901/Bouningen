@@ -36,10 +36,10 @@ public class RootMgr : MonoBehaviour {
     void StartMultiDisplays() {
         if (Display.displays.Length > 1) {
             Display.displays[1].Activate();
-            Main.Instance.isMultiDisplays = true;
+            if(Main.Instance.isAutoMultiDisplays) Main.Instance.isMultiDisplays = true;
         }
         else {
-            Main.Instance.isMultiDisplays = false;
+           if(Main.Instance.isAutoMultiDisplays) Main.Instance.isMultiDisplays = false;
         }
         Screen.SetResolution(Screen.currentResolution.width, Screen.currentResolution.height, true);
     }

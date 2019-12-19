@@ -74,6 +74,7 @@ public class Main : MonoBehaviour {
 
     Camera camera1;
     Camera camera2;
+    public bool isAutoMultiDisplays = true;
     public bool isMultiDisplays = true;
     public bool isDynamicCamera = false;
     public bool isVisibleBox = false;

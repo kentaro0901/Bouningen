@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class InputAI : InputMethod {
 
-    string filename = "AILv050";
+    string filename = "AISword";
     string firstLine = "";
     string secondLine = "";
     const int dataNum = 12;
@@ -50,6 +50,7 @@ public class InputAI : InputMethod {
     void Start() {
         filename = controller.AIFileName;
         inputValues = new InputValue[dataNum];
+        //if (controller.isLeveling || controller.enemyController.isLeveling)
         updateValues = new InputValue[dataNum];
         total = new InputValue();
         for (int i= 0; i < dataNum; i++) {

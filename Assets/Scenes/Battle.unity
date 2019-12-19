@@ -158,7 +158,7 @@ MonoBehaviour:
   dx: 0
   dy: 0
   inputAI: {fileID: 0}
-  AIFileName: AILv050
+  AIFileName: AISword
   input: {fileID: 0}
   swordPref: {fileID: 6487946451456971819, guid: 72729bf2e36f83c4284b0850981aeadf,
     type: 3}
@@ -1532,6 +1532,7 @@ MonoBehaviour:
   subBgm: {fileID: 1624063120}
   mainMusic: {fileID: 8300000, guid: e939409fcc1ff114fb4566380bc7c139, type: 3}
   subMusic: {fileID: 8300000, guid: dcffff75786b46948ada7c4772a799c4, type: 3}
+  isAutoMultiDisplays: 1
   isMultiDisplays: 0
   isDynamicCamera: 1
   isVisibleBox: 1
@@ -3581,7 +3582,7 @@ MonoBehaviour:
   dx: 0
   dy: 0
   inputAI: {fileID: 0}
-  AIFileName: AILv100
+  AIFileName: AIFighter
   input: {fileID: 0}
   swordPref: {fileID: 6487946451456971819, guid: 72729bf2e36f83c4284b0850981aeadf,
     type: 3}

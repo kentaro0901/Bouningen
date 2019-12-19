@@ -19,7 +19,7 @@ public class PlayerController : MonoBehaviour {
     public bool isLeveling = false;
     public int level = 50; //0-100
     public Vector2 dv;
-    public int dx;
+    public int dx; 
     public int dy;
     public InputAI inputAI;
     public string AIFileName;
@@ -65,16 +65,19 @@ public class PlayerController : MonoBehaviour {
                 characterIns = Instantiate(swordPref, playerNum == PlayerNum.player1 ? new Vector3(-20,0,0): new Vector3(20,0,0), new Quaternion(0, 0, 0, 0));
                 character = characterIns.GetComponent<Sword>();
                 maxhp = Sword.maxhp;
+                AIFileName = "AISword";
                 break;
             case Main.Chara.Fighter:
                 characterIns = Instantiate(fighterPref, playerNum == PlayerNum.player1 ? new Vector3(-20, 0, 0) : new Vector3(20, 0, 0), new Quaternion(0, 0, 0, 0));
                 character = characterIns.GetComponent<Fighter>();
                 maxhp = Fighter.maxhp;
+                AIFileName = "AIFighter";
                 break;
             case Main.Chara.Hammer:
                 characterIns = Instantiate(hammerPref, playerNum == PlayerNum.player1 ? new Vector3(-20, 0, 0) : new Vector3(20, 0, 0), new Quaternion(0, 0, 0, 0));
                 character = characterIns.GetComponent<Hammer>();
                 maxhp = Hammer.maxhp;
+                AIFileName = "AIHammer";
                 break;
             default:
                 break;
