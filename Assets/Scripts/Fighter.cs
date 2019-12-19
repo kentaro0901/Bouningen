@@ -40,22 +40,24 @@ public class Fighter : Character {
         }
     }
     public override void DownB_Fall() {
-        playerTf.position = new Vector3(playerTf.position.x + (playerTf.localScale.x > 0 ? 1 : -1) * (animator.GetBool(AnimState.isLand)? 0:0.5f), playerTf.position.y - (counter * 0.3f) * animator.speed, 0);
+        playerTf.position = new Vector3(playerTf.position.x, playerTf.position.y - (counter * 0.3f) * animator.speed, 0);
         if (playerTf.position.y < 0.05f && !animator.GetBool(AnimState.isLand)) { //着地寸前 
             playerTf.position = new Vector3(playerTf.position.x, 0, 0);
             BattleMgr.Instance.VibrateDouble(0.8f, 2.0f);
-            BattleMgr.Instance.CreateHibi(new Vector3(playerTf.position.x, 0, 0));
+            BattleMgr.Instance.CreateHibi(new Vector3(playerTf.position.x + (playerTf.localScale.x>0?1:-1), 0, 0));
+            BattleMgr.Instance.CreateVFX("WhiteStone", playerTf.position + (playerTf.localScale.x > 0 ? 1 : -1) * Vector3.one, Quaternion.identity, 1.0f);
         }
     }
     public override void DownB_Air() {
         if (counter == 0) {
             Teach(8);
         }
-        playerTf.position = new Vector3(playerTf.position.x + (playerTf.localScale.x > 0 ? 1 : -1) * (animator.GetBool(AnimState.isLand) ? 0 : 0.2f), playerTf.position.y - (counter * 0.3f) * animator.speed, 0);
+        playerTf.position = new Vector3(playerTf.position.x, playerTf.position.y - (counter * 0.3f) * animator.speed, 0);
         if (playerTf.position.y < 0.05f && !animator.GetBool(AnimState.isLand)) { //着地寸前
             playerTf.position = new Vector3(playerTf.position.x, 0, 0);
             BattleMgr.Instance.VibrateDouble(0.8f, 2.0f);
-            BattleMgr.Instance.CreateHibi(new Vector3(playerTf.position.x, 0, 0));
+            BattleMgr.Instance.CreateHibi(new Vector3(playerTf.position.x + (playerTf.localScale.x > 0 ? 1 : -1), 0, 0));
+            BattleMgr.Instance.CreateVFX("WhiteStone", playerTf.position + (playerTf.localScale.x > 0 ? 1 : -1) * Vector3.one, Quaternion.identity, 1.0f);
         }
     }
     public override void UpB() {
