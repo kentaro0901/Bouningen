@@ -6520,7 +6520,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1300810865
 RectTransform:
   m_ObjectHideFlags: 0
@@ -7887,6 +7887,7 @@ MonoBehaviour:
   subBgm: {fileID: 78854531}
   mainMusic: {fileID: 8300000, guid: 2f1862161086b2c4395ccbd3de12c439, type: 3}
   subMusic: {fileID: 8300000, guid: dcffff75786b46948ada7c4772a799c4, type: 3}
+  isAutoMultiDisplays: 1
   isMultiDisplays: 0
   isDynamicCamera: 1
   isVisibleBox: 0

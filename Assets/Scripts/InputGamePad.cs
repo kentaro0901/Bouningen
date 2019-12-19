@@ -6,7 +6,7 @@ public class InputGamePad : InputMethod {
 
     int num;
     private void Start() {
-        num = Main.Instance.isSwapController? (int)controller.playerNum+1 : (int)controller.playerNum;
+        num = Main.Instance.isSwapController? ((int)controller.playerNum == 1?2:1) : (int)controller.playerNum;
     }
 
     void Update() {

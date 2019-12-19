@@ -522,12 +522,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   chara1P: 0
   chara2P: 0
-  controller1: 0
-  controller2: 0
+  isSwapController: 0
+  playerType: 0000000000000000
   mainBgm: {fileID: 506392971}
   subBgm: {fileID: 1465082187}
   mainMusic: {fileID: 8300000, guid: e939409fcc1ff114fb4566380bc7c139, type: 3}
   subMusic: {fileID: 8300000, guid: dcffff75786b46948ada7c4772a799c4, type: 3}
+  isAutoMultiDisplays: 1
   isMultiDisplays: 1
   isDynamicCamera: 1
   isVisibleBox: 0
