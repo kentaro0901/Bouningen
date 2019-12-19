@@ -150,7 +150,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerNum: 1
-  isAI: 0
+  isAI: 1
   isTeacher: 0
   isLeveling: 0
   level: 50
@@ -1525,7 +1525,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   chara1P: 1
-  chara2P: 0
+  chara2P: 1
   isSwapController: 0
   playerType: 0000000000000000
   mainBgm: {fileID: 495413257}
@@ -3573,7 +3573,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerNum: 2
-  isAI: 0
+  isAI: 1
   isTeacher: 0
   isLeveling: 0
   level: 100
