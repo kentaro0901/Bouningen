@@ -15,6 +15,11 @@ public class Hammer : Character {
         if (counter == 0) {
             Teach(4);
         }
+        playerTf.position += Vector3.down * counter * 0.03f * animator.speed;
+        if (playerTf.position.y < 0.05f && !animator.GetBool(AnimState.isLand)) {
+            playerTf.position = new Vector3(playerTf.position.x, 0, 0);
+            BattleMgr.Instance.VibrateDouble(0.5f, 0.5f);
+        }
     }
     public override void SideB() {
         if (counter == 0) {
@@ -94,6 +99,7 @@ public class Hammer : Character {
             playerTf.position = new Vector3(playerTf.position.x, 0, 0);
             BattleMgr.Instance.VibrateDouble(0.8f, 2.0f);
             BattleMgr.Instance.CreateHibi(new Vector3(playerTf.position.x, 0, 0));
+            BattleMgr.Instance.CreateVFX("WhiteStone", playerTf.position + (playerTf.localScale.x > 0 ? 1 : -1) * Vector3.one, Quaternion.identity, 1.0f);
         }
     }
 }

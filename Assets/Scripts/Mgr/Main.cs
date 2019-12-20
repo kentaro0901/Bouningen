@@ -98,6 +98,7 @@ public class Main : MonoBehaviour {
         }
         state = State.Title;
         battleResult = BattleResult.Default;
+        Time.timeScale = 1.0f;
         if (isFade) {
             FadeManager.Instance.LoadScene("Title", 0.5f);
         }

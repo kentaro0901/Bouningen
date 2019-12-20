@@ -1525,7 +1525,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   chara1P: 2
-  chara2P: 2
+  chara2P: 0
   isSwapController: 0
   playerType: 0000000000000000
   mainBgm: {fileID: 495413257}
@@ -3574,7 +3574,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerNum: 2
-  isAI: 1
+  isAI: 0
   isTeacher: 0
   isLeveling: 0
   level: 100
