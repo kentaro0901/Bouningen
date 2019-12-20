@@ -251,7 +251,7 @@ TextureImporter:
         x: 0
         y: 512
         width: 512
-        height: 512
+        height: 489
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -269,10 +269,10 @@ TextureImporter:
       name: NutralB_h_6
       rect:
         serializedVersion: 2
-        x: 512
+        x: 515
         y: 512
         width: 512
-        height: 512
+        height: 482
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -293,7 +293,7 @@ TextureImporter:
         x: 1024
         y: 512
         width: 512
-        height: 512
+        height: 492
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -311,10 +311,10 @@ TextureImporter:
       name: NutralB_h_8
       rect:
         serializedVersion: 2
-        x: 1536
-        y: 512
+        x: 1539
+        y: 509
         width: 512
-        height: 512
+        height: 492
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -335,7 +335,7 @@ TextureImporter:
         x: 2048
         y: 512
         width: 512
-        height: 512
+        height: 492
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -356,7 +356,7 @@ TextureImporter:
         x: 0
         y: 0
         width: 512
-        height: 512
+        height: 490
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -377,7 +377,7 @@ TextureImporter:
         x: 512
         y: 0
         width: 512
-        height: 512
+        height: 479
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -398,7 +398,7 @@ TextureImporter:
         x: 1024
         y: 0
         width: 512
-        height: 512
+        height: 472
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -419,7 +419,7 @@ TextureImporter:
         x: 1536
         y: 0
         width: 512
-        height: 512
+        height: 476
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -440,7 +440,7 @@ TextureImporter:
         x: 2048
         y: 0
         width: 512
-        height: 512
+        height: 483
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}

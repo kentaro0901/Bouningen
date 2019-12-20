@@ -80,7 +80,8 @@ public class Hammer : Character {
     public override void UpB_Fall() {
         if (counter == 0) {
             if (playerController.enemyController.stateInfo.fullPathHash == AnimState.CriticalUp ||
-                playerController.enemyController.stateInfo.fullPathHash ==  AnimState.CriticalFall) {
+                playerController.enemyController.stateInfo.fullPathHash ==  AnimState.CriticalFall ||
+                playerController.enemyController.stateInfo.fullPathHash == AnimState.CriticalDown) {
                 BattleMgr.Instance.CreateVFX("XLight", playerTf.position + Vector3.up, Quaternion.identity, 1.0f);
                 BattleMgr.Instance.CreateVFX("OLight", playerTf.position + Vector3.up, Quaternion.identity, 1.0f);
                 BattleMgr.Instance.ChangeToneDouble(0.35f, CameraEffect.ToneName.reverseTone);
