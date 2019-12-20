@@ -85,6 +85,7 @@ public class BattleMgr : MonoBehaviour {
         camera2Tf = chaseCamera2.transform;
         player1Tf = playerController1.playerTf;
         player2Tf = playerController2.playerTf;
+        //地面
         for (int i = -150; i <= 150; i++){
             GameObject g = Instantiate(GrandPref[(int)Random.Range(0, GrandPref.Length)], new Vector3(i * 20, -1.5f, 0), Quaternion.identity);
         }
