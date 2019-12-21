@@ -273,13 +273,13 @@ public class BattleMgr : MonoBehaviour {
         Instantiate(HibiPref[Random.Range(0, HibiPref.Length)], position, Quaternion.identity);
     }
     public void BattleEnd() {
-        if(playerController1.hp <= 0 && playerController2.hp > 0) {
+        if(playerController1.stateInfo.fullPathHash == AnimState.GameEnd && playerController2.hp>0) {
             Debug.Log("2PWIN");
             Main.battleResult = Main.BattleResult.Win2P;
             c1Txt.text = "LOSE";
             c2Txt.text = "WIN";
         }
-        else if(playerController2.hp <= 0 && playerController1.hp > 0) {
+        else if(playerController2.stateInfo.fullPathHash == AnimState.GameEnd && playerController1.hp>0) {
             Debug.Log("1PWIN");
             Main.battleResult = Main.BattleResult.Win1P;
             c1Txt.text = "WIN";

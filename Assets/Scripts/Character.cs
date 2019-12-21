@@ -150,6 +150,7 @@ public abstract class Character : MonoBehaviour {
     }
     public void NutralA() {
         if (counter == 0) {
+            BattleMgr.Instance.VibrateDouble(0.3f, 0.3f);
             Teach(3);
         }
     }
@@ -191,6 +192,9 @@ public abstract class Character : MonoBehaviour {
             playerTf.position += new Vector3(playerController.enemyController.damageVector.x, 0, 0);
     }
     public void LightningAttack() {
+        if (counter == 0) {
+            BattleMgr.Instance.VibrateDouble(0.3f, 0.3f);
+        }
         playerTf.position += new Vector3(playerController.enemyController.damageVector.x * Time.timeScale, 0, 0);
     }
     public void LightningEnd() {
@@ -198,19 +202,26 @@ public abstract class Character : MonoBehaviour {
     }
     public void SideA() {
         if (counter == 0) {
+            StartCoroutine(SideACoroutine());
             Teach(5);
-        }
-        if (counter == 10) {
-            BattleMgr.Instance.CreateVFX("CriticalWave", playerTf.position, Quaternion.identity, 1.0f);
         }
     }
     public void SideA_Air() {
         if (counter == 0) {
+            StartCoroutine(SideACoroutine());
             Teach(5);
         }
-        if (counter == 8) {
-            BattleMgr.Instance.CreateVFX("CriticalWave", playerTf.position, Quaternion.identity, 1.0f);
-        }
+    }
+    IEnumerator SideACoroutine() {
+        float speed = playerController.animator.speed;
+        yield return new WaitForSeconds(10.0f / 60 / speed);
+        BattleMgr.Instance.VibrateDouble(0.3f, 0.3f);
+        BattleMgr.Instance.CreateVFX("CriticalWave", playerTf.position, Quaternion.identity, 1.0f);
+        yield return new WaitForSeconds(8.0f / 60 / speed);
+        BattleMgr.Instance.CreateVFX("LandingCrash", new Vector3(playerTf.position.x + (playerTf.localScale.x > 0 ? 2 : -2), playerTf.position.y + 1, 0), Quaternion.Euler(0, 0, (playerTf.localScale.x > 0 ? 1 : -1) * 90), 1.0f);
+        yield return new WaitForSeconds(8.0f / 60 / speed);
+        BattleMgr.Instance.CreateVFX("LandingCrash", new Vector3(playerTf.position.x + (playerTf.localScale.x > 0 ? 2 : -2), playerTf.position.y + 1, 0), Quaternion.Euler(0, 0, (playerTf.localScale.x > 0 ? 1 : -1) * 90), 1.0f);
+        yield return 0;
     }
     public void DownA() {
         if (counter == 0) {
@@ -220,6 +231,7 @@ public abstract class Character : MonoBehaviour {
     }
     public void DownA_Air() {
         if (counter == 0) {
+            //BattleMgr.Instance.CreateVFX("CriticalDownWave", playerTf.position + Vector3.up*2, Quaternion.identity, 1.0f);
             StartCoroutine(DownACoroutine());
             Teach(7);
         }
@@ -231,6 +243,7 @@ public abstract class Character : MonoBehaviour {
     IEnumerator DownACoroutine() {
         float speed = playerController.animator.speed;
         yield return new WaitForSeconds(14.0f / 60 / speed);
+        BattleMgr.Instance.CreateVFX("WhiteStone", playerTf.position, Quaternion.identity, 1.0f);
         BattleMgr.Instance.CreateVFX("LandingCrash", playerTf.position, Quaternion.identity, 1.0f);
         BattleMgr.Instance.CreateHibi(new Vector3(playerTf.position.x, 0, 0));
         BattleMgr.Instance.VibrateDouble(0.8f, 2.0f);
@@ -238,8 +251,22 @@ public abstract class Character : MonoBehaviour {
     }
     public void UpA() {
         if (counter == 0) {
+            StartCoroutine(UpACoroutine());
             Teach(9);
         }
+    }
+    IEnumerator UpACoroutine() {
+        float speed = playerController.animator.speed;
+        BattleMgr.Instance.VibrateDouble(0.3f, 0.5f);
+        yield return new WaitForSeconds(11.0f / 60 / speed);
+        BattleMgr.Instance.CreateVFX("CriticalUpWave", playerTf.position, Quaternion.identity, 1.0f);
+        yield return new WaitForSeconds(2.0f / 60 / speed);
+        BattleMgr.Instance.CreateVFX("LandingCrash", playerTf.position + Vector3.up*3, Quaternion.Euler(0,0,180), 1.0f);
+        yield return new WaitForSeconds(4.0f / 60 / speed);
+        BattleMgr.Instance.CreateVFX("LandingCrash", playerTf.position + Vector3.up * 3, Quaternion.Euler(0, 0, 180), 1.0f);
+        yield return new WaitForSeconds(4.0f / 60 / speed);
+        BattleMgr.Instance.CreateVFX("LandingCrash", playerTf.position + Vector3.up * 3, Quaternion.Euler(0, 0, 180), 1.0f);
+        yield return 0;
     }
     public void LimitBreak() {
         if (counter == 0) {

@@ -8,6 +8,7 @@ public class Hammer : Character {
 
     public override void NutralB() {
         if (counter == 0) {
+            BattleMgr.Instance.VibrateDouble(0.5f, 0.5f);
             Teach(4);
         }
     }
@@ -18,18 +19,18 @@ public class Hammer : Character {
         playerTf.position += Vector3.down * counter * 0.03f * animator.speed;
         if (playerTf.position.y < 0.05f && !animator.GetBool(AnimState.isLand)) {
             playerTf.position = new Vector3(playerTf.position.x, 0, 0);
-            BattleMgr.Instance.VibrateDouble(0.5f, 0.5f);
+            BattleMgr.Instance.VibrateDouble(0.5f, 1.2f);
         }
     }
     public override void SideB() {
         if (counter == 0) {
+            StartCoroutine(SideBCoroutine());
             Teach(6);
         }
-        if (counter == 13)
-            BattleMgr.Instance.VibrateDouble(0.5f, 0.5f);
     }
     public override void SideB_Air() {
         if (counter == 0) {
+            StartCoroutine(SideBCoroutine());
             Teach(6);
         }
         playerTf.position += Vector3.down * counter * 0.03f * animator.speed;
@@ -38,6 +39,24 @@ public class Hammer : Character {
             BattleMgr.Instance.VibrateDouble(0.8f, 2.0f);
             BattleMgr.Instance.CreateHibi(new Vector3(playerTf.position.x, 0, 0));
         }
+    }
+    IEnumerator SideBCoroutine() {
+        float speed = playerController.animator.speed;
+        yield return new WaitForSeconds(13.0f / 60 / speed);
+        BattleMgr.Instance.VibrateDouble(0.3f, 0.3f);
+        BattleMgr.Instance.CreateVFX("MSunder", playerTf.position + Vector3.up * 2, Quaternion.Euler(0,0,Random.Range(-90,90)), 1.0f);
+        yield return new WaitForSeconds(5.0f / 60 / speed);
+        BattleMgr.Instance.VibrateDouble(0.3f, 0.5f);
+        BattleMgr.Instance.CreateVFX("MSunder", playerTf.position + Vector3.up * 2, Quaternion.Euler(0, 0, Random.Range(-90, 90)), 1.0f);
+        yield return new WaitForSeconds(8.0f / 60 / speed);
+        BattleMgr.Instance.VibrateDouble(0.3f, 0.8f);
+        BattleMgr.Instance.CreateVFX("MSunder", playerTf.position + Vector3.up * 2, Quaternion.Euler(0, 0, Random.Range(-90, 90)), 1.0f);
+        yield return new WaitForSeconds(6.0f / 60 / speed);
+        BattleMgr.Instance.VibrateDouble(0.8f, 1.2f);
+        BattleMgr.Instance.CreateVFX("MSunder", playerTf.position + Vector3.up * 2, Quaternion.Euler(0, 0, Random.Range(-90, 90)), 1.0f);
+        yield return new WaitForSeconds(3.0f / 60 / speed);
+        BattleMgr.Instance.CreateVFX("MSunder", playerTf.position + Vector3.up * 2, Quaternion.Euler(0, 0, Random.Range(-90, 90)), 1.0f);
+        yield return 0;
     }
     public override void DownB() {
         if (counter == 0) {
@@ -79,6 +98,8 @@ public class Hammer : Character {
     }
     public override void UpB() {
         if (counter == 0) {
+            BattleMgr.Instance.VibrateDouble(0.3f, 0.3f);
+            BattleMgr.Instance.CreateVFX("CriticalUpWave", playerTf.position, Quaternion.identity, 1.0f);
             Teach(10);
         }
     }
@@ -91,15 +112,16 @@ public class Hammer : Character {
                 BattleMgr.Instance.CreateVFX("OLight", playerTf.position + Vector3.up, Quaternion.identity, 1.0f);
                 BattleMgr.Instance.ChangeToneDouble(0.35f, CameraEffect.ToneName.reverseTone);
                 BattleMgr.Instance.ChangeAnimeSpeedDouble(0.05f, 0.35f);
-                BattleMgr.Instance.CreateVFX("CriticalUpWave", playerTf.position, Quaternion.identity, 1.0f);
             }
         }
         playerTf.position = new Vector3(playerTf.position.x, playerTf.position.y - (counter * 0.2f) * animator.speed, 0);
         if (playerTf.position.y < 0.05f && !animator.GetBool(AnimState.isLand)) { //着地寸前
             playerTf.position = new Vector3(playerTf.position.x, 0, 0);
-            BattleMgr.Instance.VibrateDouble(0.8f, 2.0f);
+            BattleMgr.Instance.VibrateDouble(1.0f, 3.0f);
             BattleMgr.Instance.CreateHibi(new Vector3(playerTf.position.x, 0, 0));
             BattleMgr.Instance.CreateVFX("WhiteStone", playerTf.position + (playerTf.localScale.x > 0 ? 1 : -1) * Vector3.one, Quaternion.identity, 1.0f);
+            BattleMgr.Instance.CreateVFX("LandingCrash", playerTf.position + (playerTf.localScale.x > 0 ? 1 : -1) * Vector3.one, Quaternion.identity, 1.0f);
+            BattleMgr.Instance.CreateVFX("LandWave", new Vector3(playerTf.position.x + (playerTf.localScale.x > 0 ? 3 : -3), 0, 0), Quaternion.identity, 1.0f);
         }
     }
 }
