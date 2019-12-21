@@ -169,6 +169,11 @@ public class PlayerController : MonoBehaviour {
         if (playerTf.position.y < 0) {
             playerTf.position = new Vector3(playerTf.position.x, 0, 0);
         }
+        //バグ回避
+        if (20 < playerTf.position.y) {
+            playerTf.position = new Vector3(playerTf.position.x, 20, 0);
+            animator.Play("Fall");
+        }
 
         //空中制御
         if (stateInfo.fullPathHash == JumpStart ||
@@ -177,7 +182,9 @@ public class PlayerController : MonoBehaviour {
             stateInfo.fullPathHash == JumpEnd ||
             stateInfo.fullPathHash == Fall ||
             stateInfo.fullPathHash == CriticalFall ||
-            stateInfo.fullPathHash == UpB_Fall) {
+            stateInfo.fullPathHash == UpB_Fall||
+            stateInfo.fullPathHash == DownB_Fall ||
+            stateInfo.fullPathHash == DownB_Air_Fall) {
             if (0 < playerTf.position.y) playerTf.position += Vector3.right * (Character.vectorspeed * vector.x + Character.airspeed * input.xAxis) * animator.speed;
         }
 

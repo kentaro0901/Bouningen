@@ -17,6 +17,7 @@ public abstract class Character : MonoBehaviour {
     public static float vectorspeed = 3.0f;
 
     public int prestatenum = 0;
+    private bool preResistButtonDown = false;
 
     [SerializeField] Material white;
     [SerializeField] Material black;
@@ -341,7 +342,7 @@ public abstract class Character : MonoBehaviour {
         playerTf.position += new Vector3(playerController.damageVector.x, -counter * 0.1f * animator.speed, 0);
         if (playerTf.position.y < 0.1f && playerTf.position.y != 0) {
             playerTf.position = new Vector3(playerTf.position.x, 0, 0);
-            if (playerController.damageVector.x == 0) {
+            if (Mathf.Abs( playerController.damageVector.x) < 0.2f) {
                 BattleMgr.Instance.VibrateDouble(0.5f, 0.3f);
                 animator.Play("CriticalFallEnd");
             }
@@ -385,11 +386,17 @@ public abstract class Character : MonoBehaviour {
             prestatenum = 13;
         }
         if (playerController.input.A || playerController.input.B) {
-            if (playerController.playerNum == PlayerController.PlayerNum.player1) {
-                BattleMgr.Instance.resistCounter1P++;
+            if (!preResistButtonDown) {
+                if (playerController.playerNum == PlayerController.PlayerNum.player1) {
+                    BattleMgr.Instance.resistCounter1P++;
+                }
+                if (playerController.playerNum == PlayerController.PlayerNum.player2)
+                    BattleMgr.Instance.resistCounter2P++;
             }
-            if (playerController.playerNum == PlayerController.PlayerNum.player2)
-                BattleMgr.Instance.resistCounter2P++;
+            preResistButtonDown = true;
+        }
+        else {
+            preResistButtonDown = false;
         }
         if (counter == 20) {
             BattleMgr.Instance.VibrateDouble(0.3f, 2.0f);
