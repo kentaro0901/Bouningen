@@ -202,13 +202,13 @@ public abstract class Character : MonoBehaviour {
     }
     public void SideA() {
         if (counter == 0) {
-            StartCoroutine(SideACoroutine());
+            StartCoroutine("SideACoroutine");
             Teach(5);
         }
     }
     public void SideA_Air() {
         if (counter == 0) {
-            StartCoroutine(SideACoroutine());
+            StartCoroutine("SideACoroutine");
             Teach(5);
         }
     }
@@ -225,14 +225,14 @@ public abstract class Character : MonoBehaviour {
     }
     public void DownA() {
         if (counter == 0) {
-            StartCoroutine(DownACoroutine());
+            StartCoroutine("DownACoroutine");
             Teach(7);
         }
     }
     public void DownA_Air() {
         if (counter == 0) {
             //BattleMgr.Instance.CreateVFX("CriticalDownWave", playerTf.position + Vector3.up*2, Quaternion.identity, 1.0f);
-            StartCoroutine(DownACoroutine());
+            StartCoroutine("DownACoroutine");
             Teach(7);
         }
         playerTf.position = new Vector3(playerTf.position.x, playerTf.position.y - (counter * 0.2f) * animator.speed, 0);
@@ -251,7 +251,7 @@ public abstract class Character : MonoBehaviour {
     }
     public void UpA() {
         if (counter == 0) {
-            StartCoroutine(UpACoroutine());
+            StartCoroutine("UpACoroutine");
             Teach(9);
         }
     }
@@ -305,6 +305,7 @@ public abstract class Character : MonoBehaviour {
     }
     public void Critical() {
         if (counter == 0) {
+            EndCoroutine();
             playerTf.localScale = playerController.damageVector.x > 0 ? new Vector3(-1, 1, 1) : Vector3.one;
             BattleMgr.Instance.ChangeTimeScale(0.06f, 0.4f);
             BattleMgr.Instance.ChangeToneDouble(0.4f, ((int)playerController.playerNum == 2 ? CameraEffect.ToneName.redBlack : CameraEffect.ToneName.blueBlack));
@@ -328,11 +329,15 @@ public abstract class Character : MonoBehaviour {
     }
     public void CriticalUp() {
         if (counter == 0) {
+            EndCoroutine();
             BattleMgr.Instance.CreateVFX("CriticalUpWave", playerTf.position + Vector3.up, Quaternion.identity, 1.0f);
         }
         playerTf.position += new Vector3(playerController.damageVector.x, 0, 0);
     }
     public void CriticalFall() {
+        if(counter == 0) {
+            EndCoroutine();
+        }
         playerTf.position += new Vector3(playerController.damageVector.x, -counter * 0.1f * animator.speed, 0);
         if (playerTf.position.y < 0.1f && playerTf.position.y != 0) {
             playerTf.position = new Vector3(playerTf.position.x, 0, 0);
@@ -512,5 +517,11 @@ public abstract class Character : MonoBehaviour {
             playerController.inputAI.inputValues[n].enState[playerController.enemyController.character.prestatenum] += 3;
         }
         prestatenum = n;
+    }
+
+    protected virtual void EndCoroutine() {
+        StopCoroutine("SideACoroutine");
+        StopCoroutine("DownACoroutine");
+        StopCoroutine("UpACoroutine");
     }
 }

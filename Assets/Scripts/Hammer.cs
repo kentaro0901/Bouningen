@@ -24,13 +24,13 @@ public class Hammer : Character {
     }
     public override void SideB() {
         if (counter == 0) {
-            StartCoroutine(SideBCoroutine());
+            StartCoroutine("SideBCoroutine");
             Teach(6);
         }
     }
     public override void SideB_Air() {
         if (counter == 0) {
-            StartCoroutine(SideBCoroutine());
+            StartCoroutine("SideBCoroutine");
             Teach(6);
         }
         playerTf.position += Vector3.down * counter * 0.03f * animator.speed;
@@ -60,11 +60,22 @@ public class Hammer : Character {
     }
     public override void DownB() {
         if (counter == 0) {
-            StartCoroutine(DownBCoroutine());
+            BattleMgr.Instance.VibrateDouble(0.3f, 0.3f);
+            BattleMgr.Instance.CreateVFX("CriticalUpWave", playerTf.position, Quaternion.identity, 1.0f);
+            //StartCoroutine("DownBCoroutine");
             Teach(8);
         }
-        if (counter % 4 == 0 && counter <= 8) {
-            BattleMgr.Instance.CreateVFX("FallSunder", playerTf.position, Quaternion.identity, 1.0f);
+        if (playerTf.position.y < 0.05f && !animator.GetBool(AnimState.isLand)) {
+            playerTf.position = new Vector3(playerTf.position.x, 0, 0);
+            BattleMgr.Instance.VibrateDouble(0.8f, 2.0f);
+            BattleMgr.Instance.CreateHibi(new Vector3(playerTf.position.x + (playerTf.localScale.x > 0? 1.8f :-1.8f), 0, 0));
+            BattleMgr.Instance.CreateHibi(new Vector3(playerTf.position.x + (playerTf.localScale.x > 0 ? 2 : -2), 0, 0));
+            BattleMgr.Instance.CreateHibi(new Vector3(playerTf.position.x + (playerTf.localScale.x > 0 ? 2.2f : -2.2f), 0, 0));
+            BattleMgr.Instance.CreateVFX("LandingCrash", new Vector3(playerTf.position.x + (playerTf.localScale.x > 0 ? 2 : -2), 0, 0), Quaternion.identity, 1.0f);
+            BattleMgr.Instance.CreateVFX("LandWave", new Vector3(playerTf.position.x + (playerTf.localScale.x > 0 ? 2 : -2), 0, 0), Quaternion.identity, 1.0f);
+            BattleMgr.Instance.CreateVFX("WhiteStone", new Vector3( playerTf.position.x + (playerTf.localScale.x > 0 ? 2 : -2),0,0), Quaternion.Euler(0,0,Random.Range(-30,30)),1.0f);
+            BattleMgr.Instance.CreateVFX("WhiteStone", new Vector3(playerTf.position.x + (playerTf.localScale.x > 0 ? 2 : -2), 0, 0), Quaternion.Euler(0, 0, Random.Range(-30, 30)), 1.0f);
+            BattleMgr.Instance.CreateVFX("WhiteStone", new Vector3(playerTf.position.x + (playerTf.localScale.x > 0 ? 2 : -2), 0, 0), Quaternion.Euler(0, 0, Random.Range(-30, 30)), 1.0f);
         }
     }
     IEnumerator DownBCoroutine() {
@@ -73,6 +84,21 @@ public class Hammer : Character {
         BattleMgr.Instance.CreateHibi(new Vector3(playerTf.position.x, 0, 0));
         BattleMgr.Instance.VibrateDouble(0.8f, 2.0f);
         yield return 0;
+    }
+    public override void DownB_Air() {
+        playerTf.position = new Vector3(playerTf.position.x, playerTf.position.y - (counter * 0.2f) * animator.speed, 0);
+        if (playerTf.position.y < 0.05f && !animator.GetBool(AnimState.isLand)) {
+            playerTf.position = new Vector3(playerTf.position.x, 0, 0);
+            BattleMgr.Instance.VibrateDouble(0.8f, 2.0f);
+            BattleMgr.Instance.CreateHibi(new Vector3(playerTf.position.x + (playerTf.localScale.x > 0 ? 1.8f : -1.8f), 0, 0));
+            BattleMgr.Instance.CreateHibi(new Vector3(playerTf.position.x + (playerTf.localScale.x > 0 ? 2 : -2), 0, 0));
+            BattleMgr.Instance.CreateHibi(new Vector3(playerTf.position.x + (playerTf.localScale.x > 0 ? 2.2f : -2.2f), 0, 0));
+            BattleMgr.Instance.CreateVFX("LandingCrash", new Vector3(playerTf.position.x + (playerTf.localScale.x > 0 ? 2 : -2), 0, 0), Quaternion.identity, 1.0f);
+            BattleMgr.Instance.CreateVFX("LandWave", new Vector3(playerTf.position.x + (playerTf.localScale.x > 0 ? 2 : -2), 0, 0), Quaternion.identity, 1.0f);
+            BattleMgr.Instance.CreateVFX("WhiteStone", new Vector3(playerTf.position.x + (playerTf.localScale.x > 0 ? 2 : -2), 0, 0), Quaternion.Euler(0, 0, Random.Range(-30, 30)), 1.0f);
+            BattleMgr.Instance.CreateVFX("WhiteStone", new Vector3(playerTf.position.x + (playerTf.localScale.x > 0 ? 2 : -2), 0, 0), Quaternion.Euler(0, 0, Random.Range(-30, 30)), 1.0f);
+            BattleMgr.Instance.CreateVFX("WhiteStone", new Vector3(playerTf.position.x + (playerTf.localScale.x > 0 ? 2 : -2), 0, 0), Quaternion.Euler(0, 0, Random.Range(-30, 30)), 1.0f);
+        }
     }
     public override void DownB_Air_Fall() {
         if (counter == 0) {
@@ -91,8 +117,9 @@ public class Hammer : Character {
         if (playerTf.position.y < 0.05f && !animator.GetBool(AnimState.isLand)) {
             playerTf.position = new Vector3(playerTf.position.x, 0, 0);
             BattleMgr.Instance.CreateHibi(new Vector3(playerTf.position.x, 0, 0));
-            BattleMgr.Instance.CreateVFX("LandWave", playerTf.position, Quaternion.identity, 1.0f);
-            BattleMgr.Instance.CreateVFX("LandingCrash", playerTf.position, Quaternion.identity, 1.0f);
+            BattleMgr.Instance.CreateVFX("LandingCrash", playerTf.position + (playerTf.localScale.x > 0 ? 3 : -3) * Vector3.one, Quaternion.identity, 1.0f);
+            BattleMgr.Instance.CreateVFX("LandWave", new Vector3(playerTf.position.x + (playerTf.localScale.x > 0 ? 3 : -3), 0, 0), Quaternion.identity, 1.0f);
+            BattleMgr.Instance.CreateVFX("WhiteStone", playerTf.position + (playerTf.localScale.x > 0 ? 3 : -3) * Vector3.one, Quaternion.identity, 1.0f);
             BattleMgr.Instance.VibrateDouble(1.0f, 1.5f);
         }
     }
@@ -123,5 +150,10 @@ public class Hammer : Character {
             BattleMgr.Instance.CreateVFX("LandingCrash", playerTf.position + (playerTf.localScale.x > 0 ? 1 : -1) * Vector3.one, Quaternion.identity, 1.0f);
             BattleMgr.Instance.CreateVFX("LandWave", new Vector3(playerTf.position.x + (playerTf.localScale.x > 0 ? 3 : -3), 0, 0), Quaternion.identity, 1.0f);
         }
+    }
+    protected override void EndCoroutine() {
+        base.EndCoroutine();
+        StopCoroutine("SideBCoroutine");
+        StopCoroutine("DownBCoroutine");
     }
 }

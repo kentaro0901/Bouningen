@@ -270,7 +270,7 @@ public class BattleMgr : MonoBehaviour {
         return r.gameObject;
     }
     public void CreateHibi(Vector3 position ) {
-        Instantiate(HibiPref[Random.Range(0, HibiPref.Length)], position, Quaternion.identity);
+        Instantiate(HibiPref[Random.Range(0, HibiPref.Length)], position, Quaternion.Euler(0,0,Random.Range(-30,30)));
     }
     public void BattleEnd() {
         if(playerController1.stateInfo.fullPathHash == AnimState.GameEnd && playerController2.hp>0) {
