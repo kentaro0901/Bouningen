@@ -1524,8 +1524,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92c39ffd71790224d99967002fc15056, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  chara1P: 2
-  chara2P: 0
+  chara1P: 1
+  chara2P: 2
   isSwapController: 0
   playerType: 0000000000000000
   mainBgm: {fileID: 495413257}
