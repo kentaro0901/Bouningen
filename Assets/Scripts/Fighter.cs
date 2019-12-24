@@ -131,6 +131,9 @@ public class Fighter : Character {
             playerTf.position = new Vector3(playerTf.position.x, 0, 0);
             BattleMgr.Instance.VibrateDouble(0.8f, 2.0f);
             BattleMgr.Instance.CreateHibi(new Vector3(playerTf.position.x, 0, 0));
+            BattleMgr.Instance.CreateVFX("WhiteStone", playerTf.position, Quaternion.identity, 1.0f);
+            BattleMgr.Instance.CreateVFX("LandingCrash", playerTf.position, Quaternion.identity, 1.0f);
+            BattleMgr.Instance.CreateVFX("LandWave", new Vector3(playerTf.position.x, 0, 0), Quaternion.identity, 1.0f);
         }
     }
     protected override void EndCoroutine() {
