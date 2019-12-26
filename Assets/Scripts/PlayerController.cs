@@ -15,12 +15,6 @@ public class PlayerController : MonoBehaviour {
 
     //AI学習用
     public bool isAI = false;
-    public bool isTeacher = false;
-    public bool isLeveling = false;
-    public int level = 50; //0-100
-    public Vector2 dv;
-    public int dx; 
-    public int dy;
     public InputAI inputAI;
     public string AIFileName;
 
@@ -116,11 +110,6 @@ public class PlayerController : MonoBehaviour {
         //カウンターリセット
         if (stateInfo.fullPathHash != preStateInfo.fullPathHash) counter = 0;
         character.counter = counter;
-
-        //AI強化用(仮)
-        dv = enemyTf.position - playerTf.position;
-        dx = Mathf.Min(Mathf.Abs((int)dv.x), InputAI.xDataNum-1);
-        dy = ((int)Mathf.Abs(dv.y) < (int)Mathf.Floor(InputAI.yDataNum / 2) ? (int)dv.y : (dv.y < 0 ? -1 : 1) * (int)Mathf.Floor(InputAI.yDataNum / 2)) + (int)Mathf.Floor(InputAI.yDataNum / 2);
 
         //状態分岐
         if (stateInfo.fullPathHash == Prepare) {}

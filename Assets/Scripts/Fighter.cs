@@ -9,13 +9,11 @@ public class Fighter : Character {
     public override void NutralB() {
         if (counter == 0) {
             StartCoroutine("NutralBCoroutine");
-            Teach(4);
         }
     }
     public override void NutralB_Air() {
         if (counter == 0) {
             StartCoroutine("NutralBCoroutine");
-            Teach(4);
         }
         playerTf.position += Vector3.down * counter * 0.03f * animator.speed;
         if (playerTf.position.y < 0.05f && !animator.GetBool(AnimState.isLand)) {
@@ -31,7 +29,6 @@ public class Fighter : Character {
     }
     public override void SideB() {
         if (counter == 0) {
-            Teach(6);
             StartCoroutine("SideBCoroutine");
         }
     }
@@ -52,20 +49,16 @@ public class Fighter : Character {
     }
     public override void SideB_Air() {
         if (counter == 0) {
-            Teach(6);
             StartCoroutine("SideBCoroutine");
         }
         playerTf.position += Vector3.down * 0.03f * animator.speed;
         if (playerTf.position.y < 0.05f && !animator.GetBool(AnimState.isLand)) {
             playerTf.position = new Vector3(playerTf.position.x, 0, 0);
-            //BattleMgr.Instance.VibrateDouble(0.8f, 2.0f);
-            //BattleMgr.Instance.CreateHibi(new Vector3(playerTf.position.x, 0, 0));
         }
     }
     public override void DownB() {
         if (counter == 0) {
             BattleMgr.Instance.VibrateDouble(0.3f, 0.3f);
-            Teach(8);
         }
     }
     public override void DownB_Fall() {
@@ -89,9 +82,6 @@ public class Fighter : Character {
         }
     }
     public override void DownB_Air() {
-        if (counter == 0) {
-            Teach(8);
-        }
         playerTf.position = new Vector3(playerTf.position.x, playerTf.position.y - (counter * 0.3f) * animator.speed, 0);
         if (playerTf.position.y < 0.05f && !animator.GetBool(AnimState.isLand)) { //着地寸前
             playerTf.position = new Vector3(playerTf.position.x, 0, 0);
@@ -106,7 +96,6 @@ public class Fighter : Character {
         if (counter == 0) {
             BattleMgr.Instance.VibrateDouble(0.3f, 0.3f);
             StartCoroutine("UpBCoroutine");
-            Teach(10);
         }
     }
     IEnumerator UpBCoroutine() {

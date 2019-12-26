@@ -76,19 +76,20 @@ public class BattleMgr : MonoBehaviour {
     float preMP1;
     float preMP2;
 
+    int groundLeft = -5;
+    int groundRight = 5;
+    int groundSpan = 20;
+
     void Start() {
         Main.state = Main.State.Battle;
         Main.battleResult = Main.BattleResult.Battle;
         Main.Instance.BattleCameraSetting();
-        //Main.Instance.CheckGamePad();
         camera1Tf = chaseCamera1.transform;
         camera2Tf = chaseCamera2.transform;
         player1Tf = playerController1.playerTf;
         player2Tf = playerController2.playerTf;
         //地面
-        for (int i = -150; i <= 150; i++){
-            GameObject g = Instantiate(GrandPref[(int)Random.Range(0, GrandPref.Length)], new Vector3(i * 20, -1.5f, 0), Quaternion.identity);
-        }
+        CreateGround(groundLeft, groundRight);
         preHP1 = playerController1.hp;
         preHP2 = playerController2.hp;
         if (Main.Instance.isVisibleUI) {
@@ -121,15 +122,19 @@ public class BattleMgr : MonoBehaviour {
                 ChangeTimeScale(1.0f, 0);
                 Main.Instance.Init(true);
             }
-            if (60 <= counter && (playerController1.isLeveling || playerController2.isLeveling)) { //自動学習
-                ChangeTimeScale(1.0f, 0);
-                SceneManager.LoadScene("Battle");
-            }
         }
     }
     void LateUpdate() {
         if (Main.state == Main.State.Battle) ChangeCameraChaseMode();
         ResistMgr();
+        float left = player1Tf.position.x < player2Tf.position.x ? player1Tf.position.x : player2Tf.position.x;
+        float right = player1Tf.position.x <= player2Tf.position.x ? player2Tf.position.x : player1Tf.position.x;
+        if(left/groundSpan < groundLeft) {
+            CreateGround((int)(left / groundSpan)-1, groundLeft-1);
+        }
+        if(groundRight < right / groundSpan) {
+            CreateGround(groundRight + 1, (int)(right / groundSpan) + 1);
+        }
     }
 
     private void UpdateUI() {
@@ -271,6 +276,15 @@ public class BattleMgr : MonoBehaviour {
     }
     public void CreateHibi(Vector3 position ) {
         Instantiate(HibiPref[Random.Range(0, HibiPref.Length)], position, Quaternion.Euler(0,0,Random.Range(-10,10)));
+    }
+    void CreateGround(int left, int right) {
+        for (int i = left; i <= right; i++) {
+            Instantiate(GrandPref[Random.Range(0, GrandPref.Length)], new Vector3(i * groundSpan, -1.5f, 0), Quaternion.identity);
+        }
+        if (left < groundLeft)
+            groundLeft = left;
+        if (groundRight < right)
+            groundRight = right;
     }
     public void BattleEnd() {
         if(playerController1.stateInfo.fullPathHash == AnimState.GameEnd && playerController2.hp>0) {

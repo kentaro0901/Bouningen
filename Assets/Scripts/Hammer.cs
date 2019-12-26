@@ -9,13 +9,9 @@ public class Hammer : Character {
     public override void NutralB() {
         if (counter == 0) {
             BattleMgr.Instance.VibrateDouble(0.5f, 0.5f);
-            Teach(4);
         }
     }
     public override void NutralB_Air() {
-        if (counter == 0) {
-            Teach(4);
-        }
         playerTf.position += Vector3.down * counter * 0.03f * animator.speed;
         if (playerTf.position.y < 0.05f && !animator.GetBool(AnimState.isLand)) {
             playerTf.position = new Vector3(playerTf.position.x, 0, 0);
@@ -25,13 +21,11 @@ public class Hammer : Character {
     public override void SideB() {
         if (counter == 0) {
             StartCoroutine("SideBCoroutine");
-            Teach(6);
         }
     }
     public override void SideB_Air() {
         if (counter == 0) {
             StartCoroutine("SideBCoroutine");
-            Teach(6);
         }
         playerTf.position += Vector3.down * counter * 0.03f * animator.speed;
         if (playerTf.position.y < 0.05f && !animator.GetBool(AnimState.isLand)) {
@@ -62,8 +56,6 @@ public class Hammer : Character {
         if (counter == 0) {
             BattleMgr.Instance.VibrateDouble(0.3f, 0.3f);
             BattleMgr.Instance.CreateVFX("CriticalUpWave", playerTf.position, Quaternion.identity, 1.0f);
-            //StartCoroutine("DownBCoroutine");
-            Teach(8);
         }
         if (playerTf.position.y < 0.05f && !animator.GetBool(AnimState.isLand)) {
             playerTf.position = new Vector3(playerTf.position.x, 0, 0);
@@ -108,7 +100,6 @@ public class Hammer : Character {
                 BattleMgr.Instance.ChangeToneDouble(0.35f, CameraEffect.ToneName.reverseTone);
                 BattleMgr.Instance.ChangeAnimeSpeedDouble(0.05f, 0.35f);
             }
-            Teach(8);
         }
         if (counter % 3 == 0 && counter <= 9) {
             BattleMgr.Instance.CreateVFX("CriticalDownWave", playerTf.position + Vector3.up * 2, Quaternion.identity, 1.0f);
@@ -127,7 +118,6 @@ public class Hammer : Character {
         if (counter == 0) {
             BattleMgr.Instance.VibrateDouble(0.3f, 0.3f);
             BattleMgr.Instance.CreateVFX("CriticalUpWave", playerTf.position, Quaternion.identity, 1.0f);
-            Teach(10);
         }
     }
     public override void UpB_Fall() {

@@ -150,13 +150,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerNum: 1
-  isAI: 1
-  isTeacher: 0
-  isLeveling: 0
-  level: 50
-  dv: {x: 0, y: 0}
-  dx: 0
-  dy: 0
+  isAI: 0
   inputAI: {fileID: 0}
   AIFileName: AISword
   input: {fileID: 0}
@@ -1524,10 +1518,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92c39ffd71790224d99967002fc15056, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  chara1P: 1
-  chara2P: 1
+  chara1P: 0
+  chara2P: 0
   isSwapController: 0
-  playerType: 0000000000000000
+  playerType: 0100000002000000
   mainBgm: {fileID: 495413257}
   subBgm: {fileID: 1624063120}
   mainMusic: {fileID: 8300000, guid: e939409fcc1ff114fb4566380bc7c139, type: 3}
@@ -3574,13 +3568,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerNum: 2
-  isAI: 1
-  isTeacher: 0
-  isLeveling: 0
-  level: 100
-  dv: {x: 0, y: 0}
-  dx: 0
-  dy: 0
+  isAI: 0
   inputAI: {fileID: 0}
   AIFileName: AIFighter
   input: {fileID: 0}
