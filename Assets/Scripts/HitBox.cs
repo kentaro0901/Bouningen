@@ -14,7 +14,7 @@ public class HitBox : MonoBehaviour {
 
         //ヒット
         if (collision.gameObject.transform.parent != this.transform.parent && collision.gameObject.tag == "HurtBox") {
-            if (!character.playerController.isLimitBreak) character.playerController.mp += attack * (isCritical ? 0.6f : 0.5f);
+            if (!character.controller.isLimitBreak) character.controller.mp += attack * (isCritical ? 0.6f : 0.5f);
             BattleMgr.Instance.CreateVFX("Hit", transform.position,Quaternion.identity, 1.0f);
             BattleMgr.Instance.CreateVFX("HitWave", transform.position,Quaternion.identity, 1.0f);
         }
@@ -22,8 +22,8 @@ public class HitBox : MonoBehaviour {
         //鍔迫り合い
         if (collision.gameObject.transform.parent != this.transform.parent && collision.gameObject.tag == "HitBox" && isResist && collision.gameObject.GetComponent<HitBox>().isResist) {
             HitBox hitBox = collision.gameObject.GetComponent<HitBox>();
-            character.playerController.isResistance = true;
-            Vector2 v = new Vector2(character.playerController.animator.GetBool("isRight") ? vector.x : -vector.x, vector.y);
+            character.controller.isResistance = true;
+            Vector2 v = new Vector2(character.controller.animator.GetBool("isRight") ? vector.x : -vector.x, vector.y);
             collision.gameObject.GetComponent<HitBox>().character.StartResistance(v, attack);
         }
     }

@@ -11,13 +11,17 @@ public class CameraEffect : MonoBehaviour {
     public Material reverseTone;
     public Material whiteWhite;
     public Material blackBlack;
+    [SerializeField] Material blackRed;
+    [SerializeField] Material blackBlue;
     public enum ToneName {
         NormalTone,
         redBlack,
         blueBlack,
         reverseTone,
         whiteWhite,
-        blackBlack
+        blackBlack,
+        blackRed,
+        blackBlue
     }
     public static ToneName toneName = ToneName.redBlack;
     float postEffectSeconds = 0.0f;
@@ -102,6 +106,8 @@ public class CameraEffect : MonoBehaviour {
             case ToneName.reverseTone: material = reverseTone; break;
             case ToneName.whiteWhite: material = whiteWhite; break;
             case ToneName.blackBlack: material = blackBlack; break;
+            case ToneName.blackRed: material = blackRed; break;
+            case ToneName.blackBlue: material = blackBlue; break;
         }
     }
     private void ToneCountDown() {

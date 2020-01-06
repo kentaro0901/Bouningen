@@ -4,14 +4,14 @@ using UnityEngine;
 //ハンマーの固有処理
 public class Hammer : Character {
 
-    static public float maxhp = 100.0f;
-
     public override void NutralB() {
+        base.NutralB();
         if (counter == 0) {
             BattleMgr.Instance.VibrateDouble(0.5f, 0.5f);
         }
     }
     public override void NutralB_Air() {
+        base.NutralB_Air();
         playerTf.position += Vector3.down * counter * 0.03f * animator.speed;
         if (playerTf.position.y < 0.05f && !animator.GetBool(AnimState.isLand)) {
             playerTf.position = new Vector3(playerTf.position.x, 0, 0);
@@ -19,11 +19,13 @@ public class Hammer : Character {
         }
     }
     public override void SideB() {
+        base.SideB();
         if (counter == 0) {
             StartCoroutine("SideBCoroutine");
         }
     }
     public override void SideB_Air() {
+        base.SideB_Air();
         if (counter == 0) {
             StartCoroutine("SideBCoroutine");
         }
@@ -35,7 +37,7 @@ public class Hammer : Character {
         }
     }
     IEnumerator SideBCoroutine() {
-        float speed = playerController.animator.speed;
+        float speed = controller.animator.speed;
         yield return new WaitForSeconds(13.0f / 60 / speed);
         BattleMgr.Instance.VibrateDouble(0.3f, 0.3f);
         BattleMgr.Instance.CreateVFX("MSunder", playerTf.position + Vector3.up * 2, Quaternion.Euler(0,0,Random.Range(-90,90)), 1.0f);
@@ -53,6 +55,7 @@ public class Hammer : Character {
         yield return 0;
     }
     public override void DownB() {
+        base.DownB();
         if (counter == 0) {
             BattleMgr.Instance.VibrateDouble(0.3f, 0.3f);
             BattleMgr.Instance.CreateVFX("CriticalUpWave", playerTf.position, Quaternion.identity, 1.0f);
@@ -71,13 +74,14 @@ public class Hammer : Character {
         }
     }
     IEnumerator DownBCoroutine() {
-        float speed = playerController.animator.speed;
+        float speed = controller.animator.speed;
         yield return new WaitForSeconds(15.0f / 60 / speed);
         BattleMgr.Instance.CreateHibi(new Vector3(playerTf.position.x, 0, 0));
         BattleMgr.Instance.VibrateDouble(0.8f, 2.0f);
         yield return 0;
     }
     public override void DownB_Air() {
+        base.DownB_Air();
         playerTf.position = new Vector3(playerTf.position.x, playerTf.position.y - (counter * 0.2f) * animator.speed, 0);
         if (playerTf.position.y < 0.05f && !animator.GetBool(AnimState.isLand)) {
             playerTf.position = new Vector3(playerTf.position.x, 0, 0);
@@ -93,8 +97,9 @@ public class Hammer : Character {
         }
     }
     public override void DownB_Air_Fall() {
+        base.DownB_Air_Fall();
         if (counter == 0) {
-            if (Mathf.Abs(playerController.enemyTf.position.x - playerTf.position.x) <= 1.5f) {
+            if (Mathf.Abs(enemyTf.position.x - playerTf.position.x) <= 1.5f) {
                 BattleMgr.Instance.CreateVFX("XLight", playerTf.position + Vector3.up, Quaternion.identity, 1.0f);
                 BattleMgr.Instance.CreateVFX("OLight", playerTf.position + Vector3.up, Quaternion.identity, 1.0f);
                 BattleMgr.Instance.ChangeToneDouble(0.35f, CameraEffect.ToneName.reverseTone);
@@ -115,16 +120,18 @@ public class Hammer : Character {
         }
     }
     public override void UpB() {
+        base.UpB();
         if (counter == 0) {
             BattleMgr.Instance.VibrateDouble(0.3f, 0.3f);
             BattleMgr.Instance.CreateVFX("CriticalUpWave", playerTf.position, Quaternion.identity, 1.0f);
         }
     }
     public override void UpB_Fall() {
+        base.UpB_Fall();
         if (counter == 0) {
-            if (playerController.enemyController.stateInfo.fullPathHash == AnimState.CriticalUp ||
-                playerController.enemyController.stateInfo.fullPathHash ==  AnimState.CriticalFall ||
-                playerController.enemyController.stateInfo.fullPathHash == AnimState.CriticalDown) {
+            if (controller.enemyController.stateInfo.fullPathHash == AnimState.CriticalUp ||
+                controller.enemyController.stateInfo.fullPathHash ==  AnimState.CriticalFall ||
+                controller.enemyController.stateInfo.fullPathHash == AnimState.CriticalDown) {
                 BattleMgr.Instance.CreateVFX("XLight", playerTf.position + Vector3.up, Quaternion.identity, 1.0f);
                 BattleMgr.Instance.CreateVFX("OLight", playerTf.position + Vector3.up, Quaternion.identity, 1.0f);
                 BattleMgr.Instance.ChangeToneDouble(0.35f, CameraEffect.ToneName.reverseTone);

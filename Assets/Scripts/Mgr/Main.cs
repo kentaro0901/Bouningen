@@ -187,7 +187,6 @@ public class Main : MonoBehaviour {
             else Debug.Log("2P:None");
         }
         else {
-            //playerType[1] = PlayerType.AI;
             Debug.Log("2P:None");
         }
         //スワップ
@@ -195,7 +194,6 @@ public class Main : MonoBehaviour {
             isSwapController = true;
             controller[0] = controller[1];
             controller[1] = Controller.None;
-            //playerType[1] = PlayerType.AI;
             Debug.Log("Controller swapped");
         }
     }

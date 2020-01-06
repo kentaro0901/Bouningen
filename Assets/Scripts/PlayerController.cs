@@ -12,105 +12,67 @@ public class PlayerController : MonoBehaviour {
         player2
     }
     public PlayerNum playerNum;
-
-    //AI学習用
-    public bool isAI = false;
-    public InputAI inputAI;
     public string AIFileName;
 
     public InputMethod input;
-    private Main.Chara myChara = Main.Chara.Sword;
     [SerializeField] GameObject swordPref;
     [SerializeField] GameObject fighterPref;
     [SerializeField] GameObject hammerPref;
-    GameObject characterIns;
     public Character character;
 
     public float maxhp = 100.0f;
     public float hp = 100.0f;
     public float mp = 0.0f;
-
-    public int counter = 0;
-
     public ChaseCamera chaseCamera;
-
     public Transform playerTf;
-
     public PlayerController enemyController;
     public Transform enemyTf;
-
     public AnimatorStateInfo preStateInfo;
     public AnimatorStateInfo stateInfo;
     public Animator animator;
-
-    Vector3 prePos;
-    Vector2 vector;
     public Vector3 damageVector = Vector3.zero;
     public float resistDamage = 0.0f;
-
     public bool isResistance = false;
     public bool isLimitBreak = false;
 
     void Awake() {
         //キャラの生成
-        myChara = (int)playerNum == 1 ? Main.Instance.chara1P : Main.Instance.chara2P;
-        switch (myChara) {
-            case Main.Chara.Sword:
-                characterIns = Instantiate(swordPref, playerNum == PlayerNum.player1 ? new Vector3(-20,0,0): new Vector3(20,0,0), new Quaternion(0, 0, 0, 0));
-                character = characterIns.GetComponent<Sword>();
-                maxhp = Sword.maxhp;
-                AIFileName = "AISword";
-                break;
-            case Main.Chara.Fighter:
-                characterIns = Instantiate(fighterPref, playerNum == PlayerNum.player1 ? new Vector3(-20, 0, 0) : new Vector3(20, 0, 0), new Quaternion(0, 0, 0, 0));
-                character = characterIns.GetComponent<Fighter>();
-                maxhp = Fighter.maxhp;
-                AIFileName = "AIFighter";
-                break;
-            case Main.Chara.Hammer:
-                characterIns = Instantiate(hammerPref, playerNum == PlayerNum.player1 ? new Vector3(-20, 0, 0) : new Vector3(20, 0, 0), new Quaternion(0, 0, 0, 0));
-                character = characterIns.GetComponent<Hammer>();
-                maxhp = Hammer.maxhp;
-                AIFileName = "AIHammer";
-                break;
-            default:
-                break;
-        }
+        Main.Chara myChara = (int)playerNum == 1 ? Main.Instance.chara1P : Main.Instance.chara2P;
         Debug.Log((int)playerNum + "P : " + myChara);
-
+        GameObject charaPref = swordPref;
+        switch (myChara) {
+            case Main.Chara.Sword: charaPref = swordPref; break;
+            case Main.Chara.Fighter: charaPref = fighterPref; break;
+            case Main.Chara.Hammer: charaPref = hammerPref; break;
+            default: break;
+        }
+        GameObject characterIns = Instantiate(charaPref, playerNum == PlayerNum.player1 ? new Vector3(-20, 0, 0) : new Vector3(20, 0, 0), new Quaternion(0, 0, 0, 0));
+        character = characterIns.GetComponent<Character>();
+        animator = characterIns.GetComponent<Animator>();
         playerTf = characterIns.transform;
+        maxhp = character.status.maxhp;
+        AIFileName = character.status.AIFileName;
         chaseCamera.playerTf = playerTf;
     }
 
     void Start() {
-        counter = 0;
         hp = maxhp;
-        character.playerController = this;
-        animator = characterIns.GetComponent<Animator>();
+        character.controller = this;
+        
         enemyTf = enemyController.playerTf;
         animator.speed = Main.Instance.gameSpeed;
-        if (isAI || Main.Instance.playerType[(int)playerNum - 1] == Main.PlayerType.AI) {
-            inputAI = gameObject.AddComponent<InputAI>();
-            input = inputAI;
-        }
-        else {
-            switch (Main.controller[(int)(playerNum - 1)]) {
-                case Main.Controller.GamePad: input = gameObject.AddComponent<InputGamePad>(); break;
-                case Main.Controller.Joycon:  input = gameObject.AddComponent<InputJoycon>(); break;
-                default: input = gameObject.AddComponent<InputGamePad>(); break;
-            }
+        switch (Main.Instance.playerType[(int)playerNum - 1]) {
+            case Main.PlayerType.Player: input = gameObject.AddComponent<InputGamePad>(); break;
+            case Main.PlayerType.AI: input = gameObject.AddComponent<InputAI>(); break;
+            default: input = gameObject.AddComponent<InputGamePad>(); break;
         }
     }
 
     void Update() {
-        vector = playerTf.position - prePos;
-
         stateInfo = animator.GetCurrentAnimatorStateInfo(0);
 
         //カウンターリセット
-        if (stateInfo.fullPathHash != preStateInfo.fullPathHash) counter = 0;
-        character.counter = counter;
-
+        if (stateInfo.fullPathHash != preStateInfo.fullPathHash) character.counter = 0;
         //状態分岐
         if (stateInfo.fullPathHash == Prepare) {}
         else if (stateInfo.fullPathHash == StartGame) { character.StartGame(); }
@@ -155,47 +117,27 @@ public class PlayerController : MonoBehaviour {
         if (stateInfo.fullPathHash == GameEnd) { character.GameEnd();}
 
         //地面判定（仮）
-        if (playerTf.position.y < 0) {
-            playerTf.position = new Vector3(playerTf.position.x, 0, 0);
-        }
-        //バグ回避
-        if (20 < playerTf.position.y) {
-            playerTf.position = new Vector3(playerTf.position.x, 20, 0);
-            animator.Play("Fall");
-        }
-
+        if (playerTf.position.y < 0) { character.GroundCollision();}
         //空中制御
-        if (stateInfo.fullPathHash == JumpStart ||
-            stateInfo.fullPathHash == ShortJump ||
-            stateInfo.fullPathHash == Jump ||
-            stateInfo.fullPathHash == JumpEnd ||
-            stateInfo.fullPathHash == Fall ||
-            stateInfo.fullPathHash == CriticalFall ||
-            stateInfo.fullPathHash == UpB_Fall||
-            stateInfo.fullPathHash == DownB_Fall ||
-            stateInfo.fullPathHash == DownB_Air_Fall) {
-            if (0 < playerTf.position.y) playerTf.position += Vector3.right * (Character.vectorspeed * vector.x + Character.airspeed * input.xAxis) * animator.speed;
+        if (0 < playerTf.position.y &&
+            (stateInfo.fullPathHash == JumpStart || stateInfo.fullPathHash == ShortJump || stateInfo.fullPathHash == Jump ||
+            stateInfo.fullPathHash == JumpEnd || stateInfo.fullPathHash == Fall || stateInfo.fullPathHash == CriticalFall ||
+            stateInfo.fullPathHash == UpB_Fall || stateInfo.fullPathHash == DownB_Fall ||stateInfo.fullPathHash == DownB_Air_Fall)) {
+            character.AirControll();
         }
-
         //自動反転
         if (stateInfo.fullPathHash == StartGame || stateInfo.fullPathHash == Idle ||
             stateInfo.fullPathHash == SideA_R || stateInfo.fullPathHash == NutralA_R || stateInfo.fullPathHash == SideB_R ||
             stateInfo.fullPathHash == SideA_Air_R || stateInfo.fullPathHash == NutralA_Air_R ||
             stateInfo.fullPathHash == SideA_RW|| stateInfo.fullPathHash == NutralA_RW|| stateInfo.fullPathHash == SideB_RW||
-            stateInfo.fullPathHash == SideA_Air_RW|| stateInfo.fullPathHash == NutralA_Air_RW){ 
-            playerTf.localScale = enemyTf.position.x > playerTf.position.x ? Vector3.one : new Vector3(-1, 1, 1);
+            stateInfo.fullPathHash == SideA_Air_RW|| stateInfo.fullPathHash == NutralA_Air_RW){
+            character.AutoInvert();
         }
         //手動反転
-        else if (stateInfo.fullPathHash == Step ||
-            stateInfo.fullPathHash == StepEnd ||
-            stateInfo.fullPathHash == DashEnd ||
-            stateInfo.fullPathHash == JumpStart ||
-            stateInfo.fullPathHash == Jump ||
-            stateInfo.fullPathHash == ShortJump ||
-            stateInfo.fullPathHash == JumpEnd ||
-            stateInfo.fullPathHash == Fall ) {
-            if (input.xAxis > 0) playerTf.localScale = new Vector3(1, 1, 1);
-            if (input.xAxis < 0) playerTf.localScale = new Vector3(-1, 1, 1);
+        else if (stateInfo.fullPathHash == Step || stateInfo.fullPathHash == StepEnd || stateInfo.fullPathHash == DashEnd ||
+            stateInfo.fullPathHash == JumpStart || stateInfo.fullPathHash == Jump || stateInfo.fullPathHash == ShortJump ||
+            stateInfo.fullPathHash == JumpEnd || stateInfo.fullPathHash == Fall ) {
+            character.ManualInvert();
         }
 
         if (Main.battleResult == Main.BattleResult.Battle) {
@@ -228,8 +170,7 @@ public class PlayerController : MonoBehaviour {
         animator.SetBool(isLand, playerTf.position.y <= 0.05f);
         animator.SetBool(isRight, 0 < playerTf.localScale.x);
 
-        counter++;
-        prePos = playerTf.position;
+        character.counter++;
         preStateInfo = stateInfo;
     }
 }

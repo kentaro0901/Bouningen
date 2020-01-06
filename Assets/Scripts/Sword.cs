@@ -4,15 +4,15 @@ using UnityEngine;
 //剣の固有処理
 public class Sword : Character {
 
-    static public float maxhp = 100.0f;
-
     public override void NutralB() {
+        base.NutralB();
         if (counter == 0) {
             BattleMgr.Instance.VibrateDouble(0.3f, 0.3f);
             StartCoroutine("NutralBCoroutine");
         }
     }
     public override void NutralB_Air() {
+        base.NutralB_Air();
         if (counter == 0) {
             StartCoroutine("NutralBCoroutine");
         }
@@ -23,7 +23,7 @@ public class Sword : Character {
         }
     }
     IEnumerator NutralBCoroutine() {
-        float speed = playerController.animator.speed;
+        float speed = controller.animator.speed;
         yield return new WaitForSeconds(10.0f / 60 / speed);
         BattleMgr.Instance.CreateVFX("CriticalWave", playerTf.position + (playerTf.localScale.x > 0 ? 2:-2) * Vector3.right, Quaternion.identity, 1.0f);
         yield return new WaitForSeconds(4.0f / 60 / speed);
@@ -33,11 +33,13 @@ public class Sword : Character {
         yield return 0;
     }
     public override void SideB() {
+        base.SideB();
         if (counter == 0) {
             StartCoroutine("SideBCoroutine");
         }
     }
     public override void SideB_Air() {
+        base.SideB_Air();
         if (counter == 0) {
             StartCoroutine("SideBCoroutine");
         }
@@ -49,7 +51,7 @@ public class Sword : Character {
         }
     }
     IEnumerator SideBCoroutine() {
-        float speed = playerController.animator.speed;
+        float speed = controller.animator.speed;
         BattleMgr.Instance.VibrateDouble(0.3f, 0.3f);
         yield return new WaitForSeconds(16.0f / 60 / speed);
         BattleMgr.Instance.VibrateDouble(0.5f, 0.8f);
@@ -57,6 +59,7 @@ public class Sword : Character {
         yield return 0;
     }
     public override void DownB() {
+        base.DownB();
         if (counter == 0) {
             StartCoroutine("DownBCoroutine");
         }
@@ -65,18 +68,19 @@ public class Sword : Character {
         }
     }
     IEnumerator DownBCoroutine() {
-        float speed = playerController.animator.speed;
+        float speed = controller.animator.speed;
         yield return new WaitForSeconds(15.0f / 60 / speed);
         BattleMgr.Instance.CreateHibi(new Vector3(playerTf.position.x, 0, 0));
         BattleMgr.Instance.VibrateDouble(0.8f, 2.0f);
         yield return 0;
     }
     public override void DownB_Air() {
-        
+        base.DownB_Air();
     }
     public override void DownB_Air_Fall() {
+        base.DownB_Air_Fall();
         if (counter == 0) {
-            if (Mathf.Abs(playerController.enemyTf.position.x - playerTf.position.x) <= 1.5f) {
+            if (Mathf.Abs(controller.enemyTf.position.x - playerTf.position.x) <= 1.5f) {
                 BattleMgr.Instance.CreateVFX("XLight", playerTf.position + Vector3.up, Quaternion.identity, 1.0f);
                 BattleMgr.Instance.CreateVFX("OLight", playerTf.position + Vector3.up, Quaternion.identity, 1.0f);
                 BattleMgr.Instance.ChangeToneDouble(0.35f, CameraEffect.ToneName.reverseTone);
@@ -97,14 +101,16 @@ public class Sword : Character {
         }
     }
     public override void UpB() {
+        base.UpB();
         if (counter == 0) {
             BattleMgr.Instance.VibrateDouble(0.3f, 0.3f);
         }
     }
     public override void UpB_Fall() {
+        base.UpB_Fall();
         if (counter == 0) {
-            if (playerController.enemyController.stateInfo.fullPathHash == AnimState.CriticalUp ||
-                playerController.enemyController.stateInfo.fullPathHash ==  AnimState.CriticalFall) {
+            if (controller.enemyController.stateInfo.fullPathHash == AnimState.CriticalUp ||
+                controller.enemyController.stateInfo.fullPathHash ==  AnimState.CriticalFall) {
                 BattleMgr.Instance.CreateVFX("XLight", playerTf.position + Vector3.up, Quaternion.identity, 1.0f);
                 BattleMgr.Instance.CreateVFX("OLight", playerTf.position + Vector3.up, Quaternion.identity, 1.0f);
                 BattleMgr.Instance.ChangeToneDouble(0.35f, CameraEffect.ToneName.reverseTone);

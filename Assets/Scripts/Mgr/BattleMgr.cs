@@ -274,17 +274,18 @@ public class BattleMgr : MonoBehaviour {
         r.localRotation = Quaternion.Euler(0, 0, Random.Range(-30, 30));
         return r.gameObject;
     }
-    public void CreateHibi(Vector3 position ) {
-        Instantiate(HibiPref[Random.Range(0, HibiPref.Length)], position, Quaternion.Euler(0,0,Random.Range(-10,10)));
+    public void CreateHibi(Vector3 position) {
+        for(int i=1; i <= Random.Range(1,4); i++) {
+            GameObject g = Instantiate(HibiPref[Random.Range(0, HibiPref.Length)], position, Quaternion.Euler(0, 0, Random.Range(-10, 10)*i));
+            g.transform.localScale = Vector3.one * Random.Range(1.5f, 3.0f) / i;
+        }
     }
     void CreateGround(int left, int right) {
         for (int i = left; i <= right; i++) {
             Instantiate(GrandPref[Random.Range(0, GrandPref.Length)], new Vector3(i * groundSpan, -1.5f, 0), Quaternion.identity);
         }
-        if (left < groundLeft)
-            groundLeft = left;
-        if (groundRight < right)
-            groundRight = right;
+        if (left < groundLeft) groundLeft = left;
+        if (groundRight < right) groundRight = right;
     }
     public void BattleEnd() {
         if(playerController1.stateInfo.fullPathHash == AnimState.GameEnd && playerController2.hp>0) {

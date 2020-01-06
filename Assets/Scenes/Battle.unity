@@ -150,8 +150,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerNum: 1
-  isAI: 0
-  inputAI: {fileID: 0}
   AIFileName: AISword
   input: {fileID: 0}
   swordPref: {fileID: 6487946451456971819, guid: 72729bf2e36f83c4284b0850981aeadf,
@@ -164,7 +162,6 @@ MonoBehaviour:
   maxhp: 0
   hp: 100
   mp: 0
-  counter: 0
   chaseCamera: {fileID: 1396387651}
   playerTf: {fileID: 0}
   enemyController: {fileID: 1288113352}
@@ -2472,6 +2469,8 @@ MonoBehaviour:
   reverseTone: {fileID: 2100000, guid: 280c7f48aa9abc7479767f06b678d647, type: 2}
   whiteWhite: {fileID: 2100000, guid: acb6e21ccbbe8144e83d8926c2892b9a, type: 2}
   blackBlack: {fileID: 2100000, guid: 41d49a1d423468d468e281cec2be65d0, type: 2}
+  blackRed: {fileID: 2100000, guid: 37a366275dcf32644884b5925829401c, type: 2}
+  blackBlue: {fileID: 2100000, guid: fd83dd1b69deae340bf8cd1cd3cda6c7, type: 2}
 --- !u!114 &886981723
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3568,8 +3567,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerNum: 2
-  isAI: 0
-  inputAI: {fileID: 0}
   AIFileName: AIFighter
   input: {fileID: 0}
   swordPref: {fileID: 6487946451456971819, guid: 72729bf2e36f83c4284b0850981aeadf,
@@ -3582,7 +3579,6 @@ MonoBehaviour:
   maxhp: 0
   hp: 100
   mp: 0
-  counter: 0
   chaseCamera: {fileID: 972152150}
   playerTf: {fileID: 0}
   enemyController: {fileID: 2320028}
@@ -4006,6 +4002,8 @@ MonoBehaviour:
   reverseTone: {fileID: 2100000, guid: 280c7f48aa9abc7479767f06b678d647, type: 2}
   whiteWhite: {fileID: 2100000, guid: acb6e21ccbbe8144e83d8926c2892b9a, type: 2}
   blackBlack: {fileID: 2100000, guid: 41d49a1d423468d468e281cec2be65d0, type: 2}
+  blackRed: {fileID: 2100000, guid: 37a366275dcf32644884b5925829401c, type: 2}
+  blackBlue: {fileID: 2100000, guid: fd83dd1b69deae340bf8cd1cd3cda6c7, type: 2}
 --- !u!114 &1687828440
 MonoBehaviour:
   m_ObjectHideFlags: 0

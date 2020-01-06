@@ -442,13 +442,13 @@ MonoBehaviour:
   - {fileID: 0}
   hurtBox: {fileID: 0}
   counter: 0
+  status: {fileID: 11400000, guid: de4c024f7f758e74d861cb0028520937, type: 2}
   prestatenum: 0
   white: {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
   black: {fileID: 2100000, guid: 1e70a4578923dcb47a4b824296090bab, type: 2}
   red: {fileID: 2100000, guid: a93fa52414656d047acd8b22f90a2ed6, type: 2}
   blue: {fileID: 2100000, guid: e86de86d8ede1f749841428e6fd9e09f, type: 2}
   clear: {fileID: 2100000, guid: 271c206f75034884fad9729fdc6ec9e3, type: 2}
-  invert: {fileID: 2100000, guid: b76fdc494b41a784f80310495417d2a1, type: 2}
   redWhite: {fileID: 2100000, guid: cb33df069d2c3614cbedb093fb16366d, type: 2}
   blueBlack: {fileID: 2100000, guid: 76a708f1df5b64e45a5b667bf7f2de8d, type: 2}
 --- !u!1 &791933940618588002

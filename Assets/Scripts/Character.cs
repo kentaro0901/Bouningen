@@ -5,15 +5,14 @@ using UnityEngine;
 //キャラの共通処理
 public abstract class Character : MonoBehaviour {
 
-    public PlayerController playerController;
+    public PlayerController controller;
     protected Transform playerTf;
+    protected Transform enemyTf;
     public HitBox[] hitBox = new HitBox[5];
     public HurtBox hurtBox;
     protected Animator animator;
     public int counter;
-    public static float dashspeed = 0.9f;
-    public static float airspeed = 0.25f;
-    public static float vectorspeed = 3.0f;
+    public Status status;
 
     public int prestatenum = 0;
     private bool preResistButtonDown = false;
@@ -27,25 +26,22 @@ public abstract class Character : MonoBehaviour {
     [SerializeField] Material blueBlack;
 
     protected void Start() {
-        playerTf = playerController.playerTf;
+        playerTf = controller.playerTf;
+        enemyTf = controller.enemyController.playerTf;
         animator = gameObject.GetComponent<Animator>();
         counter = 0;
 
         //プレイヤーカラーの設定
-        switch (playerController.playerNum) { //インデックスでアクセスしないほうがよさそう
-            case PlayerController.PlayerNum.player1:
-                playerTf.gameObject.GetComponent<SpriteRenderer>().material = white;
-                playerTf.GetChild(6).gameObject.GetComponent<SpriteRenderer>().material = red;
-                playerTf.GetChild(7).gameObject.GetComponent<SpriteRenderer>().material = red; break;
-            case PlayerController.PlayerNum.player2:
-                playerTf.gameObject.GetComponent<SpriteRenderer>().material = black;
-                playerTf.GetChild(6).gameObject.GetComponent<SpriteRenderer>().material = blue;
-                playerTf.GetChild(7).gameObject.GetComponent<SpriteRenderer>().material = blue; break;
-            default:
-                playerTf.gameObject.GetComponent<SpriteRenderer>().material = white;
-                playerTf.GetChild(6).gameObject.GetComponent<SpriteRenderer>().material = red;
-                playerTf.GetChild(7).gameObject.GetComponent<SpriteRenderer>().material = red; break;
+        Material main;
+        Material sub;
+        switch (controller.playerNum) { //インデックスでアクセスしないほうがよさそう
+            case PlayerController.PlayerNum.player1: (main, sub) = (white, red); break;
+            case PlayerController.PlayerNum.player2: (main, sub) = (black, blue); break;
+            default: (main, sub) = (white, red); break;
         }
+        playerTf.gameObject.GetComponent<SpriteRenderer>().material = main;
+        playerTf.GetChild(6).gameObject.GetComponent<SpriteRenderer>().material = sub;
+        playerTf.GetChild(7).gameObject.GetComponent<SpriteRenderer>().material = sub;
 
         //Boxの参照
         hitBox = this.gameObject.GetComponentsInChildren<HitBox>();
@@ -61,56 +57,56 @@ public abstract class Character : MonoBehaviour {
 
     //被ダメージ
     public void Damaged(float damage, Vector2 vector, bool isCritical, bool isUpArmor, bool isSideArmor, bool isDownArmor, bool isLimitBreak) {
-        if (0 < playerController.hp && playerController.hp - damage * (isLimitBreak ? 1.2f : 1.0f) <= 0 && (!isCritical || !(vector.y == 0 && !isSideArmor))) { //横クリティカル以外ではゲームが終了しない
-            playerController.hp = 1.0f;
+        if (0 < controller.hp && controller.hp - damage * (isLimitBreak ? 1.2f : 1.0f) <= 0 && (!isCritical || !(vector.y == 0 && !isSideArmor))) { //横クリティカル以外ではゲームが終了しない
+            controller.hp = 1.0f;
         }
         else {
-            playerController.hp -= damage * (isLimitBreak ? 1.2f : 1.0f);
+            controller.hp -= damage * (isLimitBreak ? 1.2f : 1.0f);
         }
-        if (!playerController.isLimitBreak) playerController.mp += damage * (isCritical ? 1.2f :1.0f);
-        playerController.damageVector = vector;
+        if (!controller.isLimitBreak) controller.mp += damage * (isCritical ? 1.2f :1.0f);
+        controller.damageVector = vector;
         if (isCritical) { //クリティカル
             if (vector.y == 0 && !isSideArmor) { //横クリティカル
-                playerController.counter = 0;
-                playerController.animator.Play("Critical");
+                counter = 0;
+                controller.animator.Play("Critical");
             }
             else if (vector.y > 0 && !isUpArmor){ //上クリティカル
-                playerController.counter = 0;
-                playerController.animator.Play("CriticalUp");
+                counter = 0;
+                controller.animator.Play("CriticalUp");
             }
             else if (vector.y < 0 && !isDownArmor){ //下クリティカル
-                playerController.counter = 0;
-                playerController.animator.Play("CriticalDown");
+                counter = 0;
+                controller.animator.Play("CriticalDown");
             }
         }
         else {
-            playerController.damageVector = Vector3.zero;
+            controller.damageVector = Vector3.zero;
         }
     }
     public void StartResistance(Vector2 vector, float damage) {
-        playerController.damageVector = vector;
-        playerController.resistDamage = damage;
-        if (playerController.stateInfo.fullPathHash == AnimState.SideA ||
-            playerController.stateInfo.fullPathHash == AnimState.LightningAttack) {
-            playerController.animator.Play("SideA_R");
+        controller.damageVector = vector;
+        controller.resistDamage = damage;
+        if (controller.stateInfo.fullPathHash == AnimState.SideA ||
+            controller.stateInfo.fullPathHash == AnimState.LightningAttack) {
+            controller.animator.Play("SideA_R");
         }
-        else if (playerController.stateInfo.fullPathHash == AnimState.SideB ||
-            playerController.stateInfo.fullPathHash == AnimState.SideB_Air ||
-            playerController.stateInfo.fullPathHash == AnimState.UpB_Fall) {
-            playerController.animator.Play("SideB_R");
+        else if (controller.stateInfo.fullPathHash == AnimState.SideB ||
+            controller.stateInfo.fullPathHash == AnimState.SideB_Air ||
+            controller.stateInfo.fullPathHash == AnimState.UpB_Fall) {
+            controller.animator.Play("SideB_R");
         }
-        else if (playerController.stateInfo.fullPathHash == AnimState.NutralA ||
-            playerController.stateInfo.fullPathHash == AnimState.CriticalNA) {
-            playerController.animator.Play("NutralA_R");
+        else if (controller.stateInfo.fullPathHash == AnimState.NutralA ||
+            controller.stateInfo.fullPathHash == AnimState.CriticalNA) {
+            controller.animator.Play("NutralA_R");
         }
-        else if (playerController.stateInfo.fullPathHash == AnimState.SideA_Air) {
-            playerController.animator.Play("SideA_Air_R");
+        else if (controller.stateInfo.fullPathHash == AnimState.SideA_Air) {
+            controller.animator.Play("SideA_Air_R");
         }
-        else if (playerController.stateInfo.fullPathHash == AnimState.NutralA_Air) {
-            playerController.animator.Play("NutralA_Air_R");
+        else if (controller.stateInfo.fullPathHash == AnimState.NutralA_Air) {
+            controller.animator.Play("NutralA_Air_R");
         }
         else {
-            playerController.animator.Play("SideA_R");
+            controller.animator.Play("SideA_R");
             Debug.Log("NoneR");
         }
     }
@@ -124,15 +120,22 @@ public abstract class Character : MonoBehaviour {
         }
     }
     public void Idle() {
-        if (animator.GetBool(AnimState.ButtonL) && !playerController.isLimitBreak && 100 <= playerController.mp) {
+        if (animator.GetBool(AnimState.ButtonL) && !controller.isLimitBreak && 100 <= controller.mp) {
             animator.Play("LimitBreak");
-            playerController.mp = 0;
+            controller.mp = 0;
         }
     }
     public void Dash() {
-        playerTf.position += Vector3.right * dashspeed * playerController.input.xAxis * animator.speed;
+        if(counter == 0) {
+            prestatenum = 0;
+        }        
+        playerTf.position += Vector3.right * status.dashspeed * controller.input.xAxis * animator.speed;
     }
-    public void JumpStart() { }
+    public void JumpStart() {
+        if(counter == 0) {
+            prestatenum = 1;
+        }
+    }
     public void Fall() {
         playerTf.position += Vector3.down * counter * 0.1f * animator.speed;
         if (playerTf.position.y < 0.1f && playerTf.position.y != 0) playerTf.position = new Vector3(playerTf.position.x, 0, 0);
@@ -145,12 +148,18 @@ public abstract class Character : MonoBehaviour {
     public void NutralA() {
         if (counter == 0) {
             BattleMgr.Instance.VibrateDouble(0.3f, 0.3f);
+            prestatenum = 3;
         }
     }
-    public void NutralA_Air() {}
+    public void NutralA_Air() {
+        if(counter == 0) {
+            prestatenum = 3;
+        }    
+    }
     public void LightningStart() {
         if (counter == 0) {
-            playerTf.localScale = playerController.enemyTf.position.x > playerTf.position.x ? Vector3.one : new Vector3(-1, 1, 1);
+            prestatenum = 2;
+            playerTf.localScale = enemyTf.position.x > playerTf.position.x ? Vector3.one : new Vector3(-1, 1, 1);
         }
     }
     public void Lightning() {
@@ -163,43 +172,45 @@ public abstract class Character : MonoBehaviour {
         }
         if (counter <= 5) {
             BattleMgr.Instance.CreateVFX("CriticalWave", playerTf.position + Vector3.up, Quaternion.identity, 1.0f);
-            playerTf.localScale = playerController.enemyTf.position.x > playerTf.position.x ? Vector3.one : new Vector3(-1, 1, 1);
-            Vector3 lightningPos = 5 * (playerController.enemyTf.position.x > playerTf.position.x ? Vector3.left : Vector3.right);
+            playerTf.localScale = enemyTf.position.x > playerTf.position.x ? Vector3.one : new Vector3(-1, 1, 1);
+            Vector3 lightningPos = 5 * (enemyTf.position.x > playerTf.position.x ? Vector3.left : Vector3.right);
             Vector3 ofs = Vector3.zero;
-            if (playerController.input.xAxis > 0)
+            if (controller.input.xAxis > 0)
                 ofs = 2 * Vector3.right;
-            else if (playerController.input.xAxis < 0)
+            else if (controller.input.xAxis < 0)
                 ofs = 2 * Vector3.left;
-            if (playerController.input.yAxis > 0)
+            if (controller.input.yAxis > 0)
                 ofs = 7 * Vector3.up;
-            else if (playerController.input.yAxis < 0)
+            else if (controller.input.yAxis < 0)
                 ofs = 7 * Vector3.down;
-            playerTf.position += (playerController.enemyTf.position + lightningPos + ofs - playerTf.position) / (counter == 5 ? 1 : 2);
+            playerTf.position += (enemyTf.position + lightningPos + ofs - playerTf.position) / (counter == 5 ? 1 : 2);
         }
         else
-            playerTf.position += new Vector3(playerController.enemyController.damageVector.x, 0, 0);
+            playerTf.position += new Vector3(controller.enemyController.damageVector.x, 0, 0);
     }
     public void LightningAttack() {
         if (counter == 0) {
             BattleMgr.Instance.VibrateDouble(0.3f, 0.3f);
         }
-        playerTf.position += new Vector3(playerController.enemyController.damageVector.x * Time.timeScale, 0, 0);
+        playerTf.position += new Vector3(controller.enemyController.damageVector.x * Time.timeScale, 0, 0);
     }
     public void LightningEnd() {
-        playerTf.position += new Vector3(playerController.enemyController.damageVector.x * Time.timeScale, 0, 0);
+        playerTf.position += new Vector3(controller.enemyController.damageVector.x * Time.timeScale, 0, 0);
     }
     public void SideA() {
         if (counter == 0) {
             StartCoroutine("SideACoroutine");
+            prestatenum = 5;
         }
     }
     public void SideA_Air() {
         if (counter == 0) {
             StartCoroutine("SideACoroutine");
+            prestatenum = 5;
         }
     }
     IEnumerator SideACoroutine() {
-        float speed = playerController.animator.speed;
+        float speed = controller.animator.speed;
         yield return new WaitForSeconds(10.0f / 60 / speed);
         BattleMgr.Instance.VibrateDouble(0.3f, 0.3f);
         BattleMgr.Instance.CreateVFX("CriticalWave", playerTf.position, Quaternion.identity, 1.0f);
@@ -212,11 +223,13 @@ public abstract class Character : MonoBehaviour {
     public void DownA() {
         if (counter == 0) {
             StartCoroutine("DownACoroutine");
+            prestatenum = 7;
         }
     }
     public void DownA_Air() {
         if (counter == 0) {
             StartCoroutine("DownACoroutine");
+            prestatenum = 6;
         }
         playerTf.position = new Vector3(playerTf.position.x, playerTf.position.y - (counter * 0.2f) * animator.speed, 0);
         if (playerTf.position.y < 0.05f && playerTf.position.y != 0) {
@@ -224,7 +237,7 @@ public abstract class Character : MonoBehaviour {
         }
     }
     IEnumerator DownACoroutine() {
-        float speed = playerController.animator.speed;
+        float speed = controller.animator.speed;
         yield return new WaitForSeconds(14.0f / 60 / speed);
         BattleMgr.Instance.CreateVFX("WhiteStone", playerTf.position, Quaternion.identity, 1.0f);
         BattleMgr.Instance.CreateVFX("LandingCrash", playerTf.position, Quaternion.identity, 1.0f);
@@ -235,10 +248,11 @@ public abstract class Character : MonoBehaviour {
     public void UpA() {
         if (counter == 0) {
             StartCoroutine("UpACoroutine");
+            prestatenum = 9;
         }
     }
     IEnumerator UpACoroutine() {
-        float speed = playerController.animator.speed;
+        float speed = controller.animator.speed;
         BattleMgr.Instance.VibrateDouble(0.3f, 0.5f);
         yield return new WaitForSeconds(11.0f / 60 / speed);
         BattleMgr.Instance.CreateVFX("CriticalUpWave", playerTf.position, Quaternion.identity, 1.0f);
@@ -252,12 +266,13 @@ public abstract class Character : MonoBehaviour {
     }
     public void LimitBreak() {
         if (counter == 0) {
-            playerController.isLimitBreak = true;
+            controller.isLimitBreak = true;
             StartCoroutine(LimitBreakCoroutine());
+            prestatenum = 11;
         }
     }
     IEnumerator LimitBreakCoroutine() {
-        float speed = playerController.animator.speed;
+        float speed = controller.animator.speed;
         BattleMgr.Instance.ChangeToneDouble(0.1f, CameraEffect.ToneName.reverseTone);
         BattleMgr.Instance.VibrateDouble(0.5f, 0.5f);
         yield return new WaitForSeconds(20.0f / 60 / speed);
@@ -277,32 +292,37 @@ public abstract class Character : MonoBehaviour {
         BattleMgr.Instance.ChangeToneDouble(0.0f, CameraEffect.ToneName.NormalTone);
         playerTf.position = new Vector3(playerTf.position.x, 0, playerTf.position.z);
         animator.speed *= 1.2f;
-        if (playerController.playerNum == PlayerController.PlayerNum.player1) {
+        if (controller.playerNum == PlayerController.PlayerNum.player1) {
             playerTf.gameObject.GetComponent<SpriteRenderer>().material = redWhite;
         }
-        if (playerController.playerNum == PlayerController.PlayerNum.player2) {
+        if (controller.playerNum == PlayerController.PlayerNum.player2) {
             playerTf.gameObject.GetComponent<SpriteRenderer>().material = blueBlack;
         }
     }
     public void Critical() {
         if (counter == 0) {
             EndCoroutine();
-            playerTf.localScale = playerController.damageVector.x > 0 ? new Vector3(-1, 1, 1) : Vector3.one;
-            BattleMgr.Instance.ChangeTimeScale(0.06f, 0.4f);
-            BattleMgr.Instance.ChangeToneDouble(0.4f, ((int)playerController.playerNum == 2 ? CameraEffect.ToneName.redBlack : CameraEffect.ToneName.blueBlack));
-            BattleMgr.Instance.ZoomInOutDouble(0.1f);
-            BattleMgr.Instance.CreateVFX("CriticalWave", playerTf.position + new Vector3(playerController.enemyTf.position.x < playerTf.position.x ? 3 : -3, 1, 0), Quaternion.identity, 1.0f);
-            if (playerController.hp < playerController.maxhp * 0.25f)
-                BattleMgr.Instance.CreateCrack(playerController.damageVector.x < 0);
-            if (playerController.hp <= 0)
+            playerTf.localScale = controller.damageVector.x > 0 ? new Vector3(-1, 1, 1) : Vector3.one;
+            BattleMgr.Instance.CreateVFX("CriticalWave", playerTf.position + new Vector3(enemyTf.position.x < playerTf.position.x ? 3 : -3, 1, 0), Quaternion.identity, 1.0f);
+            if (controller.hp < controller.maxhp * 0.25f)
+                BattleMgr.Instance.CreateCrack(controller.damageVector.x < 0);
+            if (controller.hp <= 0) {
                 Main.battleResult = Main.BattleResult.Finish;
+                BattleMgr.Instance.ChangeTimeScale(0.04f, 1.2f);
+                BattleMgr.Instance.ChangeToneDouble(1.2f, ((int)controller.playerNum == 2 ? CameraEffect.ToneName.blackRed : CameraEffect.ToneName.blackBlue));
+            }
+            else {
+                BattleMgr.Instance.ChangeTimeScale(0.06f, 0.4f);
+                BattleMgr.Instance.ChangeToneDouble(0.4f, ((int)controller.playerNum == 2 ? CameraEffect.ToneName.redBlack : CameraEffect.ToneName.blueBlack));
+            }
+            BattleMgr.Instance.ZoomInOutDouble(0.1f);
             prestatenum = 12;
         }
-        playerTf.position += playerController.damageVector * Time.timeScale;
+        playerTf.position += controller.damageVector * Time.timeScale;
         playerTf.position += Vector3.down * counter * 0.002f * animator.speed;
         if (playerTf.position.y < 0.1f && 50 < counter * animator.speed) {
             playerTf.position = new Vector3(playerTf.position.x, 0, 0);
-            if (playerController.hp <= 0)
+            if (controller.hp <= 0)
                 animator.Play("Death");
             else
                 animator.Play("CriticalEnd");
@@ -313,16 +333,16 @@ public abstract class Character : MonoBehaviour {
             EndCoroutine();
             BattleMgr.Instance.CreateVFX("CriticalUpWave", playerTf.position + Vector3.up, Quaternion.identity, 1.0f);
         }
-        playerTf.position += new Vector3(playerController.damageVector.x, 0, 0);
+        playerTf.position += new Vector3(controller.damageVector.x, 0, 0);
     }
     public void CriticalFall() {
         if(counter == 0) {
             EndCoroutine();
         }
-        playerTf.position += new Vector3(playerController.damageVector.x, -counter * 0.1f * animator.speed, 0);
+        playerTf.position += new Vector3(controller.damageVector.x, -counter * 0.1f * animator.speed, 0);
         if (playerTf.position.y < 0.1f && playerTf.position.y != 0) {
             playerTf.position = new Vector3(playerTf.position.x, 0, 0);
-            if (Mathf.Abs( playerController.damageVector.x) < 0.2f) {
+            if (Mathf.Abs( controller.damageVector.x) < 0.2f) {
                 BattleMgr.Instance.VibrateDouble(0.5f, 0.3f);
                 animator.Play("CriticalFallEnd");
             }
@@ -334,10 +354,10 @@ public abstract class Character : MonoBehaviour {
     }
     public void CriticalDown() {
         if (counter == 0) {
-            BattleMgr.Instance.ChangeToneDouble(0.1f, ((int)playerController.playerNum == 2 ? CameraEffect.ToneName.redBlack : CameraEffect.ToneName.blueBlack));
+            BattleMgr.Instance.ChangeToneDouble(0.1f, ((int)controller.playerNum == 2 ? CameraEffect.ToneName.redBlack : CameraEffect.ToneName.blueBlack));
             BattleMgr.Instance.CreateVFX("CriticalDownWave", playerTf.position + Vector3.up * 2.0f, Quaternion.identity, 1.0f);
         }
-        playerTf.position = new Vector3(playerTf.position.x + playerController.damageVector.x, playerTf.position.y + playerController.damageVector.y, 0) * animator.speed;
+        playerTf.position = new Vector3(playerTf.position.x + controller.damageVector.x, playerTf.position.y + controller.damageVector.y, 0) * animator.speed;
         if (playerTf.position.y < 0.1f && playerTf.position.y != 0) {
             playerTf.position = new Vector3(playerTf.position.x, 0, 0);
             BattleMgr.Instance.CreateVFX("LandWave", playerTf.position, Quaternion.identity, 1.0f);
@@ -346,31 +366,31 @@ public abstract class Character : MonoBehaviour {
         }
     }
     public void CriticalEnd() {
-        playerController.damageVector *= 0.9f;
-        playerTf.position += new Vector3(playerController.damageVector.x, 0, 0);
-        if (Mathf.Abs(playerController.damageVector.x) < 0.1f && 20 <= counter) {
-            playerController.damageVector = Vector3.zero;
+        controller.damageVector *= 0.9f;
+        playerTf.position += new Vector3(controller.damageVector.x, 0, 0);
+        if (Mathf.Abs(controller.damageVector.x) < 0.1f && 20 <= counter) {
+            controller.damageVector = Vector3.zero;
             animator.Play("Idle");
         }
     }
     public void Wince() {
-        playerTf.position += new Vector3(playerController.damageVector.x, -counter * 0.1f * animator.speed, 0);
+        playerTf.position += new Vector3(controller.damageVector.x, -counter * 0.1f * animator.speed, 0);
         if (playerTf.position.y < 0.05f && !animator.GetBool(AnimState.isLand)) {
             playerTf.position = new Vector3(playerTf.position.x, 0, 0);
             BattleMgr.Instance.VibrateDouble(1.0f, 1.0f);
         }
     }
     public void Resistance() {
-        if (counter == 0 && playerController.playerNum == PlayerController.PlayerNum.player1) {
+        if (counter == 0 && controller.playerNum == PlayerController.PlayerNum.player1) {
             BattleMgr.Instance.StartResistance();
             prestatenum = 13;
         }
-        if (playerController.input.A || playerController.input.B) {
+        if (controller.input.A || controller.input.B) {
             if (!preResistButtonDown) {
-                if (playerController.playerNum == PlayerController.PlayerNum.player1) {
+                if (controller.playerNum == PlayerController.PlayerNum.player1) {
                     BattleMgr.Instance.resistCounter1P++;
                 }
-                if (playerController.playerNum == PlayerController.PlayerNum.player2)
+                if (controller.playerNum == PlayerController.PlayerNum.player2)
                     BattleMgr.Instance.resistCounter2P++;
             }
             preResistButtonDown = true;
@@ -380,40 +400,40 @@ public abstract class Character : MonoBehaviour {
         }
         if (counter == 20) {
             BattleMgr.Instance.VibrateDouble(0.3f, 2.0f);
-            BattleMgr.Instance.CreateVFX("Stone", playerTf.position + (playerController.enemyTf.position - playerTf.position) / 2 + Vector3.up * 2, Quaternion.identity, 1.0f);
-            BattleMgr.Instance.CreateVFX("Line", playerTf.position + (playerController.enemyTf.position - playerTf.position) / 2 + Vector3.up * 2, Quaternion.Euler(0, 0, Random.Range(-70, 70)), 1.0f);
+            BattleMgr.Instance.CreateVFX("Stone", playerTf.position + (enemyTf.position - playerTf.position) / 2 + Vector3.up * 2, Quaternion.identity, 1.0f);
+            BattleMgr.Instance.CreateVFX("Line", playerTf.position + (enemyTf.position - playerTf.position) / 2 + Vector3.up * 2, Quaternion.Euler(0, 0, Random.Range(-70, 70)), 1.0f);
         }
         if (counter == 40) {
             BattleMgr.Instance.VibrateDouble(0.4f, 2.0f);
-            BattleMgr.Instance.CreateVFX("Stone", playerTf.position + (playerController.enemyTf.position - playerTf.position) / 2 + Vector3.up * 2, Quaternion.identity, 1.0f);
-            BattleMgr.Instance.CreateVFX("Line", playerTf.position + (playerController.enemyTf.position - playerTf.position) / 2 + Vector3.up * 2, Quaternion.Euler(0, 0, Random.Range(-70, 70)), 1.0f);
+            BattleMgr.Instance.CreateVFX("Stone", playerTf.position + (enemyTf.position - playerTf.position) / 2 + Vector3.up * 2, Quaternion.identity, 1.0f);
+            BattleMgr.Instance.CreateVFX("Line", playerTf.position + (enemyTf.position - playerTf.position) / 2 + Vector3.up * 2, Quaternion.Euler(0, 0, Random.Range(-70, 70)), 1.0f);
         }
         if (counter == 60) {
-            playerController.isResistance = false;
-            if ((BattleMgr.Instance.resistResult == BattleMgr.ResistResult.Critical1P && playerController.playerNum == PlayerController.PlayerNum.player1) ||
-                (BattleMgr.Instance.resistResult == BattleMgr.ResistResult.Critical2P && playerController.playerNum == PlayerController.PlayerNum.player2)) { //鍔迫り合いに負けた時
+            controller.isResistance = false;
+            if ((BattleMgr.Instance.resistResult == BattleMgr.ResistResult.Critical1P && controller.playerNum == PlayerController.PlayerNum.player1) ||
+                (BattleMgr.Instance.resistResult == BattleMgr.ResistResult.Critical2P && controller.playerNum == PlayerController.PlayerNum.player2)) { //鍔迫り合いに負けた時
                 BattleMgr.Instance.CreateVFX("Hit", playerTf.position, Quaternion.identity, 1.0f);
                 BattleMgr.Instance.CreateVFX("HitWave", playerTf.position, Quaternion.identity, 1.0f);
-                playerController.hp -= playerController.resistDamage * 1.5f;
-                playerController.mp += playerController.resistDamage;
-                playerController.resistDamage = 0;
+                controller.hp -= controller.resistDamage * 1.5f;
+                controller.mp += controller.resistDamage;
+                controller.resistDamage = 0;
                 animator.Play("Critical");
             }
             else if (BattleMgr.Instance.resistResult != BattleMgr.ResistResult.Wince) { //勝った時
-                playerController.damageVector = Vector3.zero;
-                playerController.mp += playerController.resistDamage * 0.5f;
-                playerController.resistDamage = 0;
-                if (playerController.stateInfo.fullPathHash == AnimState.NutralA_R)
+                controller.damageVector = Vector3.zero;
+                controller.mp += controller.resistDamage * 0.5f;
+                controller.resistDamage = 0;
+                if (controller.stateInfo.fullPathHash == AnimState.NutralA_R)
                     animator.Play("NutralA_RW");
-                else if (playerController.stateInfo.fullPathHash == AnimState.NutralA_Air_R)
+                else if (controller.stateInfo.fullPathHash == AnimState.NutralA_Air_R)
                     animator.Play("NutralA_Air_RW");
-                else if (playerController.stateInfo.fullPathHash == AnimState.SideA_R)
+                else if (controller.stateInfo.fullPathHash == AnimState.SideA_R)
                     animator.Play("SideA_RW");
-                else if (playerController.stateInfo.fullPathHash == AnimState.SideA_Air_R)
+                else if (controller.stateInfo.fullPathHash == AnimState.SideA_Air_R)
                     animator.Play("SideA_Air_RW");
-                else if (playerController.stateInfo.fullPathHash == AnimState.SideB_R)
+                else if (controller.stateInfo.fullPathHash == AnimState.SideB_R)
                     animator.Play("SideB_RW");
-                else if (playerController.stateInfo.fullPathHash == AnimState.SideB_Air_R)
+                else if (controller.stateInfo.fullPathHash == AnimState.SideB_Air_R)
                     animator.Play("SideB_Air_RW");
                 else {
                     animator.Play("SideA_RW");
@@ -422,8 +442,8 @@ public abstract class Character : MonoBehaviour {
             }
             else {
                 BattleMgr.Instance.ChangeToneDouble(0.0f, CameraEffect.ToneName.NormalTone); //引き分け
-                playerController.resistDamage = 0;
-                playerController.damageVector = Vector3.zero;
+                controller.resistDamage = 0;
+                controller.damageVector = Vector3.zero;
                 animator.Play("Wince");
             }
         }
@@ -434,15 +454,57 @@ public abstract class Character : MonoBehaviour {
         }
     }
 
-    public virtual void NutralB() { }
-    public virtual void NutralB_Air() { }
-    public virtual void SideB() { }
-    public virtual void SideB_Air() { }
-    public virtual void UpB() { }
+    public void GroundCollision() {
+        playerTf.position = new Vector3(playerTf.position.x, 0, 0);
+    }
+    public void AirControll() {
+        playerTf.position += Vector3.right * status.airspeed * controller.input.xAxis * animator.speed;
+    }
+    public void AutoInvert() {
+        playerTf.localScale = enemyTf.position.x > playerTf.position.x ? Vector3.one : new Vector3(-1, 1, 1);
+    }
+    public void ManualInvert() {
+        if (controller.input.xAxis > 0) playerTf.localScale = new Vector3(1, 1, 1);
+        if (controller.input.xAxis < 0) playerTf.localScale = new Vector3(-1, 1, 1);
+    }
+
+    public virtual void NutralB() { 
+        if(counter == 0) {
+            prestatenum = 4;
+        }    
+    }
+    public virtual void NutralB_Air() {
+        if(counter == 0) {
+            prestatenum = 4;
+        }    
+    }
+    public virtual void SideB() { 
+        if(counter == 0) {
+            prestatenum = 6;
+        }    
+    }
+    public virtual void SideB_Air() {
+        if (counter == 0) {
+            prestatenum = 6;
+        }
+    }
+    public virtual void UpB() { 
+        if(counter == 0) {
+            prestatenum = 10;
+        }    
+    }
     public virtual void UpB_Fall() { }
-    public virtual void DownB() { }
+    public virtual void DownB() { 
+        if(counter ==0) {
+            prestatenum = 8;
+        }    
+    }
     public virtual void DownB_Fall() { }
-    public virtual void DownB_Air() { }
+    public virtual void DownB_Air() { 
+        if(counter == 0) {
+            prestatenum = 8;
+        }    
+    }
     public virtual void DownB_Air_Fall() { }
 
     protected virtual void EndCoroutine() {
