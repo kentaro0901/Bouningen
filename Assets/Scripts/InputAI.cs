@@ -7,8 +7,8 @@ public class InputAI : InputMethod {
 
     string filename = "AISword";
     const int dataNum = 12;
-    public const int xDataNum = 30;
-    public const int yDataNum = 11;
+    const int xDataNum = 30;
+    const int yDataNum = 11;
     const int stateNum = 14;
 
     public class InputValue {
@@ -37,17 +37,15 @@ public class InputAI : InputMethod {
             myState = m;
             enState = e;
         }
-        public float Sum(int dx, int dy, int my, int en) {
-            return deltaX[dx] + deltaY[dy] + myState[my] + enState[en];
+        public float CalcValue(int dx, int dy, int my, int en) {
+            return deltaX[dx] * deltaY[dy] * myState[my] * enState[en];
         }
     }
     public InputValue[] inputValues;
-    public InputValue total;
 
     void Start() {
         filename = controller.AIFileName;
         inputValues = new InputValue[dataNum];
-        total = new InputValue();
         for (int i= 0; i < dataNum; i++) {
             inputValues[i] = new InputValue();
         }
@@ -67,13 +65,17 @@ public class InputAI : InputMethod {
 
         float bar = Random.Range(0.0f, 1.0f);
         float t = 0.0f;
+        float totalValue = 0.0f;
+        for (int i = 0; i < dataNum; i++) {
+            totalValue += inputValues[i].CalcValue(dx, dy, my, en);
+        }
         for(int i = 0; i < dataNum; i++) {
-            if (t <= bar && bar < t + inputValues[i].Sum(dx,dy,my,en) / total.Sum(dx,dy,my,en)) {
+            if (t <= bar && bar < t + inputValues[i].CalcValue(dx,dy,my,en) / totalValue) {
                 desition = i;
                 break;
             }
             else {
-                t += inputValues[i].Sum(dx,dy,my,en) / total.Sum(dx,dy,my,en);
+                t += inputValues[i].CalcValue(dx,dy,my,en) / totalValue;
             }
         }
 
@@ -96,22 +98,18 @@ public class InputAI : InputMethod {
                 int t = 1;
                 for (int k = 0; k < xDataNum; k++) {
                     inputValues[i-2].deltaX[k] = float.Parse(values[t + k]);
-                    total.deltaX[k] += float.Parse(values[t + k]);
                 }
                 t += xDataNum;
                 for (int k = 0; k < yDataNum; k++) {
                     inputValues[i - 2].deltaY[k] = float.Parse(values[t + k]);
-                    total.deltaY[k] += float.Parse(values[t + k]);
                 }
                 t += yDataNum;
                 for (int k = 0; k < stateNum; k++) {
                     inputValues[i - 2].myState[k] = float.Parse(values[t + k]);
-                    total.myState[k] += float.Parse(values[t + k]);
                 }
                 t += stateNum;
                 for (int k = 0; k < stateNum; k++) {
                     inputValues[i - 2].enState[k] = float.Parse(values[t + k]);
-                    total.enState[k] += float.Parse(values[t + k]);
                 }
                 t += stateNum;
                 inputValues[i-2].axisX = float.Parse(values[t]);

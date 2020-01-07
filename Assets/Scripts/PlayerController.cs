@@ -46,7 +46,7 @@ public class PlayerController : MonoBehaviour {
             case Main.Chara.Hammer: charaPref = hammerPref; break;
             default: break;
         }
-        GameObject characterIns = Instantiate(charaPref, playerNum == PlayerNum.player1 ? new Vector3(-20, 0, 0) : new Vector3(20, 0, 0), new Quaternion(0, 0, 0, 0));
+        GameObject characterIns = Instantiate(charaPref, playerNum == PlayerNum.player1 ? new Vector3(-20, 0, 0) : new Vector3(20, 0, 0), Quaternion.identity);
         character = characterIns.GetComponent<Character>();
         animator = characterIns.GetComponent<Animator>();
         playerTf = characterIns.transform;
@@ -116,7 +116,7 @@ public class PlayerController : MonoBehaviour {
             stateInfo.fullPathHash == SideA_Air_R || stateInfo.fullPathHash == NutralA_Air_R) { character.Resistance();}
         if (stateInfo.fullPathHash == GameEnd) { character.GameEnd();}
 
-        //地面判定（仮）
+        //地面判定
         if (playerTf.position.y < 0) { character.GroundCollision();}
         //空中制御
         if (0 < playerTf.position.y &&

@@ -197,18 +197,18 @@ public class BattleMgr : MonoBehaviour {
                 if(player1Tf.position.x < player2Tf.position.x) {//1P左
                     c1LFRTf.offsetMax = Vector2.zero;
                     c1RFRTf.offsetMin = Vector2.right * -Screen.width / (Main.Instance.isMultiDisplays ? 40 : 80) 
-                        * Mathf.Min(1.0f, (Mathf.Abs(player1Tf.position.x - player2Tf.position.x) - ChaseCamera.chaseRange * 6) / (ChaseCamera.chaseRange * 20));
+                        * Mathf.Min(1.0f, (Mathf.Abs(player1Tf.position.x - player2Tf.position.x) - ChaseCamera.chaseRange * 6) / (ChaseCamera.chaseRange * 20) + 0.2f);
                     c2LFRTf.offsetMax = Vector2.right * Screen.width / (Main.Instance.isMultiDisplays ? 40 : 80)
-                        * Mathf.Min(1.0f, (Mathf.Abs(player1Tf.position.x - player2Tf.position.x) - ChaseCamera.chaseRange * 6) / (ChaseCamera.chaseRange * 20));
+                        * Mathf.Min(1.0f, (Mathf.Abs(player1Tf.position.x - player2Tf.position.x) - ChaseCamera.chaseRange * 6) / (ChaseCamera.chaseRange * 20) + 0.2f);
                     c2RFRTf.offsetMin = Vector2.zero;
                 }
                 else { //1P右
                     c1LFRTf.offsetMax = Vector2.right * Screen.width / (Main.Instance.isMultiDisplays ? 40 : 80)
-                        * Mathf.Min(1.0f, (Mathf.Abs(player1Tf.position.x - player2Tf.position.x) - ChaseCamera.chaseRange * 6) / (ChaseCamera.chaseRange * 20));
+                        * Mathf.Min(1.0f, (Mathf.Abs(player1Tf.position.x - player2Tf.position.x) - ChaseCamera.chaseRange * 6) / (ChaseCamera.chaseRange * 20) + 0.2f);
                     c1RFRTf.offsetMin = Vector2.zero;
                     c2LFRTf.offsetMax = Vector2.zero;
                     c2RFRTf.offsetMin = Vector2.right * -Screen.width / (Main.Instance.isMultiDisplays ? 40 : 80)
-                        * Mathf.Min(1.0f, (Mathf.Abs(player1Tf.position.x - player2Tf.position.x) - ChaseCamera.chaseRange * 6) / (ChaseCamera.chaseRange * 20));
+                        * Mathf.Min(1.0f, (Mathf.Abs(player1Tf.position.x - player2Tf.position.x) - ChaseCamera.chaseRange * 6) / (ChaseCamera.chaseRange * 20) + 0.2f);
                 }        
             }
         }
@@ -288,13 +288,13 @@ public class BattleMgr : MonoBehaviour {
         if (groundRight < right) groundRight = right;
     }
     public void BattleEnd() {
-        if(playerController1.stateInfo.fullPathHash == AnimState.GameEnd && playerController2.hp>0) {
+        if(playerController1.stateInfo.fullPathHash == AnimState.GameEnd && playerController2.stateInfo.fullPathHash != AnimState.GameEnd) {
             Debug.Log("2PWIN");
             Main.battleResult = Main.BattleResult.Win2P;
             c1Txt.text = "LOSE";
             c2Txt.text = "WIN";
         }
-        else if(playerController2.stateInfo.fullPathHash == AnimState.GameEnd && playerController1.hp>0) {
+        else if(playerController2.stateInfo.fullPathHash == AnimState.GameEnd && playerController1.stateInfo.fullPathHash != AnimState.GameEnd) {
             Debug.Log("1PWIN");
             Main.battleResult = Main.BattleResult.Win1P;
             c1Txt.text = "WIN";

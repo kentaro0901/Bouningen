@@ -86,6 +86,7 @@ public abstract class Character : MonoBehaviour {
     public void StartResistance(Vector2 vector, float damage) {
         controller.damageVector = vector;
         controller.resistDamage = damage;
+        prestatenum = 13;
         if (controller.stateInfo.fullPathHash == AnimState.SideA ||
             controller.stateInfo.fullPathHash == AnimState.LightningAttack) {
             controller.animator.Play("SideA_R");
@@ -114,8 +115,8 @@ public abstract class Character : MonoBehaviour {
     public void StartGame() {
         if (counter == 0) {
             BattleMgr.Instance.ChangeToneDouble(0.1f, CameraEffect.ToneName.reverseTone);
-            BattleMgr.Instance.ZoomInOutDouble(0.1f);
             BattleMgr.Instance.VibrateDouble(0.8f, 2.0f);
+            BattleMgr.Instance.CreateVFX("Line", playerTf.position, Quaternion.identity, 0.1f);
             animator.speed = Main.Instance.gameSpeed;
         }
     }
@@ -308,7 +309,7 @@ public abstract class Character : MonoBehaviour {
                 BattleMgr.Instance.CreateCrack(controller.damageVector.x < 0);
             if (controller.hp <= 0) {
                 Main.battleResult = Main.BattleResult.Finish;
-                BattleMgr.Instance.ChangeTimeScale(0.04f, 1.2f);
+                BattleMgr.Instance.ChangeTimeScale(0.02f, 1.2f);
                 BattleMgr.Instance.ChangeToneDouble(1.2f, ((int)controller.playerNum == 2 ? CameraEffect.ToneName.blackRed : CameraEffect.ToneName.blackBlue));
             }
             else {
@@ -320,7 +321,7 @@ public abstract class Character : MonoBehaviour {
         }
         playerTf.position += controller.damageVector * Time.timeScale;
         playerTf.position += Vector3.down * counter * 0.002f * animator.speed;
-        if (playerTf.position.y < 0.1f && 50 < counter * animator.speed) {
+        if (playerTf.position.y < 0.1f && 60 < counter * animator.speed) {
             playerTf.position = new Vector3(playerTf.position.x, 0, 0);
             if (controller.hp <= 0)
                 animator.Play("Death");
@@ -383,7 +384,6 @@ public abstract class Character : MonoBehaviour {
     public void Resistance() {
         if (counter == 0 && controller.playerNum == PlayerController.PlayerNum.player1) {
             BattleMgr.Instance.StartResistance();
-            prestatenum = 13;
         }
         if (controller.input.A || controller.input.B) {
             if (!preResistButtonDown) {
