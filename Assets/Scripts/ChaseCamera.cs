@@ -29,14 +29,10 @@ public class ChaseCamera : MonoBehaviour {
     }
 
     public void NearCamera() {
-        //BackLineLeft.SetActive(false);
-        //BackLineRight.SetActive(false);
         isNear = true;
     }
     public void FarCamera(bool isLeft) {
         if (isLeft) { //左
-            //BackLineLeft.SetActive(true);
-            //BackLineRight.SetActive(false);
             if (Main.Instance.isMultiDisplays) {
                 _camera.rect = new Rect(0, 0, 1, 1);
                 _camera.targetDisplay = 0;
@@ -47,8 +43,6 @@ public class ChaseCamera : MonoBehaviour {
             }
         }
         else { //右
-            //BackLineLeft.SetActive(false);
-            //BackLineRight.SetActive(true);
             if (Main.Instance.isMultiDisplays) {
                 _camera.rect = new Rect(0, 0, 1, 1);
                 _camera.targetDisplay = 1;

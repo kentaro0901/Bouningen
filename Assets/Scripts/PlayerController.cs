@@ -36,6 +36,7 @@ public class PlayerController : MonoBehaviour {
     public bool isLimitBreak = false;
 
     void Awake() {
+
         //キャラの生成
         Main.Chara myChara = (int)playerNum == 1 ? Main.Instance.chara1P : Main.Instance.chara2P;
         Debug.Log((int)playerNum + "P : " + myChara);

@@ -31,7 +31,7 @@ public class Main : MonoBehaviour {
         Title,
         Select,
         Battle,
-        Result
+        Result,
     }
     public static State state = State.Root;
     public enum Chara {
@@ -81,6 +81,7 @@ public class Main : MonoBehaviour {
     public bool isVisibleUI = true;
     public float cameraSize = 6.0f;
     public float gameSpeed = 1.0f;
+    public bool isDemo = false;
 
     void Start() {
         mainBgm.clip = mainMusic;
@@ -99,6 +100,9 @@ public class Main : MonoBehaviour {
         state = State.Title;
         battleResult = BattleResult.Default;
         Time.timeScale = 1.0f;
+        Instance.isDemo = false;
+        Instance.playerType[0] = PlayerType.Player;
+        Instance.playerType[1] = PlayerType.Player;
         if (isFade) {
             FadeManager.Instance.LoadScene("Title", 0.5f);
         }

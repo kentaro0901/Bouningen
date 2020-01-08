@@ -309,8 +309,8 @@ public abstract class Character : MonoBehaviour {
                 BattleMgr.Instance.CreateCrack(controller.damageVector.x < 0);
             if (controller.hp <= 0) {
                 Main.battleResult = Main.BattleResult.Finish;
-                BattleMgr.Instance.ChangeTimeScale(0.02f, 1.2f);
-                BattleMgr.Instance.ChangeToneDouble(1.2f, ((int)controller.playerNum == 2 ? CameraEffect.ToneName.blackRed : CameraEffect.ToneName.blackBlue));
+                BattleMgr.Instance.ChangeTimeScale(0.02f, 0.8f);
+                BattleMgr.Instance.ChangeToneDouble(0.8f, ((int)controller.playerNum == 2 ? CameraEffect.ToneName.blackRed : CameraEffect.ToneName.blackBlue));
             }
             else {
                 BattleMgr.Instance.ChangeTimeScale(0.06f, 0.4f);

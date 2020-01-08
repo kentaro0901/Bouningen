@@ -108,6 +108,12 @@ public class BattleMgr : MonoBehaviour {
             c2mpBar1.gameObject.SetActive(false);
             c2mpBar2.gameObject.SetActive(false);
         }
+        if (Main.Instance.isDemo) {
+            c1Txt.text = "Demo";
+            c1Txt.color = new Color(c1Txt.color.r, c1Txt.color.b, c1Txt.color.g, 0.5f);
+            c2Txt.text = "Demo";
+            c2Txt.color = new Color(c2Txt.color.r, c2Txt.color.b, c2Txt.color.g, 0.5f);
+        }
         counter = 0;
     }
     void Update() {
@@ -122,6 +128,16 @@ public class BattleMgr : MonoBehaviour {
                 ChangeTimeScale(1.0f, 0);
                 Main.Instance.Init(true);
             }
+            if (Main.Instance.isDemo && counter == 60) { //デモ繰り返し
+                ChangeTimeScale(1.0f, 0);
+                Main.Instance.chara1P = (Main.Chara)Random.Range(0, 3);
+                Main.Instance.chara2P = (Main.Chara)Random.Range(0, 3);
+                FadeManager.Instance.LoadScene("Battle", 0.5f);
+            }
+        }
+        if(Main.Instance.isDemo && (Input.GetKeyDown(KeyCode.D) || Input.GetButtonDown("ButtonA_0") || Input.GetButtonDown("ButtonA_1"))) { //デモ終了
+            Main.Instance.isDemo = false;
+            Main.Instance.Init(true);
         }
     }
     void LateUpdate() {
@@ -306,6 +322,8 @@ public class BattleMgr : MonoBehaviour {
             c1Txt.text = "DRAW";
             c2Txt.text = "DRAW";
         }
+        c1Txt.color = new Color(c1Txt.color.r, c1Txt.color.b, c1Txt.color.g, 1.0f);
+        c2Txt.color = new Color(c2Txt.color.r, c2Txt.color.b, c2Txt.color.g, 1.0f);
         Destroy(c1LFRTf.gameObject);
         Destroy(c1RFRTf.gameObject);
         Destroy(c2LFRTf.gameObject);
