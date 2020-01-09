@@ -35,6 +35,7 @@ public class FadeManager : MonoBehaviour {
     }
 
     private void Start() {
+        Time.timeScale = 1.0f;
         c1TransCircle1.GetComponent<RectTransform>().localScale = Vector3.one * (float)Screen.width/1024;
         c1TransCircle2.GetComponent<RectTransform>().localScale = Vector3.one * (float)Screen.width / 1024;
         c2TransCircle1.GetComponent<RectTransform>().localScale = Vector3.one * (float)Screen.width / 1024;

@@ -130,8 +130,8 @@ public class BattleMgr : MonoBehaviour {
             }
             if (Main.Instance.isDemo && counter == 60) { //デモ繰り返し
                 ChangeTimeScale(1.0f, 0);
-                Main.Instance.chara1P = (Main.Chara)Random.Range(0, 3);
-                Main.Instance.chara2P = (Main.Chara)Random.Range(0, 3);
+                Main.Instance.chara[0] = (Main.Chara)Random.Range(0, 3);
+                Main.Instance.chara[1] = (Main.Chara)Random.Range(0, 3);
                 FadeManager.Instance.LoadScene("Battle", 0.5f);
             }
         }

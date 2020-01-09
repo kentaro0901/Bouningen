@@ -19,7 +19,7 @@ public class Main : MonoBehaviour {
         }
     }
     void Awake() {
-        if (this != Instance) { //２つ目以降のインスタンスは破棄
+        if (this != Instance) {
             Destroy(this.gameObject);
             return;
         }
@@ -39,8 +39,9 @@ public class Main : MonoBehaviour {
         Fighter,
         Hammer
     }
-    public Chara chara1P = Chara.Sword;
-    public Chara chara2P = Chara.Sword;
+    //public Chara chara1P = Chara.Sword;
+    //public Chara chara2P = Chara.Sword;
+    public Chara[] chara = { Chara.Sword, Chara.Sword };
     public enum Controller {
         None,
         GamePad,
@@ -49,12 +50,10 @@ public class Main : MonoBehaviour {
     public static Controller[] controller = new Controller[2];
     public static List<Joycon> joycons;
     public static Joycon[] joycon = new Joycon[2];
-    public bool isSwapController = false;
     public enum PlayerType {
         None,
         Player,
-        AI,
-        Online
+        AI
     }
     public PlayerType[] playerType = new PlayerType[2];
     public enum BattleResult {
@@ -194,20 +193,19 @@ public class Main : MonoBehaviour {
             Debug.Log("2P:None");
         }
         //スワップ
+        /*
         if (controller[0] == Controller.None && controller[1] != Controller.None) {
             isSwapController = true;
             controller[0] = controller[1];
             controller[1] = Controller.None;
             Debug.Log("Controller swapped");
         }
+        */
     }
 
-
-        void Update() {
-        
+    void Update() {
         //タイトルに戻る
-        if (Input.GetKeyDown(KeyCode.F5) || 
-            (Input.GetKey(KeyCode.E) && Input.GetKey(KeyCode.N) && Input.GetKey(KeyCode.D))) {
+        if (Input.GetKeyDown(KeyCode.F5)) {
             Init(false);
         }
         //強制終了

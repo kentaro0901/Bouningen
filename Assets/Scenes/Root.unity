@@ -520,9 +520,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92c39ffd71790224d99967002fc15056, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  chara1P: 0
-  chara2P: 0
-  isSwapController: 0
+  chara: 0000000000000000
   playerType: 0000000000000000
   mainBgm: {fileID: 506392971}
   subBgm: {fileID: 1465082187}

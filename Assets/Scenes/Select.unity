@@ -2265,8 +2265,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b178313b96c8004da538c1c6ffe4472, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Frame1PRTf: {fileID: 2135055998}
-  Frame2PRTf: {fileID: 1197896957}
+  FramePRTf:
+  - {fileID: 2135055998}
+  - {fileID: 1197896957}
   Frame1PS: {fileID: 118986981}
   Frame2PS: {fileID: 438182018}
   settingPanel: {fileID: 1261636577}
@@ -2286,22 +2287,12 @@ MonoBehaviour:
   volumeValue: {fileID: 1977590278}
   subVolumeValue: {fileID: 646829406}
   gameSpeedValue: {fileID: 335770}
-  manualPanel1:
-  - {fileID: 1068619117}
-  - {fileID: 1391363945}
-  - {fileID: 575963311}
-  - {fileID: 1630522812}
-  - {fileID: 1272398005}
-  - {fileID: 1873174084}
-  manualPanel2:
-  - {fileID: 1408869317}
-  - {fileID: 1296382273}
-  - {fileID: 886004761}
-  - {fileID: 791400481}
-  - {fileID: 1217095623}
-  - {fileID: 2054159926}
-  readyPanel1: {fileID: 2073569028}
-  readyPanel2: {fileID: 1922501036}
+  manualPanels:
+  - {fileID: 88145657}
+  - {fileID: 1224846206}
+  readyPanel:
+  - {fileID: 2073569028}
+  - {fileID: 1922501036}
   sumiCircle1: {fileID: 1345191919}
   sumiCircle2: {fileID: 2051616115}
   ready1S: {fileID: 461093676}
@@ -5809,7 +5800,7 @@ GameObject:
   - component: {fileID: 1197896959}
   - component: {fileID: 1197896958}
   m_Layer: 5
-  m_Name: Frame
+  m_Name: Frame2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8019,9 +8010,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92c39ffd71790224d99967002fc15056, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  chara1P: 0
-  chara2P: 0
-  isSwapController: 0
+  chara: 0000000000000000
   playerType: 0000000000000000
   mainBgm: {fileID: 1542913055}
   subBgm: {fileID: 78854531}
@@ -8034,6 +8023,7 @@ MonoBehaviour:
   isVisibleUI: 1
   cameraSize: 5
   gameSpeed: 1
+  isDemo: 0
 --- !u!4 &1542913053
 Transform:
   m_ObjectHideFlags: 0

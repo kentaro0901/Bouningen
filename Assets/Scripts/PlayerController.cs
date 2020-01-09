@@ -37,11 +37,9 @@ public class PlayerController : MonoBehaviour {
 
     void Awake() {
 
-        //キャラの生成
-        Main.Chara myChara = (int)playerNum == 1 ? Main.Instance.chara1P : Main.Instance.chara2P;
-        Debug.Log((int)playerNum + "P : " + myChara);
+        Debug.Log((int)playerNum + "P : " + Main.Instance.chara[(int)playerNum-1]);
         GameObject charaPref = swordPref;
-        switch (myChara) {
+        switch (Main.Instance.chara[(int)playerNum-1]) {
             case Main.Chara.Sword: charaPref = swordPref; break;
             case Main.Chara.Fighter: charaPref = fighterPref; break;
             case Main.Chara.Hammer: charaPref = hammerPref; break;

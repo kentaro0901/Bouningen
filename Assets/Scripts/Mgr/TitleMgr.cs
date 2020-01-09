@@ -46,8 +46,8 @@ public class TitleMgr : MonoBehaviour {
             Main.Instance.isDemo = true;
             Main.Instance.playerType[0] = Main.PlayerType.AI;
             Main.Instance.playerType[1] = Main.PlayerType.AI;
-            Main.Instance.chara1P = (Main.Chara)Random.Range(0, 3);
-            Main.Instance.chara2P = (Main.Chara)Random.Range(0, 3);
+            Main.Instance.chara[0] = (Main.Chara)Random.Range(0, 3);
+            Main.Instance.chara[1] = (Main.Chara)Random.Range(0, 3);
             FadeManager.Instance.LoadScene("Battle", 0.5f);
         }
         if ((Input.GetButtonDown("ButtonA_0") ||
