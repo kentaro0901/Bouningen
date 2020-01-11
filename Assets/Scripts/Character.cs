@@ -398,17 +398,17 @@ public abstract class Character : MonoBehaviour {
         else {
             preResistButtonDown = false;
         }
-        if (counter == 20) {
+        if (counter == 25) {
             BattleMgr.Instance.VibrateDouble(0.3f, 2.0f);
             BattleMgr.Instance.CreateVFX("Stone", playerTf.position + (enemyTf.position - playerTf.position) / 2 + Vector3.up * 2, Quaternion.identity, 1.0f);
             BattleMgr.Instance.CreateVFX("Line", playerTf.position + (enemyTf.position - playerTf.position) / 2 + Vector3.up * 2, Quaternion.Euler(0, 0, Random.Range(-70, 70)), 1.0f);
         }
-        if (counter == 40) {
+        if (counter == 50) {
             BattleMgr.Instance.VibrateDouble(0.4f, 2.0f);
             BattleMgr.Instance.CreateVFX("Stone", playerTf.position + (enemyTf.position - playerTf.position) / 2 + Vector3.up * 2, Quaternion.identity, 1.0f);
             BattleMgr.Instance.CreateVFX("Line", playerTf.position + (enemyTf.position - playerTf.position) / 2 + Vector3.up * 2, Quaternion.Euler(0, 0, Random.Range(-70, 70)), 1.0f);
         }
-        if (counter == 60) {
+        if (counter == 75) {
             controller.isResistance = false;
             if ((BattleMgr.Instance.resistResult == BattleMgr.ResistResult.Critical1P && controller.playerNum == PlayerController.PlayerNum.player1) ||
                 (BattleMgr.Instance.resistResult == BattleMgr.ResistResult.Critical2P && controller.playerNum == PlayerController.PlayerNum.player2)) { //鍔迫り合いに負けた時

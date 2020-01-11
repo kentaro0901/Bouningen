@@ -25,12 +25,10 @@ public class TitleMgr : MonoBehaviour {
     }
 
     [SerializeField] Animator animator;
-    private int counter = 0;
 
     void Start() {
         Main.state = Main.State.Title;
         Main.Instance.UICameraSetting();
-        counter = 0;
     }
 
     void Update() {
@@ -42,7 +40,7 @@ public class TitleMgr : MonoBehaviour {
                 animator.speed = 0.8f;
             }        
         }
-        if (Input.GetKeyDown(KeyCode.D) || counter == 1200) { //デモ
+        if (Input.GetKeyDown(KeyCode.D)) { //デモ
             Main.Instance.isDemo = true;
             Main.Instance.playerType[0] = Main.PlayerType.AI;
             Main.Instance.playerType[1] = Main.PlayerType.AI;
@@ -58,6 +56,5 @@ public class TitleMgr : MonoBehaviour {
             Main.state = Main.State.Select;
             FadeManager.Instance.LoadScene("Select", 0.5f);
         }
-        counter++;
     }
 }
