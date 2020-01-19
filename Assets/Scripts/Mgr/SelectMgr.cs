@@ -202,14 +202,14 @@ public class SelectMgr : MonoBehaviour {
                     if (x[i]) { //X
                         ChangePlayerType(i);
                     }
-                    if (isReleseAxis[i]) {                      
-                        if (0 < xAxis[i] && focusPanel[i] < FocusPanel.Setting) { //右
+                    if (isReleseAxis[i]) {
+                        if (0 < xAxis[i] && focusPanel[i] < (i == 0 ? FocusPanel.Setting:FocusPanel.Hammer)) { //右
                             isReleseAxis[i] = false;
                             focusPanel[i]++;
                             string s = i == 0 ? "MoveEnd1" : "MoveEnd2";
                             iTween.MoveBy(FramePRTf[i].gameObject, iTween.Hash("x", Screen.width / 4, "time", 0.2f, "oncomplete", s, "oncompletetarget", gameObject));
                         }
-                        else if (xAxis[i] < 0 && FocusPanel.Manual < focusPanel[i]) { //左
+                        else if (xAxis[i] < 0 && (i==0?FocusPanel.Manual:(Main.Instance.isMultiDisplays? FocusPanel.Manual: FocusPanel.Fighting)) < focusPanel[i]) { //左
                             isReleseAxis[i] = false;
                             focusPanel[i]--;
                             string s = i == 0 ? "MoveEnd1" : "MoveEnd2";
