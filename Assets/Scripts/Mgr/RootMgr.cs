@@ -5,7 +5,6 @@ using UnityEngine.SceneManagement;
 
 public class RootMgr : MonoBehaviour {
 
-    //シングルトン
     private static RootMgr instance;
     public static RootMgr Instance {
         get {
@@ -25,14 +24,12 @@ public class RootMgr : MonoBehaviour {
     }
 
     void Start() {
-        Main.state = Main.State.Root;
-        Main.Instance.UICameraSetting();
+        Main.gameState = Main.GameState.Root;
+        Main.Instance.TitleCameraSetting();
         StartMultiDisplays();
-        //Main.Instance.CheckGamePad();
         Main.Instance.Init(false);
     }
 
-    //マルチディスプレイ
     void StartMultiDisplays() {
         if (Display.displays.Length > 1) {
             Display.displays[1].Activate();

@@ -26,14 +26,14 @@ public class Main : MonoBehaviour {
         DontDestroyOnLoad(this.gameObject);
     }
 
-    public enum State{
+    public enum GameState{
         Root,
         Title,
         Select,
         Battle,
         Result,
     }
-    public static State state = State.Root;
+    public static GameState gameState = GameState.Root;
     public enum Chara {
         Sword,
         Fighter,
@@ -54,7 +54,7 @@ public class Main : MonoBehaviour {
         AI
     }
     public PlayerType[] playerType = new PlayerType[2];
-    public enum BattleResult {
+    public enum BattleResult {//
         Default,
         Battle,
         Finish,
@@ -62,15 +62,14 @@ public class Main : MonoBehaviour {
         Win1P,
         Win2P
     }
-    public static BattleResult battleResult = BattleResult.Default;
+    public static BattleResult battleResult = BattleResult.Default;//
 
     public AudioSource mainBgm;
     public AudioSource subBgm;
     [SerializeField] AudioClip mainMusic;
     [SerializeField] AudioClip subMusic;
 
-    Camera camera1;
-    Camera camera2;
+    Camera[] _camera = new Camera[2];
     public bool isAutoMultiDisplays = true;
     public bool isMultiDisplays = true;
     public bool isDynamicCamera = false;
@@ -86,7 +85,6 @@ public class Main : MonoBehaviour {
         CheckGamePad();
     }
 
-    //タイトルへ
     public void Init(bool isFade) {
         if (!isFade) {
             Instance.mainBgm.Stop();
@@ -94,7 +92,7 @@ public class Main : MonoBehaviour {
             Instance.subBgm.Stop();
             Instance.subBgm.Play();
         }
-        state = State.Title;
+        gameState = GameState.Title;
         battleResult = BattleResult.Default;
         Time.timeScale = 1.0f;
         Instance.isDemo = false;
@@ -108,50 +106,44 @@ public class Main : MonoBehaviour {
         }
     }
 
-    //カメラ
-    public void UICameraSetting() {
-        camera1 = GameObject.FindGameObjectWithTag("Camera1").GetComponent<Camera>();
-        camera2 = GameObject.FindGameObjectWithTag("Camera2").GetComponent<Camera>();
-        if (isMultiDisplays) { //マルチディスプレイ
-            camera1.transform.position = new Vector3(0, 0, -10);
-            camera1.rect = new Rect(0, 0, 1, 1);
-            camera1.targetDisplay = 0;
-            camera1.orthographicSize = 5.0f;
-            camera2.transform.position = new Vector3(17.8f, 0, -10);//
-            camera2.rect = new Rect(0, 0, 1, 1);
-            camera2.targetDisplay = 1;
-            camera2.orthographicSize = 5.0f;
+    public void TitleCameraSetting() { //タイトル用
+        _camera[0] = GameObject.FindGameObjectWithTag("Camera1").GetComponent<Camera>();
+        _camera[1] = GameObject.FindGameObjectWithTag("Camera2").GetComponent<Camera>();
+        if (isMultiDisplays) {
+            for(int i =0; i<2; i++) {
+                _camera[i].transform.position = new Vector3(i * 17.8f, 0, -10);
+                _camera[i].rect = new Rect(0, 0, 1, 1);
+                _camera[i].targetDisplay = i;
+                _camera[i].orthographicSize = 5.0f;
+            }
         }
-        else { //シングルディスプレイ
-            camera1.transform.position = new Vector3(8, 0, -10);
-            camera1.rect = new Rect(0, 0, 1, 1);
-            camera1.targetDisplay = 0;
-            camera1.orthographicSize = 8.0f;
-            camera2.enabled = false;
+        else {
+            _camera[0].transform.position = new Vector3(8, 0, -10);
+            _camera[0].rect = new Rect(0, 0, 1, 1);
+            _camera[0].targetDisplay = 0;
+            _camera[0].orthographicSize = 8.0f;
+            _camera[1].enabled = false;
         }
     }
-    public void BattleCameraSetting() {
-        camera1 = GameObject.FindGameObjectWithTag("Camera1").GetComponent<Camera>();
-        camera2 = GameObject.FindGameObjectWithTag("Camera2").GetComponent<Camera>();
-        if (Main.Instance.isMultiDisplays) { //マルチディスプレイ
-            camera1.rect = new Rect(0, 0, 1, 1);
-            camera1.targetDisplay = 0;
-            camera1.orthographicSize = Main.instance.cameraSize;
-            camera2.rect = new Rect(0, 0, 1, 1);
-            camera2.targetDisplay = 1;
-            camera2.orthographicSize = Main.instance.cameraSize;
+    public void BattleCameraSetting() { //バトル用
+        _camera[0] = GameObject.FindGameObjectWithTag("Camera1").GetComponent<Camera>();
+        _camera[1] = GameObject.FindGameObjectWithTag("Camera2").GetComponent<Camera>();
+        if (Main.Instance.isMultiDisplays) { 
+            for(int i=0; i<2; i++) {
+                _camera[i].rect = new Rect(0, 0, 1, 1);
+                _camera[i].targetDisplay = i;
+                _camera[i].orthographicSize = Main.instance.cameraSize;
+            }
         }
-        else { //シングルディスプレイ
-            camera1.rect = new Rect(0, 0, 0.5f, 1);
-            camera1.targetDisplay = 0;
-            camera1.orthographicSize = Main.instance.cameraSize;
-            camera2.rect = new Rect(0.5f, 0, 0.5f, 1);
-            camera2.targetDisplay = 0;
-            camera2.orthographicSize = Main.instance.cameraSize;
+        else {
+            for(int i=0; i<2; i++) {
+                _camera[i].rect = new Rect(i * 0.5f, 0, 0.5f, 1);
+                _camera[i].targetDisplay = 0;
+                _camera[i].orthographicSize = Main.instance.cameraSize;
+            }
         }
     }
 
-    //ゲームパッド
     public void CheckGamePad() {
         joycons = JoyconManager.Instance.j;
         joycon[0] = joycons.Find(c => c.isLeft); // Joy-Con (L)

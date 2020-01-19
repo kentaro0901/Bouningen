@@ -5,7 +5,6 @@ using UnityEngine.SceneManagement;
 
 public class TitleMgr : MonoBehaviour {
 
-    //シングルトン
     private static TitleMgr instance;
     public static TitleMgr Instance {
         get {
@@ -18,7 +17,7 @@ public class TitleMgr : MonoBehaviour {
         }
     }
     void Awake() {
-        if (this != Instance) { //２つ目以降のインスタンスは破棄
+        if (this != Instance) {
             Destroy(this.gameObject);
             return;
         }
@@ -27,33 +26,25 @@ public class TitleMgr : MonoBehaviour {
     [SerializeField] Animator animator;
 
     void Start() {
-        Main.state = Main.State.Title;
-        Main.Instance.UICameraSetting();
+        Main.gameState = Main.GameState.Title;
+        Main.Instance.TitleCameraSetting();
     }
 
     void Update() {
-        if (Input.GetKeyDown(KeyCode.Space)) {
-            if(0 < animator.speed) {
-                animator.speed = 0;
-            }
-            else {
-                animator.speed = 0.8f;
-            }        
-        }
         if (Input.GetKeyDown(KeyCode.D)) { //デモ
             Main.Instance.isDemo = true;
-            Main.Instance.playerType[0] = Main.PlayerType.AI;
-            Main.Instance.playerType[1] = Main.PlayerType.AI;
-            Main.Instance.chara[0] = (Main.Chara)Random.Range(0, 3);
-            Main.Instance.chara[1] = (Main.Chara)Random.Range(0, 3);
+            for (int i = 0; i<2; i++) {
+                Main.Instance.playerType[i] = Main.PlayerType.AI;
+                Main.Instance.chara[i] = (Main.Chara)Random.Range(0, 3);
+            }
             FadeManager.Instance.LoadScene("Battle", 0.5f);
         }
-        if ((Input.GetButtonDown("ButtonA_0") ||
+        if ((Input.GetButtonDown("ButtonA_0") || //セレクト画面へ
             ((Main.controller[0] == Main.Controller.Joycon) ? Main.joycon[0].GetButtonDown(Joycon.Button.DPAD_DOWN) : false) ||
             ((Main.controller[1] == Main.Controller.Joycon) ? Main.joycon[1].GetButtonDown(Joycon.Button.DPAD_UP) : false)) && 
-            Main.state == Main.State.Title) {
+            Main.gameState == Main.GameState.Title) {
             Main.Instance.isDemo = false;
-            Main.state = Main.State.Select;
+            Main.gameState = Main.GameState.Select;
             FadeManager.Instance.LoadScene("Select", 0.5f);
         }
     }

@@ -49,8 +49,6 @@ public class SelectMgr : MonoBehaviour {
     bool[] b = {false, false};
     bool[] x = { false, false };
 
-    //[SerializeField] RectTransform Frame1PRTf;
-    //[SerializeField] RectTransform Frame2PRTf;
     [SerializeField] RectTransform[] FramePRTf;
     [SerializeField] RectTransform Frame1PS;
     [SerializeField] RectTransform Frame2PS;
@@ -95,8 +93,8 @@ public class SelectMgr : MonoBehaviour {
     [SerializeField] Material gray;
 
     void Start() {
-        Main.state = Main.State.Select;
-        Main.Instance.UICameraSetting();
+        Main.gameState = Main.GameState.Select;
+        Main.Instance.TitleCameraSetting();
         if (!Main.Instance.isMultiDisplays) { //シングル用
             FramePRTf[0].transform.parent.gameObject.SetActive(false);
             FramePRTf[0] = Frame1PS;
@@ -313,14 +311,14 @@ public class SelectMgr : MonoBehaviour {
         sumiCircle1.fillAmount = (float)readyCount / 60;
         sumiCircle2.fillAmount = (float)readyCount / 60;
 
-        if(60 <= readyCount && Main.state == Main.State.Select) { //シーン遷移
+        if(60 <= readyCount && Main.gameState == Main.GameState.Select) { //シーン遷移
             selectState[0] = SelectState.Loading;
             selectState[1] = SelectState.Loading;
             Main.Instance.isMultiDisplays = isMultiDisplays;
             Main.Instance.isDynamicCamera = isDynamicCamera;
             Main.Instance.isVisibleBox = isVisibleBox;
             Main.Instance.isVisibleUI = isVisibleUI;
-            Main.state = Main.State.Battle;
+            Main.gameState = Main.GameState.Battle;
             FadeManager.Instance.LoadScene("Battle", 0.5f);
         }
     }

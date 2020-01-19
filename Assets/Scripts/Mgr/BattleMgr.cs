@@ -6,7 +6,6 @@ using UnityEngine.SceneManagement;
 
 public class BattleMgr : MonoBehaviour {
 
-    //シングルトン
     private static BattleMgr instance;
     public static BattleMgr Instance {
         get {
@@ -19,7 +18,7 @@ public class BattleMgr : MonoBehaviour {
         }
     }
     void Awake() {
-        if (this != Instance) { //２つ目以降のインスタンスは破棄
+        if (this != Instance) {
             Destroy(this.gameObject);
             return;
         }
@@ -81,7 +80,7 @@ public class BattleMgr : MonoBehaviour {
     int groundSpan = 20;
 
     void Start() {
-        Main.state = Main.State.Battle;
+        Main.gameState = Main.GameState.Battle;
         Main.battleResult = Main.BattleResult.Battle;
         Main.Instance.BattleCameraSetting();
         camera1Tf = chaseCamera1.transform;
@@ -120,7 +119,7 @@ public class BattleMgr : MonoBehaviour {
         UpdateUI();
         TimeScaleCountDown();
         AnimeSpeedCountDown();
-        if (Main.state == Main.State.Result) {
+        if (Main.gameState == Main.GameState.Result) {
             counter++;
             if ((Input.GetButtonDown("ButtonA_0") ||
             ((Main.controller[0] == Main.Controller.Joycon) ? Main.joycon[0].GetButtonDown(Joycon.Button.DPAD_DOWN) : false) ||
@@ -141,7 +140,7 @@ public class BattleMgr : MonoBehaviour {
         }
     }
     void LateUpdate() {
-        if (Main.state == Main.State.Battle) ChangeCameraChaseMode();
+        if (Main.gameState == Main.GameState.Battle) ChangeCameraChaseMode();
         ResistMgr();
         float left = player1Tf.position.x < player2Tf.position.x ? player1Tf.position.x : player2Tf.position.x;
         float right = player1Tf.position.x <= player2Tf.position.x ? player2Tf.position.x : player1Tf.position.x;
@@ -340,6 +339,6 @@ public class BattleMgr : MonoBehaviour {
         c2hpBar2.gameObject.SetActive(false);
         c2mpBar1.gameObject.SetActive(false);
         c2mpBar2.gameObject.SetActive(false);
-        Main.state = Main.State.Result;
+        Main.gameState = Main.GameState.Result;
     }
 }
