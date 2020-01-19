@@ -39,8 +39,6 @@ public class Main : MonoBehaviour {
         Fighter,
         Hammer
     }
-    //public Chara chara1P = Chara.Sword;
-    //public Chara chara2P = Chara.Sword;
     public Chara[] chara = { Chara.Sword, Chara.Sword };
     public enum Controller {
         None,
@@ -192,15 +190,6 @@ public class Main : MonoBehaviour {
         else {
             Debug.Log("2P:None");
         }
-        //スワップ
-        /*
-        if (controller[0] == Controller.None && controller[1] != Controller.None) {
-            isSwapController = true;
-            controller[0] = controller[1];
-            controller[1] = Controller.None;
-            Debug.Log("Controller swapped");
-        }
-        */
     }
 
     void Update() {
