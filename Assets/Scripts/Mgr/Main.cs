@@ -32,6 +32,7 @@ public class Main : MonoBehaviour {
         Select,
         Battle,
         Result,
+        Loading
     }
     public static GameState gameState = GameState.Root;
     public enum Chara {
@@ -54,15 +55,6 @@ public class Main : MonoBehaviour {
         AI
     }
     public PlayerType[] playerType = new PlayerType[2];
-    public enum BattleResult {//
-        Default,
-        Battle,
-        Finish,
-        Draw,
-        Win1P,
-        Win2P
-    }
-    public static BattleResult battleResult = BattleResult.Default;//
 
     public AudioSource mainBgm;
     public AudioSource subBgm;
@@ -93,7 +85,6 @@ public class Main : MonoBehaviour {
             Instance.subBgm.Play();
         }
         gameState = GameState.Title;
-        battleResult = BattleResult.Default;
         Time.timeScale = 1.0f;
         Instance.isDemo = false;
         Instance.playerType[0] = PlayerType.Player;
@@ -106,7 +97,7 @@ public class Main : MonoBehaviour {
         }
     }
 
-    public void TitleCameraSetting() { //タイトル用
+    public void UICameraSetting() {
         _camera[0] = GameObject.FindGameObjectWithTag("Camera1").GetComponent<Camera>();
         _camera[1] = GameObject.FindGameObjectWithTag("Camera2").GetComponent<Camera>();
         if (isMultiDisplays) {
@@ -125,7 +116,7 @@ public class Main : MonoBehaviour {
             _camera[1].enabled = false;
         }
     }
-    public void BattleCameraSetting() { //バトル用
+    public void BattleCameraSetting() {
         _camera[0] = GameObject.FindGameObjectWithTag("Camera1").GetComponent<Camera>();
         _camera[1] = GameObject.FindGameObjectWithTag("Camera2").GetComponent<Camera>();
         if (Main.Instance.isMultiDisplays) { 
@@ -146,41 +137,21 @@ public class Main : MonoBehaviour {
 
     public void CheckGamePad() {
         joycons = JoyconManager.Instance.j;
-        joycon[0] = joycons.Find(c => c.isLeft); // Joy-Con (L)
-        joycon[1] = joycons.Find(c => !c.isLeft); // Joy-Con (R)
-        controller[0] = Controller.None;
-        controller[1] = Controller.None;
-        playerType[0] = PlayerType.Player;
-        playerType[1] = PlayerType.Player;
-
-        if (joycons.Any(c => c.isLeft)) {
-            controller[0] = Controller.Joycon;
-            Debug.Log("1P:JoyconL");
-        }
-        else if (0 < Input.GetJoystickNames().Length) {
-            if (Input.GetJoystickNames()[0] == "PC Game Controller       ") {
-                controller[0] = Controller.GamePad;
-                Debug.Log("1P:GamePad");
+        for (int i = 0; i < 2; i++) {
+            joycon[i] = joycons.Find(c => i == 0 ? c.isLeft : !c.isLeft);
+            controller[i] = Controller.None;
+            playerType[i] = PlayerType.Player;
+            if (joycons.Any(c => i == 0 ? c.isLeft : !c.isLeft)) {
+                controller[i] = Controller.Joycon;
+                Debug.Log(i + 1 + "P:Joycon");
             }
-            else Debug.Log("1P:None");
-        }
-        else {
-            Debug.Log("1P:None");
-        }
-
-        if (joycons.Any(c => !c.isLeft)) {
-            controller[1] = Controller.Joycon;
-            Debug.Log("2P:JoyconR");
-        }
-        else if(1 < Input.GetJoystickNames().Length) {
-            if (Input.GetJoystickNames()[1] == "PC Game Controller       ") {
-                controller[1] = Controller.GamePad;
-                Debug.Log("2P:GamePad");
+            else if (i < Input.GetJoystickNames().Length) {
+                controller[i] = Controller.GamePad;
+                Debug.Log(i + 1 + "P:GamePad");
             }
-            else Debug.Log("2P:None");
-        }
-        else {
-            Debug.Log("2P:None");
+            else {
+                Debug.Log(i + 1 + "P:None");
+            }
         }
     }
 

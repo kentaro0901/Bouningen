@@ -1431,7 +1431,7 @@ GameObject:
   - component: {fileID: 118986983}
   - component: {fileID: 118986982}
   m_Layer: 5
-  m_Name: Frame1
+  m_Name: SingleSelectFrame0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2265,12 +2265,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b178313b96c8004da538c1c6ffe4472, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  FramePRTf:
+  selectFrames:
   - {fileID: 2135055998}
   - {fileID: 1197896957}
-  Frame1PS: {fileID: 118986981}
-  Frame2PS: {fileID: 438182018}
+  singleSelectFrames:
+  - {fileID: 118986981}
+  - {fileID: 438182018}
+  manualPanels:
+  - {fileID: 88145657}
+  - {fileID: 1224846206}
   settingPanel: {fileID: 1261636577}
+  readyPanels:
+  - {fileID: 2073569028}
+  - {fileID: 1922501036}
+  singleReadyPanels:
+  - {fileID: 461093676}
+  - {fileID: 1760000623}
+  circles:
+  - {fileID: 1345191919}
+  - {fileID: 2051616115}
+  singleCircle: {fileID: 149245890}
+  red: {fileID: 2100000, guid: a93fa52414656d047acd8b22f90a2ed6, type: 2}
+  blue: {fileID: 2100000, guid: e86de86d8ede1f749841428e6fd9e09f, type: 2}
+  gray: {fileID: 2100000, guid: ffe4fcce589f80c46b84670a880cd708, type: 2}
   multiDisplays: {fileID: 1691746029}
   singleDisplay: {fileID: 2051213852}
   dynamicCamera: {fileID: 1085390753}
@@ -2287,20 +2304,6 @@ MonoBehaviour:
   volumeValue: {fileID: 1977590278}
   subVolumeValue: {fileID: 646829406}
   gameSpeedValue: {fileID: 335770}
-  manualPanels:
-  - {fileID: 88145657}
-  - {fileID: 1224846206}
-  readyPanel:
-  - {fileID: 2073569028}
-  - {fileID: 1922501036}
-  sumiCircle1: {fileID: 1345191919}
-  sumiCircle2: {fileID: 2051616115}
-  ready1S: {fileID: 461093676}
-  ready2S: {fileID: 1760000623}
-  sumiCircleS: {fileID: 149245890}
-  red: {fileID: 2100000, guid: a93fa52414656d047acd8b22f90a2ed6, type: 2}
-  blue: {fileID: 2100000, guid: e86de86d8ede1f749841428e6fd9e09f, type: 2}
-  gray: {fileID: 2100000, guid: ffe4fcce589f80c46b84670a880cd708, type: 2}
 --- !u!4 &324614376
 Transform:
   m_ObjectHideFlags: 0
@@ -2806,7 +2809,7 @@ GameObject:
   - component: {fileID: 438182020}
   - component: {fileID: 438182019}
   m_Layer: 5
-  m_Name: Frame2
+  m_Name: SingleSelectFrame1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5800,7 +5803,7 @@ GameObject:
   - component: {fileID: 1197896959}
   - component: {fileID: 1197896958}
   m_Layer: 5
-  m_Name: Frame2
+  m_Name: MultiSelectFrame1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9178,6 +9181,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1922501037}
+  - {fileID: 2051616117}
   m_Father: {fileID: 1354319486}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -9612,7 +9616,7 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Toggle+ToggleEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
-  m_IsOn: 1
+  m_IsOn: 0
 --- !u!224 &1817928416
 RectTransform:
   m_ObjectHideFlags: 0
@@ -10400,7 +10404,6 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 938698097}
-  - {fileID: 2051616117}
   m_Father: {fileID: 1683792400}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -11390,7 +11393,7 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 1922501037}
+  m_Father: {fileID: 1683792400}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -30}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -12257,7 +12260,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.Toggle+ToggleEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
-  m_IsOn: 0
+  m_IsOn: 1
 --- !u!224 &2107329394
 RectTransform:
   m_ObjectHideFlags: 0
@@ -12370,7 +12373,7 @@ GameObject:
   - component: {fileID: 2135056000}
   - component: {fileID: 2135055999}
   m_Layer: 5
-  m_Name: Frame1
+  m_Name: MultiSelectFrame0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

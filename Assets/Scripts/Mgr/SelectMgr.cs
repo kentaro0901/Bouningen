@@ -41,19 +41,29 @@ public class SelectMgr : MonoBehaviour {
     }
     SelectState[] selectState = { SelectState.Loading, SelectState.Loading };
     FocusPanel[] focusPanel = { FocusPanel.Sword, FocusPanel.Sword};
-    bool[] isReleseAxis = { true, true };
 
-    //入力
     float[] xAxis = {0.0f, 0.0f};
     bool[] a = {false, false};
     bool[] b = {false, false};
     bool[] x = { false, false };
+    bool[] isReleseAxis = { true, true };
 
-    [SerializeField] RectTransform[] FramePRTf;
-    [SerializeField] RectTransform Frame1PS;
-    [SerializeField] RectTransform Frame2PS;
-   
+    [SerializeField] RectTransform[] selectFrames;
+    [SerializeField] RectTransform[] singleSelectFrames;
+    [SerializeField] GameObject[] manualPanels;
     [SerializeField] GameObject settingPanel;
+    [SerializeField] GameObject[] readyPanels;
+    [SerializeField] GameObject[] singleReadyPanels;
+    [SerializeField] Image[] circles;
+    [SerializeField] Image singleCircle;
+    int[] manualPage = { 0, 0 };
+    Vector2 readyPanelInitSize = Vector2.one;
+    int readyCount = 0;
+
+    [SerializeField] Material red;
+    [SerializeField] Material blue;
+    [SerializeField] Material gray;
+
     [SerializeField] Toggle multiDisplays;
     [SerializeField] Toggle singleDisplay;
     [SerializeField] Toggle dynamicCamera;
@@ -70,74 +80,54 @@ public class SelectMgr : MonoBehaviour {
     [SerializeField] Text volumeValue;
     [SerializeField] Text subVolumeValue;
     [SerializeField] Text gameSpeedValue;
-    bool isMultiDisplays; //経由しないとうまくいかない
+
+    //経由しないとシーン開始時とかに勝手にOnValueChagedが呼ばれてめんどくさいことになる
+    bool isMultiDisplays; 
     bool isDynamicCamera;
     bool isVisibleBox;
     bool isVisibleUI;
 
-    [SerializeField] GameObject[] manualPanels;
-    int[] manualPage = { 0, 0 };
-
-    [SerializeField] GameObject[] readyPanel;
-    Vector2 readyPanelInitSize1 = Vector2.one;
-    Vector2 readyPanelInitSize2 = Vector2.one;
-    [SerializeField] Image sumiCircle1;
-    [SerializeField] Image sumiCircle2;
-    [SerializeField] GameObject ready1S;
-    [SerializeField] GameObject ready2S;
-    [SerializeField] Image sumiCircleS;
-    int readyCount = 0;
-
-    [SerializeField] Material red;
-    [SerializeField] Material blue;
-    [SerializeField] Material gray;
-
     void Start() {
         Main.gameState = Main.GameState.Select;
-        Main.Instance.TitleCameraSetting();
-        if (!Main.Instance.isMultiDisplays) { //シングル用
-            FramePRTf[0].transform.parent.gameObject.SetActive(false);
-            FramePRTf[0] = Frame1PS;
-            FramePRTf[1] = Frame2PS;
-            readyPanel[0].SetActive(false);
-            readyPanel[1].SetActive(false);
-            readyPanel[0] = ready1S;
-            readyPanel[1] = ready2S;
-            sumiCircle1 = sumiCircleS;
+        Main.Instance.UICameraSetting();
+        if (!Main.Instance.isMultiDisplays) {
+            selectFrames[0].transform.parent.gameObject.SetActive(false);
+            circles[0] = singleCircle;
+            for (int i = 0; i < 2; i++) {
+                readyPanels[i].SetActive(false);
+                selectFrames[i] = singleSelectFrames[i];               
+                readyPanels[i] = singleReadyPanels[i];                
+            }
         }
         else {
-            Frame1PS.transform.parent.gameObject.SetActive(false);
-            ready1S.SetActive(false);
-            ready2S.SetActive(false);
-        }
-
-        if (Main.Instance.playerType[0] == Main.PlayerType.AI) {//1P
-            FramePRTf[0].gameObject.GetComponent<Image>().material = gray;
-            readyPanel[0].gameObject.GetComponent<Image>().material = gray;
-        }
-        if (Main.Instance.playerType[1] == Main.PlayerType.AI) {//2P
-            FramePRTf[1].gameObject.GetComponent<Image>().material = gray;
-            readyPanel[1].gameObject.GetComponent<Image>().material = gray;
+            singleSelectFrames[0].transform.parent.gameObject.SetActive(false);
+            for (int i = 0; i < 2; i++) {
+                singleReadyPanels[i].SetActive(false);
+            }
         }
 
         for(int i=0; i < 2; i++) {
-            FramePRTf[i].sizeDelta = new Vector2(Screen.width / 2, FramePRTf[i].sizeDelta.y);
-            FramePRTf[i].GetChild(0).GetComponent<RectTransform>().sizeDelta = new Vector2(Screen.width / 2, FramePRTf[i].sizeDelta.y);
-            FramePRTf[i].localPosition = new Vector3(FramePRTf[i].localPosition.x + Screen.width / 4, FramePRTf[i].localPosition.y);
+            if (Main.Instance.playerType[i] == Main.PlayerType.AI) {
+                selectFrames[i].gameObject.GetComponent<Image>().material = gray;
+                readyPanels[i].gameObject.GetComponent<Image>().material = gray;
+            }
+            selectFrames[i].sizeDelta = new Vector2(Screen.width / 2, selectFrames[i].sizeDelta.y);
+            selectFrames[i].GetChild(0).GetComponent<RectTransform>().sizeDelta = new Vector2(Screen.width / 2, selectFrames[i].sizeDelta.y);
+            selectFrames[i].localPosition = new Vector3(selectFrames[i].localPosition.x + Screen.width / 4, selectFrames[i].localPosition.y);
+            for (int j = 0; j < manualPanels[i].transform.childCount; j++) {
+                manualPanels[i].transform.GetChild(j).gameObject.SetActive(false);
+            }
+            readyPanels[i].SetActive(false);
         }
 
         isMultiDisplays = Main.Instance.isMultiDisplays;
-        multiDisplays.SetIsOnWithoutNotify(isMultiDisplays);
-        singleDisplay.SetIsOnWithoutNotify(!isMultiDisplays);
         isDynamicCamera = Main.Instance.isDynamicCamera;
-        dynamicCamera.SetIsOnWithoutNotify(isDynamicCamera);
-        normalCamera.SetIsOnWithoutNotify(!isDynamicCamera);
         isVisibleBox = Main.Instance.isVisibleBox;
-        visibleBox.SetIsOnWithoutNotify(isVisibleBox);
-        invisibleBox.SetIsOnWithoutNotify(!isVisibleBox);
         isVisibleUI = Main.Instance.isVisibleUI;
+        multiDisplays.SetIsOnWithoutNotify(isMultiDisplays);   
+        dynamicCamera.SetIsOnWithoutNotify(isDynamicCamera);       
+        visibleBox.SetIsOnWithoutNotify(isVisibleBox);       
         visibleUI.SetIsOnWithoutNotify(isVisibleUI);
-        invisibleUI.SetIsOnWithoutNotify(!isVisibleUI);
         cameraSize.value = Main.Instance.cameraSize;
         volume.value = Main.Instance.mainBgm.volume * volume.maxValue;
         subVolume.value = Main.Instance.subBgm.volume * subVolume.maxValue;
@@ -146,20 +136,10 @@ public class SelectMgr : MonoBehaviour {
         volumeValue.text = "" + volume.value;
         subVolumeValue.text = "" + subVolume.value;
         gameSpeedValue.text = "×" + (gameSpeed.value * 0.1f);
-        Selectable[] sel = settingPanel.GetComponentsInChildren<Selectable>();
-        foreach(Selectable s in sel) {
+        foreach(Selectable s in settingPanel.GetComponentsInChildren<Selectable>()) {
             s.interactable = false;
         }
-        settingPanel.GetComponent<Canvas>().sortingOrder = -1;
-        for(int i = 0; i<2; i++) {
-            for(int j=0; j< manualPanels[i].transform.childCount; j++) {
-                manualPanels[i].transform.GetChild(j).gameObject.SetActive(false);
-            }
-        }
-        readyPanelInitSize1 = readyPanel[0].GetComponent<RectTransform>().localScale;
-        readyPanelInitSize2 = readyPanel[1].GetComponent<RectTransform>().localScale;
-        readyPanel[0].SetActive(false);
-        readyPanel[1].SetActive(false);
+        readyPanelInitSize = readyPanels[0].GetComponent<RectTransform>().localScale;
     }
 
     void Update() {
@@ -189,7 +169,6 @@ public class SelectMgr : MonoBehaviour {
             }
         }
 
-        //Select
         for(int i = 0; i < 2; i++) {
             switch (selectState[i]) {
                 case SelectState.Loading:
@@ -204,14 +183,12 @@ public class SelectMgr : MonoBehaviour {
                         if (0 < xAxis[i] && focusPanel[i] < (i == 0 ? FocusPanel.Setting:FocusPanel.Hammer)) { //右
                             isReleseAxis[i] = false;
                             focusPanel[i]++;
-                            string s = i == 0 ? "MoveEnd1" : "MoveEnd2";
-                            iTween.MoveBy(FramePRTf[i].gameObject, iTween.Hash("x", Screen.width / 4, "time", 0.2f, "oncomplete", s, "oncompletetarget", gameObject));
+                            iTween.MoveBy(selectFrames[i].gameObject, iTween.Hash("x", Screen.width / 4, "time", 0.2f, "oncomplete", i == 0 ? "MoveEnd1" : "MoveEnd2", "oncompletetarget", gameObject));
                         }
                         else if (xAxis[i] < 0 && (i==0?FocusPanel.Manual:(Main.Instance.isMultiDisplays? FocusPanel.Manual: FocusPanel.Fighting)) < focusPanel[i]) { //左
                             isReleseAxis[i] = false;
                             focusPanel[i]--;
-                            string s = i == 0 ? "MoveEnd1" : "MoveEnd2";
-                            iTween.MoveBy(FramePRTf[i].gameObject, iTween.Hash("x", -Screen.width / 4, "time", 0.2f, "oncomplete", s, "oncompletetarget", gameObject));
+                            iTween.MoveBy(selectFrames[i].gameObject, iTween.Hash("x", -Screen.width / 4, "time", 0.2f, "oncomplete", i == 0 ? "MoveEnd1" : "MoveEnd2", "oncompletetarget", gameObject));
                         }
                         else if (a[i]) { //A
                             switch (focusPanel[i]) {
@@ -221,39 +198,31 @@ public class SelectMgr : MonoBehaviour {
                                     manualPanels[i].transform.GetChild(0).gameObject.SetActive(true);
                                     break;
                                 case FocusPanel.Fighting:
-                                    Main.Instance.chara[i] = Main.Chara.Fighter;
-                                    selectState[i] = SelectState.Ready;
-                                    readyPanel[i].SetActive(true);
-                                    readyPanel[i].GetComponent<RectTransform>().localScale = readyPanelInitSize1;
-                                    iTween.ScaleFrom(readyPanel[i], iTween.Hash("y", 0, "islocal", true, "time", 0.5f));
-                                    break;
+                                    Main.Instance.chara[i] = Main.Chara.Fighter;break;
                                 case FocusPanel.Sword:
-                                    Main.Instance.chara[i] = Main.Chara.Sword;
-                                    selectState[i] = SelectState.Ready;
-                                    readyPanel[i].SetActive(true);
-                                    readyPanel[i].GetComponent<RectTransform>().localScale = readyPanelInitSize1;
-                                    iTween.ScaleFrom(readyPanel[i], iTween.Hash("y", 0, "islocal", true, "time", 0.5f));
-                                    break;
+                                    Main.Instance.chara[i] = Main.Chara.Sword;break;
                                 case FocusPanel.Hammer:
-                                    Main.Instance.chara[i] = Main.Chara.Hammer;
-                                    selectState[i] = SelectState.Ready;
-                                    readyPanel[i].SetActive(true);
-                                    readyPanel[i].GetComponent<RectTransform>().localScale = readyPanelInitSize1;
-                                    iTween.ScaleFrom(readyPanel[i], iTween.Hash("y", 0, "islocal", true, "time", 0.5f));
-                                    break;
+                                    Main.Instance.chara[i] = Main.Chara.Hammer;break;
                                 case FocusPanel.Setting:
                                     if (i == 1) break;
                                     selectState[i] = SelectState.Setting;
                                     settingPanel.GetComponent<Canvas>().sortingOrder = 1;
-                                    Selectable[] sel = settingPanel.GetComponentsInChildren<Selectable>();
-                                    foreach (Selectable s in sel) {
+                                    foreach (Selectable s in settingPanel.GetComponentsInChildren<Selectable>()) {
                                         s.interactable = true;
                                     }
-                                    settingPanel.transform.GetChild(0).GetChild(0).GetChild(1).gameObject.GetComponent<Toggle>().interactable = false;
-                                    settingPanel.transform.GetChild(0).GetChild(0).GetChild(2).gameObject.GetComponent<Toggle>().interactable = false;
-                                    settingPanel.transform.GetChild(0).GetChild(1).GetChild(1).gameObject.GetComponent<Toggle>().Select();//初期
+                                    settingPanel.transform.GetChild(0).GetChild(0).GetChild(1).gameObject.GetComponent<Toggle>().interactable = false;//調整中なので無効
+                                    settingPanel.transform.GetChild(0).GetChild(0).GetChild(2).gameObject.GetComponent<Toggle>().interactable = false;//
+                                    settingPanel.transform.GetChild(0).GetChild(1).GetChild(1).gameObject.GetComponent<Toggle>().interactable = false;//
+                                    settingPanel.transform.GetChild(0).GetChild(1).GetChild(2).gameObject.GetComponent<Toggle>().interactable = false;//
+                                    settingPanel.transform.GetChild(0).GetChild(2).GetChild(1).gameObject.GetComponent<Toggle>().Select();
                                     break;
                                 default: break;
+                            }
+                            if (focusPanel[i] == FocusPanel.Fighting || focusPanel[i] == FocusPanel.Sword || focusPanel[i] == FocusPanel.Hammer) {
+                                selectState[i] = SelectState.Ready;
+                                readyPanels[i].SetActive(true);
+                                readyPanels[i].GetComponent<RectTransform>().localScale = readyPanelInitSize;
+                                iTween.ScaleFrom(readyPanels[i], iTween.Hash("y", 0, "islocal", true, "time", 0.5f));
                             }
                         }                      
                     }                  
@@ -284,8 +253,7 @@ public class SelectMgr : MonoBehaviour {
                     break;
                 case SelectState.Setting:
                     if (b[i]) { 
-                        Selectable[] sel = settingPanel.GetComponentsInChildren<Selectable>();
-                        foreach (Selectable s in sel) {
+                        foreach (Selectable s in settingPanel.GetComponentsInChildren<Selectable>()) {
                             s.interactable = false;
                         }
                         settingPanel.GetComponent<Canvas>().sortingOrder = -1;
@@ -295,34 +263,25 @@ public class SelectMgr : MonoBehaviour {
                 case SelectState.Ready:
                     if (b[i]) {
                         selectState[i] = SelectState.Select;
-                        readyPanel[i].SetActive(false);
+                        readyPanels[i].SetActive(false);
                     }
                     break;
             }
         }
 
-        if (selectState[0] == SelectState.Ready && selectState[1] == SelectState.Ready) {
-            readyCount++;
-        }
-        else if(selectState[0] == SelectState.Select || selectState[1] == SelectState.Select){
-            readyCount = 0;
-        }
-
-        sumiCircle1.fillAmount = (float)readyCount / 60;
-        sumiCircle2.fillAmount = (float)readyCount / 60;
-
-        if(60 <= readyCount && Main.gameState == Main.GameState.Select) { //シーン遷移
-            selectState[0] = SelectState.Loading;
-            selectState[1] = SelectState.Loading;
+        if (selectState[0] == SelectState.Ready && selectState[1] == SelectState.Ready) readyCount++;
+        else if(selectState[0] == SelectState.Select || selectState[1] == SelectState.Select) readyCount = 0;
+        for (int i=0;i<2;i++) circles[i].fillAmount = (float)readyCount / 60;
+        if(readyCount == 60 && Main.gameState == Main.GameState.Select && !FadeManager.Instance.isFading) {
+            for (int i=0;i<2;i++) selectState[i] = SelectState.Loading;
             Main.Instance.isMultiDisplays = isMultiDisplays;
             Main.Instance.isDynamicCamera = isDynamicCamera;
             Main.Instance.isVisibleBox = isVisibleBox;
             Main.Instance.isVisibleUI = isVisibleUI;
-            Main.gameState = Main.GameState.Battle;
             FadeManager.Instance.LoadScene("Battle", 0.5f);
         }
     }
-
+ 
     public void ChangeMultiDisplays(Toggle toggle) {
         isMultiDisplays = toggle.isOn;
     }
@@ -352,14 +311,8 @@ public class SelectMgr : MonoBehaviour {
         gameSpeedValue.text = "×" + (slider.value * 0.1f);
     }
     public void SetDefault() {
-        multiDisplays.SetIsOnWithoutNotify(true);
-        dynamicCamera.SetIsOnWithoutNotify(true);
-        invisibleBox.SetIsOnWithoutNotify(true);
-        visibleUI.SetIsOnWithoutNotify(true);
-        isMultiDisplays = true;
-        isDynamicCamera = true;
-        isVisibleBox = false;
-        isVisibleUI = true;
+        invisibleBox.isOn = true;
+        visibleUI.isOn = true;
         cameraSize.value = 6.0f;
         volume.value = 10.0f;
         subVolume.value = 5.0f;
@@ -381,13 +334,13 @@ public class SelectMgr : MonoBehaviour {
             case Main.PlayerType.None: break;
             case Main.PlayerType.Player: 
                 Main.Instance.playerType[num] = Main.PlayerType.AI;
-                FramePRTf[num].gameObject.GetComponent<Image>().material = gray;
-                readyPanel[num].gameObject.GetComponent<Image>().material = gray;
+                selectFrames[num].gameObject.GetComponent<Image>().material = gray;
+                readyPanels[num].gameObject.GetComponent<Image>().material = gray;
                 break;
             case Main.PlayerType.AI:
                 Main.Instance.playerType[num] = Main.PlayerType.Player;
-                FramePRTf[num].gameObject.GetComponent<Image>().material = num==0?red:blue;
-                readyPanel[num].gameObject.GetComponent<Image>().material = num==0?red:blue;
+                selectFrames[num].gameObject.GetComponent<Image>().material = num==0?red:blue;
+                readyPanels[num].gameObject.GetComponent<Image>().material = num==0?red:blue;
                 break;
             default: break;
         }

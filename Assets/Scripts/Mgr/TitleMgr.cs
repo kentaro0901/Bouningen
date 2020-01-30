@@ -23,11 +23,9 @@ public class TitleMgr : MonoBehaviour {
         }
     }
 
-    [SerializeField] Animator animator;
-
     void Start() {
         Main.gameState = Main.GameState.Title;
-        Main.Instance.TitleCameraSetting();
+        Main.Instance.UICameraSetting();
     }
 
     void Update() {

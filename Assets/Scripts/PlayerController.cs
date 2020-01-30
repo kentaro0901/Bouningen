@@ -116,6 +116,7 @@ public class PlayerController : MonoBehaviour {
         if (stateInfo.fullPathHash == GameEnd) { character.GameEnd();}
 
         //地面判定
+        if (playerTf.position.y <= 0.05f) { character.JustLanding(); }
         if (playerTf.position.y < 0) { character.GroundCollision();}
         //空中制御
         if (0 < playerTf.position.y &&
@@ -139,7 +140,7 @@ public class PlayerController : MonoBehaviour {
             character.ManualInvert();
         }
 
-        if (Main.battleResult == Main.BattleResult.Battle) {
+        if (BattleMgr.Instance.battleResult == BattleMgr.BattleResult.Battle) {
             animator.SetBool(UpArrow, input.yAxis > 0);
             animator.SetBool(RightArrow, input.xAxis > 0);
             animator.SetBool(LeftArrow, input.xAxis < 0);

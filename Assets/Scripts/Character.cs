@@ -13,6 +13,7 @@ public abstract class Character : MonoBehaviour {
     protected Animator animator;
     public int counter;
     public Status status;
+    bool isJustLanding = false;
 
     public int prestatenum = 0;
     private bool preResistButtonDown = false;
@@ -308,7 +309,7 @@ public abstract class Character : MonoBehaviour {
             if (controller.hp < controller.maxhp * 0.25f)
                 BattleMgr.Instance.CreateCrack(controller.damageVector.x < 0);
             if (controller.hp <= 0) {
-                Main.battleResult = Main.BattleResult.Finish;
+                BattleMgr.Instance.battleResult = BattleMgr.BattleResult.Finish;
                 BattleMgr.Instance.ChangeTimeScale(0.02f, 0.8f);
                 BattleMgr.Instance.ChangeToneDouble(0.8f, ((int)controller.playerNum == 2 ? CameraEffect.ToneName.blackRed : CameraEffect.ToneName.blackBlue));
             }
@@ -358,7 +359,7 @@ public abstract class Character : MonoBehaviour {
             BattleMgr.Instance.ChangeToneDouble(0.1f, ((int)controller.playerNum == 2 ? CameraEffect.ToneName.redBlack : CameraEffect.ToneName.blueBlack));
             BattleMgr.Instance.CreateVFX("CriticalDownWave", playerTf.position + Vector3.up * 2.0f, Quaternion.identity, 1.0f);
         }
-        playerTf.position = new Vector3(playerTf.position.x + controller.damageVector.x, playerTf.position.y + controller.damageVector.y, 0) * animator.speed;
+        playerTf.position += new Vector3(controller.damageVector.x, controller.damageVector.y, 0) * animator.speed;
         if (playerTf.position.y < 0.1f && playerTf.position.y != 0) {
             playerTf.position = new Vector3(playerTf.position.x, 0, 0);
             BattleMgr.Instance.CreateVFX("LandWave", playerTf.position, Quaternion.identity, 1.0f);
@@ -453,7 +454,10 @@ public abstract class Character : MonoBehaviour {
             BattleMgr.Instance.BattleEnd();
         }
     }
-
+    public void JustLanding() {
+        if (!animator.GetBool(AnimState.isLand)) isJustLanding = true;
+        else isJustLanding = false;
+    }
     public void GroundCollision() {
         playerTf.position = new Vector3(playerTf.position.x, 0, 0);
     }

@@ -58,6 +58,15 @@ public class BattleMgr : MonoBehaviour {
 
     public int resistCounter1P = 0;
     public int resistCounter2P = 0;
+    public enum BattleResult {
+        Default,
+        Battle,
+        Finish,
+        Draw,
+        Win1P,
+        Win2P
+    }
+    public BattleResult battleResult = BattleResult.Default;
     public enum ResistResult {
         Critical1P,
         Critical2P,
@@ -81,7 +90,7 @@ public class BattleMgr : MonoBehaviour {
 
     void Start() {
         Main.gameState = Main.GameState.Battle;
-        Main.battleResult = Main.BattleResult.Battle;
+        battleResult = BattleResult.Battle;
         Main.Instance.BattleCameraSetting();
         camera1Tf = chaseCamera1.transform;
         camera2Tf = chaseCamera2.transform;
@@ -305,19 +314,19 @@ public class BattleMgr : MonoBehaviour {
     public void BattleEnd() {
         if(playerController1.stateInfo.fullPathHash == AnimState.GameEnd && playerController2.stateInfo.fullPathHash != AnimState.GameEnd) {
             Debug.Log("2PWIN");
-            Main.battleResult = Main.BattleResult.Win2P;
+            battleResult = BattleResult.Win2P;
             c1Txt.text = "LOSE";
             c2Txt.text = "WIN";
         }
         else if(playerController2.stateInfo.fullPathHash == AnimState.GameEnd && playerController1.stateInfo.fullPathHash != AnimState.GameEnd) {
             Debug.Log("1PWIN");
-            Main.battleResult = Main.BattleResult.Win1P;
+            battleResult = BattleResult.Win1P;
             c1Txt.text = "WIN";
             c2Txt.text = "LOSE";
         }
         else {
             Debug.Log("DRAW");
-            Main.battleResult = Main.BattleResult.Draw;
+            battleResult = BattleResult.Draw;
             c1Txt.text = "DRAW";
             c2Txt.text = "DRAW";
         }

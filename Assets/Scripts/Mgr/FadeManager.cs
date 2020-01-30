@@ -7,7 +7,6 @@ using System.Collections.Generic;
 
 public class FadeManager : MonoBehaviour {
 
-    //シングルトン
     private static FadeManager instance;
     public static FadeManager Instance {
         get {

@@ -25,7 +25,7 @@ public class RootMgr : MonoBehaviour {
 
     void Start() {
         Main.gameState = Main.GameState.Root;
-        Main.Instance.TitleCameraSetting();
+        Main.Instance.UICameraSetting();
         StartMultiDisplays();
         Main.Instance.Init(false);
     }
