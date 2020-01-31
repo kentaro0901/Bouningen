@@ -33,6 +33,7 @@ public class PlayerController : MonoBehaviour {
     public Vector3 damageVector = Vector3.zero;
     public float resistDamage = 0.0f;
     public bool isResistance = false;
+    public bool isMaxCharge = false;
     public bool isLimitBreak = false;
 
     void Awake() {
@@ -138,6 +139,12 @@ public class PlayerController : MonoBehaviour {
             stateInfo.fullPathHash == JumpStart || stateInfo.fullPathHash == Jump || stateInfo.fullPathHash == ShortJump ||
             stateInfo.fullPathHash == JumpEnd || stateInfo.fullPathHash == Fall ) {
             character.ManualInvert();
+        }
+        //チャージ
+        if(100<=mp && !isMaxCharge) {
+            GameObject g = BattleMgr.Instance.CreateVFX("MaxCharge" + (playerNum == PlayerNum.player1 ? "R" : "B"),playerTf.position,Quaternion.identity,1000);
+            g.transform.parent = playerTf;
+            isMaxCharge = true;
         }
 
         if (BattleMgr.Instance.battleResult == BattleMgr.BattleResult.Battle) {

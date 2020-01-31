@@ -27,12 +27,11 @@ public class BattleMgr : MonoBehaviour {
     [System.Serializable]
     public class PlayerStatus { //各プレイヤーのステータス類
         public ChaseCamera chaseCamera;
-        public Transform cameraTf;
         public CameraEffect cameraEffect;
         public PlayerController controller;
+        public Transform cameraTf;
         public Transform playerTf;
         public float preHp;
-        public float preMp;
         public int resistCount;
     }
     [System.Serializable]
@@ -41,15 +40,15 @@ public class BattleMgr : MonoBehaviour {
         public RectTransform leftFlame;
         public RectTransform rightFlame;
         public Text text;
-        public Slider[] hpBar;
-        public Slider[] mpBar;
+        public Image[] hpBars;
+        public Image[] reserveBars;
     }
     public PlayerStatus[] players;
     public CanvasStatus[] canvases;
-    [SerializeField] GameObject[] GrandPref;
+    [SerializeField] GameObject[] GrandPrefs;
+    [SerializeField] GameObject[] CrackPrefs;
+    [SerializeField] GameObject[] HibiPrefs;
     [SerializeField] GameObject VFXPref;
-    [SerializeField] GameObject[] CrackPref;
-    [SerializeField] GameObject[] HibiPref;
 
     public enum BattleResult {
         Default,
@@ -90,12 +89,10 @@ public class BattleMgr : MonoBehaviour {
             }
             for (int j = 0; j < 2; j++) {
                 if (Main.Instance.isVisibleUI) {
-                    canvases[j].hpBar[i].value = players[i].controller.hp / players[i].controller.maxhp;
-                    canvases[j].mpBar[i].value = players[i].controller.mp / 100;
+                    canvases[j].hpBars[i].fillAmount = canvases[j].reserveBars[i].fillAmount = players[i].controller.hp / players[i].controller.maxhp;                   
                 }
                 else {
-                    canvases[j].hpBar[i].gameObject.SetActive(false);
-                    canvases[j].mpBar[i].gameObject.SetActive(false);
+                    canvases[j].hpBars[i].transform.parent.gameObject.SetActive(false);
                 }
             }
         }
@@ -129,7 +126,7 @@ public class BattleMgr : MonoBehaviour {
         if (Main.gameState == Main.GameState.Battle) ChangeCameraChaseMode();
         ResistMgr();
         float left = players[0].playerTf.position.x < players[1].playerTf.position.x ? players[0].playerTf.position.x : players[1].playerTf.position.x;
-        float right = players[0].playerTf.position.x <= players[1].playerTf.position.x ? players[0].playerTf.position.x : players[1].playerTf.position.x;
+        float right = players[0].playerTf.position.x <= players[1].playerTf.position.x ? players[1].playerTf.position.x : players[0].playerTf.position.x;
         if(left/groundSpan < groundLeft) {
             CreateGround((int)(left / groundSpan)-1, groundLeft-1);
         }
@@ -140,24 +137,19 @@ public class BattleMgr : MonoBehaviour {
 
     private void UpdateUI() {
         for(int i= 0; i < 2; i++) {
-            if (Main.Instance.isVisibleUI) {
-                if (players[i].preHp != players[i].controller.hp)
-                    StartCoroutine(EasingBar(canvases[0].hpBar[i], canvases[1].hpBar[i], players[i].preHp, players[i].controller.hp, players[i].controller.maxhp));
-                if (players[i].preMp != players[i].controller.mp)
-                    StartCoroutine(EasingBar(canvases[0].mpBar[i], canvases[1].mpBar[i], players[i].preMp, players[i].controller.mp, 100));
-            }
-            if (players[i].preMp < 100 && 100 <= players[i].controller.mp) {
-                GameObject g = instance.CreateVFX("MaxCharge" + (i==0?"R":"B"), players[i].playerTf.position, Quaternion.identity, 1000);
-                g.transform.parent = players[i].playerTf;
+            if (Main.Instance.isVisibleUI && players[i].preHp != players[i].controller.hp) {
+                canvases[0].hpBars[i].fillAmount = canvases[1].hpBars[i].fillAmount = players[i].controller.hp / players[i].controller.maxhp;
+                StartCoroutine(EasingBar(i, players[i].preHp, players[i].controller.hp, players[i].controller.maxhp));
             }
             players[i].preHp = players[i].controller.hp;
-            players[i].preMp = players[i].controller.mp;
         }       
     }
-    IEnumerator EasingBar(Slider c1slider, Slider c2slider, float pre, float now, float max) {
+    IEnumerator EasingBar(int num, float pre, float now, float max) {
+        yield return new WaitForSeconds(0.4f);
         float time = 0.0f;
-        while (time <= 0.3f) {
-            c1slider.value = c2slider.value = Easing.ExpOut(time, 0.3f, pre, now) / max;
+        float f = canvases[0].reserveBars[num].fillAmount;
+        while (time <= 0.5f) {
+            canvases[0].reserveBars[num].fillAmount = canvases[1].reserveBars[num].fillAmount = Easing.ExpOut(time, 0.5f, pre, now)/max;
             time += Time.unscaledDeltaTime;
             yield return null;
         }
@@ -249,7 +241,7 @@ public class BattleMgr : MonoBehaviour {
         return vfx;
     }
     public GameObject CreateCrack(bool isLeftCanvas) {
-        RectTransform r = Instantiate(CrackPref[Random.Range(0, CrackPref.Length)], Main.Instance.isMultiDisplays? (isLeftCanvas? canvases[0].rect: canvases[1].rect): canvases[0].rect).GetComponent<RectTransform>();
+        RectTransform r = Instantiate(CrackPrefs[Random.Range(0, CrackPrefs.Length)], Main.Instance.isMultiDisplays? (isLeftCanvas? canvases[0].rect: canvases[1].rect): canvases[0].rect).GetComponent<RectTransform>();
         r.localPosition = new Vector3(isLeftCanvas ? Random.Range(-Screen.width/2, -Screen.width/16*7) : Random.Range(Screen.width/16*7, Screen.width/2), 
             Random.Range(-Screen.height / 4, Screen.height / 4), 0);
         r.localRotation = Quaternion.Euler(0, 0, Random.Range(-30, 30));
@@ -257,13 +249,13 @@ public class BattleMgr : MonoBehaviour {
     }
     public void CreateHibi(Vector3 position) {
         for(int i=1; i <= Random.Range(1,4); i++) {
-            GameObject g = Instantiate(HibiPref[Random.Range(0, HibiPref.Length)], position, Quaternion.Euler(0, 0, Random.Range(-10, 10)*i));
+            GameObject g = Instantiate(HibiPrefs[Random.Range(0, HibiPrefs.Length)], position, Quaternion.Euler(0, 0, Random.Range(-10, 10)*i));
             g.transform.localScale = Vector3.one * Random.Range(1.5f, 3.0f) / i;
         }
     }
     void CreateGround(int left, int right) {
         for (int i = left; i <= right; i++) {
-            Instantiate(GrandPref[Random.Range(0, GrandPref.Length)], new Vector3(i * groundSpan, -1.5f, 0), Quaternion.identity);
+            Instantiate(GrandPrefs[Random.Range(0, GrandPrefs.Length)], new Vector3(i * groundSpan, -1.5f, 0), Quaternion.identity);
         }
         if (left < groundLeft) groundLeft = left;
         if (groundRight < right) groundRight = right;
@@ -294,8 +286,8 @@ public class BattleMgr : MonoBehaviour {
             Destroy(canvases[i].rightFlame.gameObject);
             players[i].cameraEffect.ChangeTone(0, i == 0 ?CameraEffect.ToneName.redBlack:CameraEffect.ToneName.blueBlack);
             for (int j = 0; j < 2; j++) {
-                canvases[j].hpBar[i].gameObject.SetActive(false);
-                canvases[j].mpBar[i].gameObject.SetActive(false);
+                canvases[j].hpBars[i].transform.parent.gameObject.SetActive(false);
+                //canvases[j].mpBars[i].gameObject.SetActive(false);
             }
         }
         ChangeTimeScale(0, 1000);
