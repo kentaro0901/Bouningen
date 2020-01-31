@@ -11,6 +11,7 @@ public class ChaseCamera : MonoBehaviour {
     public bool isLeft = false;
     Vector3 cameraInitPos;
     Camera _camera;
+    public static float personalCameraHalfWidth; //各画面の真ん中から端まで
     public static float chaseRange = 1.0f;
     [SerializeField] GameObject BackLinePref;
 
@@ -19,7 +20,8 @@ public class ChaseCamera : MonoBehaviour {
         cameraInitPos = cameraTf.position;
         cameraTf.position = new Vector3(playerTf.position.x, cameraInitPos.y, cameraInitPos.z);
         _camera = GetComponentInChildren<Camera>();
-        chaseRange = _camera.orthographicSize * ((float)Screen.width/ Screen.height) / (Main.Instance.isMultiDisplays? 2: 4);
+        personalCameraHalfWidth = _camera.orthographicSize * ((float)Screen.width / Screen.height) / (Main.Instance.isMultiDisplays ? 1 : 2);
+        chaseRange = personalCameraHalfWidth /2;
         GameObject BackLineLeft = Instantiate(BackLinePref, Vector3.zero, Quaternion.identity);
         BackLineLeft.transform.parent = this.gameObject.transform;
         BackLineLeft.transform.localPosition = new Vector3(-chaseRange * 2, 0, 10);

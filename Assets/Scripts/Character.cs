@@ -387,18 +387,10 @@ public abstract class Character : MonoBehaviour {
             BattleMgr.Instance.StartResistance();
         }
         if (controller.input.A || controller.input.B) {
-            if (!preResistButtonDown) {
-                if (controller.playerNum == PlayerController.PlayerNum.player1) {
-                    BattleMgr.Instance.resistCounter1P++;
-                }
-                if (controller.playerNum == PlayerController.PlayerNum.player2)
-                    BattleMgr.Instance.resistCounter2P++;
-            }
+            if (!preResistButtonDown) BattleMgr.Instance.players[(int)controller.playerNum - 1].resistCount++;
             preResistButtonDown = true;
         }
-        else {
-            preResistButtonDown = false;
-        }
+        else preResistButtonDown = false;
         if (counter == 25) {
             BattleMgr.Instance.VibrateDouble(0.3f, 2.0f);
             BattleMgr.Instance.CreateVFX("Stone", playerTf.position + (enemyTf.position - playerTf.position) / 2 + Vector3.up * 2, Quaternion.identity, 1.0f);

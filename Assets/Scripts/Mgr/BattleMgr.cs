@@ -24,40 +24,33 @@ public class BattleMgr : MonoBehaviour {
         }
     }
 
-    [SerializeField] ChaseCamera chaseCamera1;
-    [SerializeField] ChaseCamera chaseCamera2;
-    Transform camera1Tf;
-    Transform camera2Tf;
-    [SerializeField] CameraEffect cameraEffect1;
-    [SerializeField] CameraEffect cameraEffect2;
-    [SerializeField] PlayerController playerController1;
-    [SerializeField] PlayerController playerController2;
-    public Transform player1Tf;
-    public Transform player2Tf;
-    [SerializeField] RectTransform c1LFRTf;
-    [SerializeField] RectTransform c1RFRTf;
-    [SerializeField] RectTransform c2LFRTf;
-    [SerializeField] RectTransform c2RFRTf;
-    [SerializeField] Text c1Txt;
-    [SerializeField] Text c2Txt;
-    [SerializeField] RectTransform c1;
-    [SerializeField] RectTransform c2;
-    [SerializeField] Slider c1hpBar1;
-    [SerializeField] Slider c1hpBar2;
-    [SerializeField] Slider c2hpBar1;
-    [SerializeField] Slider c2hpBar2;
-    [SerializeField] Slider c1mpBar1;
-    [SerializeField] Slider c1mpBar2;
-    [SerializeField] Slider c2mpBar1;
-    [SerializeField] Slider c2mpBar2;
-
+    [System.Serializable]
+    public class PlayerStatus { //各プレイヤーのステータス類
+        public ChaseCamera chaseCamera;
+        public Transform cameraTf;
+        public CameraEffect cameraEffect;
+        public PlayerController controller;
+        public Transform playerTf;
+        public float preHp;
+        public float preMp;
+        public int resistCount;
+    }
+    [System.Serializable]
+    public class CanvasStatus { //各キャンバスのステータス類
+        public RectTransform rect;
+        public RectTransform leftFlame;
+        public RectTransform rightFlame;
+        public Text text;
+        public Slider[] hpBar;
+        public Slider[] mpBar;
+    }
+    public PlayerStatus[] players;
+    public CanvasStatus[] canvases;
     [SerializeField] GameObject[] GrandPref;
     [SerializeField] GameObject VFXPref;
     [SerializeField] GameObject[] CrackPref;
     [SerializeField] GameObject[] HibiPref;
 
-    public int resistCounter1P = 0;
-    public int resistCounter2P = 0;
     public enum BattleResult {
         Default,
         Battle,
@@ -66,24 +59,16 @@ public class BattleMgr : MonoBehaviour {
         Win1P,
         Win2P
     }
-    public BattleResult battleResult = BattleResult.Default;
     public enum ResistResult {
         Critical1P,
         Critical2P,
         Wince
     }
+    public BattleResult battleResult = BattleResult.Default;
     public ResistResult resistResult = ResistResult.Wince;
-
     float timeScaleSeconds = 0.0f;
     float animeSpeedSeconds = 0.0f;
-
     int counter = 0;
-
-    float preHP1;
-    float preHP2;
-    float preMP1;
-    float preMP2;
-
     int groundLeft = -5;
     int groundRight = 5;
     int groundSpan = 20;
@@ -92,38 +77,30 @@ public class BattleMgr : MonoBehaviour {
         Main.gameState = Main.GameState.Battle;
         battleResult = BattleResult.Battle;
         Main.Instance.BattleCameraSetting();
-        camera1Tf = chaseCamera1.transform;
-        camera2Tf = chaseCamera2.transform;
-        player1Tf = playerController1.playerTf;
-        player2Tf = playerController2.playerTf;
-        //地面
         CreateGround(groundLeft, groundRight);
-        preHP1 = playerController1.hp;
-        preHP2 = playerController2.hp;
-        if (Main.Instance.isVisibleUI) {
-            c1hpBar1.value = c2hpBar1.value = playerController1.hp / playerController1.maxhp;
-            c1hpBar2.value = c2hpBar2.value = playerController2.hp / playerController2.maxhp;
-            c1mpBar1.value = c2mpBar1.value = playerController1.mp / 100;
-            c1mpBar2.value = c2mpBar2.value = playerController2.mp / 100;
-        }
-        else {
-            c1hpBar1.gameObject.SetActive(false);
-            c1hpBar2.gameObject.SetActive(false);
-            c1mpBar1.gameObject.SetActive(false);
-            c1mpBar2.gameObject.SetActive(false);
-            c2hpBar1.gameObject.SetActive(false);
-            c2hpBar2.gameObject.SetActive(false);
-            c2mpBar1.gameObject.SetActive(false);
-            c2mpBar2.gameObject.SetActive(false);
-        }
-        if (Main.Instance.isDemo) {
-            c1Txt.text = "Demo";
-            c1Txt.color = new Color(c1Txt.color.r, c1Txt.color.b, c1Txt.color.g, 0.5f);
-            c2Txt.text = "Demo";
-            c2Txt.color = new Color(c2Txt.color.r, c2Txt.color.b, c2Txt.color.g, 0.5f);
-        }
         counter = 0;
+        for (int i = 0; i < 2; i++) {
+            players[i].cameraTf = players[i].chaseCamera.transform;
+            players[i].playerTf = players[i].controller.playerTf;
+            players[i].preHp = players[i].controller.hp;
+            if (Main.Instance.isDemo) {
+                canvases[i].text.text = "Demo";
+                Color c = canvases[i].text.color;
+                canvases[i].text.color = new Color(c.r, c.g, c.b, 0.5f);
+            }
+            for (int j = 0; j < 2; j++) {
+                if (Main.Instance.isVisibleUI) {
+                    canvases[j].hpBar[i].value = players[i].controller.hp / players[i].controller.maxhp;
+                    canvases[j].mpBar[i].value = players[i].controller.mp / 100;
+                }
+                else {
+                    canvases[j].hpBar[i].gameObject.SetActive(false);
+                    canvases[j].mpBar[i].gameObject.SetActive(false);
+                }
+            }
+        }
     }
+
     void Update() {
         UpdateUI();
         TimeScaleCountDown();
@@ -151,8 +128,8 @@ public class BattleMgr : MonoBehaviour {
     void LateUpdate() {
         if (Main.gameState == Main.GameState.Battle) ChangeCameraChaseMode();
         ResistMgr();
-        float left = player1Tf.position.x < player2Tf.position.x ? player1Tf.position.x : player2Tf.position.x;
-        float right = player1Tf.position.x <= player2Tf.position.x ? player2Tf.position.x : player1Tf.position.x;
+        float left = players[0].playerTf.position.x < players[1].playerTf.position.x ? players[0].playerTf.position.x : players[1].playerTf.position.x;
+        float right = players[0].playerTf.position.x <= players[1].playerTf.position.x ? players[0].playerTf.position.x : players[1].playerTf.position.x;
         if(left/groundSpan < groundLeft) {
             CreateGround((int)(left / groundSpan)-1, groundLeft-1);
         }
@@ -162,24 +139,20 @@ public class BattleMgr : MonoBehaviour {
     }
 
     private void UpdateUI() {
-        if (Main.Instance.isVisibleUI) {
-            if (preHP1 != playerController1.hp) StartCoroutine(EasingBar(c1hpBar1, c2hpBar1, preHP1, playerController1.hp, playerController1.maxhp));
-            if (preHP2 != playerController2.hp) StartCoroutine(EasingBar(c1hpBar2, c2hpBar2, preHP2, playerController2.hp, playerController2.maxhp));
-            if (preMP1 != playerController1.mp) StartCoroutine(EasingBar(c1mpBar1, c2mpBar1, preMP1, playerController1.mp, 100));            
-            if (preMP2 != playerController2.mp) StartCoroutine(EasingBar(c1mpBar2, c2mpBar2, preMP2, playerController2.mp, 100));
-        }
-        if (preMP1 < 100 && 100 <= playerController1.mp) {
-            GameObject g = instance.CreateVFX("MaxChargeR", player1Tf.position, Quaternion.identity, 1000);
-            g.transform.parent = player1Tf;
-        }
-        if (preMP2 < 100 && 100 <= playerController2.mp) {
-            GameObject g = instance.CreateVFX("MaxChargeB", player2Tf.position,Quaternion.identity ,1000);
-            g.transform.parent = player2Tf;
-        }
-        preHP1 = playerController1.hp;
-        preHP2 = playerController2.hp;
-        preMP1 = playerController1.mp;
-        preMP2 = playerController2.mp;
+        for(int i= 0; i < 2; i++) {
+            if (Main.Instance.isVisibleUI) {
+                if (players[i].preHp != players[i].controller.hp)
+                    StartCoroutine(EasingBar(canvases[0].hpBar[i], canvases[1].hpBar[i], players[i].preHp, players[i].controller.hp, players[i].controller.maxhp));
+                if (players[i].preMp != players[i].controller.mp)
+                    StartCoroutine(EasingBar(canvases[0].mpBar[i], canvases[1].mpBar[i], players[i].preMp, players[i].controller.mp, 100));
+            }
+            if (players[i].preMp < 100 && 100 <= players[i].controller.mp) {
+                GameObject g = instance.CreateVFX("MaxCharge" + (i==0?"R":"B"), players[i].playerTf.position, Quaternion.identity, 1000);
+                g.transform.parent = players[i].playerTf;
+            }
+            players[i].preHp = players[i].controller.hp;
+            players[i].preMp = players[i].controller.mp;
+        }       
     }
     IEnumerator EasingBar(Slider c1slider, Slider c2slider, float pre, float now, float max) {
         float time = 0.0f;
@@ -191,10 +164,10 @@ public class BattleMgr : MonoBehaviour {
         yield return 0;
     }
     private void ResistMgr() {
-        if(resistCounter1P - resistCounter2P >= 2) {
+        if (players[0].resistCount - players[1].resistCount >= 2) {
             resistResult = ResistResult.Critical2P;
         }
-        else if(resistCounter2P - resistCounter1P >= 2) {
+        else if (players[1].resistCount - players[0].resistCount >= 2) {
             resistResult = ResistResult.Critical1P;
         }
         else {
@@ -203,37 +176,27 @@ public class BattleMgr : MonoBehaviour {
     }
     private void ChangeCameraChaseMode() {
         if (Main.Instance.isDynamicCamera) {
-            if (Mathf.Abs(camera1Tf.position.x - camera2Tf.position.x) < ChaseCamera.chaseRange * 4) { //近距離になったとき
-                if (!ChaseCamera.isNear) {
-                    chaseCamera1.NearCamera();
-                    chaseCamera2.NearCamera();
-                }
-                c1LFRTf.offsetMax = Vector2.zero;
-                c1RFRTf.offsetMin = Vector2.zero;
-                c2LFRTf.offsetMax = Vector2.zero;
-                c2RFRTf.offsetMin = Vector2.zero;
+            if (Mathf.Abs(players[0].cameraTf.position.x - players[1].cameraTf.position.x) < ChaseCamera.personalCameraHalfWidth * 2) { //近距離になったとき
+                for(int i = 0; i < 2; i++) {
+                    if (!ChaseCamera.isNear) {
+                        players[i].chaseCamera.NearCamera();
+                    }
+                    canvases[i].leftFlame.offsetMax = Vector2.zero;
+                    canvases[i].rightFlame.offsetMin = Vector2.zero;
+                }            
             }
-            if (Mathf.Abs(player1Tf.position.x - player2Tf.position.x) >= ChaseCamera.chaseRange * 6) { //遠距離
+            if (Mathf.Abs(players[0].playerTf.position.x - players[1].playerTf.position.x) >= ChaseCamera.personalCameraHalfWidth*2 + ChaseCamera.chaseRange * 2) { //遠距離
                 if (ChaseCamera.isNear) {
-                    chaseCamera1.FarCamera(player1Tf.position.x < player2Tf.position.x);
-                    chaseCamera2.FarCamera(player1Tf.position.x >= player2Tf.position.x);
+                    players[0].chaseCamera.FarCamera(players[0].playerTf.position.x < players[1].playerTf.position.x);
+                    players[1].chaseCamera.FarCamera(players[0].playerTf.position.x >= players[1]. playerTf.position.x);
                 }
-                if(player1Tf.position.x < player2Tf.position.x) {//1P左
-                    c1LFRTf.offsetMax = Vector2.zero;
-                    c1RFRTf.offsetMin = Vector2.right * -Screen.width / (Main.Instance.isMultiDisplays ? 40 : 80) 
-                        * Mathf.Min(1.0f, (Mathf.Abs(player1Tf.position.x - player2Tf.position.x) - ChaseCamera.chaseRange * 6) / (ChaseCamera.chaseRange * 20) + 0.2f);
-                    c2LFRTf.offsetMax = Vector2.right * Screen.width / (Main.Instance.isMultiDisplays ? 40 : 80)
-                        * Mathf.Min(1.0f, (Mathf.Abs(player1Tf.position.x - player2Tf.position.x) - ChaseCamera.chaseRange * 6) / (ChaseCamera.chaseRange * 20) + 0.2f);
-                    c2RFRTf.offsetMin = Vector2.zero;
-                }
-                else { //1P右
-                    c1LFRTf.offsetMax = Vector2.right * Screen.width / (Main.Instance.isMultiDisplays ? 40 : 80)
-                        * Mathf.Min(1.0f, (Mathf.Abs(player1Tf.position.x - player2Tf.position.x) - ChaseCamera.chaseRange * 6) / (ChaseCamera.chaseRange * 20) + 0.2f);
-                    c1RFRTf.offsetMin = Vector2.zero;
-                    c2LFRTf.offsetMax = Vector2.zero;
-                    c2RFRTf.offsetMin = Vector2.right * -Screen.width / (Main.Instance.isMultiDisplays ? 40 : 80)
-                        * Mathf.Min(1.0f, (Mathf.Abs(player1Tf.position.x - player2Tf.position.x) - ChaseCamera.chaseRange * 6) / (ChaseCamera.chaseRange * 20) + 0.2f);
-                }        
+                Vector2 v = Vector2.right * -Screen.width / (Main.Instance.isMultiDisplays ? 40 : 80)
+                        * Mathf.Min(1.0f, (Mathf.Abs(players[0].playerTf.position.x - players[1].playerTf.position.x) - (ChaseCamera.personalCameraHalfWidth * 2 + ChaseCamera.chaseRange * 2)) / (ChaseCamera.personalCameraHalfWidth * 10) + 0.2f);
+                bool isleft1P = players[0].playerTf.position.x < players[1].playerTf.position.x;
+                canvases[0].leftFlame.offsetMax = isleft1P? Vector2.zero:v;
+                canvases[0].rightFlame.offsetMin = isleft1P? v:Vector2.zero;
+                canvases[1].leftFlame.offsetMax = isleft1P? v:Vector2.zero;
+                canvases[1].rightFlame.offsetMin = isleft1P? Vector2.zero:v;     
             }
         }
     }
@@ -251,8 +214,7 @@ public class BattleMgr : MonoBehaviour {
         }
     }
     public void ChangeAnimeSpeedDouble(float speed, float seconds) {
-        playerController1.animator.speed = speed;
-        playerController2.animator.speed = speed;
+        for(int i=0;i<2;i++) players[i].controller.animator.speed = speed;
         animeSpeedSeconds = seconds;
     }
     private void AnimeSpeedCountDown() {
@@ -261,29 +223,24 @@ public class BattleMgr : MonoBehaviour {
         }
         else {
             animeSpeedSeconds = 0.0f;
-            playerController1.animator.speed = Main.Instance.gameSpeed * (playerController1.isLimitBreak ? 1.2f : 1.0f);
-            playerController2.animator.speed = Main.Instance.gameSpeed * (playerController2.isLimitBreak ? 1.2f : 1.0f);
+            for(int i=0;i<2;i++) players[i].controller.animator.speed = Main.Instance.gameSpeed * (players[i].controller.isLimitBreak ? 1.2f : 1.0f);
         }
     }
     public void VibrateDouble(float seconds, float range) {
-        cameraEffect1.Vibrate(seconds, range);
-        cameraEffect2.Vibrate(seconds, range);
+        for (int i=0;i<2;i++) players[i].cameraEffect.Vibrate(seconds, range);
     }
     public void ZoomInOutDouble(float seconds) {
-            cameraEffect1.ZoomInOut(seconds);
-            cameraEffect2.ZoomInOut(seconds);
+        for(int i=0;i<2;i++) players[i].cameraEffect.ZoomInOut(seconds);
     }
     public void ChangeToneDouble(float seconds, CameraEffect.ToneName name) {
-        cameraEffect1.ChangeTone(seconds, name);
-        cameraEffect2.ChangeTone(seconds, name);
+        for (int i = 0; i < 2; i++) players[i].cameraEffect.ChangeTone(seconds, name);
     }
     public void StartResistance() {
-        resistCounter1P = 0;
-        resistCounter2P = 0;
+        for(int i=0;i<2;i++) players[i].resistCount = 0;
         ChangeTimeScale(0.05f, 0.5f);
         ChangeToneDouble(2.0f, CameraEffect.ToneName.reverseTone);
         Instance.ZoomInOutDouble(0.1f);
-        CreateVFX("Sunder", player1Tf.position - (player1Tf.position - player2Tf.position) / 2 + Vector3.up, Quaternion.identity, 1.0f);
+        CreateVFX("Sunder", players[0].playerTf.position - (players[0].playerTf.position - players[1].playerTf.position) / 2 + Vector3.up, Quaternion.identity, 1.0f);
     }
     public GameObject CreateVFX(string name, Vector3 position, Quaternion rotation,float lifeTime) {
         GameObject vfx = Instantiate(VFXPref, position, rotation);
@@ -292,7 +249,7 @@ public class BattleMgr : MonoBehaviour {
         return vfx;
     }
     public GameObject CreateCrack(bool isLeftCanvas) {
-        RectTransform r = Instantiate(CrackPref[Random.Range(0, CrackPref.Length)], Main.Instance.isMultiDisplays? (isLeftCanvas? c1: c2): c1).GetComponent<RectTransform>();
+        RectTransform r = Instantiate(CrackPref[Random.Range(0, CrackPref.Length)], Main.Instance.isMultiDisplays? (isLeftCanvas? canvases[0].rect: canvases[1].rect): canvases[0].rect).GetComponent<RectTransform>();
         r.localPosition = new Vector3(isLeftCanvas ? Random.Range(-Screen.width/2, -Screen.width/16*7) : Random.Range(Screen.width/16*7, Screen.width/2), 
             Random.Range(-Screen.height / 4, Screen.height / 4), 0);
         r.localRotation = Quaternion.Euler(0, 0, Random.Range(-30, 30));
@@ -312,42 +269,37 @@ public class BattleMgr : MonoBehaviour {
         if (groundRight < right) groundRight = right;
     }
     public void BattleEnd() {
-        if(playerController1.stateInfo.fullPathHash == AnimState.GameEnd && playerController2.stateInfo.fullPathHash != AnimState.GameEnd) {
+        if(players[0].controller.stateInfo.fullPathHash == AnimState.GameEnd && players[1].controller.stateInfo.fullPathHash != AnimState.GameEnd) {
             Debug.Log("2PWIN");
             battleResult = BattleResult.Win2P;
-            c1Txt.text = "LOSE";
-            c2Txt.text = "WIN";
+            canvases[0].text.text = "LOSE";
+            canvases[1].text.text = "WIN";
         }
-        else if(playerController2.stateInfo.fullPathHash == AnimState.GameEnd && playerController1.stateInfo.fullPathHash != AnimState.GameEnd) {
+        else if(players[1].controller.stateInfo.fullPathHash == AnimState.GameEnd && players[0].controller.stateInfo.fullPathHash != AnimState.GameEnd) {
             Debug.Log("1PWIN");
             battleResult = BattleResult.Win1P;
-            c1Txt.text = "WIN";
-            c2Txt.text = "LOSE";
+            canvases[0].text.text = "WIN";
+            canvases[1].text.text = "LOSE";
         }
         else {
             Debug.Log("DRAW");
             battleResult = BattleResult.Draw;
-            c1Txt.text = "DRAW";
-            c2Txt.text = "DRAW";
+            canvases[0].text.text = "DRAW";
+            canvases[1].text.text = "DRAW";
         }
-        c1Txt.color = new Color(c1Txt.color.r, c1Txt.color.b, c1Txt.color.g, 1.0f);
-        c2Txt.color = new Color(c2Txt.color.r, c2Txt.color.b, c2Txt.color.g, 1.0f);
-        Destroy(c1LFRTf.gameObject);
-        Destroy(c1RFRTf.gameObject);
-        Destroy(c2LFRTf.gameObject);
-        Destroy(c2RFRTf.gameObject);
+        for(int i = 0; i < 2; i++) {
+            Color c = canvases[i].text.color;
+            canvases[i].text.color = new Color(c.r, c.g, c.b, 1.0f);
+            Destroy(canvases[i].leftFlame.gameObject);
+            Destroy(canvases[i].rightFlame.gameObject);
+            players[i].cameraEffect.ChangeTone(0, i == 0 ?CameraEffect.ToneName.redBlack:CameraEffect.ToneName.blueBlack);
+            for (int j = 0; j < 2; j++) {
+                canvases[j].hpBar[i].gameObject.SetActive(false);
+                canvases[j].mpBar[i].gameObject.SetActive(false);
+            }
+        }
         ChangeTimeScale(0, 1000);
         VibrateDouble(0.5f, 1.0f);
-        cameraEffect1.ChangeTone(0, CameraEffect.ToneName.redBlack);
-        cameraEffect2.ChangeTone(0, CameraEffect.ToneName.blueBlack);
-        c1hpBar1.gameObject.SetActive(false);
-        c1hpBar2.gameObject.SetActive(false);
-        c1mpBar1.gameObject.SetActive(false);
-        c1mpBar2.gameObject.SetActive(false);
-        c2hpBar1.gameObject.SetActive(false);
-        c2hpBar2.gameObject.SetActive(false);
-        c2mpBar1.gameObject.SetActive(false);
-        c2mpBar2.gameObject.SetActive(false);
         Main.gameState = Main.GameState.Result;
     }
 }

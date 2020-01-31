@@ -1515,9 +1515,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92c39ffd71790224d99967002fc15056, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  chara1P: 0
-  chara2P: 0
-  isSwapController: 0
+  chara: 0000000000000000
   playerType: 0100000002000000
   mainBgm: {fileID: 495413257}
   subBgm: {fileID: 1624063120}
@@ -1530,6 +1528,7 @@ MonoBehaviour:
   isVisibleUI: 1
   cameraSize: 7
   gameSpeed: 1
+  isDemo: 0
 --- !u!4 &495413259
 Transform:
   m_ObjectHideFlags: 0
@@ -1912,30 +1911,44 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b0d9ca37fe505d4ba99a32765bf8381, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  chaseCamera1: {fileID: 1396387651}
-  chaseCamera2: {fileID: 972152150}
-  cameraEffect1: {fileID: 1687828439}
-  cameraEffect2: {fileID: 886981722}
-  playerController1: {fileID: 2320028}
-  playerController2: {fileID: 1288113352}
-  player1Tf: {fileID: 0}
-  player2Tf: {fileID: 0}
-  c1LFRTf: {fileID: 1037698859}
-  c1RFRTf: {fileID: 1780217132}
-  c2LFRTf: {fileID: 594834045}
-  c2RFRTf: {fileID: 60564217}
-  c1Txt: {fileID: 608325642}
-  c2Txt: {fileID: 368102876}
-  c1: {fileID: 1007278196}
-  c2: {fileID: 3752544}
-  c1hpBar1: {fileID: 767620463}
-  c1hpBar2: {fileID: 279284787}
-  c2hpBar1: {fileID: 1922052092}
-  c2hpBar2: {fileID: 1439282034}
-  c1mpBar1: {fileID: 389220815}
-  c1mpBar2: {fileID: 1843248088}
-  c2mpBar1: {fileID: 876951182}
-  c2mpBar2: {fileID: 1277471102}
+  players:
+  - chaseCamera: {fileID: 1396387651}
+    cameraTf: {fileID: 0}
+    cameraEffect: {fileID: 1687828439}
+    controller: {fileID: 2320028}
+    playerTf: {fileID: 0}
+    preHp: 0
+    preMp: 0
+    resistCount: 0
+  - chaseCamera: {fileID: 972152150}
+    cameraTf: {fileID: 0}
+    cameraEffect: {fileID: 886981722}
+    controller: {fileID: 1288113352}
+    playerTf: {fileID: 0}
+    preHp: 0
+    preMp: 0
+    resistCount: 0
+  canvases:
+  - rect: {fileID: 1007278196}
+    leftFlame: {fileID: 1037698859}
+    rightFlame: {fileID: 1780217132}
+    text: {fileID: 608325642}
+    hpBar:
+    - {fileID: 767620463}
+    - {fileID: 279284787}
+    mpBar:
+    - {fileID: 389220815}
+    - {fileID: 1843248088}
+  - rect: {fileID: 3752544}
+    leftFlame: {fileID: 594834045}
+    rightFlame: {fileID: 60564217}
+    text: {fileID: 368102876}
+    hpBar:
+    - {fileID: 1922052092}
+    - {fileID: 1439282034}
+    mpBar:
+    - {fileID: 876951182}
+    - {fileID: 1277471102}
   GrandPref:
   - {fileID: 3030730356319239748, guid: c179acb1d3fcd5345946eb79aac92f3a, type: 3}
   - {fileID: 6124810052568752046, guid: 0d0a0583965d5ba48a771762832b22f7, type: 3}
@@ -1950,8 +1963,7 @@ MonoBehaviour:
   - {fileID: 7077348887940661510, guid: 583f5997ca169b942b3ea44f63e13351, type: 3}
   - {fileID: 2388291135847210284, guid: cc30c5a31fe68a64184f16075abde209, type: 3}
   - {fileID: 981414883995648703, guid: ee4f3244ae07c7640b803707f1749c61, type: 3}
-  resistCounter1P: 0
-  resistCounter2P: 0
+  battleResult: 0
   resistResult: 2
 --- !u!114 &725891898
 MonoBehaviour:
@@ -2952,7 +2964,6 @@ MonoBehaviour:
   playerTf: {fileID: 0}
   enemyCameraTf: {fileID: 1396387654}
   isLeft: 0
-  verticalRange: 3
   BackLinePref: {fileID: 5782756433895572224, guid: d21e9120b61c65c44ad06c760b3ec26b,
     type: 3}
 --- !u!4 &972152153
@@ -3620,7 +3631,6 @@ MonoBehaviour:
   playerTf: {fileID: 0}
   enemyCameraTf: {fileID: 972152153}
   isLeft: 0
-  verticalRange: 3
   BackLinePref: {fileID: 5782756433895572224, guid: d21e9120b61c65c44ad06c760b3ec26b,
     type: 3}
 --- !u!4 &1396387654
