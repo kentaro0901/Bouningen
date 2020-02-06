@@ -40,6 +40,7 @@ public class BattleMgr : MonoBehaviour {
         public RectTransform leftFlame;
         public RectTransform rightFlame;
         public Text text;
+        public RectTransform[] hpUIs;
         public Image[] hpBars;
         public Image[] reserveBars;
     }
@@ -140,6 +141,7 @@ public class BattleMgr : MonoBehaviour {
             if (Main.Instance.isVisibleUI && players[i].preHp != players[i].controller.hp) {
                 canvases[0].hpBars[i].fillAmount = canvases[1].hpBars[i].fillAmount = players[i].controller.hp / players[i].controller.maxhp;
                 StartCoroutine(EasingBar(i, players[i].preHp, players[i].controller.hp, players[i].controller.maxhp));
+                StartCoroutine(VibarateBar(i));
             }
             players[i].preHp = players[i].controller.hp;
         }       
@@ -148,11 +150,22 @@ public class BattleMgr : MonoBehaviour {
         yield return new WaitForSeconds(0.4f);
         float time = 0.0f;
         float f = canvases[0].reserveBars[num].fillAmount;
-        while (time <= 0.5f) {
-            canvases[0].reserveBars[num].fillAmount = canvases[1].reserveBars[num].fillAmount = Easing.ExpOut(time, 0.5f, pre, now)/max;
+        while (time <= 0.1f) {
+            canvases[0].reserveBars[num].fillAmount = canvases[1].reserveBars[num].fillAmount = Easing.ExpOut(time, 0.1f, pre, now)/max;
             time += Time.unscaledDeltaTime;
             yield return null;
         }
+        canvases[0].reserveBars[num].fillAmount = canvases[1].reserveBars[num].fillAmount = now /max;
+        yield return 0;
+    }
+    IEnumerator VibarateBar(int num) {
+        float time = 0.0f;
+        while (time <= 0.3f) {
+            canvases[0].hpUIs[num].rotation = canvases[1].hpUIs[num].rotation = Quaternion.Euler(0,0, (num == 0?-1:1) * 15*(-1+Mathf.Sin(2000*time)) *Mathf.Pow(0.3f-time,3)/0.3f);
+            time += Time.unscaledDeltaTime;
+            yield return null;
+        }
+        canvases[0].hpUIs[num].rotation = canvases[1].hpUIs[num].rotation = Quaternion.Euler(0, 0, 0);
         yield return 0;
     }
     private void ResistMgr() {
@@ -182,13 +195,13 @@ public class BattleMgr : MonoBehaviour {
                     players[0].chaseCamera.FarCamera(players[0].playerTf.position.x < players[1].playerTf.position.x);
                     players[1].chaseCamera.FarCamera(players[0].playerTf.position.x >= players[1]. playerTf.position.x);
                 }
-                Vector2 v = Vector2.right * -Screen.width / (Main.Instance.isMultiDisplays ? 40 : 80)
+                Vector2 v = Vector2.right * Screen.width / (Main.Instance.isMultiDisplays ? 40 : 80)
                         * Mathf.Min(1.0f, (Mathf.Abs(players[0].playerTf.position.x - players[1].playerTf.position.x) - (ChaseCamera.personalCameraHalfWidth * 2 + ChaseCamera.chaseRange * 2)) / (ChaseCamera.personalCameraHalfWidth * 10) + 0.2f);
                 bool isleft1P = players[0].playerTf.position.x < players[1].playerTf.position.x;
                 canvases[0].leftFlame.offsetMax = isleft1P? Vector2.zero:v;
-                canvases[0].rightFlame.offsetMin = isleft1P? v:Vector2.zero;
+                canvases[0].rightFlame.offsetMin = isleft1P? -v:Vector2.zero;
                 canvases[1].leftFlame.offsetMax = isleft1P? v:Vector2.zero;
-                canvases[1].rightFlame.offsetMin = isleft1P? Vector2.zero:v;     
+                canvases[1].rightFlame.offsetMin = isleft1P? Vector2.zero:-v;     
             }
         }
     }
